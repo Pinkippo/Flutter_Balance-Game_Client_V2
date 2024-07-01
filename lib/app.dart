@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:yangjataekil/screen/login_screen.dart';
 
 /// 앱의 기본 로직 처리 App 위젯
 class App extends StatefulWidget {
@@ -22,7 +23,9 @@ class _AppState extends State<App> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return const MaterialApp(
+      home: LoginScreen(),
+    );
   }
 
 }
