@@ -7,12 +7,15 @@ import 'package:yangjataekil/widget/login/signup_btn.dart';
 
 import '../controller/login_controller.dart';
 
+/// 로그인 화면
 class LoginScreen extends GetView<LoginController> {
   const LoginScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
+      /// 상단
       appBar: AppBar(
         foregroundColor: Colors.black,
         backgroundColor: Colors.white,
@@ -29,6 +32,8 @@ class LoginScreen extends GetView<LoginController> {
           },
         ),
       ),
+
+      /// 중단
       body: Container(
         height: double.infinity,
         color: Colors.white,
@@ -48,22 +53,35 @@ class LoginScreen extends GetView<LoginController> {
                         hintText: '아이디',
                         obscureText: false,
                         controller: controller.idController),
+
                     const SizedBox(height: 17),
+
                     LoginTextFormField(
                         hintText: '비밀번호',
                         obscureText: true,
                         controller: controller.pwController),
+
                     const SizedBox(height: 10),
+
                     const AutoLogin(),
+
                     const SizedBox(height: 20),
-                    LoginBtn(onPressed: () => Get.toNamed('/main')),
+
+                    LoginBtn(
+                        onPressed: () => {
+                              /// TODO : 로그인 기능 연결
+                              print('로그인 버튼 클릭'),
+                            }),
+
                     const SizedBox(height: 15),
+
                     IntrinsicHeight(
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           GestureDetector(
                             onTap: () {
+                              /// TODO : 아이디 찾기 연결
                               // Get.toNamed('/find_id');
                             },
                             child: const Text(
@@ -77,6 +95,7 @@ class LoginScreen extends GetView<LoginController> {
                           ),
                           GestureDetector(
                             onTap: () {
+                              /// TODO : 비밀번호 찾기 연결
                               // Get.toNamed('/find_pw');
                             },
                             child: const Text(
@@ -87,12 +106,16 @@ class LoginScreen extends GetView<LoginController> {
                         ],
                       ),
                     ),
+
                     const SizedBox(height: 23),
+
                     const Divider(
                       color: Colors.grey,
                       thickness: 0.4,
                     ),
+
                     const SizedBox(height: 23),
+
                     const Row(
                       children: [
                         Text(
@@ -101,9 +124,14 @@ class LoginScreen extends GetView<LoginController> {
                         ),
                       ],
                     ),
+
                     const SizedBox(height: 15),
+
                     SignUpBtn(
-                        onPressed: () => Get.toNamed('/register'),
+                      onPressed: () => {
+                        /// TODO : 회원가입 페이지 연결
+                        // Get.toNamed('/signup'),
+                      },
                     ),
 
                     /// TODO: 소셜 로그인 기능 추가

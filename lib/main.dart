@@ -26,8 +26,8 @@ void main() async {
   /// 앱 설정 파일 로드
   await AppPreferences.init();
 
-  /// 컨트롤러
-  Get.put(LoginController());
+  /// 로그인 검증 및 로그인 컨트롤러 초기화
+  await initService();
 
   runApp(GetMaterialApp(
     debugShowCheckedModeBanner: false,
@@ -36,4 +36,17 @@ void main() async {
     getPages: AppPages.pages,
     initialRoute: Routes.initial,
   ));
+}
+
+/// 앱 내에서 사용할 로그인 컨트롤러 등록
+Future<void> initService() async {
+
+  /// 로그인 컨트롤러 영속성 설정
+  await Get.putAsync<LoginController>(() async {
+    return LoginController();
+  }, permanent: true)
+      .then((value) async {
+    /// TODO : 로그인 검증 로직
+  });
+
 }
