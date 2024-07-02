@@ -56,7 +56,7 @@ class LoginScreen extends GetView<LoginController> {
                     const SizedBox(height: 10),
                     const AutoLogin(),
                     const SizedBox(height: 20),
-                    LoginBtn(onPressed: () => print('로그인 버튼 클릭')),
+                    LoginBtn(onPressed: () => Get.toNamed('/main')),
                     const SizedBox(height: 15),
                     IntrinsicHeight(
                       child: Row(
