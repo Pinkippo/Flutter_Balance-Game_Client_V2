@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:yangjataekil/screen/login_screen.dart';
 
 /// 앱의 기본 로직 처리 App 위젯
 class App extends StatefulWidget {
@@ -10,10 +11,8 @@ class App extends StatefulWidget {
 }
 
 class _AppState extends State<App> with SingleTickerProviderStateMixin {
-
   @override
   void initState() {
-
     /// 스플래시 제거
     FlutterNativeSplash.remove();
 
@@ -22,7 +21,7 @@ class _AppState extends State<App> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    /// TODO : 페이지 이동 수정 필요
+    return const LoginScreen();
   }
-
 }
