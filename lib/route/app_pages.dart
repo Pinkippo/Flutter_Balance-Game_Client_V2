@@ -17,14 +17,15 @@ class AppPages {
         name: Routes.login,
         page: () => const LoginScreen(),
         transition: Transition.fade),
-    // GetPage(
-    //     name: Routes.board,
-    //     page: () => const Board(),
-    //     transition: Transition.fade),
     GetPage(
         name: Routes.main,
         page: () => const Tabs(),
         transition: Transition.fade),
+    // GetPage(
+    //     name: Routes.board,
+    //     page: () => const Board(),
+    //     transition: Transition.fade),
+
     // GetPage(
     //     name: Routes.myPage,
     //     page: () => const MyPage(),
