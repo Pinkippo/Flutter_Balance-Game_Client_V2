@@ -11,10 +11,8 @@ class App extends StatefulWidget {
 }
 
 class _AppState extends State<App> with SingleTickerProviderStateMixin {
-
   @override
   void initState() {
-
     /// 스플래시 제거
     FlutterNativeSplash.remove();
 
@@ -23,9 +21,6 @@ class _AppState extends State<App> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: LoginScreen(),
-    );
+    return const LoginScreen();
   }
-
 }
