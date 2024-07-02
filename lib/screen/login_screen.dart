@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
+import 'package:yangjataekil/theme/app_color.dart';
 import 'package:yangjataekil/widget/login/auto_login.dart';
 import 'package:yangjataekil/widget/login/input_field.dart';
 import 'package:yangjataekil/widget/login/login_btn.dart';
@@ -14,7 +16,6 @@ class LoginScreen extends GetView<LoginController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
       /// 상단
       appBar: AppBar(
         foregroundColor: Colors.black,
@@ -52,14 +53,14 @@ class LoginScreen extends GetView<LoginController> {
                     LoginTextFormField(
                         hintText: '아이디',
                         obscureText: false,
-                        controller: controller.idController),
+                        loginController: controller),
 
                     const SizedBox(height: 17),
 
                     LoginTextFormField(
                         hintText: '비밀번호',
                         obscureText: true,
-                        controller: controller.pwController),
+                        loginController: controller),
 
                     const SizedBox(height: 10),
 
@@ -67,11 +68,25 @@ class LoginScreen extends GetView<LoginController> {
 
                     const SizedBox(height: 20),
 
-                    LoginBtn(
-                        onPressed: () => {
-                              /// TODO : 로그인 기능 연결
-                              print('로그인 버튼 클릭'),
-                            }),
+                    LoginBtn(onPressed: () {
+                      /// TODO : 로그인 기능 연결
+                      Get.showOverlay(
+                          asyncFunction: () async {
+                            await Future.delayed(const Duration(seconds: 2));
+                            bool loginSuccess = await controller.login();
+                            return loginSuccess;
+                          },
+                          loadingWidget: const Center(
+                            child: SpinKitThreeBounce(
+                              color: AppColors.primaryColor,
+                              size: 30.0,
+                            ),
+                          )).then((loginSuccess) {
+                        if (loginSuccess == true) {
+                          Get.offAllNamed('/main');
+                        }
+                      });
+                    }),
 
                     const SizedBox(height: 15),
 
