@@ -1,0 +1,42 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:yangjataekil/controller/register_controller.dart';
+
+class BasicInputField extends StatelessWidget {
+  const BasicInputField({
+    Key? key,
+    required this.hintText,
+    required this.obscureText,
+    required this.controller,
+  }) : super(key: key);
+
+  /// 힌트 텍스트
+  final String hintText;
+
+  /// 비밀번호 여부
+  final bool obscureText;
+
+  /// 컨트롤러
+  final RegisterController controller;
+
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      onChanged: (value) {
+        controller.updateUserName(value);
+      },
+      obscureText: obscureText,
+      decoration: InputDecoration(
+        hintText: hintText,
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(50),
+          borderSide: const BorderSide(color: Colors.grey, width: 0.5),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(50),
+          borderSide: const BorderSide(color: Color(0xffFF9297), width: 0.5),
+        ),
+      ),
+    );
+  }
+}

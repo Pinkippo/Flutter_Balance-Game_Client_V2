@@ -4,6 +4,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
 import 'package:yangjataekil/controller/login_controller.dart';
+import 'package:yangjataekil/controller/register_controller.dart';
 import 'package:yangjataekil/pref/app_preferences.dart';
 import 'package:yangjataekil/route/app_pages.dart';
 import 'package:yangjataekil/theme/app_thene.dart';
@@ -29,6 +30,10 @@ void main() async {
   /// 로그인 검증 및 로그인 컨트롤러 초기화
   await initService();
 
+  // 컨트롤러
+  // Get.put(LoginController());
+  // Get.put(RegisterController());
+
   runApp(GetMaterialApp(
     debugShowCheckedModeBanner: false,
     theme: appThemeData,
@@ -40,7 +45,6 @@ void main() async {
 
 /// 앱 내에서 사용할 로그인 컨트롤러 등록
 Future<void> initService() async {
-
   /// 로그인 컨트롤러 영속성 설정
   await Get.putAsync<LoginController>(() async {
     return LoginController();
@@ -49,4 +53,10 @@ Future<void> initService() async {
     /// TODO : 로그인 검증 로직
   });
 
+  await Get.putAsync<RegisterController>(() async {
+    return RegisterController();
+  }, permanent: true)
+      .then((value) async {
+    /// TODO : text
+  });
 }
