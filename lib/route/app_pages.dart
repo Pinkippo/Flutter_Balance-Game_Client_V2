@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 import 'package:yangjataekil/app.dart';
 import 'package:yangjataekil/screen/login_screen.dart';
-import 'package:yangjataekil/screen/tab/tabs.dart';
+import 'package:yangjataekil/screen/main_screen.dart';
 
 part 'app_routes.dart';
 
@@ -19,16 +19,7 @@ class AppPages {
         transition: Transition.fade),
     GetPage(
         name: Routes.main,
-        page: () => const Tabs(),
+        page: () => const MainScreen(),
         transition: Transition.fade),
-    // GetPage(
-    //     name: Routes.board,
-    //     page: () => const Board(),
-    //     transition: Transition.fade),
-
-    // GetPage(
-    //     name: Routes.myPage,
-    //     page: () => const MyPage(),
-    //     transition: Transition.fade),
   ];
 }
