@@ -2,12 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:yangjataekil/controller/tab/theme_list_controller.dart';
 
-class GameByTheme extends StatelessWidget {
+class GameByTheme extends GetView<ThemeListController> {
   const GameByTheme({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final ThemeListController controller = Get.put(ThemeListController());
     return Column(
       children: [
         const Padding(

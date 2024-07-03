@@ -1,5 +1,4 @@
 import 'package:get/get.dart';
-import 'package:flutter/material.dart';
 
 /// 하단 네비게이터 컨트롤러
 class BottomNavigatorController extends GetxController {

@@ -12,9 +12,6 @@ class HomeTap extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    /// 화면 높이, 넓이
-    final double screenHeight = MediaQuery.of(context).size.height;
-    final double screenWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
       appBar: AppBar(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../../theme/app_color.dart';
 
@@ -8,12 +9,10 @@ class HomeHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final double screenHeight = MediaQuery.of(context).size.height;
-    final double screenWidth = MediaQuery.of(context).size.width;
 
     return Container(
       color: AppColors.secondaryColor,
-      height: screenHeight * 0.25, // 높이를 화면 높이의 25%로 설정
+      height: Get.height * 0.25, // 높이를 화면 높이의 25%로 설정
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -22,7 +21,7 @@ class HomeHeader extends StatelessWidget {
             children: [
               Container(
                 // color: Colors.white,
-                width: screenWidth * 0.5, // 너비를 화면 너비의 50%로 설정
+                width: Get.width * 0.5, // 너비를 화면 너비의 50%로 설정
                 height: 55,
                 margin: const EdgeInsets.only(left: 20, top: 20),
                 child: const Text(
@@ -35,7 +34,7 @@ class HomeHeader extends StatelessWidget {
               ),
               Container(
                 // color: Colors.white,
-                width: screenWidth * 0.5, // 너비를 화면 너비의 50%로 설정
+                width: Get.width * 0.5, // 너비를 화면 너비의 50%로 설정
                 height: 55,
                 margin: const EdgeInsets.only(left: 20, top: 5),
                 child: Text(
@@ -50,8 +49,8 @@ class HomeHeader extends StatelessWidget {
           ),
           Container(
             // color: Colors.white,
-            width: screenWidth * 0.35, // 너비를 화면 너비의 35%로 설정
-            height: screenWidth * 0.35, // 높이를 화면 너비의 35%로 설정
+            width: Get.width * 0.35, // 너비를 화면 너비의 35%로 설정
+            height: Get.width * 0.35, // 높이를 화면 너비의 35%로 설정
             margin: const EdgeInsets.only(right: 20, top: 10),
             child: Image.asset('assets/images/home_img.png'),
           ),
