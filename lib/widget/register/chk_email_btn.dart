@@ -24,7 +24,7 @@ class ChkEmailBtn extends StatelessWidget {
           elevation: 0,
         ),
         onPressed: onPressed,
-        child: const Text('중복확인', style: TextStyle(fontSize: 16)),
+        child: const Text('중복확인', style: TextStyle(fontSize: 16, color: Colors.grey)),
       ),
     );
   }

@@ -23,7 +23,13 @@ class BasicInputField extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextFormField(
       onChanged: (value) {
-        controller.updateUserName(value);
+        if (hintText == '이름') {
+          controller.updateUserName(value);
+        } else if (hintText == '비밀번호') {
+          controller.updatePw(value);
+        } else if (hintText == '비밀번호 확인') {
+          controller.updatePwChk(value);
+        }
       },
       obscureText: obscureText,
       decoration: InputDecoration(

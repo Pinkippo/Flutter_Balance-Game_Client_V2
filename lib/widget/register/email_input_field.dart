@@ -1,5 +1,7 @@
-import 'package:flutter/cupertino.dart';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:yangjataekil/controller/register_controller.dart';
 
 class EmailInputField extends StatelessWidget {
@@ -11,22 +13,17 @@ class EmailInputField extends StatelessWidget {
     required this.icon,
   }) : super(key: key);
 
-  /// 힌트 텍스트
   final String hintText;
-
-  /// 비밀번호 여부
   final bool obscureText;
-
-  /// 컨트롤러
   final RegisterController controller;
-
   final Icon icon;
+
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
       onChanged: (value) {
-        controller.updateUserName(value);
+        controller.updateEmail(value);
       },
       obscureText: obscureText,
       decoration: InputDecoration(
@@ -40,13 +37,15 @@ class EmailInputField extends StatelessWidget {
           borderSide: const BorderSide(color: Color(0xffFF9297), width: 0.5),
         ),
         suffixIcon: Container(
-          decoration: const BoxDecoration(
-            color: Colors.grey, // 배경색 지정
-            shape: BoxShape.circle,
+          padding: EdgeInsets.zero,
+          child: IconButton(
+            icon: icon,
+            onPressed: () {
+              controller.clearEmail();
+            },
           ),
-          child: icon,
         ),
-      ),
+      ), // Use initialValue instead of TextEditingController
     );
   }
 }

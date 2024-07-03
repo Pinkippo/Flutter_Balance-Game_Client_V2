@@ -59,4 +59,8 @@ class RegisterController extends GetxController {
     print('Phone >> $phone');
   }
 
+  void clearEmail() {
+    email.value = '';
+    print('email >> $email');
+  }
 }
