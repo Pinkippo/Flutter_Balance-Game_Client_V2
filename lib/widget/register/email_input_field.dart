@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:yangjataekil/controller/register_controller.dart';
@@ -15,16 +13,17 @@ class EmailInputField extends StatelessWidget {
 
   final String hintText;
   final bool obscureText;
-  final RegisterController controller;
+  final TextEditingController controller;
   final Icon icon;
-
 
   @override
   Widget build(BuildContext context) {
+    final RegisterController controller = Get.find();
     return TextFormField(
       onChanged: (value) {
         controller.updateEmail(value);
       },
+      controller: this.controller,
       obscureText: obscureText,
       decoration: InputDecoration(
         hintText: hintText,

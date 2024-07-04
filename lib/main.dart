@@ -8,6 +8,7 @@ import 'package:yangjataekil/controller/register_controller.dart';
 import 'package:yangjataekil/pref/app_preferences.dart';
 import 'package:yangjataekil/route/app_pages.dart';
 import 'package:yangjataekil/theme/app_thene.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
@@ -30,16 +31,21 @@ void main() async {
   /// 로그인 검증 및 로그인 컨트롤러 초기화
   await initService();
 
-  // 컨트롤러
-  // Get.put(LoginController());
-  // Get.put(RegisterController());
-
   runApp(GetMaterialApp(
     debugShowCheckedModeBanner: false,
     theme: appThemeData,
     defaultTransition: Transition.fade,
     getPages: AppPages.pages,
     initialRoute: Routes.initial,
+    locale: const Locale('ko', 'KR'),
+    localizationsDelegates: const [
+      GlobalMaterialLocalizations.delegate,
+      GlobalCupertinoLocalizations.delegate,
+    ],
+    supportedLocales: const [
+      Locale('en', 'US'),
+      Locale('ko', 'KR'),
+    ],
   ));
 }
 
@@ -57,6 +63,5 @@ Future<void> initService() async {
     return RegisterController();
   }, permanent: true)
       .then((value) async {
-    /// TODO : text
   });
 }

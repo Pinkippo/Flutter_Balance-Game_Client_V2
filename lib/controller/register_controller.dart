@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 
 // 회원가입 컨트롤러
 class RegisterController extends GetxController {
-
   /// 회원가입 폼 키
   final formKey = GlobalKey<FormState>();
 
@@ -21,10 +20,13 @@ class RegisterController extends GetxController {
   final RxString pwChk = ''.obs;
 
   /// 생년월일
-  final RxString birth = ''.obs;
+  final Rx<DateTime> selectedDate = DateTime.now().obs;
 
   /// 전화번호
   final RxString phone = ''.obs;
+
+  final emailController = TextEditingController();
+  final birthController = TextEditingController();
 
   void updateUserName(String userName) {
     this.userName.value = userName;
@@ -48,9 +50,12 @@ class RegisterController extends GetxController {
     print('PwChk >> $pwChk');
   }
 
-  void updateBirth(String birth) {
-    this.birth.value = birth;
-    print('Birth >> $birth');
+  /// 날짜 변경
+  void updateBirth(DateTime date) {
+    selectedDate.value = date;
+    birthController.text =
+        "${date.year.toString().padLeft(4, '0')}${date.month.toString().padLeft(2, '0')}${date.day.toString().padLeft(2, '0')}";
+    print('Birth >> $selectedDate');
   }
 
   /// 비밀번호 변경
@@ -61,6 +66,7 @@ class RegisterController extends GetxController {
 
   void clearEmail() {
     email.value = '';
+    emailController.clear();
     print('email >> $email');
   }
 }

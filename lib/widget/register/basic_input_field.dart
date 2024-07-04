@@ -31,6 +31,9 @@ class BasicInputField extends StatelessWidget {
           controller.updatePwChk(value);
         }
       },
+      style: const TextStyle(
+        fontSize: 15,
+      ),
       obscureText: obscureText,
       decoration: InputDecoration(
         hintText: hintText,

@@ -23,7 +23,6 @@ class _AppState extends State<App> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     /// TODO : 페이지 이동 수정 필요
-    // return const LoginScreen();
-    return const RegisterScreen();
+    return const LoginScreen();
   }
 }

@@ -1,11 +1,11 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:yangjataekil/controller/register_controller.dart';
 import 'package:yangjataekil/widget/register/basic_input_field.dart';
+import 'package:yangjataekil/widget/register/birth_input_field.dart';
 import 'package:yangjataekil/widget/register/chk_email_btn.dart';
 import 'package:yangjataekil/widget/register/email_input_field.dart';
+import 'package:yangjataekil/widget/register/register_btn.dart';
 
 class RegisterScreen extends GetView<RegisterController> {
   const RegisterScreen({super.key});
@@ -14,9 +14,25 @@ class RegisterScreen extends GetView<RegisterController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('회원가입'),
+        foregroundColor: Colors.black,
+        backgroundColor: Colors.white,
+        shape: const Border(
+          bottom: BorderSide(color: Colors.grey, width: 0.3),
+        ),
+        elevation: 0,
+        title: const Text(
+          '회원가입',
+          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+        ),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
       ),
       body: Container(
+        color: Colors.white,
         padding: const EdgeInsets.all(20),
         child: SingleChildScrollView(
           child: Form(
@@ -49,28 +65,30 @@ class RegisterScreen extends GetView<RegisterController> {
                 Row(
                   children: [
                     Expanded(
-                        flex: 3,
-                        child: EmailInputField(
-                            hintText: '이메일',
-                            obscureText: false,
-                            controller: controller,
-                            icon: const Icon(
-                              size: 20,
-                              Icons.cancel,
-                              color: Colors.grey,
-                            ),
+                      flex: 7,
+                      child: EmailInputField(
+                        hintText: '이메일',
+                        obscureText: false,
+                        controller: controller.emailController,
+                        icon: const Icon(
+                          size: 20,
+                          Icons.cancel,
+                          color: Colors.grey,
                         ),
+                      ),
                     ),
                     const SizedBox(
                       width: 10,
                     ),
                     Expanded(
-                      flex: 2,
+                      flex: 3,
                       child: ChkEmailBtn(
-                          onPressed: () => {
-                                /// TODO: 이메일 중복 검사 연결
-                              }),
-                    )
+                        title: '중복확인',
+                        onPressed: () => {
+                          /// TODO: 이메일 중복 검사 연결
+                        },
+                      ),
+                    ),
                   ],
                 ),
                 const SizedBox(
@@ -85,13 +103,13 @@ class RegisterScreen extends GetView<RegisterController> {
                     Expanded(
                       child: BasicInputField(
                         hintText: '비밀번호',
-                        obscureText: false,
+                        obscureText: true,
                         controller: controller,
                       ),
                     ),
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 10,
                 ),
                 Row(
@@ -99,12 +117,91 @@ class RegisterScreen extends GetView<RegisterController> {
                     Expanded(
                       child: BasicInputField(
                         hintText: '비밀번호 확인',
-                        obscureText: false,
+                        obscureText: true,
                         controller: controller,
                       ),
                     ),
                   ],
                 ),
+                const SizedBox(
+                  height: 10,
+                ),
+                const Padding(
+                  padding: EdgeInsets.only(left: 10, right: 10),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          '영문 대문자와 소문자, 숫자, 특수문자 중 2가지 이상을 조합하여 6~20자로 입력해주세요.',
+                          style: TextStyle(color: Colors.red, fontSize: 12),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                const Padding(
+                  padding: EdgeInsets.only(left: 10, bottom: 10),
+                  child: Text('생년월일'),
+                ),
+                Row(
+                  children: [
+                    Expanded(
+                      child: BirthInputField(
+                        registerController: controller,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 10),
+                const Padding(
+                  padding: EdgeInsets.only(left: 10),
+                  child: Text(
+                    '생년월일 8자리를 입력해주세요',
+                    style: TextStyle(
+                      color: Colors.grey,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 20),
+                const Padding(
+                  padding: EdgeInsets.only(left: 10, bottom: 10),
+                  child: Text('휴대폰 번호'),
+                ),
+                Row(
+                  children: [
+                    Expanded(
+                      flex: 7,
+                      child: BasicInputField(
+                        hintText: '\'-\'를 제외하고 입력해주세요.',
+                        obscureText: false,
+                        controller: controller,
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    Expanded(
+                      flex: 3,
+                      child: ChkEmailBtn(
+                        title: '인증요청',
+                        onPressed: () => {
+                          /// TODO: 전화번호 인증 연결
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 30,
+                ),
+                RegisterBtn(
+                  onPressed: () => {
+                    /// TODO: 회원가입 연결
+                  },
+                )
               ],
             ),
           ),

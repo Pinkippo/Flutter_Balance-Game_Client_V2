@@ -1,14 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:yangjataekil/theme/app_thene.dart';
 
-class ChkEmailBtn extends StatelessWidget {
-  const ChkEmailBtn({
-    Key? key,
-    required this.onPressed,
-    required this.title,
-  }) : super(key: key);
-
-  final String title;
-
+class RegisterBtn extends StatelessWidget {
+  const RegisterBtn({Key? key, required this.onPressed}) : super(key: key);
+  
   final VoidCallback onPressed;
 
   @override
@@ -18,20 +13,14 @@ class ChkEmailBtn extends StatelessWidget {
       height: 55,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-          backgroundColor: const Color(0xffE5E5E5),
+          backgroundColor: const Color(0xffFF9297),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(50),
           ),
           elevation: 0,
         ),
         onPressed: onPressed,
-        child: Text(
-          title,
-          style: const TextStyle(
-            fontSize: 14,
-            color: Colors.grey,
-          ),
-        ),
+        child: const Text('회원가입', style: TextStyle(fontSize: 16, color: Colors.white),),
       ),
     );
   }
