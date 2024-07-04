@@ -3,7 +3,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:yangjataekil/theme/app_color.dart';
 import 'package:yangjataekil/widget/login/auto_login.dart';
-import 'package:yangjataekil/widget/login/input_field.dart';
+import 'package:yangjataekil/widget/login/login_input_field.dart';
 import 'package:yangjataekil/widget/login/login_btn.dart';
 import 'package:yangjataekil/widget/login/signup_btn.dart';
 
@@ -144,8 +144,7 @@ class LoginScreen extends GetView<LoginController> {
 
                     SignUpBtn(
                       onPressed: () => {
-                        /// TODO : 회원가입 페이지 연결
-                        // Get.toNamed('/signup'),
+                        Get.toNamed('/register'),
                       },
                     ),
 
