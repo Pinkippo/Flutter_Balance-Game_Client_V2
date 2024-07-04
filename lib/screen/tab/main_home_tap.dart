@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:yangjataekil/controller/tab/theme_list_controller.dart';
 import 'package:yangjataekil/theme/app_color.dart';
 import 'package:yangjataekil/widget/home/theme_list_widget.dart';
 import 'package:yangjataekil/widget/home/home_header_widget.dart';
@@ -12,6 +14,7 @@ class HomeTap extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Get.put(ThemeListController());
 
     return Scaffold(
       appBar: AppBar(
@@ -38,7 +41,7 @@ class HomeTap extends StatelessWidget {
                           children: [
                             GameByTheme(), // 테마별 게임
                             RecommendedGame(), // 추천 게임
-                            UserReview(),
+                            UserReview(), // 사용자 리뷰
                           ],
                         ),
                       ],
