@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../controller/login_controller.dart';
+
 /// 로그인 화면의 텍스트 폼 필드 위젯
 
 class LoginTextFormField extends StatelessWidget {
@@ -7,7 +9,7 @@ class LoginTextFormField extends StatelessWidget {
     Key? key,
     required this.hintText,
     required this.obscureText,
-    required this.controller,
+    required this.loginController,
   }) : super(key: key);
 
   /// 힌트 텍스트
@@ -16,13 +18,19 @@ class LoginTextFormField extends StatelessWidget {
   /// 비밀번호 여부
   final bool obscureText;
 
-  /// 컨트롤러
-  final TextEditingController controller;
+  /// 로그인 컨트롤러
+  final LoginController loginController;
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      controller: controller,
+      onChanged: (value) {
+        if (hintText == '아이디') {
+          loginController.updateUserId(value);
+        } else {
+          loginController.updateUserPw(value);
+        }
+      },
       obscureText: obscureText,
       decoration: InputDecoration(
         hintText: hintText,
