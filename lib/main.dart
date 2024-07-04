@@ -58,10 +58,4 @@ Future<void> initService() async {
       .then((value) async {
     /// TODO : 로그인 검증 로직
   });
-
-  await Get.putAsync<RegisterController>(() async {
-    return RegisterController();
-  }, permanent: true)
-      .then((value) async {
-  });
 }

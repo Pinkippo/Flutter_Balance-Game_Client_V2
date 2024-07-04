@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:yangjataekil/app.dart';
+import 'package:yangjataekil/controller/register_controller.dart';
 import 'package:yangjataekil/screen/login_screen.dart';
 import 'package:yangjataekil/screen/main_screen.dart';
 import 'package:yangjataekil/screen/register_screen.dart';
@@ -22,10 +23,17 @@ class AppPages {
         name: Routes.main,
         page: () => const MainScreen(),
         transition: Transition.fade),
+
     GetPage(
       name: Routes.register,
       page: () => const RegisterScreen(),
       transition: Transition.fade,
-    )
+      binding: BindingsBuilder(() {
+        Get.lazyPut<RegisterController>(() {
+          return RegisterController();
+        });
+      }),
+    ),
+
   ];
 }

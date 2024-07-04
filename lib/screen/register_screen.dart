@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:yangjataekil/controller/register_controller.dart';
-import 'package:yangjataekil/widget/register/basic_input_field.dart';
+import 'package:yangjataekil/widget/register/register_input_field.dart';
 import 'package:yangjataekil/widget/register/birth_input_field.dart';
-import 'package:yangjataekil/widget/register/chk_email_btn.dart';
+import 'package:yangjataekil/widget/register/check_email_btn.dart';
 import 'package:yangjataekil/widget/register/email_input_field.dart';
 import 'package:yangjataekil/widget/register/register_btn.dart';
 
@@ -13,6 +13,7 @@ class RegisterScreen extends GetView<RegisterController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
       appBar: AppBar(
         foregroundColor: Colors.black,
         backgroundColor: Colors.white,
@@ -31,6 +32,7 @@ class RegisterScreen extends GetView<RegisterController> {
           },
         ),
       ),
+
       body: Container(
         color: Colors.white,
         padding: const EdgeInsets.all(20),
@@ -69,7 +71,7 @@ class RegisterScreen extends GetView<RegisterController> {
                       child: EmailInputField(
                         hintText: '이메일',
                         obscureText: false,
-                        controller: controller.emailController,
+                        textController: controller.emailController,
                         icon: const Icon(
                           size: 20,
                           Icons.cancel,

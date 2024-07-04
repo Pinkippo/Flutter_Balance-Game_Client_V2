@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:yangjataekil/screen/login_screen.dart';
-import 'package:yangjataekil/screen/register_screen.dart';
 
 /// 앱의 기본 로직 처리 App 위젯
 class App extends StatefulWidget {

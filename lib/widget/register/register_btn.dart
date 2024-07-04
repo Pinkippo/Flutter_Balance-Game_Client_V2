@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:yangjataekil/theme/app_color.dart';
 import 'package:yangjataekil/theme/app_thene.dart';
 
 class RegisterBtn extends StatelessWidget {
@@ -13,7 +14,7 @@ class RegisterBtn extends StatelessWidget {
       height: 55,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-          backgroundColor: const Color(0xffFF9297),
+          backgroundColor: AppColors.btnBackgroundColor,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(50),
           ),

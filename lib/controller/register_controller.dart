@@ -8,22 +8,22 @@ class RegisterController extends GetxController {
   final formKey = GlobalKey<FormState>();
 
   /// 이름
-  final RxString userName = ''.obs;
+  final Rx<String> userName = ''.obs;
 
   /// 이메일
-  final RxString email = ''.obs;
+  final Rx<String> email = ''.obs;
 
   /// 비밀번호
-  final RxString pw = ''.obs;
+  final Rx<String> pw = ''.obs;
 
   /// 비밀번호 확인
-  final RxString pwChk = ''.obs;
+  final Rx<String> pwChk = ''.obs;
 
   /// 생년월일
   final Rx<DateTime> selectedDate = DateTime.now().obs;
 
   /// 전화번호
-  final RxString phone = ''.obs;
+  final Rx<String> phone = ''.obs;
 
   final emailController = TextEditingController();
   final birthController = TextEditingController();
