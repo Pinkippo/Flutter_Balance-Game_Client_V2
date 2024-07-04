@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:yangjataekil/widget/bubble_widget.dart';
 
 import '../../theme/app_color.dart';
 
@@ -24,7 +25,7 @@ class RecommendedGame extends StatelessWidget {
           ),
           Container(
             width: double.infinity,
-            height: 180,
+            height: 220,
             margin: const EdgeInsets.only(top: 10),
             decoration: BoxDecoration(
               // color: Colors.red,
@@ -51,10 +52,24 @@ class RecommendedGame extends StatelessWidget {
                     color: Colors.black.withOpacity(0.4),
                   ),
                 ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 20, right: 30),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      bubbleWidget(
+                          icon: Icons.monetization_on_outlined,
+                          iconColor: Colors.black.withOpacity(0.2),
+                          comment: '게임 참여만 해도 포인트 증정!',
+                          color: const Color(0xFFFFD644)),
+                    ],
+                  ),
+                ),
                 Container(
+                  // color: Colors.blue,
                   width: double.infinity,
-                  height: 68,
-                  padding: const EdgeInsets.only(left: 30, right: 30, top: 20),
+                  height: 48,
+                  padding: const EdgeInsets.only(left: 30, right: 30),
                   child: ElevatedButton(
                     onPressed: () {
                       /// TODO : 화면이동 연결

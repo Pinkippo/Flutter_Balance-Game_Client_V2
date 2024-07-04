@@ -12,6 +12,8 @@ class CustomBottomNavigationBar extends GetView<BottomNavigatorController> {
   Widget build(BuildContext context) {
     return Obx(
       () => BottomNavigationBar(
+        backgroundColor: Colors.white,
+        elevation: 0,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.article),

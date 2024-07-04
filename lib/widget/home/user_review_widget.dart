@@ -30,6 +30,7 @@ class UserReview extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 12,
                       color: Colors.black.withOpacity(0.5),
+                      decoration: TextDecoration.underline,
                     )),
               ),
             ],
