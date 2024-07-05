@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 import 'package:yangjataekil/data/model/login_request_model.dart';
-import 'package:yangjataekil/data/provider/api.dart';
 import 'package:yangjataekil/data/provider/auth_repository.dart';
 import 'package:yangjataekil/data/provider/login_repository.dart';
 
