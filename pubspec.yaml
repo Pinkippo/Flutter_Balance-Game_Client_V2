@@ -93,6 +93,7 @@ flutter:
   assets:
     - assets/images/
     - assets/images/banner/
+    - assets/images/myPage/
     - assets/config/.env
 
   # An image asset can refer to one or more resolution-specific "variants", see
