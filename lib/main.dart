@@ -4,9 +4,11 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
 import 'package:yangjataekil/controller/login_controller.dart';
+import 'package:yangjataekil/controller/register_controller.dart';
 import 'package:yangjataekil/pref/app_preferences.dart';
 import 'package:yangjataekil/route/app_pages.dart';
 import 'package:yangjataekil/theme/app_thene.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
@@ -35,12 +37,20 @@ void main() async {
     defaultTransition: Transition.fade,
     getPages: AppPages.pages,
     initialRoute: Routes.initial,
+    locale: const Locale('ko', 'KR'),
+    localizationsDelegates: const [
+      GlobalMaterialLocalizations.delegate,
+      GlobalCupertinoLocalizations.delegate,
+    ],
+    supportedLocales: const [
+      Locale('en', 'US'),
+      Locale('ko', 'KR'),
+    ],
   ));
 }
 
 /// 앱 내에서 사용할 로그인 컨트롤러 등록
 Future<void> initService() async {
-
   /// 로그인 컨트롤러 영속성 설정
   await Get.putAsync<LoginController>(() async {
     return LoginController();
@@ -48,5 +58,4 @@ Future<void> initService() async {
       .then((value) async {
     /// TODO : 로그인 검증 로직
   });
-
 }
