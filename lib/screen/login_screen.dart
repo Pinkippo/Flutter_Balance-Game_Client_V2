@@ -72,17 +72,17 @@ class LoginScreen extends GetView<LoginController> {
                       /// TODO : 로그인 기능 연결
                       Get.showOverlay(
                           asyncFunction: () async {
-                            await Future.delayed(const Duration(seconds: 2));
-                            bool loginSuccess = await controller.login();
-                            return loginSuccess;
+                            return await controller.login(
+                                controller.loginUserId.value,
+                                controller.loginUserPw.value);
                           },
                           loadingWidget: const Center(
                             child: SpinKitThreeBounce(
                               color: AppColors.primaryColor,
                               size: 30.0,
                             ),
-                          )).then((loginSuccess) {
-                        if (loginSuccess == true) {
+                          )).then((value) {
+                        if (value == true) {
                           Get.offAllNamed('/main');
                         }
                       });

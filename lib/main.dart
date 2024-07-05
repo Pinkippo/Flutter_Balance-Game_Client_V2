@@ -10,6 +10,8 @@ import 'package:yangjataekil/route/app_pages.dart';
 import 'package:yangjataekil/theme/app_thene.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
+import 'data/provider/auth_repository.dart';
+
 void main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
 
@@ -53,7 +55,9 @@ void main() async {
 Future<void> initService() async {
   /// 로그인 컨트롤러 영속성 설정
   await Get.putAsync<LoginController>(() async {
-    return LoginController();
+    return LoginController(
+      authRepository: AuthRepository(),
+    );
   }, permanent: true)
       .then((value) async {
     /// TODO : 로그인 검증 로직
