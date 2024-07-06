@@ -40,6 +40,7 @@ class LoginScreen extends GetView<LoginController> {
         color: Colors.white,
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: SingleChildScrollView(
+          physics: const ClampingScrollPhysics(), // 오버 스크롤 방지
           child: Column(
             children: <Widget>[
               const Image(

@@ -23,6 +23,7 @@ class HomeTap extends StatelessWidget {
         elevation: 0,
       ),
       body: SingleChildScrollView(
+        physics: const ClampingScrollPhysics(), // 오버 스크롤 방지
         child: Stack(
           children: [
             SizedBox(

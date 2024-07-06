@@ -37,6 +37,7 @@ class RegisterScreen extends GetView<RegisterController> {
         color: Colors.white,
         padding: const EdgeInsets.all(20),
         child: SingleChildScrollView(
+          physics: const ClampingScrollPhysics(), // 오버 스크롤 방지
           child: Form(
             key: controller.formKey,
             child: Column(
