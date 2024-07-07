@@ -31,7 +31,6 @@ class CustomBottomNavigationBar extends GetView<BottomNavigatorController> {
         currentIndex: controller.selectedIndex.value,
         selectedItemColor: AppColors.primaryColor,
         onTap: controller.changeIndex,
-        backgroundColor: Colors.white,
       ),
     );
   }
