@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
-import 'package:yangjataekil/app.dart';
+import 'package:yangjataekil/controller/auth_controller.dart';
 import 'package:yangjataekil/controller/bottom_navigator_controller.dart';
+import 'package:yangjataekil/controller/login_controller.dart';
 import 'package:yangjataekil/controller/register_controller.dart';
 import 'package:yangjataekil/controller/tab/theme_list_controller.dart';
 import 'package:yangjataekil/screen/login_screen.dart';
@@ -12,28 +13,39 @@ part 'app_routes.dart';
 /// 앱 내 페이지 경로 설정 클래스
 class AppPages {
   static final pages = [
-    /// 초기 페이지
-    GetPage(
-        name: Routes.initial,
-        page: () => const App(),
-        transition: Transition.fade),
+
+    /// 로그인 페이지
     GetPage(
         name: Routes.login,
         page: () => const LoginScreen(),
+        binding: BindingsBuilder(() {
+          Get.lazyPut<LoginController>(() {
+            return LoginController();
+          });
+        }),
         transition: Transition.fade),
+
+    /// 메인 페이지
     GetPage(
         name: Routes.main,
         page: () => const MainScreen(),
         transition: Transition.fade,
-        binding: BindingsBuilder(() {
+        binding: BindingsBuilder(() async {
           Get.lazyPut<BottomNavigatorController>(() {
             return BottomNavigatorController();
           });
           Get.lazyPut<ThemeListController>(() {
           return ThemeListController();
           });
+          await Get.putAsync<AuthController>(() async {
+            return AuthController();
+          }, permanent: true)
+              .then((value) async {
+            await value.getToken();
+          });
         })),
 
+    /// 회원가입 페이지
     GetPage(
       name: Routes.register,
       page: () => const RegisterScreen(),

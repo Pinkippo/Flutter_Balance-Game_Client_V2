@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
+import 'package:yangjataekil/controller/auth_controller.dart';
 import 'package:yangjataekil/controller/login_controller.dart';
 import 'package:yangjataekil/controller/register_controller.dart';
 import 'package:yangjataekil/pref/app_preferences.dart';
@@ -38,7 +39,10 @@ void main() async {
     theme: appThemeData,
     defaultTransition: Transition.fade,
     getPages: AppPages.pages,
-    initialRoute: Routes.initial,
+
+    /// 메인 페이지 라우트
+    initialRoute: Routes.main,
+
     locale: const Locale('ko', 'KR'),
     localizationsDelegates: const [
       GlobalMaterialLocalizations.delegate,
@@ -54,12 +58,11 @@ void main() async {
 /// 앱 내에서 사용할 로그인 컨트롤러 등록
 Future<void> initService() async {
   /// 로그인 컨트롤러 영속성 설정
-  await Get.putAsync<LoginController>(() async {
-    return LoginController(
-      authRepository: AuthRepository(),
-    );
+  await Get.putAsync<AuthController>(() async {
+    return AuthController();
   }, permanent: true)
       .then((value) async {
-    /// TODO : 로그인 검증 로직
+    /// 저장된 토큰 조회 후 업데이트
+    await value.getToken();
   });
 }
