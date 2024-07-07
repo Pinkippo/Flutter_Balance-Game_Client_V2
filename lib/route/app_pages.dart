@@ -1,6 +1,8 @@
 import 'package:get/get.dart';
 import 'package:yangjataekil/app.dart';
+import 'package:yangjataekil/controller/bottom_navigator_controller.dart';
 import 'package:yangjataekil/controller/register_controller.dart';
+import 'package:yangjataekil/controller/tab/theme_list_controller.dart';
 import 'package:yangjataekil/screen/login_screen.dart';
 import 'package:yangjataekil/screen/main_screen.dart';
 import 'package:yangjataekil/screen/register_screen.dart';
@@ -22,7 +24,15 @@ class AppPages {
     GetPage(
         name: Routes.main,
         page: () => const MainScreen(),
-        transition: Transition.fade),
+        transition: Transition.fade,
+        binding: BindingsBuilder(() {
+          Get.lazyPut<BottomNavigatorController>(() {
+            return BottomNavigatorController();
+          });
+          Get.lazyPut<ThemeListController>(() {
+          return ThemeListController();
+          });
+        })),
 
     GetPage(
       name: Routes.register,

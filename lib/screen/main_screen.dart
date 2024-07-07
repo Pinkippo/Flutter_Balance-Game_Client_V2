@@ -18,15 +18,22 @@ class MainScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Get.put(BottomNavigatorController());
 
     return Scaffold(
       /// 앱바
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(0),
-        child: Container(
-          color: AppColors.secondaryColor,
-        ),
+        child: Obx(() {
+          Color appBarColor;
+          if (BottomNavigatorController.to.selectedIndex.value == 1) {
+            appBarColor = AppColors.secondaryColor; // 홈 탭의 색상
+          } else {
+            appBarColor = Colors.white; // 기본 색상
+          }
+          return Container(
+            color: appBarColor,
+          );
+        }),
       ),
 
       /// 바디
