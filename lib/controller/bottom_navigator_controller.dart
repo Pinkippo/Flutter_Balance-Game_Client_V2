@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:yangjataekil/controller/auth_controller.dart';
 
 /// 하단 네비게이터 컨트롤러
 class BottomNavigatorController extends GetxController {
@@ -9,7 +10,12 @@ class BottomNavigatorController extends GetxController {
   final RxInt selectedIndex = 1.obs;
 
   /// 선택된 탭 인덱스 변경 - 메서드
-  void changeIndex(int index) {
-    selectedIndex(index);
+  void changeIndex(int index) async {
+    if(index != 2){
+      selectedIndex(index);
+    }else{
+      /// 마이페이지 로그인 유무 확인
+      AuthController.to.accessToken.value == '' ? Get.toNamed('/login') : selectedIndex(index);
+    }
   }
 }

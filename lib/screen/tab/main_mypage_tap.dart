@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:yangjataekil/controller/auth_controller.dart';
+import 'package:yangjataekil/controller/bottom_navigator_controller.dart';
 
 /// 로그인 화면
-class MyPageTap extends StatelessWidget {
+class MyPageTap extends GetView<AuthController> {
   const MyPageTap({super.key});
 
   @override
@@ -145,9 +148,11 @@ class MyPageTap extends StatelessWidget {
               height: 40,
             ),
             GestureDetector(
-              onTap: () => {
-                /// TODO : 로그아웃 연결
-                print('로그아웃')
+              onTap: () async {
+                await AuthController.to.logout().then((value) {
+                  BottomNavigatorController.to.selectedIndex(1);
+                  Get.toNamed('/login');
+                });
               },
               child: Container(
                 // color: Colors.transparent,

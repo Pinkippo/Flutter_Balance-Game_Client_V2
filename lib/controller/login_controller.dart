@@ -1,24 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
+import 'package:yangjataekil/controller/auth_controller.dart';
 import 'package:yangjataekil/data/model/login_request_model.dart';
-import 'package:yangjataekil/data/provider/auth_repository.dart';
 import 'package:yangjataekil/data/provider/login_repository.dart';
 
 import '../data/model/login_response_model.dart';
-import '../data/model/user_response_model.dart';
 import '../theme/app_color.dart';
 
 /// 로그인 컨트롤러 - main.dart에서 영속성 생성하여 사용
 class LoginController extends GetxController {
-  LoginController({
-    required this.authRepository,
-  });
-
-  final AuthRepository authRepository;
-
-  /// 보안 저장소 - Jwt Token 보관
-  final storage = const FlutterSecureStorage();
 
   /// 로그인 폼 키
   final formKey = GlobalKey<FormState>();
@@ -28,14 +18,6 @@ class LoginController extends GetxController {
 
   /// 로그인 비밀번호
   final Rx<String> loginUserPw = Rx<String>('');
-
-  /// 토큰
-  final Rx<String> jwtToken = Rx<String>('');
-
-  /// 유저 정보
-  final RxInt uid = RxInt(0); // 유저 uid
-  final Rx<String> nickname = Rx<String>(''); // 유저 닉네임
-  final Rx<String> email = Rx<String>(''); // 유저 이메일
 
   /// 자동 로그인 여부
   final RxBool autoLogin = false.obs;
@@ -68,36 +50,18 @@ class LoginController extends GetxController {
       return false;
     }
 
-    // 로그인 요청
+    /// 로그인 API
     final LoginResponseModel response = await LoginRepository().login(
         LoginRequestModel(
             email: loginUserId.value, password: loginUserPw.value));
 
     if (response.accessToken.isNotEmpty) {
-      /// 토큰 저장 - 로그인 성공
-      jwtToken.value = response.accessToken;
-      await storage.write(key: 'jwtToken', value: response.accessToken);
-      print('jwtToken: ${jwtToken.value}');
-
-      // 유저 정보 호출
-      final UserResponseModel userInfo =
-          await authRepository.getUserInfo(jwtToken.value);
-
-      // 유저 정보 저장
-      uid.value = userInfo.userId;
-      nickname.value = userInfo.nickname;
-      email.value = userInfo.email;
-
-      print('uid.value: ${uid.value}');
-      print('nickname.value: ${nickname.value}');
-      print('email.value: ${email.value}');
-
+      /// 토큰 업데이트
+      await AuthController()
+          .updateToken(response.accessToken, response.refreshToken);
       return true;
     } else {
-      /// 로그인 실패
       return false;
     }
-    print('로그인 성공!');
-    return true;
   }
 }
