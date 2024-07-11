@@ -6,6 +6,7 @@ import 'package:yangjataekil/controller/register_controller.dart';
 import 'package:yangjataekil/controller/tab/theme_list_controller.dart';
 import 'package:yangjataekil/screen/login_screen.dart';
 import 'package:yangjataekil/screen/main_screen.dart';
+import 'package:yangjataekil/screen/register_profile_screen.dart';
 import 'package:yangjataekil/screen/register_screen.dart';
 
 part 'app_routes.dart';
@@ -57,5 +58,16 @@ class AppPages {
       }),
     ),
 
+    /// 프로필 등록 페이지
+    GetPage(
+      name: Routes.profile,
+      page: () => const RegisterProfileScreen(),
+      transition: Transition.fade,
+      binding: BindingsBuilder(() {
+        Get.lazyPut<RegisterController>(() {
+          return RegisterController();
+        });
+      }),
+    ),
   ];
 }

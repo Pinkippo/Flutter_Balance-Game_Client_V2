@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:yangjataekil/theme/app_color.dart';
-import 'package:yangjataekil/theme/app_thene.dart';
 
-class RegisterBtn extends StatelessWidget {
-  const RegisterBtn({Key? key, required this.onPressed}) : super(key: key);
-  
+class BasicBtn extends StatelessWidget {
+  final String buttonText;
+
+  const BasicBtn({Key? key, required this.onPressed, required this.buttonText})
+      : super(key: key);
+
   final VoidCallback onPressed;
 
   @override
@@ -21,7 +23,10 @@ class RegisterBtn extends StatelessWidget {
           elevation: 0,
         ),
         onPressed: onPressed,
-        child: const Text('회원가입', style: TextStyle(fontSize: 16, color: Colors.white),),
+        child: Text(
+          buttonText,
+          style: const TextStyle(fontSize: 16, color: Colors.white),
+        ),
       ),
     );
   }

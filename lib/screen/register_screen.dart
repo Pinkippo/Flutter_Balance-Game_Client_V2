@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:yangjataekil/controller/register_controller.dart';
-import 'package:yangjataekil/widget/register/register_input_field.dart';
+import 'package:yangjataekil/widget/register/basic_input_field.dart';
 import 'package:yangjataekil/widget/register/birth_input_field.dart';
 import 'package:yangjataekil/widget/register/check_email_btn.dart';
 import 'package:yangjataekil/widget/register/email_input_field.dart';
-import 'package:yangjataekil/widget/register/register_btn.dart';
+import 'package:yangjataekil/widget/register/basic_btn.dart';
 
 class RegisterScreen extends GetView<RegisterController> {
   const RegisterScreen({super.key});
@@ -13,7 +13,6 @@ class RegisterScreen extends GetView<RegisterController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
       appBar: AppBar(
         foregroundColor: Colors.black,
         backgroundColor: Colors.white,
@@ -32,7 +31,6 @@ class RegisterScreen extends GetView<RegisterController> {
           },
         ),
       ),
-
       body: Container(
         color: Colors.white,
         padding: const EdgeInsets.all(20),
@@ -200,10 +198,9 @@ class RegisterScreen extends GetView<RegisterController> {
                 const SizedBox(
                   height: 30,
                 ),
-                RegisterBtn(
-                  onPressed: () => {
-                    /// TODO: 회원가입 연결
-                  },
+                BasicBtn(
+                  onPressed: () => {Get.toNamed('/profile')},
+                  buttonText: '다음',
                 )
               ],
             ),

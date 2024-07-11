@@ -14,4 +14,5 @@ abstract class Routes{
   static const findId = '/find_id';
   static const findPw = '/find_pw';
   static const myPage = '/myPage';
+  static const profile = '/profile';
 }
