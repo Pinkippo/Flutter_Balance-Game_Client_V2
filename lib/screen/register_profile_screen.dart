@@ -42,9 +42,6 @@ class RegisterProfileScreen extends GetView<RegisterController> {
                 child: SingleChildScrollView(
                   child: Column(
                     children: [
-                      const SizedBox(
-                        height: 20,
-                      ),
                       const Row(
                         children: [
                           Text(
