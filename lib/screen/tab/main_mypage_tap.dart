@@ -20,12 +20,6 @@ class MyPageTap extends GetView<AuthController> {
         elevation: 0,
         title: const Text('마이페이지',
             style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
       ),
 
       /// 중단
@@ -110,10 +104,7 @@ class MyPageTap extends GetView<AuthController> {
                   ),
                   const Divider(),
                   GestureDetector(
-                    onTap: () => {
-                      /// TODO : 알림설정 연결
-                      print('알림설정')
-                    },
+                    onTap: () => {Get.toNamed('/notification'), print('알림설정')},
                     child: Container(
                       color: Colors.transparent,
                       child: Row(
