@@ -15,9 +15,9 @@
 	<key>CFBundleName</key>
 	<string>yangjataekil</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>App needs access to photo lib for profile images</string>
+	<string>양자택일 앱이 프로필 설정을 위해 사진에 접근하도록 허용하시겠습니까?</string>
 	<key>NSCameraUsageDescription</key>
-	<string>To capture profile photo please grant camemra access</string>
+	<string>양자택일 앱이 프로필 설정을 위해 카메라에 접근하도록 허용하시겠습니까?</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
