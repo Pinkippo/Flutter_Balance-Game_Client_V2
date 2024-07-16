@@ -4,9 +4,11 @@ import 'package:yangjataekil/controller/bottom_navigator_controller.dart';
 import 'package:yangjataekil/controller/login_controller.dart';
 import 'package:yangjataekil/controller/register_controller.dart';
 import 'package:yangjataekil/controller/tab/theme_list_controller.dart';
+import 'package:yangjataekil/controller/notice_controller.dart';
 import 'package:yangjataekil/screen/login_screen.dart';
 import 'package:yangjataekil/screen/main_screen.dart';
 import 'package:yangjataekil/screen/notification_screen.dart';
+import 'package:yangjataekil/screen/notice_screen.dart';
 import 'package:yangjataekil/screen/register_screen.dart';
 
 part 'app_routes.dart';
@@ -62,5 +64,14 @@ class AppPages {
       page: () => const NotificationScreen(),
       transition: Transition.fade,
     ),
+    GetPage(
+        name: Routes.notice,
+        page: () => const NoticeScreen(),
+        transition: Transition.fade,
+        binding: BindingsBuilder(() {
+          Get.lazyPut<NoticeController>(() {
+            return NoticeController();
+          });
+        })),
   ];
 }

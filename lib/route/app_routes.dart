@@ -15,4 +15,6 @@ abstract class Routes{
   static const findPw = '/find_pw';
   static const myPage = '/myPage';
   static const notification = '/notification';
+  static const notice = '/notice';
 }
+

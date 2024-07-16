@@ -72,7 +72,7 @@ class MyPageTap extends GetView<AuthController> {
                   GestureDetector(
                     onTap: () => {
                       /// TODO : 공지사항 연결
-                      print('공지사항')
+                      Get.toNamed('/notice')
                     },
                     child: Container(
                       color: Colors.transparent,
