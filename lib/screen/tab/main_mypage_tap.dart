@@ -104,7 +104,10 @@ class MyPageTap extends GetView<AuthController> {
                   ),
                   const Divider(),
                   GestureDetector(
-                    onTap: () => {Get.toNamed('/notification'), print('알림설정')},
+                    onTap: () => {
+                      Get.toNamed('/notification'),
+                      print('알림설정'),
+                    },
                     child: Container(
                       color: Colors.transparent,
                       child: Row(

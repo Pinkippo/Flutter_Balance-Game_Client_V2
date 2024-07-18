@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:yangjataekil/controller/notification_controller.dart';
 import 'package:yangjataekil/widget/notification/notification_btn.dart';
 
-class NotificationScreen extends StatelessWidget {
+class NotificationScreen extends GetView<NotificationController> {
   const NotificationScreen({super.key});
 
   @override
@@ -27,7 +29,7 @@ class NotificationScreen extends StatelessWidget {
         child: Container(
           color: Colors.white,
           padding: const EdgeInsets.all(20),
-          child: const Column(
+          child: Column(
             children: [
               Expanded(
                 child: Column(
@@ -49,6 +51,7 @@ class NotificationScreen extends StatelessWidget {
                     NotificationBtn(
                       title: '마케팅 정보 수신 동의',
                       isChecked: false,
+                      controller: controller,
                     ),
                     const SizedBox(
                       height: 20,
@@ -56,6 +59,7 @@ class NotificationScreen extends StatelessWidget {
                     NotificationBtn(
                       title: '문자 알림',
                       isChecked: true,
+                      controller: controller,
                     ),
                     const SizedBox(
                       height: 20,
@@ -63,6 +67,7 @@ class NotificationScreen extends StatelessWidget {
                     NotificationBtn(
                       title: '포인트 적립 알림',
                       isChecked: true,
+                      controller: controller,
                     ),
                     const SizedBox(
                       height: 20,
