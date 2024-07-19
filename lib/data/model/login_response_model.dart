@@ -9,7 +9,8 @@ class LoginResponseModel {
 
   factory LoginResponseModel.fromJson(Map<String, dynamic> json) {
     return LoginResponseModel(
-        accessToken: json['token']['accessToken'],
-        refreshToken: json['token']['refreshToken']);
+      accessToken: json['token']['accessToken'],
+      refreshToken: json['token']['refreshToken'],
+    );
   }
 }
