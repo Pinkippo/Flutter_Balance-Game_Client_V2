@@ -145,7 +145,8 @@ class LoginScreen extends GetView<LoginController> {
 
                     SignUpBtn(
                       onPressed: () => {
-                        Get.toNamed('/register'),
+                        Get.toNamed('/agree_terms'),
+                        // Get.toNamed('/register'),
                       },
                     ),
 

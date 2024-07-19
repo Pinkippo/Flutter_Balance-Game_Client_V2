@@ -11,6 +11,9 @@ import 'package:yangjataekil/screen/register_profile_screen.dart';
 import 'package:yangjataekil/screen/notification_screen.dart';
 import 'package:yangjataekil/screen/register_screen.dart';
 
+import '../controller/agreeterms_controller.dart';
+import '../screen/agreeterms_screen.dart';
+
 part 'app_routes.dart';
 
 /// 앱 내 페이지 경로 설정 클래스
@@ -60,6 +63,20 @@ class AppPages {
       }),
     ),
 
+    /// 이용약관 페이지
+    GetPage(
+      name: Routes.agreeTerms,
+      page: () => const AgreeTermsScreen(),
+      transition: Transition.fade,
+      binding: BindingsBuilder(
+        () {
+          Get.lazyPut<AgreeTermsController>(() {
+            return AgreeTermsController();
+          });
+        },
+      ),
+    ),
+
     /// 프로필 등록 페이지
     GetPage(
       name: Routes.profile,
@@ -72,7 +89,7 @@ class AppPages {
       }),
     ),
 
-    /// 알림 설정 페이지
+    /// 알림 페이지
     GetPage(
       name: Routes.notification,
       page: () => const NotificationScreen(),
@@ -83,5 +100,16 @@ class AppPages {
         });
       }),
     ),
+
+    /// 공지사항 페이지
+    GetPage(
+        name: Routes.notice,
+        page: () => const NoticeScreen(),
+        transition: Transition.fade,
+        binding: BindingsBuilder(() {
+          Get.lazyPut<NoticeController>(() {
+            return NoticeController();
+          });
+        })),
   ];
 }
