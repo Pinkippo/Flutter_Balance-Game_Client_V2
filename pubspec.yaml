@@ -32,6 +32,7 @@ dependencies:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
+  image_picker: ^1.1.2
 
   # 상태관리
   get: ^4.6.5

@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 
 // 회원가입 컨트롤러
 class RegisterController extends GetxController {
@@ -25,8 +26,15 @@ class RegisterController extends GetxController {
   /// 전화번호
   final Rx<String> phone = ''.obs;
 
+  /// 닉네임
+  final Rx<String> nickname = ''.obs;
+
+  /// 프로필 사진
+  final Rx<XFile?> profile = Rx<XFile?>(null);
+
   final emailController = TextEditingController();
   final birthController = TextEditingController();
+  final nicknameController = TextEditingController();
 
   void updateUserName(String userName) {
     this.userName.value = userName;
@@ -68,5 +76,15 @@ class RegisterController extends GetxController {
     email.value = '';
     emailController.clear();
     print('email >> $email');
+  }
+
+  void updateProfile(XFile image) {
+    profile.value = image;
+    print('profile >> $profile');
+  }
+
+  void updateNickname(String nickname) {
+    this.nickname.value = nickname;
+    print('nickname >> $nickname');
   }
 }

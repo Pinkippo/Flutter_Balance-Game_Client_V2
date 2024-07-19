@@ -10,10 +10,12 @@ abstract class Routes{
   static const splash = '/splash';
   static const login = '/login';
   static const register = '/register';
+  static const agreeTerms = '/agree_terms';
   static const main = '/main';
   static const findId = '/find_id';
   static const findPw = '/find_pw';
   static const myPage = '/myPage';
+  static const profile = '/profile';
   static const notification = '/notification';
   static const notice = '/notice';
 }
