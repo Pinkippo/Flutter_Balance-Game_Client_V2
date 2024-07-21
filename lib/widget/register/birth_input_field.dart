@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:yangjataekil/controller/register_controller.dart';
+import 'package:yangjataekil/theme/app_color.dart';
 
 class BirthInputField extends StatelessWidget {
   const BirthInputField({
@@ -18,6 +19,17 @@ class BirthInputField extends StatelessWidget {
           initialDate: DateTime.now(),
           firstDate: DateTime(1900),
           lastDate: DateTime.now(),
+          builder: (BuildContext context, Widget? child) {
+            return Theme(
+              data: ThemeData.light().copyWith(
+                colorScheme: const ColorScheme.light(
+                  primary: AppColors.primaryColor, // Header background color
+                ),
+                dialogBackgroundColor: Colors.white, // Background color
+              ),
+              child: child!,
+            );
+          },
         );
         if (pickedDate != null) {
           registerController.updateBirth(pickedDate);

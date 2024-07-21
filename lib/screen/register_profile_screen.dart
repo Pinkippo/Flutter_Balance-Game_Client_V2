@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:yangjataekil/controller/register_controller.dart';
+import 'package:yangjataekil/data/provider/auth_repository.dart';
+import 'package:yangjataekil/theme/app_color.dart';
 import 'package:yangjataekil/widget/register/nickname_input_field.dart';
 import 'package:yangjataekil/widget/register/basic_btn.dart';
 import 'package:yangjataekil/widget/register/register_profile.dart';
@@ -61,6 +63,7 @@ class RegisterProfileScreen extends GetView<RegisterController> {
                         children: [
                           RegisterProfile(
                             controller: controller,
+                            authRepository: AuthRepository(),
                           )
                         ],
                       ),
@@ -96,7 +99,7 @@ class RegisterProfileScreen extends GetView<RegisterController> {
               ),
               BasicBtn(
                 onPressed: () {
-                  /// TODO: 회원가입 API 연결
+                  controller.register();
                 },
                 buttonText: '회원가입',
               ),

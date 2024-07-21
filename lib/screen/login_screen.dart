@@ -48,7 +48,7 @@ class LoginScreen extends GetView<LoginController> {
                   width: 180,
                   height: 180),
               Form(
-                key: controller.formKey,
+                // key: controller.formKey,
                 child: Column(
                   children: [
                     LoginTextFormField(

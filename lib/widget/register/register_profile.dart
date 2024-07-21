@@ -4,12 +4,15 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:yangjataekil/controller/register_controller.dart';
+import 'package:yangjataekil/data/provider/auth_repository.dart';
 import 'package:yangjataekil/theme/app_color.dart';
 
 class RegisterProfile extends StatefulWidget {
   final RegisterController controller;
+  final AuthRepository authRepository;
 
-  const RegisterProfile({super.key, required this.controller});
+  const RegisterProfile(
+      {super.key, required this.controller, required this.authRepository});
 
   @override
   State<RegisterProfile> createState() => _RegisterProfileState();
@@ -35,7 +38,9 @@ class _RegisterProfileState extends State<RegisterProfile> {
           child: InkWell(
             onTap: () {
               showModalBottomSheet(
-                  context: context, builder: ((builder) => bottomSheet()));
+                  backgroundColor: Colors.white,
+                  context: context,
+                  builder: ((builder) => bottomSheet()));
             },
             child: const Icon(
               Icons.add,
@@ -69,6 +74,8 @@ class _RegisterProfileState extends State<RegisterProfile> {
                   image = await picker.pickImage(source: ImageSource.camera);
                   if (image != null) {
                     widget.controller.updateProfile(image!);
+                    widget.controller.profileUrl.value =
+                        await widget.authRepository.uploadProfileImage(image!);
                     setState(() {
                       navigator?.pop(context);
                     });
@@ -81,10 +88,12 @@ class _RegisterProfileState extends State<RegisterProfile> {
               ),
               IconButton(
                 onPressed: () async {
+                  /// TODO: 회원가입 중단 시 이미지 삭제??
                   image = await picker.pickImage(source: ImageSource.gallery);
                   if (image != null) {
                     widget.controller.updateProfile(image!);
-
+                    widget.controller.profileUrl.value =
+                        await widget.authRepository.uploadProfileImage(image!);
                     setState(() {
                       navigator?.pop(context);
                     });

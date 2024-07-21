@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:yangjataekil/controller/register_controller.dart';
+import 'package:yangjataekil/data/provider/auth_repository.dart';
 import 'package:yangjataekil/widget/register/basic_input_field.dart';
 import 'package:yangjataekil/widget/register/birth_input_field.dart';
 import 'package:yangjataekil/widget/register/check_email_btn.dart';
@@ -35,7 +36,8 @@ class RegisterScreen extends GetView<RegisterController> {
         color: Colors.white,
         padding: const EdgeInsets.all(20),
         child: SingleChildScrollView(
-          physics: const ClampingScrollPhysics(), // 오버 스크롤 방지
+          physics: const ClampingScrollPhysics(),
+          // 오버 스크롤 방지
           child: Form(
             key: controller.formKey,
             child: Column(
@@ -87,6 +89,7 @@ class RegisterScreen extends GetView<RegisterController> {
                         title: '중복확인',
                         onPressed: () => {
                           /// TODO: 이메일 중복 검사 연결
+                          controller.checkDuplicateEmail()
                         },
                       ),
                     ),
@@ -199,7 +202,9 @@ class RegisterScreen extends GetView<RegisterController> {
                   height: 30,
                 ),
                 BasicBtn(
-                  onPressed: () => {Get.toNamed('/profile')},
+                  onPressed: () {
+                    controller.nextStep();
+                  },
                   buttonText: '다음',
                 )
               ],
