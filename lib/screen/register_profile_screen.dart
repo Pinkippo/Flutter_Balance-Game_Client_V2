@@ -58,13 +58,10 @@ class RegisterProfileScreen extends GetView<RegisterController> {
                       const SizedBox(
                         height: 60,
                       ),
-                      Row(
+                      const Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          RegisterProfile(
-                            controller: controller,
-                            authRepository: AuthRepository(),
-                          )
+                          RegisterProfile(),
                         ],
                       ),
                       const SizedBox(

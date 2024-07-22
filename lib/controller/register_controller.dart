@@ -11,6 +11,9 @@ import 'package:yangjataekil/theme/app_color.dart';
 // 회원가입 컨트롤러
 class RegisterController extends GetxController {
 
+  /// RegisterRepository 인스턴스 생성
+  final AuthRepository authRepository = AuthRepository();
+
   /// 회원가입 폼 키
   final formKey = GlobalKey<FormState>();
 
@@ -120,7 +123,7 @@ class RegisterController extends GetxController {
     }
 
     try {
-      final response = await AuthRepository().checkDuplicateEmail(email.value);
+      final response = await authRepository.checkDuplicateEmail(email.value);
       if (response) {
         Get.snackbar('이메일 중복 확인', '이미 사용중인 이메일입니다.',
             backgroundColor: Colors.red,
@@ -185,7 +188,7 @@ class RegisterController extends GetxController {
   /// 회원가입
   Future<bool> register() async {
     final RegisterResponseModel response =
-        await AuthRepository().register(RegisterRequestModel(
+        await authRepository.register(RegisterRequestModel(
       email: email.value,
       password: pw.value,
       realName: realName.value,

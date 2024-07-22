@@ -7,32 +7,22 @@ import 'package:yangjataekil/controller/register_controller.dart';
 import 'package:yangjataekil/data/provider/auth_repository.dart';
 import 'package:yangjataekil/theme/app_color.dart';
 
-class RegisterProfile extends StatefulWidget {
-  final RegisterController controller;
-  final AuthRepository authRepository;
-
-  const RegisterProfile(
-      {super.key, required this.controller, required this.authRepository});
-
-  @override
-  State<RegisterProfile> createState() => _RegisterProfileState();
-}
-
-class _RegisterProfileState extends State<RegisterProfile> {
-  final picker = ImagePicker();
-  XFile? image; // 카메라 이미지 저장 변수
+class RegisterProfile extends GetView<RegisterController> {
+  const RegisterProfile({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Stack(
       alignment: Alignment.center,
       children: [
-        CircleAvatar(
-          radius: 80,
-          backgroundColor: AppColors.profileBackgroundColor,
-          backgroundImage: widget.controller.profile.value != null
-              ? FileImage(File(widget.controller.profile.value!.path))
-              : null,
+        Obx(
+          () => CircleAvatar(
+            radius: 80,
+            backgroundColor: AppColors.profileBackgroundColor,
+            backgroundImage: controller.profile.value != null
+                ? FileImage(File(controller.profile.value!.path))
+                : null,
+          ),
         ),
         Positioned(
           child: InkWell(
@@ -71,14 +61,15 @@ class _RegisterProfileState extends State<RegisterProfile> {
             children: [
               IconButton(
                 onPressed: () async {
-                  image = await picker.pickImage(source: ImageSource.camera);
+                  final picker = ImagePicker();
+                  final image =
+                      await picker.pickImage(source: ImageSource.camera);
                   if (image != null) {
-                    widget.controller.updateProfile(image!);
-                    widget.controller.profileUrl.value =
-                        await widget.authRepository.uploadProfileImage(image!);
-                    setState(() {
-                      navigator?.pop(context);
-                    });
+                    controller.updateProfile(image);
+                    controller.profileUrl.value = await controller
+                        .authRepository
+                        .uploadProfileImage(image);
+                    Get.back();
                   }
                 },
                 icon: const Icon(
@@ -89,14 +80,15 @@ class _RegisterProfileState extends State<RegisterProfile> {
               IconButton(
                 onPressed: () async {
                   /// TODO: 회원가입 중단 시 이미지 삭제??
-                  image = await picker.pickImage(source: ImageSource.gallery);
+                  final picker = ImagePicker();
+                  final image =
+                      await picker.pickImage(source: ImageSource.gallery);
                   if (image != null) {
-                    widget.controller.updateProfile(image!);
-                    widget.controller.profileUrl.value =
-                        await widget.authRepository.uploadProfileImage(image!);
-                    setState(() {
-                      navigator?.pop(context);
-                    });
+                    controller.updateProfile(image);
+                    controller.profileUrl.value = await controller
+                        .authRepository
+                        .uploadProfileImage(image);
+                    Get.back();
                   }
                 },
                 icon: const Icon(
