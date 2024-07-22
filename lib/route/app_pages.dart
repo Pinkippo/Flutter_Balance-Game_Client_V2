@@ -1,11 +1,13 @@
 import 'package:get/get.dart';
 import 'package:yangjataekil/controller/auth_controller.dart';
 import 'package:yangjataekil/controller/bottom_navigator_controller.dart';
+import 'package:yangjataekil/controller/list_controller.dart';
 import 'package:yangjataekil/controller/login_controller.dart';
 import 'package:yangjataekil/controller/notification_controller.dart';
 import 'package:yangjataekil/controller/register_controller.dart';
 import 'package:yangjataekil/controller/tab/theme_list_controller.dart';
 import 'package:yangjataekil/controller/notice_controller.dart';
+import 'package:yangjataekil/screen/list_screen.dart';
 import 'package:yangjataekil/screen/login_screen.dart';
 import 'package:yangjataekil/screen/main_screen.dart';
 import 'package:yangjataekil/screen/register_profile_screen.dart';
@@ -113,5 +115,17 @@ class AppPages {
             return NoticeController();
           });
         })),
+
+    /// 게임 리스트 페이지
+    GetPage(
+      name: Routes.list,
+      page: () => const ListScreen(),
+      transition: Transition.fade,
+      binding: BindingsBuilder(() {
+        Get.lazyPut<ListController>(() {
+          return ListController();
+        });
+      }),
+    ),
   ];
 }
