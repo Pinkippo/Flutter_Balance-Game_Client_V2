@@ -18,7 +18,6 @@ class ListController extends GetxController {
   final Rx<int> totalPage = 1.obs;
 
   var scrollController = ScrollController().obs;
-  var authController = Get.put(AuthController());
 
   @override
   void onInit() {
@@ -58,7 +57,7 @@ class ListController extends GetxController {
           themeId: themeId.value,
           sortCondition: sortCondition.value,
         ),
-        authController.accessToken.value,
+        AuthController.to.accessToken.value,
       );
       boards.addAll(response.boards);
       totalPage.value = response.totalPage; // totalPage 값 업데이트
