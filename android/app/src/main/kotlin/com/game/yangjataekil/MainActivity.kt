@@ -1,4 +1,4 @@
-package com.example.yangjataekil
+package com.game.yangjataekil
 
 import io.flutter.embedding.android.FlutterActivity
 
