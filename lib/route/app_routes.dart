@@ -18,5 +18,5 @@ abstract class Routes{
   static const profile = '/profile';
   static const notification = '/notification';
   static const notice = '/notice';
+  static const list = '/list';
 }
-
