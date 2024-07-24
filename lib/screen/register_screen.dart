@@ -63,16 +63,16 @@ class RegisterScreen extends GetView<RegisterController> {
                 ),
                 const Padding(
                   padding: EdgeInsets.only(left: 10, bottom: 10),
-                  child: Text('이메일'),
+                  child: Text('아이디'),
                 ),
                 Row(
                   children: [
                     Expanded(
                       flex: 7,
                       child: EmailInputField(
-                        hintText: '이메일',
+                        hintText: '아이디',
                         obscureText: false,
-                        textController: controller.emailController,
+                        textController: controller.accountNameController,
                         icon: const Icon(
                           size: 20,
                           Icons.cancel,
@@ -89,7 +89,7 @@ class RegisterScreen extends GetView<RegisterController> {
                         title: '중복확인',
                         onPressed: () => {
                           /// TODO: 이메일 중복 검사 연결
-                          controller.checkDuplicateEmail()
+                          controller.checkDuplicateAccountName()
                         },
                       ),
                     ),
@@ -172,14 +172,14 @@ class RegisterScreen extends GetView<RegisterController> {
                 const SizedBox(height: 20),
                 const Padding(
                   padding: EdgeInsets.only(left: 10, bottom: 10),
-                  child: Text('휴대폰 번호'),
+                  child: Text('이메일'),
                 ),
                 Row(
                   children: [
                     Expanded(
                       flex: 7,
                       child: BasicInputField(
-                        hintText: '\'-\'를 제외하고 입력해주세요.',
+                        hintText: '이메일',
                         obscureText: false,
                         controller: controller,
                       ),
@@ -192,7 +192,7 @@ class RegisterScreen extends GetView<RegisterController> {
                       child: ChkEmailBtn(
                         title: '인증요청',
                         onPressed: () => {
-                          /// TODO: 전화번호 인증 연결
+                          /// TODO: 이메일 인증 요청
                         },
                       ),
                     ),

@@ -75,20 +75,20 @@ class AuthRepository {
   }
 
   // 이메일 중복 확인
-  Future<bool> checkDuplicateEmail(String email) async {
-    final url = Uri.parse('$baseUrl/user/v2/check-email');
+  Future<bool> checkDuplicateAccountName(String accountName) async {
+    final url = Uri.parse('$baseUrl/user/v2/check-account-name');
     final response = await http.post(
       url,
       headers: <String, String>{
         'Content-Type': 'application/json',
         'charset': 'utf-8',
       },
-      body: jsonEncode({'email': email}),
+      body: jsonEncode({'accountName': accountName}),
     );
 
-    print('입력한 email: $email');
+    print('입력한 아이디: $accountName');
     print('Response Status Code: ${response.statusCode}');
-    print('이메일 중복 확인 응답: ${utf8.decode(response.bodyBytes)}');
+    print('아이디 중복 확인 응답: ${utf8.decode(response.bodyBytes)}');
 
     if (response.statusCode == 200) {
       if (response.body.isEmpty) {
@@ -102,7 +102,7 @@ class AuthRepository {
         throw Exception('Unexpected response format');
       }
     } else {
-      throw Exception('이메일 중복 확인 실패');
+      throw Exception('아이디 중복 확인 실패');
     }
   }
 

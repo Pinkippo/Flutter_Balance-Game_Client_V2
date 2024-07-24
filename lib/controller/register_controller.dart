@@ -10,7 +10,6 @@ import 'package:yangjataekil/theme/app_color.dart';
 
 // 회원가입 컨트롤러
 class RegisterController extends GetxController {
-
   /// RegisterRepository 인스턴스 생성
   final AuthRepository authRepository = AuthRepository();
 
@@ -20,8 +19,8 @@ class RegisterController extends GetxController {
   /// 이름
   final Rx<String> realName = ''.obs;
 
-  /// 이메일
-  final Rx<String> email = ''.obs;
+  /// 아이디
+  final Rx<String> accountName = ''.obs;
 
   /// 비밀번호
   final Rx<String> pw = ''.obs;
@@ -32,8 +31,8 @@ class RegisterController extends GetxController {
   /// 생년월일
   final Rx<DateTime> selectedDate = DateTime.now().obs;
 
-  /// 전화번호
-  final Rx<String> phone = ''.obs;
+  /// 이메일
+  final Rx<String> email = ''.obs;
 
   /// 닉네임
   final Rx<String> nickname = ''.obs;
@@ -44,11 +43,11 @@ class RegisterController extends GetxController {
   /// 프로필 사진 URL
   final Rx<String> profileUrl = ''.obs;
 
-  /// 이메일 중복 확인
+  /// 아이디 중복 확인
   final Rx<bool> checkDuplicate = false.obs;
 
   /// 텍스트 컨트롤러
-  final emailController = TextEditingController();
+  final accountNameController = TextEditingController();
   final birthController = TextEditingController();
   final nicknameController = TextEditingController();
 
@@ -58,11 +57,11 @@ class RegisterController extends GetxController {
     print('UserName >> $realName');
   }
 
-  /// 비밀번호 변경
-  void updateEmail(String email) {
-    this.email.value = email;
-    checkDuplicate.value = false; // 이메일 변경 시 중복 확인 여부 초기화
-    print('Email >> $email');
+  /// 아이디 변경
+  void updateAccountName(String accountName) {
+    this.accountName.value = accountName;
+    checkDuplicate.value = false; // 아이디 변경 시 중복 확인 여부 초기화
+    print('accountName >> $accountName');
   }
 
   /// 비밀번호 변경
@@ -81,22 +80,22 @@ class RegisterController extends GetxController {
   void updateBirth(DateTime date) {
     selectedDate.value = date;
     birthController.text =
-        "${date.year.toString().padLeft(4, '0')}${date.month.toString().padLeft(2, '0')}${date.day.toString().padLeft(2, '0')}";
-    print('Birth >> $selectedDate');
+        "${date.year.toString().padLeft(4, '0')}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}";
+    print('Birth >> ${birthController.text}');
   }
 
-  /// 핸드폰 번호 변경
-  void updatePhone(String phone) {
-    this.phone.value = phone;
-    print('Phone >> $phone');
-  }
-
-  /// 이메일 초기화
-  void clearEmail() {
-    email.value = '';
-    emailController.clear();
-    checkDuplicate.value = false; // 이메일 초기화 시 중복 확인 여부 초기화
+  /// 이메일 변경
+  void updateEmail(String email) {
+    this.email.value = email;
     print('email >> $email');
+  }
+
+  /// 아이디 초기화
+  void clearEmail() {
+    accountName.value = '';
+    accountNameController.clear();
+    checkDuplicate.value = false; // 이메일 초기화 시 중복 확인 여부 초기화
+    print('ID >> $accountName');
   }
 
   /// 닉네임 입력
@@ -111,11 +110,10 @@ class RegisterController extends GetxController {
     print('profile 사진 랜더링 완료');
   }
 
-
-  /// 이메일 중복 확인
-  void checkDuplicateEmail() async {
-    if (email.value == '') {
-      Get.snackbar('이메일 중복 확인', '이메일을 입력해주세요.',
+  /// 아이디 중복 확인
+  void checkDuplicateAccountName() async {
+    if (accountName.value == '') {
+      Get.snackbar('아이디 중복 확인', '아이디를 입력해주세요.',
           backgroundColor: AppColors.primaryColor,
           colorText: Colors.white,
           snackPosition: SnackPosition.BOTTOM);
@@ -123,14 +121,15 @@ class RegisterController extends GetxController {
     }
 
     try {
-      final response = await authRepository.checkDuplicateEmail(email.value);
+      final response =
+          await authRepository.checkDuplicateAccountName(accountName.value);
       if (response) {
-        Get.snackbar('이메일 중복 확인', '이미 사용중인 이메일입니다.',
+        Get.snackbar('아이디 중복 확인', '이미 사용중인 아이디입니다..',
             backgroundColor: Colors.red,
             colorText: Colors.white,
             snackPosition: SnackPosition.BOTTOM);
       } else {
-        Get.snackbar('이메일 중복 확인', '사용 가능한 이메일입니다.',
+        Get.snackbar('아이디 중복 확인', '사용 가능한 아이디입니다..',
             backgroundColor: AppColors.primaryColor,
             colorText: Colors.white,
             snackPosition: SnackPosition.BOTTOM);
@@ -148,12 +147,12 @@ class RegisterController extends GetxController {
   void nextStep() async {
     // 모든 항목이 입력되었는지 확인
     if (realName.value == '' ||
-        email.value == '' ||
+        accountName.value == '' ||
         pw.value == '' ||
         pwChk.value == '' ||
         selectedDate.value == null) {
       print('realName >> ${realName.value},'
-          'email >> ${email.value},'
+          'email >> ${accountName.value},'
           'pw >> ${pw.value},'
           'pwChk >> ${pwChk.value},'
           'selectedDate >> ${selectedDate.value},');
@@ -177,7 +176,7 @@ class RegisterController extends GetxController {
     if (checkDuplicate.value) {
       Get.toNamed('/profile');
     } else {
-      Get.snackbar('이메일 중복 확인', '이메일 중복을 확인해주세요.',
+      Get.snackbar('아이디 중복 확인', '아이디 중복을 확인해주세요.',
           backgroundColor: AppColors.primaryColor,
           colorText: Colors.white,
           snackPosition: SnackPosition.BOTTOM);
@@ -185,18 +184,22 @@ class RegisterController extends GetxController {
     }
   }
 
+  /// 닉네임을 반환하는 getter
+  String? get nicknameOrNull => nickname.value.isEmpty ? null : nickname.value;
+
   /// 회원가입
   Future<bool> register() async {
     final RegisterResponseModel response =
         await authRepository.register(RegisterRequestModel(
-      email: email.value,
+      accountName: accountName.value,
       password: pw.value,
       realName: realName.value,
-      birth: selectedDate.value.toString(),
-      phoneNumber: phone.value,
+      birth: birthController.text,
+      email: email.value,
       pushToken: 'pushToken',
       isCheckedMarketing: false,
       profileUrl: profileUrl.value,
+      nickName: nicknameOrNull,
     ));
     print('프로필url: ${profileUrl.value}');
 
