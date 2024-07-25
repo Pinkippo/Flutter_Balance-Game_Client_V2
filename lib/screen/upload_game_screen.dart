@@ -108,13 +108,14 @@ class UploadGameScreen extends GetView<GameUploadController> {
       bottomNavigationBar: Container(
         padding: const EdgeInsets.fromLTRB(20, 15, 20, 30),
         child: ElevatedButton(
-          onPressed: () {},
+          onPressed: () {
+            controller.uploadGame();
+          },
           style: ElevatedButton.styleFrom(
             elevation: 0,
             backgroundColor: AppColors.primaryColor,
             foregroundColor: Colors.white,
-            textStyle: const TextStyle(
-              fontSize: 17),
+            textStyle: const TextStyle(fontSize: 17),
             minimumSize: const Size(double.infinity, 60),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10),

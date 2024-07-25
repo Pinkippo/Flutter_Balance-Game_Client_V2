@@ -1,5 +1,8 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:yangjataekil/controller/auth_controller.dart';
+import 'package:yangjataekil/data/provider/game_repository.dart';
 
 import '../data/model/upload_game_request_model.dart';
 
@@ -33,7 +36,7 @@ class GameUploadController extends GetxController {
   void addQuestion() {
     boardContent.add(Question(
       questionTitle: '',
-      questionItems: ['',''],
+      questionItems: ['', ''],
     ));
     print('질문 추가');
   }
@@ -49,7 +52,6 @@ class GameUploadController extends GetxController {
     boardContent[index].questionItems[answerIndex] = answerText;
     print('$index번째질문 ${answerIndex + 1}번째 답변 업데이트 >>> $answerText');
   }
-
 
   /// 키워드 추가
   void addKeyword(String value) {
@@ -68,5 +70,57 @@ class GameUploadController extends GetxController {
         );
       }
     });
+  }
+
+  /// 게임 업로드
+  Future<bool> uploadGame() async {
+    if (gameTitle.value.isEmpty) {
+      Get.snackbar(
+        '미입력 항목',
+        '게임 이름을 입력해주세요.',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
+      return false;
+    } else if (introduce.value.isEmpty) {
+      Get.snackbar(
+        '미입력 항목',
+        '게임 소개를 입력해주세요.',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
+      return false;
+    } else if (keyword.isEmpty) {
+      Get.snackbar(
+        '미입력 항목',
+        '키워드를 입력해주세요.',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
+      return false;
+    } else if (boardContent.isEmpty) {
+      Get.snackbar(
+        '미입력 항목',
+        '질문을 입력해주세요.',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
+      return false;
+    } else {
+      final bool uploadGameRequestModel = await GameRepository().uploadGame(
+        UploadGameRequestModel(
+            gameTitle: gameTitle.value,
+            introduce: introduce.value,
+            keyword: keyword,
+            boardContent: boardContent),
+        AuthController.to.accessToken.value,
+      );
+      print('게임 업로드 성공 >>> $uploadGameRequestModel');
+      return true;
+    }
   }
 }
