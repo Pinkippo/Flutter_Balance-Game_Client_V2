@@ -53,7 +53,7 @@ class LoginController extends GetxController {
     /// 로그인 API
     final LoginResponseModel response = await LoginRepository().login(
         LoginRequestModel(
-            email: loginUserId.value, password: loginUserPw.value));
+            accountName: loginUserId.value, password: loginUserPw.value));
 
     if (response.accessToken.isNotEmpty) {
       /// 토큰 업데이트

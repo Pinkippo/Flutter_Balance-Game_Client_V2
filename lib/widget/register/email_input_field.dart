@@ -22,7 +22,7 @@ class EmailInputField extends GetView<RegisterController> {
 
     return TextFormField(
       onChanged: (value) {
-        controller.updateEmail(value);
+        controller.updateAccountName(value);
       },
       controller: textController,
       obscureText: obscureText,

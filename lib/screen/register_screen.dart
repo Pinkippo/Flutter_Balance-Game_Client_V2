@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:yangjataekil/controller/register_controller.dart';
+import 'package:yangjataekil/data/provider/auth_repository.dart';
 import 'package:yangjataekil/widget/register/basic_input_field.dart';
 import 'package:yangjataekil/widget/register/birth_input_field.dart';
 import 'package:yangjataekil/widget/register/check_email_btn.dart';
@@ -35,7 +36,8 @@ class RegisterScreen extends GetView<RegisterController> {
         color: Colors.white,
         padding: const EdgeInsets.all(20),
         child: SingleChildScrollView(
-          physics: const ClampingScrollPhysics(), // 오버 스크롤 방지
+          physics: const ClampingScrollPhysics(),
+          // 오버 스크롤 방지
           child: Form(
             key: controller.formKey,
             child: Column(
@@ -61,16 +63,16 @@ class RegisterScreen extends GetView<RegisterController> {
                 ),
                 const Padding(
                   padding: EdgeInsets.only(left: 10, bottom: 10),
-                  child: Text('이메일'),
+                  child: Text('아이디'),
                 ),
                 Row(
                   children: [
                     Expanded(
                       flex: 7,
                       child: EmailInputField(
-                        hintText: '이메일',
+                        hintText: '아이디',
                         obscureText: false,
-                        textController: controller.emailController,
+                        textController: controller.accountNameController,
                         icon: const Icon(
                           size: 20,
                           Icons.cancel,
@@ -87,6 +89,7 @@ class RegisterScreen extends GetView<RegisterController> {
                         title: '중복확인',
                         onPressed: () => {
                           /// TODO: 이메일 중복 검사 연결
+                          controller.checkDuplicateAccountName()
                         },
                       ),
                     ),
@@ -169,14 +172,14 @@ class RegisterScreen extends GetView<RegisterController> {
                 const SizedBox(height: 20),
                 const Padding(
                   padding: EdgeInsets.only(left: 10, bottom: 10),
-                  child: Text('휴대폰 번호'),
+                  child: Text('이메일'),
                 ),
                 Row(
                   children: [
                     Expanded(
                       flex: 7,
                       child: BasicInputField(
-                        hintText: '\'-\'를 제외하고 입력해주세요.',
+                        hintText: '이메일',
                         obscureText: false,
                         controller: controller,
                       ),
@@ -189,7 +192,7 @@ class RegisterScreen extends GetView<RegisterController> {
                       child: ChkEmailBtn(
                         title: '인증요청',
                         onPressed: () => {
-                          /// TODO: 전화번호 인증 연결
+                          /// TODO: 이메일 인증 요청
                         },
                       ),
                     ),
@@ -199,7 +202,9 @@ class RegisterScreen extends GetView<RegisterController> {
                   height: 30,
                 ),
                 BasicBtn(
-                  onPressed: () => {Get.toNamed('/profile')},
+                  onPressed: () {
+                    controller.nextStep();
+                  },
                   buttonText: '다음',
                 )
               ],

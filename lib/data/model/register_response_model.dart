@@ -1,14 +1,14 @@
-class LoginResponseModel {
+class RegisterResponseModel {
   final String accessToken;
   final String refreshToken;
 
-  LoginResponseModel({
+  RegisterResponseModel({
     required this.accessToken,
     required this.refreshToken,
   });
 
-  factory LoginResponseModel.fromJson(Map<String, dynamic> json) {
-    return LoginResponseModel(
+  factory RegisterResponseModel.fromJson(Map<String, dynamic> json) {
+    return RegisterResponseModel(
       accessToken: json['token']['accessToken'],
       refreshToken: json['token']['refreshToken'],
     );
