@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:yangjataekil/controller/auth_controller.dart';
 import 'package:yangjataekil/controller/bottom_navigator_controller.dart';
+import 'package:yangjataekil/controller/game_upload_controller.dart';
 import 'package:yangjataekil/controller/login_controller.dart';
 import 'package:yangjataekil/controller/notification_controller.dart';
 import 'package:yangjataekil/controller/register_controller.dart';
@@ -15,13 +16,13 @@ import 'package:yangjataekil/screen/register_screen.dart';
 
 import '../controller/agreeterms_controller.dart';
 import '../screen/agreeterms_screen.dart';
+import '../screen/upload_game_screen.dart';
 
 part 'app_routes.dart';
 
 /// 앱 내 페이지 경로 설정 클래스
 class AppPages {
   static final pages = [
-
     /// 로그인 페이지
     GetPage(
         name: Routes.login,
@@ -113,5 +114,16 @@ class AppPages {
             return NoticeController();
           });
         })),
+
+    GetPage(
+      name: Routes.uploadGame,
+      page: () => const UploadGameScreen(),
+      transition: Transition.fade,
+      binding: BindingsBuilder(() {
+        Get.lazyPut<GameUploadController>(() {
+          return GameUploadController();
+        });
+      }),
+    ),
   ];
 }
