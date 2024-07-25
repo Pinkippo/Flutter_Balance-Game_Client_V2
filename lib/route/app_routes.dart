@@ -18,7 +18,6 @@ abstract class Routes{
   static const profile = '/profile';
   static const notification = '/notification';
   static const notice = '/notice';
-
   static const uploadGame = '/upload_game';
+  static const list = '/list';
 }
-

@@ -28,6 +28,8 @@ class BasicInputField extends StatelessWidget {
           controller.updatePw(value);
         } else if (hintText == '비밀번호 확인') {
           controller.updatePwChk(value);
+        } else if (hintText == '이메일') {
+          controller.updateEmail(value);
         }
       },
       style: const TextStyle(

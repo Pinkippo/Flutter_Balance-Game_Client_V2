@@ -30,7 +30,7 @@ class ThemeListController extends GetxController {
 
   /// 화면 이동 메서드
   void navigateToThemeGames() {
-    // Get.toNamed(url) 사용
+    Get.toNamed('/list');
     print('테마별 게임 화면으로 이동 >> 테마: ${selectedTheme.value}');
   }
 }
