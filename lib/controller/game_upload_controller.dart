@@ -32,6 +32,16 @@ class GameUploadController extends GetxController {
     introduce.value = value;
   }
 
+  @override
+  void onInit() {
+    super.onInit();
+    // 기본 질문 두 개 추가
+    boardContent.addAll([
+      Question(questionTitle: '', questionItems: ['', '']),
+      Question(questionTitle: '', questionItems: ['', '']),
+    ]);
+  }
+
   /// 질문 추가
   void addQuestion() {
     boardContent.add(Question(
