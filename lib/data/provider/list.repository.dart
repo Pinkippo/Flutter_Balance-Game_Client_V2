@@ -20,7 +20,7 @@ class ListRepository {
           'page=${request.page}&'
           'size=${request.size}&'
           'sortCondition=${request.sortCondition?.name ?? ''}&'
-          'themeId=${1}&' // 메뉴 선택시 themeId controller 삽입
+          'themeId=${request.themeId}&'
           // 'themeId=${request.themeId}&'
           ),
       headers: <String, String>{
