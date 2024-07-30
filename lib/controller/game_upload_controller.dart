@@ -51,6 +51,12 @@ class GameUploadController extends GetxController {
     print('질문 추가');
   }
 
+  /// 질문 삭제
+  void removeQuestion(int index) {
+    boardContent.removeAt(index);
+    print('${index + 1}번 질문삭제');
+  }
+
   /// 질문 제목 업데이트
   void updateQuestionTitle(int index, String questionTitle) {
     boardContent[index].questionTitle = questionTitle;
