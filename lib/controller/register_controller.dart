@@ -34,6 +34,15 @@ class RegisterController extends GetxController {
   /// 이메일
   final Rx<String> email = ''.obs;
 
+  /// 이메일 인증 요청 상태
+  final Rx<bool> isEmailSent = false.obs;
+
+  /// 이메일 인증 확인 상태
+  final Rx<bool> isEmailVerified = false.obs;
+
+  /// 이메일 인증 코드
+  final Rx<String> emailAuthCode = ''.obs;
+
   /// 닉네임
   final Rx<String> nickname = ''.obs;
 
@@ -43,8 +52,9 @@ class RegisterController extends GetxController {
   /// 프로필 사진 URL
   final Rx<String> profileUrl = ''.obs;
 
-  /// 아이디 중복 확인
+  /// 아이디 중복 확인 상태
   final Rx<bool> checkDuplicate = false.obs;
+
 
   /// 텍스트 컨트롤러
   final accountNameController = TextEditingController();
@@ -98,6 +108,12 @@ class RegisterController extends GetxController {
     print('ID >> $accountName');
   }
 
+  /// 이메일 인증 코드 입력
+  void updateEmailAuthCode(String code) {
+    emailAuthCode.value = code;
+    print('emailAuthCode >> $code');
+  }
+
   /// 닉네임 입력
   void updateNickname(String nickname) {
     this.nickname.value = nickname;
@@ -143,6 +159,42 @@ class RegisterController extends GetxController {
     }
   }
 
+  /// 이메일 인증 요청
+  Future<void> requestEmailVerification() async {
+    try {
+      await authRepository.requestEmailAuth(email.value);
+      isEmailSent.value = true;
+      Get.snackbar('이메일 인증', '인증 이메일이 전송되었습니다.',
+          backgroundColor: AppColors.primaryColor,
+          colorText: Colors.white,
+          snackPosition: SnackPosition.BOTTOM);
+    } catch (e) {
+      isEmailSent.value = false;
+      Get.snackbar('오류', '이메일 인증 요청에 실패했습니다.',
+          backgroundColor: Colors.red,
+          colorText: Colors.white,
+          snackPosition: SnackPosition.BOTTOM);
+    }
+  }
+
+  /// 이메일 인증 확인
+  Future<void> verifyEmail() async {
+    try {
+      await authRepository.verifyEmailAuth(email.value, emailAuthCode.value);
+      Get.snackbar('이메일 인증', '인증이 완료되었습니다.',
+          backgroundColor: AppColors.primaryColor,
+          colorText: Colors.white,
+          snackPosition: SnackPosition.BOTTOM);
+      isEmailVerified.value = true;
+    } catch (e) {
+      Get.snackbar('오류', '이메일 인증에 실패했습니다.',
+          backgroundColor: Colors.red,
+          colorText: Colors.white,
+          snackPosition: SnackPosition.BOTTOM);
+      isEmailVerified.value = false;
+    }
+  }
+
   /// 중복확인 시 다음페이지 이동 가능
   void nextStep() async {
     // 모든 항목이 입력되었는지 확인
@@ -177,6 +229,17 @@ class RegisterController extends GetxController {
       Get.toNamed('/profile');
     } else {
       Get.snackbar('아이디 중복 확인', '아이디 중복을 확인해주세요.',
+          backgroundColor: AppColors.primaryColor,
+          colorText: Colors.white,
+          snackPosition: SnackPosition.BOTTOM);
+      return;
+    }
+
+    // 이메일 인증 확인 체크
+    if (isEmailVerified.value) {
+      Get.toNamed('/profile');
+    } else {
+      Get.snackbar('이메일 인증', '이메일 인증을 완료해주세요.',
           backgroundColor: AppColors.primaryColor,
           colorText: Colors.white,
           snackPosition: SnackPosition.BOTTOM);

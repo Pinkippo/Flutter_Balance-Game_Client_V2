@@ -27,7 +27,11 @@ class NicknameInputField extends GetView<RegisterController> {
         fontSize: 16,
       ),
       obscureText: obscureText,
-      decoration: InputDecoration(hintText: hintText, fillColor: Colors.grey),
+      decoration: InputDecoration(
+          hintText: hintText,
+          fillColor: Colors.grey,
+          focusedBorder: const UnderlineInputBorder(
+              borderSide: BorderSide(color: Color(0xffFF9297)))),
     );
   }
 }

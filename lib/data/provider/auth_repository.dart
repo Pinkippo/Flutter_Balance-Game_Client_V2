@@ -123,4 +123,48 @@ class AuthRepository {
       throw Exception('이미지 업로드 실패');
     }
   }
+
+  // 이메일 인증 요청
+  Future<bool> requestEmailAuth(String email) async {
+    final url = Uri.parse('$baseUrl/user/v2/email-certificate');
+    final response = await http.post(
+      url,
+      headers: <String, String>{
+        'Content-Type': 'application/json',
+        'charset': 'utf-8',
+      },
+      body: jsonEncode({'email': email}),
+    );
+
+    print('이메일 인증 요청 응답: ${utf8.decode(response.bodyBytes)}');
+
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      throw Exception('이메일 인증 요청 실패');
+    }
+  }
+
+  // 이메일 인증 확인
+  Future<bool> verifyEmailAuth(String email, String code) async {
+    final url = Uri.parse('$baseUrl/user/v2/check-email-certificate');
+    final response = await http.post(
+      url,
+      headers: <String, String>{
+        'Content-Type': 'application/json',
+        'charset': 'utf-8',
+      },
+      body: jsonEncode({'email': email, 'code': code}),
+    );
+
+    print('이메일 인증 확인 응답: ${utf8.decode(response.bodyBytes)}');
+
+    final responseBody = jsonDecode(utf8.decode(response.bodyBytes));
+
+    if (responseBody['isConfirm'] == true) {
+      return true;
+    } else {
+      throw Exception('이메일 인증 확인 실패');
+    }
+  }
 }
