@@ -6,8 +6,9 @@ class UserResponseModel {
     required this.pushToken,
     required this.realName,
     required this.birth,
-    required this.phoneNumber,
+    required this.accountName,
     required this.invitationCode,
+    required this.profileUrl,
   });
 
   final int userId;
@@ -15,19 +16,21 @@ class UserResponseModel {
   final String nickname;
   final String realName;
   final String birth;
-  final String phoneNumber;
+  final String accountName;
   final String invitationCode;
   final String pushToken;
+  final String profileUrl;
 
   factory UserResponseModel.fromJson(Map<String, dynamic> json) => UserResponseModel(
     userId: json["user"]["userId"]?? 0,
     nickname: json["user"]["nickname"] ?? '',
-    email: json["user"]["email"] ?? '',
+    accountName: json["user"]["accountName"] ?? '',
     pushToken: json["user"]["pushToken"] ?? '',
     realName: json["user"]["realName"] ?? '',
     birth: json["user"]["birth"] ?? '',
-    phoneNumber: json["user"]["phoneNumber"] ?? '',
+    email: json["user"]["email"] ?? '',
     invitationCode: json["user"]["invitationCode"] ?? '',
+    profileUrl: json["user"]["profileUrl"] ?? '',
   );
 
   Map<String, dynamic> toJson() => {
@@ -37,7 +40,8 @@ class UserResponseModel {
     "pushToken": pushToken,
     "realName": realName,
     "birth": birth,
-    "phoneNumber": phoneNumber,
+    "accountName": accountName,
     "invitationCode": invitationCode,
+    "profileUrl": profileUrl,
   };
 }

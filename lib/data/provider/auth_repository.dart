@@ -29,19 +29,18 @@ class AuthRepository {
         'Authorization': 'Bearer $token',
       },
     );
-    print('회원 조회 응답: ${utf8.decode(response.bodyBytes)}');
+    // print('회원 조회 응답: ${utf8.decode(response.bodyBytes)}');
 
     if (response.statusCode == 200) {
-      print(response.body);
+      print('회원조회 API response : \n${utf8.decode(response.bodyBytes)}');
       final responseData = jsonDecode(utf8.decode(response.bodyBytes));
-      if (responseData is Map<String, dynamic> &&
-          responseData.containsKey('isExist')) {
-        return responseData['isExist'];
+      if (responseData is Map<String, dynamic>) {
+        return UserResponseModel.fromJson(responseData);
       } else {
         throw Exception('Unexpected response format');
       }
     } else {
-      throw Exception('이메일 중복 확인 실패');
+      throw Exception('회원 조회 실패');
     }
   }
 
