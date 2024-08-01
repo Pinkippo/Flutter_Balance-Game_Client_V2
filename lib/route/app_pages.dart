@@ -1,13 +1,13 @@
 import 'package:get/get.dart';
 import 'package:yangjataekil/controller/auth_controller.dart';
 import 'package:yangjataekil/controller/bottom_navigator_controller.dart';
+import 'package:yangjataekil/controller/game_upload_controller.dart';
 import 'package:yangjataekil/controller/list_controller.dart';
 import 'package:yangjataekil/controller/login_controller.dart';
 import 'package:yangjataekil/controller/notification_controller.dart';
 import 'package:yangjataekil/controller/register_controller.dart';
 import 'package:yangjataekil/controller/tab/theme_list_controller.dart';
 import 'package:yangjataekil/controller/notice_controller.dart';
-import 'package:yangjataekil/screen/list_screen.dart';
 import 'package:yangjataekil/screen/login_screen.dart';
 import 'package:yangjataekil/screen/main_screen.dart';
 import 'package:yangjataekil/screen/register_profile_screen.dart';
@@ -17,13 +17,14 @@ import 'package:yangjataekil/screen/register_screen.dart';
 
 import '../controller/agreeterms_controller.dart';
 import '../screen/agreeterms_screen.dart';
+import '../screen/list_screen.dart';
+import '../screen/upload_game_screen.dart';
 
 part 'app_routes.dart';
 
 /// 앱 내 페이지 경로 설정 클래스
 class AppPages {
   static final pages = [
-
     /// 로그인 페이지
     GetPage(
         name: Routes.login,
@@ -116,7 +117,19 @@ class AppPages {
           });
         })),
 
-    /// 게임 리스트 페이지
+    /// 게임 업로드 페이지
+    GetPage(
+      name: Routes.uploadGame,
+      page: () => const UploadGameScreen(),
+      transition: Transition.fade,
+      binding: BindingsBuilder(() {
+        Get.lazyPut<GameUploadController>(() {
+          return GameUploadController();
+        });
+      }),
+    ),
+
+    /// 테마별 리스트 페이지
     GetPage(
       name: Routes.list,
       page: () => const ListScreen(),
