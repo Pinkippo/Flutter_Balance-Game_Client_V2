@@ -91,11 +91,8 @@ class AuthController extends GetxController {
           snackPosition: SnackPosition.BOTTOM,
         );
 
-        // 탭 인덱스 설정
-        BottomNavigatorController.to.selectedIndex(2);
 
-        // 메인 페이지로 이동
-        Get.offNamed('/main');
+        Get.offAllNamed('/main');
       }
       // 현재 비밀번호 불일치 처리
       else if (response == 'PASSWORD_MISMATCH_ERROR') {
