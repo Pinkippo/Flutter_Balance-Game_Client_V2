@@ -8,4 +8,5 @@ class AppColors {
   static const Color btnBackgroundColor = Color(0xffFF9297);
   static const Color profileBackgroundColor = Color(0xffD9D9D9);
   static const Color profileIconColor = Color(0xffF2F2F2);
+  static const Color gameGreyColor = Color(0xffA3A3A3);
 }

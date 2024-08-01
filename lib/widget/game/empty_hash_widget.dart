@@ -23,12 +23,12 @@ class EmptyHashWidget extends GetView<GameUploadController> {
               strokeWidth: 3,
               dashPattern: const [6, 3, 6, 3],
               radius: const Radius.circular(20),
-              color: const Color(0xffA3A3A3),
+              color: AppColors.gameGreyColor,
               padding: const EdgeInsets.all(6),
               child: const Center(
                 child: Icon(
                   Icons.add,
-                  color: Color(0xffA3A3A3),
+                  color: AppColors.gameGreyColor,
                 ),
               ),
             ),

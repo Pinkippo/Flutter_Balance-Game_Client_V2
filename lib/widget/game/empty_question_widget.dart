@@ -2,6 +2,7 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:yangjataekil/controller/game_upload_controller.dart';
+import 'package:yangjataekil/theme/app_color.dart';
 
 class EmptyQuestionWidget extends GetView<GameUploadController> {
   const EmptyQuestionWidget({super.key});
@@ -24,7 +25,7 @@ class EmptyQuestionWidget extends GetView<GameUploadController> {
             strokeWidth: 3,
             dashPattern: const [6, 3, 6, 3],
             radius: const Radius.circular(10),
-            color: const Color(0xffA3A3A3),
+            color: AppColors.gameGreyColor,
             padding: const EdgeInsets.all(6),
             child: const Center(
                 child: Column(
@@ -33,13 +34,13 @@ class EmptyQuestionWidget extends GetView<GameUploadController> {
                     Text(
                       '질문 추가하기',
                       style: TextStyle(
-                        color: Color(0xffA3A3A3),
+                        color: AppColors.gameGreyColor,
                         fontSize: 15,
                       ),
                     ),
                     Icon(
                       Icons.add,
-                      color: Color(0xffA3A3A3),
+                      color: AppColors.gameGreyColor,
                     ),
                   ],
                 )),
