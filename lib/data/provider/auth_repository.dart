@@ -124,10 +124,10 @@ class AuthRepository {
   }
 
   // 비밀번호 변경
-  Future<bool> changePw(String currentPw, String newPw, String token) async {
+  Future<String> changePw(String currentPw, String newPw, String token) async {
     final url = Uri.parse('$baseUrl/user/v2/users/me/change-password');
 
-    final response = await http.put(
+    final response = await http.post(
       url,
       headers: <String, String>{
         'Content-Type': 'application/json',
@@ -142,9 +142,16 @@ class AuthRepository {
 
     if (response.statusCode == 200) {
       print('비밀번호 변경 응답: ${utf8.decode(response.bodyBytes)}');
-      return true;
+      return "SUCCESS";
     } else {
-      throw Exception('비밀번호 변경 실패');
+      final responseBody = jsonDecode(utf8.decode(response.bodyBytes));
+      final errorCode = responseBody['code'];
+
+      if (errorCode == 'PASSWORD_MISMATCH_ERROR') {
+        return 'PASSWORD_MISMATCH_ERROR';
+      } else {
+        return 'FAILED_TO_CHANGE_PW';
+      }
     }
   }
 

@@ -8,6 +8,7 @@ import 'package:yangjataekil/data/provider/login_repository.dart';
 import '../data/model/login_response_model.dart';
 import '../data/model/user_response_model.dart';
 import '../theme/app_color.dart';
+import 'bottom_navigator_controller.dart';
 
 /// 로그인 컨트롤러 - main.dart에서 영속성 생성하여 사용
 class AuthController extends GetxController {
@@ -62,7 +63,8 @@ class AuthController extends GetxController {
   }
 
   /// 비밀번호 변경
-  Future<bool> changePw() async {
+  Future<void> changePw() async {
+    // 비밀번호 확인
     if (newPw.value != newPwCheck.value || newPw.value.isEmpty) {
       Get.snackbar(
         '비밀번호 불일치',
@@ -71,33 +73,60 @@ class AuthController extends GetxController {
         colorText: Colors.white,
         snackPosition: SnackPosition.BOTTOM,
       );
-      return false;
+      return;
     }
 
     try {
-      final bool response = await authRepository.changePw(
+      // 비밀번호 변경 시도
+      final String response = await authRepository.changePw(
           currentPw.value, newPw.value, accessToken.value);
 
-      if (response) {
+      // 성공 시 처리
+      if (response == 'SUCCESS') {
         Get.snackbar(
-          '비밀번호 변경 성공!',
+          '비밀번호 변경 성공',
           '비밀번호가 성공적으로 변경되었습니다.',
           backgroundColor: AppColors.primaryColor,
           colorText: Colors.white,
+          snackPosition: SnackPosition.BOTTOM,
         );
-        return true;
-      } else {
+
+        // 탭 인덱스 설정
+        BottomNavigatorController.to.selectedIndex(2);
+
+        // 메인 페이지로 이동
+        Get.offNamed('/main');
+      }
+      // 현재 비밀번호 불일치 처리
+      else if (response == 'PASSWORD_MISMATCH_ERROR') {
         Get.snackbar(
-          '비밀번호 변경 실패!',
-          '비밀번호 변경에 실패했습니다.',
-          backgroundColor: Colors.red,
+          '비밀번호 불일치',
+          '현재 비밀번호가 일치하지 않습니다.',
+          backgroundColor: AppColors.primaryColor,
           colorText: Colors.white,
+          snackPosition: SnackPosition.BOTTOM,
         );
-        return false;
+      }
+      // 기타 실패 처리
+      else {
+        Get.snackbar(
+          '비밀번호 변경 실패',
+          '서버 상태가 불안정합니다. 잠시 후 다시 시도해주세요.',
+          backgroundColor: AppColors.primaryColor,
+          colorText: Colors.white,
+          snackPosition: SnackPosition.BOTTOM,
+        );
       }
     } catch (e) {
-      print('Error >> $e');
-      return false;
+      // 오류 출력 및 사용자 알림
+      print('비밀번호 변경 Error >> $e');
+      Get.snackbar(
+        '오류 발생',
+        '비밀번호 변경 중 오류가 발생했습니다.',
+        backgroundColor: AppColors.primaryColor,
+        colorText: Colors.white,
+        snackPosition: SnackPosition.BOTTOM,
+      );
     }
   }
 
