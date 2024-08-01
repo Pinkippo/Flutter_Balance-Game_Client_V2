@@ -39,9 +39,9 @@ class GameByTheme extends GetView<ThemeListController> {
                     final theme = controller.themes[index];
 
                     return GestureDetector(
-                      onTap: () {
+                      onTap: () async {
                         controller.changeIndex(theme.themeId);
-                        controller.navigateToThemeGames();
+                        await Get.toNamed('/list');
                       },
                       child: Container(
                         width: 108,

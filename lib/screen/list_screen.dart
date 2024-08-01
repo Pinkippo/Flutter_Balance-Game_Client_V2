@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import 'package:yangjataekil/controller/list_controller.dart';
 import 'package:yangjataekil/widget/list/keyword_widget.dart';
 
+import '../controller/tab/theme_list_controller.dart';
+
 class ListScreen extends GetView<ListController> {
   const ListScreen({super.key});
 
@@ -13,8 +15,8 @@ class ListScreen extends GetView<ListController> {
           foregroundColor: Colors.black,
           backgroundColor: Colors.white,
           elevation: 0,
-          title: const Text('직장인 벨런스 게임',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+          title: Text('${ThemeListController.to.getThemeName()} 벨런스 게임',
+              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
           leading: IconButton(
             icon: const Icon(Icons.arrow_back),
             onPressed: () {

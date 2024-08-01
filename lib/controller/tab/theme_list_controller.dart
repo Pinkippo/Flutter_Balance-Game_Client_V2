@@ -20,12 +20,6 @@ class ThemeListController extends GetxController {
     print(selectedThemeId);
   }
 
-  /// 화면 이동 메서드
-  void navigateToThemeGames() {
-    Get.toNamed('/list');
-    print('테마별 게임 화면으로 이동 >> 테마: ${selectedThemeId.value}');
-  }
-
   Future<void> _getThemes() async {
     try {
       ListThemeResponse response = await ThemeRepository().getList();
@@ -37,5 +31,12 @@ class ThemeListController extends GetxController {
         snackPosition: SnackPosition.BOTTOM,
       );
     }
+  }
+
+  // 현재 테마 이름 가져오기
+  String getThemeName() {
+    return themes
+        .firstWhere((element) => element.themeId == selectedThemeId.value)
+        .theme;
   }
 }

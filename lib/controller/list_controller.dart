@@ -13,7 +13,6 @@ class ListController extends GetxController {
   final Rx<int> size = 10.obs;
   final Rx<int> page = 0.obs;
   final RxBool isLoading = false.obs;
-  final RxInt themeId = ThemeListController.to.selectedThemeId;
   final Rx<SORTCONDITION?> sortCondition = Rx<SORTCONDITION?>(null);
   final RxList<Board> boards = <Board>[].obs;
   final Rx<int> totalPage = 1.obs;
@@ -55,7 +54,7 @@ class ListController extends GetxController {
         ListBoardRequestModel(
           size: size.value,
           page: page.value,
-          themeId: themeId.value,
+          themeId: ThemeListController.to.selectedThemeId.value,
           sortCondition: sortCondition.value,
         ),
         AuthController.to.accessToken.value,
