@@ -5,11 +5,20 @@ class ChkEmailBtn extends StatelessWidget {
     Key? key,
     required this.onPressed,
     required this.title,
+    required this.color,
+    required this.fontColor,
+    required this.isEnabled,
   }) : super(key: key);
 
   final String title;
 
   final VoidCallback onPressed;
+
+  final Color color;
+
+  final Color fontColor;
+
+  final bool isEnabled;
 
   @override
   Widget build(BuildContext context) {
@@ -18,18 +27,18 @@ class ChkEmailBtn extends StatelessWidget {
       height: 55,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-          backgroundColor: const Color(0xffE5E5E5),
+          backgroundColor: color,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(50),
           ),
           elevation: 0,
         ),
-        onPressed: onPressed,
+        onPressed: isEnabled ? onPressed : null,
         child: Text(
           title,
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: 14,
-            color: Colors.grey,
+            color: fontColor,
           ),
         ),
       ),

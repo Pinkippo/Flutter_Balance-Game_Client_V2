@@ -44,18 +44,34 @@ class MyPageTap extends GetView<AuthController> {
                 ],
               ),
             ),
-            Container(
-              width: 130,
-              height: 130,
-              decoration: BoxDecoration(
-                  color: Colors.grey.shade400,
-                  borderRadius: BorderRadius.circular(100)),
-            ),
-            const Padding(
-              padding: EdgeInsets.symmetric(vertical: 10),
-              child: Text(
-                '아기감자',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.w300),
+            Obx(() => Container(
+                  width: 130,
+                  height: 130,
+                  decoration: BoxDecoration(
+                      color: Colors.grey.shade400,
+                      borderRadius: BorderRadius.circular(100)),
+                  child: controller.profileUrl.value.isEmpty
+                      ? const Icon(
+                          Icons.person,
+                          size: 100,
+                        )
+                      : CircleAvatar(
+                          radius: 80,
+                          backgroundImage: NetworkImage(
+                            controller.profileUrl.value,
+                          ),
+                        ),
+                )),
+            Obx(
+              () => Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10),
+                child: Text(
+                  controller.nickname.value == ''
+                      ? '닉네임을 설정해주세요.'
+                      : controller.nickname.value,
+                  style: const TextStyle(
+                      fontSize: 20, fontWeight: FontWeight.w300),
+                ),
               ),
             ),
             const SizedBox(

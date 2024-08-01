@@ -29,19 +29,18 @@ class AuthRepository {
         'Authorization': 'Bearer $token',
       },
     );
-    print('회원 조회 응답: ${utf8.decode(response.bodyBytes)}');
+    // print('회원 조회 응답: ${utf8.decode(response.bodyBytes)}');
 
     if (response.statusCode == 200) {
-      print(response.body);
+      print('회원조회 API response : \n${utf8.decode(response.bodyBytes)}');
       final responseData = jsonDecode(utf8.decode(response.bodyBytes));
-      if (responseData is Map<String, dynamic> &&
-          responseData.containsKey('isExist')) {
-        return responseData['isExist'];
+      if (responseData is Map<String, dynamic>) {
+        return UserResponseModel.fromJson(responseData);
       } else {
         throw Exception('Unexpected response format');
       }
     } else {
-      throw Exception('이메일 중복 확인 실패');
+      throw Exception('회원 조회 실패');
     }
   }
 
@@ -127,7 +126,8 @@ class AuthRepository {
   // 비밀번호 변경
   Future<bool> changePw(String currentPw, String newPw, String token) async {
     final url = Uri.parse('$baseUrl/user/v2/users/me/change-password');
-    final response = await http.post(
+
+    final response = await http.put(
       url,
       headers: <String, String>{
         'Content-Type': 'application/json',
@@ -140,13 +140,55 @@ class AuthRepository {
       }),
     );
 
-    print('비밀번호 변경 응답: ${utf8.decode(response.bodyBytes)}');
-
     if (response.statusCode == 200) {
+      print('비밀번호 변경 응답: ${utf8.decode(response.bodyBytes)}');
       return true;
     } else {
       throw Exception('비밀번호 변경 실패');
     }
   }
 
+// 이메일 인증 요청
+  Future<bool> requestEmailAuth(String email) async {
+    final url = Uri.parse('$baseUrl/user/v2/email-certificate');
+    final response = await http.post(
+      url,
+      headers: <String, String>{
+        'Content-Type': 'application/json',
+        'charset': 'utf-8',
+      },
+      body: jsonEncode({'email': email}),
+    );
+
+    print('이메일 인증 요청 응답: ${utf8.decode(response.bodyBytes)}');
+
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      throw Exception('이메일 인증 요청 실패');
+    }
+  }
+
+  // 이메일 인증 확인
+  Future<bool> verifyEmailAuth(String email, String code) async {
+    final url = Uri.parse('$baseUrl/user/v2/check-email-certificate');
+    final response = await http.post(
+      url,
+      headers: <String, String>{
+        'Content-Type': 'application/json',
+        'charset': 'utf-8',
+      },
+      body: jsonEncode({'email': email, 'code': code}),
+    );
+
+    print('이메일 인증 확인 응답: ${utf8.decode(response.bodyBytes)}');
+
+    final responseBody = jsonDecode(utf8.decode(response.bodyBytes));
+
+    if (responseBody['isConfirm'] == true) {
+      return true;
+    } else {
+      throw Exception('이메일 인증 확인 실패');
+    }
+  }
 }

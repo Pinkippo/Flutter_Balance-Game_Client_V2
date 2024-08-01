@@ -59,6 +59,9 @@ dependencies:
   flutter_animated_dialog: ^2.0.1
   flutter_native_splash: ^2.3.3
 
+  # 점선 테두리
+  dotted_border: ^2.1.0
+
   # 딥링크
   uni_links: ^0.5.1
 
