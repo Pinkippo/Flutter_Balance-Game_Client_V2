@@ -123,4 +123,30 @@ class AuthRepository {
       throw Exception('이미지 업로드 실패');
     }
   }
+
+  // 비밀번호 변경
+  Future<bool> changePw(String currentPw, String newPw, String token) async {
+    final url = Uri.parse('$baseUrl/user/v2/users/me/change-password');
+    final response = await http.post(
+      url,
+      headers: <String, String>{
+        'Content-Type': 'application/json',
+        'charset': 'utf-8',
+        'Authorization': 'Bearer $token',
+      },
+      body: jsonEncode({
+        'currentPassword': currentPw,
+        'newPassword': newPw,
+      }),
+    );
+
+    print('비밀번호 변경 응답: ${utf8.decode(response.bodyBytes)}');
+
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      throw Exception('비밀번호 변경 실패');
+    }
+  }
+
 }

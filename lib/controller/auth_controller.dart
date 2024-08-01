@@ -11,7 +11,6 @@ import '../theme/app_color.dart';
 
 /// 로그인 컨트롤러 - main.dart에서 영속성 생성하여 사용
 class AuthController extends GetxController {
-
   static AuthController get to => Get.find();
 
   /// 생성자
@@ -38,9 +37,73 @@ class AuthController extends GetxController {
   final Rx<String> phoneNumber = Rx<String>('');
   final Rx<String> invitationCode = Rx<String>('');
 
+  /// 비밀번호 찾기
+  final Rx<String> currentPw = Rx<String>('');
+  final Rx<String> newPw = Rx<String>('');
+  final Rx<String> newPwCheck = Rx<String>('');
+
+  /// 비밀번호 입력
+  void setCurrentPw(String value) {
+    currentPw.value = value;
+    print('현재 비밀번호 >>> $currentPw');
+  }
+
+  /// 새 비밀번호 입력
+  void setNewPw(String value) {
+    newPw.value = value;
+    print('새 비밀번호 >>> $newPw');
+  }
+
+  /// 새 비밀번호 확인 입력
+  void setNewPwCheck(String value) {
+    newPwCheck.value = value;
+    print('새 비밀번호 확인 >>> $newPwCheck');
+  }
+
+  /// 비밀번호 변경
+  Future<bool> changePw() async {
+    if (newPw.value != newPwCheck.value || newPw.value.isEmpty) {
+      Get.snackbar(
+        '비밀번호 불일치',
+        '새 비밀번호가 일치하지 않습니다.',
+        backgroundColor: AppColors.primaryColor,
+        colorText: Colors.white,
+        snackPosition: SnackPosition.BOTTOM,
+      );
+      return false;
+    }
+
+    try {
+      final bool response = await authRepository.changePw(
+          currentPw.value, newPw.value, accessToken.value);
+
+      if (response) {
+        Get.snackbar(
+          '비밀번호 변경 성공!',
+          '비밀번호가 성공적으로 변경되었습니다.',
+          backgroundColor: AppColors.primaryColor,
+          colorText: Colors.white,
+        );
+        return true;
+      } else {
+        Get.snackbar(
+          '비밀번호 변경 실패!',
+          '비밀번호 변경에 실패했습니다.',
+          backgroundColor: Colors.red,
+          colorText: Colors.white,
+        );
+        return false;
+      }
+    } catch (e) {
+      print('Error >> $e');
+      return false;
+    }
+  }
+
   /// 유저 데이터 조회
   Future<void> fetchUserData() async {
-    final UserResponseModel response = await authRepository.getUserInfo(accessToken.value);
+    final UserResponseModel response =
+        await authRepository.getUserInfo(accessToken.value);
     try {
       uid.value = response.userId;
       nickname.value = response.nickname;
@@ -80,5 +143,4 @@ class AuthController extends GetxController {
     accessToken.value = '';
     refreshToken.value = '';
   }
-
 }

@@ -19,4 +19,5 @@ abstract class Routes{
   static const notification = '/notification';
   static const notice = '/notice';
   static const list = '/list';
+  static const changePw = '/change_pw';
 }

@@ -7,6 +7,7 @@ import 'package:yangjataekil/controller/notification_controller.dart';
 import 'package:yangjataekil/controller/register_controller.dart';
 import 'package:yangjataekil/controller/tab/theme_list_controller.dart';
 import 'package:yangjataekil/controller/notice_controller.dart';
+import 'package:yangjataekil/screen/change_pw_screen.dart';
 import 'package:yangjataekil/screen/list_screen.dart';
 import 'package:yangjataekil/screen/login_screen.dart';
 import 'package:yangjataekil/screen/main_screen.dart';
@@ -127,5 +128,10 @@ class AppPages {
         });
       }),
     ),
+
+    GetPage(name: Routes.changePw, page: () => const ChangePwScreen(),
+      transition: Transition.fade,
+    ),
+
   ];
 }
