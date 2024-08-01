@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:yangjataekil/controller/register_controller.dart';
 import 'package:yangjataekil/data/provider/auth_repository.dart';
+import 'package:yangjataekil/theme/app_color.dart';
 import 'package:yangjataekil/widget/register/basic_input_field.dart';
 import 'package:yangjataekil/widget/register/birth_input_field.dart';
 import 'package:yangjataekil/widget/register/check_email_btn.dart';
@@ -85,12 +86,22 @@ class RegisterScreen extends GetView<RegisterController> {
                     ),
                     Expanded(
                       flex: 3,
-                      child: ChkEmailBtn(
-                        title: '중복확인',
-                        onPressed: () => {
-                          /// TODO: 이메일 중복 검사 연결
-                          controller.checkDuplicateAccountName()
-                        },
+                      child: Obx(
+                        () => ChkEmailBtn(
+                          title: '중복확인',
+                          color: controller.accountName.isEmpty
+                              ? const Color(0xffE5E5E5)
+                              : AppColors.primaryColor,
+                          fontColor: controller.accountName.isEmpty
+                              ? Colors.grey
+                              : Colors.white,
+                          onPressed: () => {
+                            /// TODO: 이메일 중복 검사 연결
+                            controller.checkDuplicateAccountName()
+                          },
+                          isEnabled:
+                              controller.accountName.isEmpty ? false : true,
+                        ),
                       ),
                     ),
                   ],
@@ -189,11 +200,73 @@ class RegisterScreen extends GetView<RegisterController> {
                     ),
                     Expanded(
                       flex: 3,
-                      child: ChkEmailBtn(
-                        title: '인증요청',
-                        onPressed: () => {
-                          /// TODO: 이메일 인증 요청
-                        },
+                      child: Obx(
+                        () => ChkEmailBtn(
+                          title: '인증요청',
+                          color: controller.email.isEmpty
+                              ? const Color(0xffE5E5E5)
+                              : AppColors.primaryColor,
+                          fontColor: controller.email.value.isEmpty
+                              ? Colors.grey
+                              : Colors.white,
+                          onPressed: () =>
+
+                              /// TODO: 이메일 인증 요청
+                              controller.requestEmailVerification(),
+                          isEnabled: controller.email.isEmpty ? false : true,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 30,
+                ),
+                Row(
+                  children: [
+                    Expanded(
+                      flex: 7,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 7),
+                        child: TextField(
+                          style: const TextStyle(
+                            fontSize: 15,
+                          ),
+                          decoration: const InputDecoration(
+                            hintText: '인증번호를 입력해주세요.',
+                            focusedBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Color(0xffFF9297),
+                              ),
+                            ),
+                          ),
+                          onChanged: (value) {
+                            /// TODO: 인증번호 입력
+                            controller.updateEmailAuthCode(value);
+                          },
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    Expanded(
+                      flex: 3,
+                      child: Obx(
+                        () => ChkEmailBtn(
+                          title: '인증확인',
+                          color: controller.isEmailSent.value
+                              ? AppColors.primaryColor
+                              : const Color(0xffE5E5E5),
+                          fontColor: controller.isEmailSent.value
+                              ? Colors.white
+                              : Colors.grey,
+                          onPressed: () => {
+                            /// TODO: 이메일 인증 요청
+                            controller.verifyEmail()
+                          },
+                          isEnabled: controller.isEmailSent.value,
+                        ),
                       ),
                     ),
                   ],

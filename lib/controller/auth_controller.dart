@@ -35,8 +35,9 @@ class AuthController extends GetxController {
   final Rx<String> pushToken = Rx<String>('');
   final Rx<String> realName = Rx<String>('');
   final Rx<String> birth = Rx<String>('');
-  final Rx<String> phoneNumber = Rx<String>('');
+  final Rx<String> accountName = Rx<String>('');
   final Rx<String> invitationCode = Rx<String>('');
+  final Rx<String> profileUrl = Rx<String>('');
 
   /// 유저 데이터 조회
   Future<void> fetchUserData() async {
@@ -48,8 +49,11 @@ class AuthController extends GetxController {
       pushToken.value = response.pushToken;
       realName.value = response.realName;
       birth.value = response.birth;
-      phoneNumber.value = response.phoneNumber;
+      accountName.value = response.accountName;
       invitationCode.value = response.invitationCode;
+      profileUrl.value = response.profileUrl;
+
+      print('유저 정보 조회, profileUrl>> ${profileUrl.value}');
     } catch (e) {
       print('Error >> $e');
     }
@@ -70,6 +74,7 @@ class AuthController extends GetxController {
     if (access != null && refresh != null) {
       accessToken.value = access;
       refreshToken.value = refresh;
+      await fetchUserData();
     }
   }
 
