@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:yangjataekil/theme/app_color.dart';
 
 class BasicBtn extends StatelessWidget {
   final String buttonText;
@@ -16,7 +15,7 @@ class BasicBtn extends StatelessWidget {
       height: 55,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-          backgroundColor: AppColors.btnBackgroundColor,
+          backgroundColor: Colors.black,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(50),
           ),

@@ -8,8 +8,10 @@ import 'package:yangjataekil/controller/notification_controller.dart';
 import 'package:yangjataekil/controller/register_controller.dart';
 import 'package:yangjataekil/controller/tab/theme_list_controller.dart';
 import 'package:yangjataekil/controller/notice_controller.dart';
+import 'package:yangjataekil/controller/user_modify_controller.dart';
 import 'package:yangjataekil/screen/login_screen.dart';
 import 'package:yangjataekil/screen/main_screen.dart';
+import 'package:yangjataekil/screen/user_modify_screen.dart';
 import 'package:yangjataekil/screen/register_profile_screen.dart';
 import 'package:yangjataekil/screen/notification_screen.dart';
 import 'package:yangjataekil/screen/notice_screen.dart';
@@ -137,6 +139,18 @@ class AppPages {
       binding: BindingsBuilder(() {
         Get.lazyPut<ListController>(() {
           return ListController();
+        });
+      }),
+    ),
+
+    /// 내 정보 수정 페이지
+    GetPage(
+      name: Routes.myPageModify,
+      page: () => const UserModifyScreen(),
+      transition: Transition.fade,
+      binding: BindingsBuilder(() {
+        Get.lazyPut<UserModifyController>(() {
+          return UserModifyController();
         });
       }),
     ),
