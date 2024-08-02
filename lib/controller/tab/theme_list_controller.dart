@@ -1,36 +1,42 @@
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-class ThemeModel {
-  final String theme;
-  final IconData icon;
-
-  ThemeModel({
-    required this.theme,
-    required this.icon,
-  });
-}
+import 'package:yangjataekil/data/model/theme/list_theme_response.dart';
+import 'package:yangjataekil/data/provider/theme_repository.dart';
+import 'package:yangjataekil/data/model/theme/theme.dart';
 
 class ThemeListController extends GetxController {
   static ThemeListController get to => Get.find();
 
-  List<ThemeModel> themeList = [
-    ThemeModel(theme: '직장인', icon: Icons.shopping_bag_outlined),
-    ThemeModel(theme: '학생', icon: Icons.school_outlined),
-    ThemeModel(theme: '동물', icon: Icons.pets_outlined),
-    ThemeModel(theme: '음식', icon: Icons.fastfood_outlined),
-    ThemeModel(theme: '몰라', icon: Icons.add_circle_outline),
-  ];
+  final RxList<Theme> themes = <Theme>[].obs;
+  final RxInt selectedThemeId = 0.obs;
 
-  final RxString selectedTheme = ''.obs;
-
-  void changeIndex(String theme) {
-    selectedTheme(theme);
+  @override
+  void onInit() {
+    _getThemes();
+    super.onInit();
   }
 
-  /// 화면 이동 메서드
-  void navigateToThemeGames() {
-    Get.toNamed('/list');
-    print('테마별 게임 화면으로 이동 >> 테마: ${selectedTheme.value}');
+  void changeIndex(int themeId) {
+    selectedThemeId.value = themeId; // selectedTheme를 새로운 값으로 설정
+    print(selectedThemeId);
+  }
+
+  Future<void> _getThemes() async {
+    try {
+      ListThemeResponse response = await ThemeRepository().getList();
+      themes.addAll(response.themes);
+    } catch (e) {
+      Get.snackbar(
+        '오류',
+        '리스트를 가져오는 중 오류가 발생했습니다: $e',
+        snackPosition: SnackPosition.BOTTOM,
+      );
+    }
+  }
+
+  // 현재 테마 이름 가져오기
+  String getThemeName() {
+    return themes
+        .firstWhere((element) => element.themeId == selectedThemeId.value)
+        .theme;
   }
 }

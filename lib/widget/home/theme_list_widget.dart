@@ -24,56 +24,69 @@ class GameByTheme extends GetView<ThemeListController> {
           ),
         ),
         const SizedBox(height: 10),
-        SizedBox(
-          height: 108,
-          child: ListView.builder(
-              padding: const EdgeInsets.symmetric(horizontal: 10),
-              scrollDirection: Axis.horizontal,
-              itemCount: controller.themeList.length,
-              itemBuilder: (context, index) {
-                final theme = controller.themeList[index];
+        Obx(
+          () {
+            if (controller.themes.isEmpty) {
+              return const Center(child: CircularProgressIndicator());
+            } else {
+              return SizedBox(
+                height: 108,
+                child: ListView.builder(
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  scrollDirection: Axis.horizontal,
+                  itemCount: controller.themes.length,
+                  itemBuilder: (context, index) {
+                    final theme = controller.themes[index];
 
-                /// 테마별 게임 리스트 아이템
-                return GestureDetector(
-                  onTap: () {
-                    controller.changeIndex(theme.theme);
-                    controller.navigateToThemeGames();
-                  },
-                  child: Container(
-                    width: 108,
-                    height: 108,
-                    margin: const EdgeInsets.symmetric(horizontal: 5),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(10),
-                      border: Border.all(
-                        color: Colors.black.withOpacity(0.13),
+                    return GestureDetector(
+                      onTap: () async {
+                        controller.changeIndex(theme.themeId);
+                        await Get.toNamed('/list');
+                      },
+                      child: Container(
+                        width: 108,
+                        height: 108,
+                        margin: const EdgeInsets.symmetric(horizontal: 5),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(
+                            color: Colors.black.withOpacity(0.13),
+                          ),
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Text(
+                              '${theme.theme}\n밸런스 게임',
+                              style: const TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.w600,
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(right: 10),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  Image.network(
+                                    theme.iconUrl,
+                                    width: 40,
+                                    height: 40,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Text(
-                          '${theme.theme}\n밸런스 게임',
-                          style: const TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(right: 10),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              Icon(theme.icon),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                );
-              }),
+                    );
+                  },
+                ),
+              );
+            }
+          },
         ),
         const SizedBox(height: 40),
       ],

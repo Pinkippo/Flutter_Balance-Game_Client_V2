@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:yangjataekil/controller/auth_controller.dart';
+import 'package:yangjataekil/controller/tab/theme_list_controller.dart';
 import 'package:yangjataekil/data/model/board/board.dart';
 import 'package:yangjataekil/data/model/board/list_board_request_model.dart';
 import 'package:yangjataekil/data/model/board/list_board_response_model.dart';
@@ -12,7 +13,6 @@ class ListController extends GetxController {
   final Rx<int> size = 10.obs;
   final Rx<int> page = 0.obs;
   final RxBool isLoading = false.obs;
-  final Rx<int> themeId = 0.obs;
   final Rx<SORTCONDITION?> sortCondition = Rx<SORTCONDITION?>(null);
   final RxList<Board> boards = <Board>[].obs;
   final Rx<int> totalPage = 1.obs;
@@ -54,7 +54,7 @@ class ListController extends GetxController {
         ListBoardRequestModel(
           size: size.value,
           page: page.value,
-          themeId: themeId.value,
+          themeId: ThemeListController.to.selectedThemeId.value,
           sortCondition: sortCondition.value,
         ),
         AuthController.to.accessToken.value,
