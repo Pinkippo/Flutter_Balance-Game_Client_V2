@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:yangjataekil/controller/auth_controller.dart';
@@ -32,7 +30,7 @@ class MyPageTap extends GetView<AuthController> {
           children: [
             GestureDetector(
               onTap: () {
-                print('내 정보 수정');
+                Get.toNamed('/myPage/modify');
               },
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,

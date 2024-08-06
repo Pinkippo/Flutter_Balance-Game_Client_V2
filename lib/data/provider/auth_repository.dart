@@ -1,12 +1,12 @@
 import 'dart:convert';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:yangjataekil/data/model/register_response_model.dart';
+import 'package:yangjataekil/data/model/user_modify_request_model.dart';
 import 'package:yangjataekil/data/model/user_response_model.dart';
 import 'package:yangjataekil/theme/app_color.dart';
 import 'package:http/http.dart' as http;
@@ -164,6 +164,27 @@ class AuthRepository {
       return true;
     } else {
       throw Exception('이메일 인증 확인 실패');
+    }
+  }
+
+  Future<bool> modify(UserModifyRequestModel request, String token) async {
+    final url = Uri.parse('$baseUrl/user/v2/users/me');
+    final response = await http.put(
+      url,
+      headers: <String, String>{
+        'Content-Type': 'application/json',
+        'charset': 'utf-8',
+        'Authorization': 'Bearer $token',
+      },
+      body: jsonEncode({'nickName': request.nickname, 'profileUrl': request.profileUrl}),
+    );
+
+    print('유저 정보 수정 응답: ${utf8.decode(response.bodyBytes)}');
+
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      throw Exception('유저 정보 수정 실패');
     }
   }
 }
