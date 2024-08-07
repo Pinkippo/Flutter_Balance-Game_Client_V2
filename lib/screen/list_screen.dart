@@ -31,6 +31,7 @@ class ListScreen extends GetView<ListController> {
             IconButton(
               icon: const Icon(Icons.search),
               onPressed: () {
+                controller.filteredGames.clear();
                 // 검색을 위해 검색 창 표시
                 showSearch(
                   context: context,
@@ -111,7 +112,8 @@ class ListScreen extends GetView<ListController> {
             itemCount: controller.boards.length,
             itemBuilder: (_, index) {
               if (index < controller.boards.length + 1) {
-                return ListItemWidget(controller: controller, index: index, isFiltered: false);
+                return ListItemWidget(
+                    controller: controller, index: index, isFiltered: false);
               }
               return null;
             },

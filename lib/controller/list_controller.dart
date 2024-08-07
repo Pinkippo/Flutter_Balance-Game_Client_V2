@@ -31,6 +31,9 @@ class ListController extends GetxController {
   /// 스크롤 컨트롤러
   final Rx<ScrollController> scrollController = ScrollController().obs;
 
+  /// 검색 스크롤 컨트롤러
+  final Rx<ScrollController> searchScrollController = ScrollController().obs;
+
   /// 검색 결과 리스트
   final RxList<Board> filteredGames = <Board>[].obs;
 
@@ -50,9 +53,12 @@ class ListController extends GetxController {
       }
     });
 
-    // 검색 텍스트가 변경되면 필터링
-    ever(searchText, (_) {
-      filterBoards();
+    // 검색 스크롤 이벤트
+    searchScrollController.value.addListener(() {
+      if (searchScrollController.value.position.pixels ==
+          searchScrollController.value.position.maxScrollExtent) {
+        _getSearchedList();
+      }
     });
 
     super.onInit();
@@ -66,19 +72,6 @@ class ListController extends GetxController {
       boards.clear();
       page.value = 0;
       _getList();
-    }
-  }
-
-  /// 검색 텍스트로 리스트 필터링
-  void filterBoards() {
-    if (searchText.isEmpty) {
-      filteredGames.assignAll(boards);
-    } else {
-      filteredGames.assignAll(boards.where((board) {
-        return board.title.contains(searchText.value) ||
-            board.introduce.contains(searchText.value) ||
-            board.keywords.any((keyword) => keyword.contains(searchText.value));
-      }).toList());
     }
   }
 
@@ -96,6 +89,8 @@ class ListController extends GetxController {
     try {
       ListBoardResponseModel response = await ListRepository().getList(
         ListBoardRequestModel(
+          searching: false,
+          query: '',
           size: size.value,
           page: page.value,
           themeId: ThemeListController.to.selectedThemeId.value,
@@ -116,4 +111,59 @@ class ListController extends GetxController {
       isLoading.value = false;
     }
   }
+
+  /// 검색 리스트 호출 메서드
+  Future<void> _getSearchedList() async {
+    if (isLoading.value || page.value >= totalPage.value) return;
+
+    // 로딩 시작 상태로 설정
+    isLoading.value = true;
+
+    try {
+      // 딜레이 추가
+      await Future.delayed(const Duration(seconds: 1));
+
+      ListBoardResponseModel response = await ListRepository().getList(
+        ListBoardRequestModel(
+          searching: true,
+          query: searchText.value,
+          size: size.value,
+          page: page.value,
+          themeId: ThemeListController.to.selectedThemeId.value,
+          sortCondition: sortCondition.value,
+        ),
+        AuthController.to.accessToken.value,
+      );
+
+      filteredGames.addAll(response.boards);
+      totalPage.value = response.totalPage; // totalPage 값 업데이트
+      page.value += 1; // 페이지 값 증가
+    } catch (e) {
+      Get.snackbar(
+        '오류',
+        '리스트를 가져오는 중 오류가 발생했습니다: $e',
+        snackPosition: SnackPosition.BOTTOM,
+      );
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+  /// 검색 버튼을 눌렀을 때 호출되는 메서드
+  void clickSearchBtn() async {
+    if (searchText.isEmpty) {
+      filteredGames.clear();
+      Get.snackbar(
+        '검색어를 입력해주세요',
+        '검색어를 입력하지 않으면 검색할 수 없습니다.',
+        snackPosition: SnackPosition.BOTTOM,
+      );
+    } else {
+      filteredGames.clear(); // 이전 검색 결과 초기화
+      page.value = 0; // 페이지 초기화
+      totalPage.value = 1; // 총 페이지 수 초기화
+      await _getSearchedList(); // 검색 API 호출
+    }
+  }
+
 }
