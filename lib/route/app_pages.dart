@@ -8,6 +8,8 @@ import 'package:yangjataekil/controller/notification_controller.dart';
 import 'package:yangjataekil/controller/register_controller.dart';
 import 'package:yangjataekil/controller/tab/theme_list_controller.dart';
 import 'package:yangjataekil/controller/notice_controller.dart';
+import 'package:yangjataekil/screen/change_pw_screen.dart';
+import 'package:yangjataekil/screen/list_screen.dart';
 import 'package:yangjataekil/controller/user_modify_controller.dart';
 import 'package:yangjataekil/screen/login_screen.dart';
 import 'package:yangjataekil/screen/main_screen.dart';
@@ -19,7 +21,6 @@ import 'package:yangjataekil/screen/register_screen.dart';
 
 import '../controller/agreeterms_controller.dart';
 import '../screen/agreeterms_screen.dart';
-import '../screen/list_screen.dart';
 import '../screen/upload_game_screen.dart';
 
 part 'app_routes.dart';
@@ -143,6 +144,12 @@ class AppPages {
       }),
     ),
 
+    GetPage(
+      name: Routes.changePw,
+      page: () => const ChangePwScreen(),
+      transition: Transition.fade,
+    ),
+      
     /// 내 정보 수정 페이지
     GetPage(
       name: Routes.myPageModify,
@@ -155,4 +162,5 @@ class AppPages {
       }),
     ),
   ];
+      
 }

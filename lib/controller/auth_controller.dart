@@ -8,10 +8,10 @@ import 'package:yangjataekil/data/provider/login_repository.dart';
 import '../data/model/login_response_model.dart';
 import '../data/model/user_response_model.dart';
 import '../theme/app_color.dart';
+import 'bottom_navigator_controller.dart';
 
 /// 로그인 컨트롤러 - main.dart에서 영속성 생성하여 사용
 class AuthController extends GetxController {
-
   static AuthController get to => Get.find();
 
   /// 생성자
@@ -39,9 +39,98 @@ class AuthController extends GetxController {
   final Rx<String> invitationCode = Rx<String>('');
   final Rx<String> profileUrl = Rx<String>('');
 
+  /// 비밀번호 찾기
+  final Rx<String> currentPw = Rx<String>('');
+  final Rx<String> newPw = Rx<String>('');
+  final Rx<String> newPwCheck = Rx<String>('');
+
+  /// 비밀번호 입력
+  void setCurrentPw(String value) {
+    currentPw.value = value;
+    print('현재 비밀번호 >>> $currentPw');
+  }
+
+  /// 새 비밀번호 입력
+  void setNewPw(String value) {
+    newPw.value = value;
+    print('새 비밀번호 >>> $newPw');
+  }
+
+  /// 새 비밀번호 확인 입력
+  void setNewPwCheck(String value) {
+    newPwCheck.value = value;
+    print('새 비밀번호 확인 >>> $newPwCheck');
+  }
+
+  /// 비밀번호 변경
+  Future<void> changePw() async {
+    // 비밀번호 확인
+    if (newPw.value != newPwCheck.value || newPw.value.isEmpty) {
+      Get.snackbar(
+        '비밀번호 불일치',
+        '새 비밀번호가 일치하지 않습니다.',
+        backgroundColor: AppColors.primaryColor,
+        colorText: Colors.white,
+        snackPosition: SnackPosition.BOTTOM,
+      );
+      return;
+    }
+
+    try {
+      // 비밀번호 변경 시도
+      final String response = await authRepository.changePw(
+          currentPw.value, newPw.value, accessToken.value);
+
+      // 성공 시 처리
+      if (response == 'SUCCESS') {
+        Get.snackbar(
+          '비밀번호 변경 성공',
+          '비밀번호가 성공적으로 변경되었습니다.',
+          backgroundColor: AppColors.primaryColor,
+          colorText: Colors.white,
+          snackPosition: SnackPosition.BOTTOM,
+        );
+
+
+        Get.offAllNamed('/main');
+      }
+      // 현재 비밀번호 불일치 처리
+      else if (response == 'PASSWORD_MISMATCH_ERROR') {
+        Get.snackbar(
+          '비밀번호 불일치',
+          '현재 비밀번호가 일치하지 않습니다.',
+          backgroundColor: AppColors.primaryColor,
+          colorText: Colors.white,
+          snackPosition: SnackPosition.BOTTOM,
+        );
+      }
+      // 기타 실패 처리
+      else {
+        Get.snackbar(
+          '비밀번호 변경 실패',
+          '서버 상태가 불안정합니다. 잠시 후 다시 시도해주세요.',
+          backgroundColor: AppColors.primaryColor,
+          colorText: Colors.white,
+          snackPosition: SnackPosition.BOTTOM,
+        );
+      }
+    } catch (e) {
+      // 오류 출력 및 사용자 알림
+      print('비밀번호 변경 Error >> $e');
+      Get.snackbar(
+        '오류 발생',
+        '비밀번호 변경 중 오류가 발생했습니다.',
+        backgroundColor: AppColors.primaryColor,
+        colorText: Colors.white,
+        snackPosition: SnackPosition.BOTTOM,
+      );
+    }
+  }
+
   /// 유저 데이터 조회
   Future<void> fetchUserData() async {
-    final UserResponseModel response = await authRepository.getUserInfo(accessToken.value);
+    final UserResponseModel response =
+        await authRepository.getUserInfo(accessToken.value);
     try {
       uid.value = response.userId;
       nickname.value = response.nickname;
@@ -85,5 +174,4 @@ class AuthController extends GetxController {
     accessToken.value = '';
     refreshToken.value = '';
   }
-
 }

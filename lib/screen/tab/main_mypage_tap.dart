@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:yangjataekil/controller/auth_controller.dart';
@@ -78,7 +79,7 @@ class MyPageTap extends GetView<AuthController> {
             ),
             Container(
               padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 13),
-              height: 130,
+              height: 190,
               decoration: BoxDecoration(
                   border: Border.all(color: Colors.black.withOpacity(0.13)),
                   borderRadius: BorderRadius.circular(10)),
@@ -99,7 +100,7 @@ class MyPageTap extends GetView<AuthController> {
                           const SizedBox(
                             width: 7,
                           ),
-                          const Flexible(
+                          const Expanded(
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
@@ -132,7 +133,7 @@ class MyPageTap extends GetView<AuthController> {
                           const SizedBox(
                             width: 7,
                           ),
-                          const Flexible(
+                          const Expanded(
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
@@ -150,7 +151,29 @@ class MyPageTap extends GetView<AuthController> {
                         ],
                       ),
                     ),
-                  )
+                  ),
+                  const Divider(),
+                  GestureDetector(
+                    onTap: () => {
+                      Get.toNamed('/change_pw'),
+                    },
+                    child: Container(
+                      color: Colors.transparent,
+                      child: const Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            '비밀번호 재설정',
+                            style: TextStyle(fontSize: 17),
+                          ),
+                          Text(
+                            '>',
+                            style: TextStyle(fontSize: 17),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -179,7 +202,7 @@ class MyPageTap extends GetView<AuthController> {
                     const SizedBox(
                       width: 7,
                     ),
-                    const Flexible(
+                    const Expanded(
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
