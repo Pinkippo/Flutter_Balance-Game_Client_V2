@@ -31,7 +31,7 @@ class MyPageTap extends GetView<AuthController> {
           children: [
             GestureDetector(
               onTap: () {
-                print('내 정보 수정');
+                Get.toNamed('/myPage/modify');
               },
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
