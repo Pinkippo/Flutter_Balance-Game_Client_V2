@@ -38,6 +38,7 @@ class AuthController extends GetxController {
   final Rx<String> accountName = Rx<String>('');
   final Rx<String> invitationCode = Rx<String>('');
   final Rx<String> profileUrl = Rx<String>('');
+  final RxInt userBoardCount = RxInt(0);
 
   /// 비밀번호 찾기
   final Rx<String> currentPw = Rx<String>('');
@@ -90,7 +91,6 @@ class AuthController extends GetxController {
           colorText: Colors.white,
           snackPosition: SnackPosition.BOTTOM,
         );
-
 
         Get.offAllNamed('/main');
       }
@@ -173,5 +173,16 @@ class AuthController extends GetxController {
     await storage.delete(key: 'refreshToken');
     accessToken.value = '';
     refreshToken.value = '';
+  }
+
+  /// 홈 화면 유저 정보 조회
+  Future<void> getUserInfoFromHomeScreen() async {
+    final UserInfoFromHomeScreenModel response =
+        await authRepository.getUserInfoFromHomeScreen(accessToken.value);
+    try {
+      userBoardCount.value = response.myBoardCount;
+    } catch (e) {
+      print('Error >> $e');
+    }
   }
 }

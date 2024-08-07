@@ -208,7 +208,8 @@ class AuthRepository {
         'charset': 'utf-8',
         'Authorization': 'Bearer $token',
       },
-      body: jsonEncode({'nickName': request.nickname, 'profileUrl': request.profileUrl}),
+      body: jsonEncode(
+          {'nickName': request.nickname, 'profileUrl': request.profileUrl}),
     );
 
     print('유저 정보 수정 응답: ${utf8.decode(response.bodyBytes)}');
@@ -217,6 +218,34 @@ class AuthRepository {
       return true;
     } else {
       throw Exception('유저 정보 수정 실패');
+    }
+  }
+
+  /// 홈 화면 유저 정보 조회
+  Future<UserInfoFromHomeScreenModel> getUserInfoFromHomeScreen(
+      String token) async {
+    final url = Uri.parse('$baseUrl/user/v2/main/userInfo');
+
+    final response = await http.get(
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+        'charset': 'utf-8',
+        'Authorization': 'Bearer $token',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      final responseData = jsonDecode(utf8.decode(response.bodyBytes));
+      print('홈 화면 유저 정보 조회 응답: $responseData');
+      if (responseData is Map<String, dynamic>) {
+        return UserInfoFromHomeScreenModel.fromJson(responseData);
+        // userBoardCount.value = userInfo.myBoardCount;
+      } else {
+        throw Exception('Unexpected response format');
+      }
+    } else {
+      throw Exception('유저 정보 조회 실패');
     }
   }
 }

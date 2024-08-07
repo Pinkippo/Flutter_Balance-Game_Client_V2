@@ -45,3 +45,14 @@ class UserResponseModel {
     "profileUrl": profileUrl,
   };
 }
+
+class UserInfoFromHomeScreenModel {
+  UserInfoFromHomeScreenModel({
+    required this.myBoardCount,
+});
+  final int myBoardCount;
+
+  factory UserInfoFromHomeScreenModel.fromJson(Map<String, dynamic> json) => UserInfoFromHomeScreenModel(
+    myBoardCount: json["myBoardCount"]?? 0,
+  );
+}
