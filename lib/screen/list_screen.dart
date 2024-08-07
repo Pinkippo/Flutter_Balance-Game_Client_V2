@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:yangjataekil/controller/list_controller.dart';
+import 'package:yangjataekil/theme/app_color.dart';
+import 'package:yangjataekil/widget/game/custom_search_widget.dart';
+import 'package:yangjataekil/widget/game/list_item_widget.dart';
 import 'package:yangjataekil/widget/list/keyword_widget.dart';
 
 import '../controller/tab/theme_list_controller.dart';
@@ -16,13 +19,27 @@ class ListScreen extends GetView<ListController> {
           backgroundColor: Colors.white,
           elevation: 0,
           title: Text('${ThemeListController.to.getThemeName()} 벨런스 게임',
-              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+              style:
+                  const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
           leading: IconButton(
             icon: const Icon(Icons.arrow_back),
             onPressed: () {
-              Navigator.pop(context);
+              Get.back();
             },
           ),
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.search),
+              onPressed: () {
+                controller.filteredGames.clear();
+                // 검색을 위해 검색 창 표시
+                showSearch(
+                  context: context,
+                  delegate: CustomSearchWidget(controller),
+                );
+              },
+            ),
+          ],
           bottom: PreferredSize(
             preferredSize: const Size(10, 20),
             child: Padding(
@@ -72,6 +89,17 @@ class ListScreen extends GetView<ListController> {
               ),
             ),
           )),
+      floatingActionButton: FloatingActionButton(
+        elevation: 0,
+        backgroundColor: AppColors.primaryColor,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(50),
+        ),
+        onPressed: () {
+          Get.toNamed('/upload_game');
+        },
+        child: const Icon(Icons.add, color: Colors.white),
+      ),
       body: Obx(
         () => Container(
           color: Colors.white,
@@ -84,50 +112,8 @@ class ListScreen extends GetView<ListController> {
             itemCount: controller.boards.length,
             itemBuilder: (_, index) {
               if (index < controller.boards.length + 1) {
-                return Container(
-                  height: 150,
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      border: Border.all(
-                        color: Colors.black.withOpacity(0.1),
-                      ),
-                      borderRadius: BorderRadius.circular(10)),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        controller.boards[index].title,
-                        style: const TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w300,
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          ...controller.boards[index].keywords.map(
-                            (keyword) => KeywordWidget(keyword: keyword),
-                          )
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Flexible(
-                        child: RichText(
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 5,
-                          text: TextSpan(
-                              text: controller.boards[index].introduce,
-                              style: const TextStyle(color: Colors.black)),
-                        ),
-                      ),
-                    ],
-                  ),
-                );
+                return ListItemWidget(
+                    controller: controller, index: index, isFiltered: false);
               }
               return null;
             },
