@@ -177,12 +177,26 @@ class AuthController extends GetxController {
 
   /// 홈 화면 유저 정보 조회
   Future<void> getUserInfoFromHomeScreen() async {
-    final UserInfoFromHomeScreenModel response =
-        await authRepository.getUserInfoFromHomeScreen(accessToken.value);
+    // 토큰이 유효한지 확인
+    if (accessToken.value.isEmpty) {
+      print('홈 화면 유저 정보 조회 실패>>>>>>>>>>>>>>>>>>> 토큰 없음');
+      return;
+    }
+
     try {
+      final UserInfoFromHomeScreenModel response =
+      await authRepository.getUserInfoFromHomeScreen(accessToken.value);
+
       userBoardCount.value = response.myBoardCount;
     } catch (e) {
-      print('Error >> $e');
+      print('Error while fetching user info: $e');
+      Get.snackbar(
+        '오류 발생',
+        '유저 정보를 조회하는 중 오류가 발생했습니다.',
+        backgroundColor: AppColors.primaryColor,
+        colorText: Colors.white,
+        snackPosition: SnackPosition.BOTTOM,
+      );
     }
   }
 }
