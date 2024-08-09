@@ -38,6 +38,7 @@ class AuthController extends GetxController {
   final Rx<String> accountName = Rx<String>('');
   final Rx<String> invitationCode = Rx<String>('');
   final Rx<String> profileUrl = Rx<String>('');
+  final RxInt userBoardCount = RxInt(0);
 
   /// 비밀번호 찾기
   final Rx<String> currentPw = Rx<String>('');
@@ -90,7 +91,6 @@ class AuthController extends GetxController {
           colorText: Colors.white,
           snackPosition: SnackPosition.BOTTOM,
         );
-
 
         Get.offAllNamed('/main');
       }
@@ -173,5 +173,30 @@ class AuthController extends GetxController {
     await storage.delete(key: 'refreshToken');
     accessToken.value = '';
     refreshToken.value = '';
+  }
+
+  /// 홈 화면 유저 정보 조회
+  Future<void> getUserInfoFromHomeScreen() async {
+    // 토큰이 유효한지 확인
+    if (accessToken.value.isEmpty) {
+      print('홈 화면 유저 정보 조회 실패>>>>>>>>>>>>>>>>>>> 토큰 없음');
+      return;
+    }
+
+    try {
+      final UserInfoFromHomeScreenModel response =
+      await authRepository.getUserInfoFromHomeScreen(accessToken.value);
+
+      userBoardCount.value = response.myBoardCount;
+    } catch (e) {
+      print('Error while fetching user info: $e');
+      Get.snackbar(
+        '오류 발생',
+        '유저 정보를 조회하는 중 오류가 발생했습니다.',
+        backgroundColor: AppColors.primaryColor,
+        colorText: Colors.white,
+        snackPosition: SnackPosition.BOTTOM,
+      );
+    }
   }
 }

@@ -64,5 +64,6 @@ Future<void> initService() async {
       .then((value) async {
     /// 저장된 토큰 조회 후 업데이트
     await value.getToken();
+    await value.getUserInfoFromHomeScreen();
   });
 }
