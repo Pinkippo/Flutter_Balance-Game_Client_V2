@@ -1,23 +1,17 @@
-import '../../controller/notice_controller.dart';
+import 'Notice.dart';
 
 class NoticeResponseModel {
-  final NoticeType noticeType;
-  final String title;
-  final String content;
-  final String date;
+  final List<Notice> notices;
 
-  NoticeResponseModel(
-      {required this.noticeType,
-      required this.title,
-      required this.content,
-      required this.date});
+  NoticeResponseModel({required this.notices});
 
   factory NoticeResponseModel.fromJson(Map<String, dynamic> json) {
+    var noticeJson = json['announcements'] as List;
+    List<Notice> noticeList =
+        noticeJson.map((i) => Notice.fromJson(i)).toList();
+
     return NoticeResponseModel(
-      noticeType: NoticeType.values[json['noticeType']],
-      title: json['title'],
-      content: json['description'],
-      date: json['date'],
+      notices: noticeList,
     );
   }
 }
