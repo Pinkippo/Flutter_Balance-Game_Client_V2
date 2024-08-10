@@ -53,6 +53,6 @@ class UserInfoFromHomeScreenModel {
   final int myBoardCount;
 
   factory UserInfoFromHomeScreenModel.fromJson(Map<String, dynamic> json) => UserInfoFromHomeScreenModel(
-    myBoardCount: json["myBoardCount"]?? 0,
+    myBoardCount: json["myBoardCount"]?? -1,
   );
 }
