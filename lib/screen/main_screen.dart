@@ -3,6 +3,7 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
 import 'package:yangjataekil/controller/auth_controller.dart';
 import 'package:yangjataekil/controller/bottom_navigator_controller.dart';
+import 'package:yangjataekil/screen/tab/main_all_list_tap.dart';
 import 'package:yangjataekil/screen/tab/main_board_tap.dart';
 import 'package:yangjataekil/screen/tab/main_home_tap.dart';
 import 'package:yangjataekil/screen/tab/main_mypage_tap.dart';
@@ -13,6 +14,7 @@ class MainScreen extends StatefulWidget {
   const MainScreen({Key? key}) : super(key: key);
 
   static const List<Widget> tabPages = <Widget>[
+    MainAllListTap(),
     BoardTap(),
     HomeTap(),
     MyPageTap(),
@@ -45,7 +47,7 @@ class _MainScreenState extends State<MainScreen> {
         preferredSize: const Size.fromHeight(0),
         child: Obx(() {
           Color appBarColor;
-          if (BottomNavigatorController.to.selectedIndex.value == 1) {
+          if (BottomNavigatorController.to.selectedIndex.value == 2) {
             appBarColor = AppColors.secondaryColor; // 홈 탭의 색상
           } else {
             appBarColor = Colors.white; // 기본 색상
