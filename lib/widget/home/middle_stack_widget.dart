@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:yangjataekil/controller/auth_controller.dart';
+import 'package:yangjataekil/controller/bottom_navigator_controller.dart';
 
 /// 중간에 띄울 내용 (스택)
 class MiddleStackContent extends GetView<AuthController> {
@@ -8,15 +9,16 @@ class MiddleStackContent extends GetView<AuthController> {
 
   @override
   Widget build(BuildContext context) {
-    return Positioned(
-      top: Get.height * 0.2, // 높이를 화면 높이의 20%로 설정
-      left: 20, // 조정이 필요할 경우 이 값을 수정
-      right: 20, // 조정이 필요할 경우 이 값을 수정
-      child: GestureDetector(
-        onTap: () {
-          Get.toNamed('/login');
-        },
-        child: Container(
+    return Obx(
+      () => Positioned(
+        top: Get.height * 0.2, // 높이를 화면 높이의 20%로 설정
+        left: 20, // 조정이 필요할 경우 이 값을 수정
+        right: 20, // 조정이 필요할 경우 이 값을 수정
+        child: GestureDetector(
+          onTap: () {
+            BottomNavigatorController.to.changeIndex(2);
+          },
+          child: Container(
             width: double.infinity,
             height: 80,
             decoration: BoxDecoration(
@@ -93,7 +95,9 @@ class MiddleStackContent extends GetView<AuthController> {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                  )),
+                  ),
+          ),
+        ),
       ),
     );
   }
