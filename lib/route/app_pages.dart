@@ -21,6 +21,7 @@ import 'package:yangjataekil/screen/register_screen.dart';
 
 import '../controller/agreeterms_controller.dart';
 import '../screen/agreeterms_screen.dart';
+import '../screen/notice_detail_screen.dart';
 import '../screen/upload_game_screen.dart';
 
 part 'app_routes.dart';
@@ -160,6 +161,13 @@ class AppPages {
           return UserModifyController();
         });
       }),
+    ),
+
+    /// 공지사항 상세 페이지
+    GetPage(
+      name: Routes.noticeDetail,
+      page: () => const NoticeDetailScreen(),
+      transition: Transition.fade,
     ),
   ];
       
