@@ -5,6 +5,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:yangjataekil/controller/auth_controller.dart';
 import 'package:yangjataekil/data/model/register_response_model.dart';
 import 'package:yangjataekil/data/model/user_modify_request_model.dart';
 import 'package:yangjataekil/data/model/user_response_model.dart';
@@ -40,6 +41,10 @@ class AuthRepository {
         throw Exception('Unexpected response format');
       }
     } else {
+      /// 다시 메인 화면으로 이동
+      AuthController.to.logout();
+      Get.offAllNamed('/main');
+
       throw Exception('회원 조회 실패');
     }
   }
