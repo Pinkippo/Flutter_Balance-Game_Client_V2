@@ -170,9 +170,7 @@ class AppPages {
       page: () => const GameDetailScreen(),
       transition: Transition.fade,
       binding: BindingsBuilder(() {
-        Get.lazyPut<GameDetailController>(() {
-          return GameDetailController();
-        });
+        Get.lazyPut<GameDetailController>(() => GameDetailController());
       }),
     ),
 

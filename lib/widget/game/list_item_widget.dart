@@ -20,7 +20,9 @@ class ListItemWidget extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         /// 게임 상세 이동
-        Get.toNamed('/game_detail', arguments: controller.boards[index]);
+        Get.toNamed('/game_detail', arguments: {
+          'boardId' : controller.boards[index].boardId.toString(),
+        });
       },
       child: Container(
         height: 150,
