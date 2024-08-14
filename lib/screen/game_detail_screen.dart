@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:yangjataekil/controller/game_detail_controller.dart';
 import 'package:yangjataekil/theme/app_color.dart';
+import 'package:yangjataekil/widget/game_detail/game_vertical_info_widget.dart';
 
 class GameDetailScreen extends GetView<GameDetailController> {
   const GameDetailScreen({super.key});
@@ -26,7 +27,6 @@ class GameDetailScreen extends GetView<GameDetailController> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-
             /// 게임 소개
             Container(
               height: 400,
@@ -36,9 +36,60 @@ class GameDetailScreen extends GetView<GameDetailController> {
                 mainAxisAlignment: MainAxisAlignment.end,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Container(
-                    color: Colors.white,
+                  SizedBox(
                     height: 300,
+                    width: double.infinity,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        const Spacer(),
+                        Text(
+                          "게임 소개",
+                          style: TextStyle(
+                            fontSize: 20,
+                            color: Colors.black.withOpacity(0.6),
+                          ),
+                        ),
+                        const Spacer(),
+                        const Text(
+                          "게임 소개 게임 소개 게임 소개 게임 소개 게임 소개 게임 소개 게임 소개 게임 소개 게임 소개 게임 소개 게임 소개 게임 소개 게임 소개",
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 3,
+                          textAlign: TextAlign.center,
+                        ),
+                        const Spacer(),
+                        Container(
+                          height: 100,
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              border: Border.all(
+                                color: Colors.black.withOpacity(0.2),
+                              ),
+                              borderRadius: BorderRadius.circular(10)),
+                          child: const Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              VerticalInfoWidget(
+                                label: '좋아요',
+                                count: 20,
+                              ),
+                              VerticalInfoWidget(
+                                label: '싫어요',
+                                count: 20,
+                              ),
+                              VerticalInfoWidget(
+                                label: '조회수',
+                                count: 20,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                   const SizedBox(
                     height: 20,
@@ -70,7 +121,7 @@ class GameDetailScreen extends GetView<GameDetailController> {
               height: 20,
             ),
 
-            /// 게임 리뷰 종합
+            /// 게임 리뷰 정리
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Container(
@@ -81,6 +132,100 @@ class GameDetailScreen extends GetView<GameDetailController> {
                       color: Colors.black.withOpacity(0.2),
                     ),
                     borderRadius: BorderRadius.circular(10)),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Text(
+                            "리뷰",
+                            style: TextStyle(
+                              fontSize: 18,
+                              color: Colors.black.withOpacity(0.6),
+                            ),
+                          ),
+                          const SizedBox(height: 10),
+                          const Text(
+                            "키워드로 먼저 \n리뷰를 봐요",
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          const Spacer(),
+                          Text(
+                            "참여자 13명",
+                            style: TextStyle(
+                              fontSize: 18,
+                              color: Colors.black.withOpacity(0.6),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      width: 200,
+                      child: Expanded(
+                        child: Stack(
+                          alignment: Alignment.center,
+                          children: [
+                            Positioned(
+                              top: 10,
+                              left: 20,
+                              child: CircleAvatar(
+                                radius: 70,
+                                backgroundColor:
+                                    Colors.lightBlueAccent.withOpacity(0.5),
+                                child: const Text(
+                                  "직장상사",
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Positioned(
+                              top: 90,
+                              right: 10,
+                              child: CircleAvatar(
+                                radius: 60,
+                                backgroundColor: Colors.blue.withOpacity(0.5),
+                                child: const Text(
+                                  "대머리",
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Positioned(
+                              top: 130,
+                              right: 110,
+                              child: CircleAvatar(
+                                radius: 40,
+                                backgroundColor:
+                                    Colors.tealAccent.withOpacity(0.5),
+                                child: const Text(
+                                  "리뷰",
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
 
@@ -88,7 +233,7 @@ class GameDetailScreen extends GetView<GameDetailController> {
               height: 20,
             ),
 
-            /// 게임 리뷰 리스트
+            /// 게임 추천 리스트
             SizedBox(
               height: 150,
               child: ListView.builder(
@@ -97,20 +242,34 @@ class GameDetailScreen extends GetView<GameDetailController> {
                 itemCount: 5,
                 controller: controller.reviewScrollController,
                 itemBuilder: (context, index) {
-                  return Container(
-                      width: 120,
-                      height: 150,
-                      margin: const EdgeInsets.symmetric(horizontal: 5),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(
-                          color: Colors.black.withOpacity(0.13),
+                  return GestureDetector(
+                    onTap: () {
+                      /// TODO : 게임 상세 이동
+                    },
+                    child: Container(
+                        width: 120,
+                        height: 150,
+                        margin: const EdgeInsets.symmetric(horizontal: 5),
+                        decoration: BoxDecoration(
+                          color: AppColors.profileBackgroundColor,
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(
+                            color: AppColors.profileBackgroundColor,
+                          ),
                         ),
-                      ),
-                      child: Container(
-                        color: AppColors.gameGreyColor,
-                      ));
+                        child: const Center(
+                          child: Text(
+                            "게임 추천 게임 추천 게임 추천 게임 추천 게임 추천 게임 추천 게임 추천 게임 추천 게임 추천",
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: Colors.black,
+                            ),
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 4,
+                            textAlign: TextAlign.center,
+                          ),
+                        )),
+                  );
                 },
               ),
             ),
