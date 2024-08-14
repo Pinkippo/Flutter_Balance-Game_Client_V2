@@ -233,7 +233,7 @@ class GameDetailScreen extends GetView<GameDetailController> {
                                 left: 0,
                                 right: 0,
                                 child: CircleAvatar(
-                                  radius: 100,
+                                  radius: 75,
                                   backgroundColor: Colors.lightBlueAccent.withOpacity(0.5),
                                   child: const Text(
                                     "리뷰가 존재하지\n않습니다",
