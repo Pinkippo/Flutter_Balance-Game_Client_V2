@@ -40,6 +40,10 @@ class AuthController extends GetxController {
   final Rx<String> profileUrl = Rx<String>('');
   final RxInt userBoardCount = RxInt(0);
 
+  @override
+  void onInit() {
+    super.onInit();
+  }
   /// 비밀번호 찾기
   final Rx<String> currentPw = Rx<String>('');
   final Rx<String> newPw = Rx<String>('');
@@ -185,7 +189,7 @@ class AuthController extends GetxController {
 
     try {
       final UserInfoFromHomeScreenModel response =
-      await authRepository.getUserInfoFromHomeScreen(accessToken.value);
+          await authRepository.getUserInfoFromHomeScreen(accessToken.value);
 
       userBoardCount.value = response.myBoardCount;
     } catch (e) {
@@ -193,6 +197,24 @@ class AuthController extends GetxController {
       Get.snackbar(
         '오류 발생',
         '유저 정보를 조회하는 중 오류가 발생했습니다.',
+        backgroundColor: AppColors.primaryColor,
+        colorText: Colors.white,
+        snackPosition: SnackPosition.BOTTOM,
+      );
+    }
+  }
+
+  /// 회원탈퇴
+  Future<void> deleteUser() async {
+    try {
+      await authRepository.deleteUser(accessToken.value);
+      await logout();
+      Get.offAllNamed('/main');
+    } catch (e) {
+      print('Error while deleting user: $e');
+      Get.snackbar(
+        '오류 발생',
+        '회원 탈퇴 중 오류가 발생했습니다.',
         backgroundColor: AppColors.primaryColor,
         colorText: Colors.white,
         snackPosition: SnackPosition.BOTTOM,
