@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:yangjataekil/controller/notice_controller.dart';
 
-import '../../data/model/Notice.dart';
+import '../../data/model/notice.dart';
+
 
 class NoticeAllTab extends GetView<NoticeController> {
   const NoticeAllTab({super.key, required this.noticeType});
@@ -39,8 +40,11 @@ class NoticeAllTab extends GetView<NoticeController> {
           itemBuilder: (context, index) {
             final notice = filteredNotices[index];
             return GestureDetector(
-              onTap: () {
-                print('공지사항 상세보기');
+              onTap: () async{
+                // 공지사항 상세 페이지로 이동
+                // print('공지사항 번호확인: ${notice.announcementId}');
+                await controller.getNoticeDetail(notice.announcementId);
+                Get.toNamed('/notice_detail');
               },
               child: Card(
                 color: Colors.white,

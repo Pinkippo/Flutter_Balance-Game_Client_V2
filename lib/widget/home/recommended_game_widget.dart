@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:yangjataekil/widget/bubble_widget.dart';
 
 import '../../theme/app_color.dart';
@@ -73,6 +74,7 @@ class RecommendedGame extends StatelessWidget {
                   child: ElevatedButton(
                     onPressed: () {
                       /// TODO : 화면이동 연결
+                      Get.toNamed('/today_recommend');
                       print('게임하러 가기');
                     },
                     style: ElevatedButton.styleFrom(

@@ -10,6 +10,10 @@ import 'package:yangjataekil/data/provider/list.repository.dart';
 enum SORTCONDITION { LIKE, DATE }
 
 class ListController extends GetxController {
+
+  /// .to로 생성된 인스턴스에 접근하기 위한 static 변수
+  static ListController get to => Get.find();
+
   /// 페이지 당 게시글 수
   final Rx<int> size = 10.obs;
 
@@ -163,6 +167,19 @@ class ListController extends GetxController {
       page.value = 0; // 페이지 초기화
       totalPage.value = 1; // 총 페이지 수 초기화
       await _getSearchedList(); // 검색 API 호출
+    }
+  }
+
+  /// 오늘의 추천 게시글 호출 메서드
+  Future<void> getRecommendList() async {
+    try {
+      await ListRepository().getRecommendList();
+    } catch (e) {
+      Get.snackbar(
+        '오류',
+        '오늘의 추천 게시글을 가져오는 중 오류가 발생했습니다: $e',
+        snackPosition: SnackPosition.BOTTOM,
+      );
     }
   }
 

@@ -6,6 +6,8 @@ import 'package:get/get.dart';
 import 'package:yangjataekil/data/model/notice_response_model.dart';
 import 'package:http/http.dart' as http;
 
+import '../model/notice_detail_response_model.dart';
+
 
 final baseUrl = dotenv.env['BASE_URL'];
 
@@ -37,4 +39,39 @@ class NoticeRepository  {
       throw Exception('공지사항 조회 실패');
     }
   }
+
+  Future<NoticeDetailResponseModel> getNoticeDetail(int announcementId) async {
+    final url = Uri.parse('$baseUrl/common/v2/announcements/$announcementId');
+
+    final response = await http.get(
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+        'charset': 'utf-8',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      print('공지사항 상세 조회 API response : \n${utf8.decode(response.bodyBytes)}');
+
+      final responseData = jsonDecode(utf8.decode(response.bodyBytes));
+
+      if (responseData is Map<String, dynamic>) {
+        final announcementData = responseData['announcement'];
+
+        if (announcementData is Map<String, dynamic>) {
+          return NoticeDetailResponseModel.fromJson(announcementData);
+        } else {
+          throw Exception('Unexpected announcement data format');
+        }
+      } else {
+        throw Exception('Unexpected response format');
+      }
+    } else {
+      throw Exception('공지사항 상세 조회 실패');
+    }
+  }
+
+
+
 }
