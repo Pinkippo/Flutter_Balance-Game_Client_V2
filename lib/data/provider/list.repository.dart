@@ -5,6 +5,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
 import 'package:yangjataekil/data/model/board/list_board_request_model.dart';
 import 'package:yangjataekil/data/model/board/list_board_response_model.dart';
+import 'package:yangjataekil/data/model/board/recommend_board_response_model.dart';
 import 'package:yangjataekil/theme/app_color.dart';
 
 import 'package:http/http.dart' as http;
@@ -43,6 +44,34 @@ class ListRepository {
     if (response.statusCode == 200) {
       print(request.query);
       return ListBoardResponseModel.fromJson(
+          jsonDecode(utf8.decode(response.bodyBytes)));
+    } else {
+      Get.snackbar(
+        '조회 실패',
+        '서버 상태가 불안정합니다. 잠시 후 다시 시도해주세요.',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: AppColors.primaryColor,
+        colorText: Colors.white,
+      );
+      throw Exception('Failed to get');
+    }
+  }
+
+  /// 오늘의 추천 게시글 조회 API
+  Future<RecommendBoardResponseModel> getRecommendList() async {
+    final url = Uri.parse('$baseUrl/board/v2/boards/today-recommend-game');
+
+    final response = await http.get(
+      url,
+      headers: <String, String>{
+        'Content-Type': 'application/json',
+        'charset': 'utf-8',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      print('오늘의 추천 게시글 조회 응답: ${utf8.decode(response.bodyBytes)}');
+      return RecommendBoardResponseModel.fromJson(
           jsonDecode(utf8.decode(response.bodyBytes)));
     } else {
       Get.snackbar(

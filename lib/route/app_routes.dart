@@ -23,4 +23,5 @@ abstract class Routes{
   static const list = '/list';
   static const changePw = '/change_pw';
   static const myPageModify = '/myPage/modify';
+  static const todayRecommend = '/today_recommend';
 }
