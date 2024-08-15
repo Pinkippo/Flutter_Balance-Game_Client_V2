@@ -18,9 +18,11 @@ abstract class Routes{
   static const profile = '/profile';
   static const notification = '/notification';
   static const notice = '/notice';
+  static const noticeDetail = '/notice_detail';
   static const uploadGame = '/upload_game';
   static const list = '/list';
   static const changePw = '/change_pw';
   static const myPageModify = '/myPage/modify';
+  static const todayRecommend = '/today_recommend';
   static const gameDetail = '/game_detail';
 }

@@ -1,4 +1,4 @@
-import 'Notice.dart';
+import 'notice.dart';
 
 class NoticeResponseModel {
   final List<Notice> notices;

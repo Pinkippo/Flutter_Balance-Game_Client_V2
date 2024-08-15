@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
+import 'package:yangjataekil/data/model/notice_detail_response_model.dart';
 
-import '../data/model/Notice.dart';
+import '../data/model/notice.dart';
 import '../data/model/notice_response_model.dart';
 import '../data/provider/notice_repository.dart';
 
@@ -29,6 +30,9 @@ class NoticeController extends GetxController {
   /// 공지 타입
   final type = SEARCHCONDITION.ALL.obs;
 
+  /// 공지 ID
+  final announcementId = 0.obs;
+
   /// 공지 제목
   final title = ''.obs;
 
@@ -36,13 +40,23 @@ class NoticeController extends GetxController {
   final content = ''.obs;
 
   /// 공지 날짜
-  final date = ''.obs;
+  final createdAt = ''.obs;
+
+  /// 조회수
+  final viewCount = 0.obs;
+
+  /// 수정 날짜
+  final updatedAt = ''.obs;
 
   /// 공지사항 리스트
   final RxList<Notice> notices = <Notice>[].obs;
 
   /// 로딩 상태
   final RxBool isLoading = false.obs;
+
+  /// 공지사항 상세
+  final Rx<NoticeDetailResponseModel?> noticeDetail = Rx<NoticeDetailResponseModel?>(null);
+
 
   /// 공지사항 조회
   Future<void> getNotice() async {
@@ -71,6 +85,25 @@ class NoticeController extends GetxController {
       return notices
           .where((notice) => notice.type == SEARCHCONDITION.EVENT)
           .toList();
+    }
+  }
+
+  /// 공지사항 상세 조회
+  Future<void> getNoticeDetail(int announcementId) async {
+    try {
+      isLoading.value = true;
+
+      final response = await NoticeRepository().getNoticeDetail(announcementId);
+
+      noticeDetail.value = response;
+
+      print('공지사항 상세 조회 성공: ${noticeDetail.value}');
+
+
+    } catch (e) {
+      print('공지사항 상세 조회 실패: $e');
+    } finally {
+      isLoading.value = false;
     }
   }
 }

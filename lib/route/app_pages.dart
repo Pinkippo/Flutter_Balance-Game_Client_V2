@@ -23,6 +23,8 @@ import 'package:yangjataekil/screen/register_screen.dart';
 
 import '../controller/agreeterms_controller.dart';
 import '../screen/agreeterms_screen.dart';
+import '../screen/notice_detail_screen.dart';
+import '../screen/today_recommend_list_screen.dart';
 import '../screen/upload_game_screen.dart';
 
 part 'app_routes.dart';
@@ -145,13 +147,14 @@ class AppPages {
         });
       }),
     ),
-
+    
+    /// 비밀번호 변경 페이지
     GetPage(
       name: Routes.changePw,
       page: () => const ChangePwScreen(),
       transition: Transition.fade,
     ),
-      
+
     /// 내 정보 수정 페이지
     GetPage(
       name: Routes.myPageModify,
@@ -164,6 +167,25 @@ class AppPages {
       }),
     ),
 
+    /// 공지사항 상세 페이지
+    GetPage(
+      name: Routes.noticeDetail,
+      page: () => const NoticeDetailScreen(),
+      transition: Transition.fade,
+    ),
+
+    /// 오늘의 추천 페이지
+    GetPage(
+      name: Routes.todayRecommend,
+      page: () => const TodayRecommendListScreen(),
+      transition: Transition.fade,
+      binding: BindingsBuilder(() {
+        Get.lazyPut<ListController>(() {
+          return ListController();
+        });
+      }),
+    ),
+    
     /// 게임 상세 페이지
     GetPage(
       name: Routes.gameDetail,
@@ -173,7 +195,5 @@ class AppPages {
         Get.lazyPut<GameDetailController>(() => GameDetailController());
       }),
     ),
-
   ];
-      
 }
