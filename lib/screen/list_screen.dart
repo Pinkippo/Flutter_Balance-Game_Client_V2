@@ -113,7 +113,7 @@ class ListScreen extends GetView<ListController> {
             itemBuilder: (_, index) {
               if (index < controller.boards.length + 1) {
                 return ListItemWidget(
-                    controller: controller, index: index, isFiltered: false);
+                    controller: controller, index: index, isFiltered: false, isMyGame: false);
               }
               return null;
             },

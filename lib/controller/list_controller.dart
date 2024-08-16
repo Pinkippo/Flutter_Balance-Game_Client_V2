@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:yangjataekil/controller/auth_controller.dart';
 import 'package:yangjataekil/controller/tab/theme_list_controller.dart';
@@ -10,7 +11,6 @@ import 'package:yangjataekil/data/provider/list.repository.dart';
 enum SORTCONDITION { LIKE, DATE }
 
 class ListController extends GetxController {
-
   /// .to로 생성된 인스턴스에 접근하기 위한 static 변수
   static ListController get to => Get.find();
 
@@ -20,23 +20,20 @@ class ListController extends GetxController {
   /// 현재 페이지
   final Rx<int> page = 0.obs;
 
-  /// 로딩 상태
-  final RxBool isLoading = false.obs;
+  /// 총 페이지 수
+  final Rx<int> totalPage = 1.obs;
 
   /// 정렬 조건
   final Rx<SORTCONDITION?> sortCondition = Rx<SORTCONDITION?>(null);
 
-  /// 게시판 리스트
+  /// 로딩 상태
+  final RxBool isLoading = false.obs;
+
+  /// 게임 리스트
   final RxList<Board> boards = <Board>[].obs;
 
-  /// 총 페이지 수
-  final Rx<int> totalPage = 1.obs;
-
-  /// 스크롤 컨트롤러
-  final Rx<ScrollController> scrollController = ScrollController().obs;
-
-  /// 검색 스크롤 컨트롤러
-  final Rx<ScrollController> searchScrollController = ScrollController().obs;
+  /// 내가 쓴 게임 리스트
+  final RxList<Board> myBoards = <Board>[].obs;
 
   /// 검색 결과 리스트
   final RxList<Board> filteredGames = <Board>[].obs;
@@ -44,10 +41,20 @@ class ListController extends GetxController {
   /// 검색 텍스트
   final Rx<String> searchText = ''.obs;
 
+  /// 스크롤 컨트롤러
+  final Rx<ScrollController> scrollController = ScrollController().obs;
+
+  /// 검색 스크롤 컨트롤러
+  final Rx<ScrollController> searchScrollController = ScrollController().obs;
+
   @override
-  void onInit() {
-    // 리스트 호출
-    _getList();
+  void onInit() async{
+    // 내 게임 리스트 페이지를 제외한 다른 페이지에서는 게임 리스트를 가져옴
+    if(Get.currentRoute != '/my_games') {
+      await _getList();
+    } else if(Get.currentRoute == '/my_games') {
+      await getMyGames();
+    }
 
     // 스크롤 이벤트
     scrollController.value.addListener(() {
@@ -103,7 +110,7 @@ class ListController extends GetxController {
         AuthController.to.accessToken.value,
       );
       boards.addAll(response.boards);
-      totalPage.value = response.totalPage; // totalPage 값 업데이트
+      totalPage.value = response.totalPage!; // totalPage 값 업데이트
       page.value += 1; // 페이지 값 증가
     } catch (e) {
       Get.snackbar(
@@ -140,7 +147,7 @@ class ListController extends GetxController {
       );
 
       filteredGames.addAll(response.boards);
-      totalPage.value = response.totalPage; // totalPage 값 업데이트
+      totalPage.value = response.totalPage!; // totalPage 값 업데이트
       page.value += 1; // 페이지 값 증가
     } catch (e) {
       Get.snackbar(
@@ -183,4 +190,22 @@ class ListController extends GetxController {
     }
   }
 
+  Future<void> getMyGames() async {
+    try {
+      final response = await ListRepository()
+          .getMyGames(AuthController.to.accessToken.value);
+
+      // 내가 쓴 게임 리스트 초기화 후 새로운 값으로 업데이트
+      myBoards.clear();
+      myBoards.addAll(response.boards);
+    } catch (e) {
+      Get.snackbar(
+        '오류',
+        '내가 쓴 게임 리스트를 가져오는 중 오류가 발생했습니다: $e',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
+    }
+  }
 }
