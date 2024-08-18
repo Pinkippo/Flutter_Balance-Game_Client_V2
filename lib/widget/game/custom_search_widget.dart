@@ -107,7 +107,7 @@ class CustomSearchWidget extends SearchDelegate {
           ),
           itemBuilder: (_, index) {
             return ListItemWidget(
-                controller: controller, index: index, isFiltered: true);
+                controller: controller, index: index, isFiltered: true, isMyGame: false);
           },
         ),
       ),
