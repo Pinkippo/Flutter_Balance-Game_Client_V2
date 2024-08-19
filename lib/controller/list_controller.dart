@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -178,15 +180,17 @@ class ListController extends GetxController {
   }
 
   /// 오늘의 추천 게시글 호출 메서드
-  Future<void> getRecommendList() async {
+  Future<int> getRecommendList() async {
     try {
-      await ListRepository().getRecommendList();
+      final response = await ListRepository().getRecommendList();
+      return response.boardId;
     } catch (e) {
       Get.snackbar(
         '오류',
         '오늘의 추천 게시글을 가져오는 중 오류가 발생했습니다: $e',
         snackPosition: SnackPosition.BOTTOM,
       );
+      return -1;
     }
   }
 

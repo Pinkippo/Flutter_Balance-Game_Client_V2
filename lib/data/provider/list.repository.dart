@@ -71,7 +71,7 @@ class ListRepository {
     );
 
     if (response.statusCode == 200) {
-      print('오늘의 추천 게시글 조회 응답: ${utf8.decode(response.bodyBytes)}');
+      // print('오늘의 추천 게시글 조회 응답: ${utf8.decode(response.bodyBytes)}');
       return RecommendBoardResponseModel.fromJson(
           jsonDecode(utf8.decode(response.bodyBytes)));
     } else {

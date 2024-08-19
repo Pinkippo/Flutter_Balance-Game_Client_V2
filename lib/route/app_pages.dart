@@ -53,6 +53,9 @@ class AppPages {
           Get.lazyPut<BottomNavigatorController>(() {
             return BottomNavigatorController();
           });
+          Get.lazyPut<ListController>(() {
+            return ListController();
+          });
           Get.lazyPut<ThemeListController>(() {
             return ThemeListController();
           });

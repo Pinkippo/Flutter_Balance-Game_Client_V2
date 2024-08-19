@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:yangjataekil/controller/list_controller.dart';
 import 'package:yangjataekil/widget/bubble_widget.dart';
 
 import '../../theme/app_color.dart';
 
-class RecommendedGame extends StatelessWidget {
+class RecommendedGame extends GetView<ListController> {
   const RecommendedGame({super.key});
 
   @override
@@ -72,10 +73,12 @@ class RecommendedGame extends StatelessWidget {
                   height: 48,
                   padding: const EdgeInsets.only(left: 30, right: 30),
                   child: ElevatedButton(
-                    onPressed: () {
+                    onPressed: () async {
+                      final boardId = await controller.getRecommendList();
                       /// TODO : 화면이동 연결
-                      Get.toNamed('/today_recommend');
-                      print('게임하러 가기');
+                      Get.toNamed('/game_detail', arguments: {
+                        'boardId' : boardId.toString(),
+                      });
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: AppColors.secondaryColor,
