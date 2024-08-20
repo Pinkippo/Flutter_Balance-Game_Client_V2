@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:yangjataekil/controller/list_controller.dart';
+import 'package:yangjataekil/controller/recommend_controller.dart';
 import 'package:yangjataekil/widget/bubble_widget.dart';
 
 import '../../theme/app_color.dart';
 
-class RecommendedGame extends GetView<ListController> {
+class RecommendedGame extends GetView<RecommendController> {
   const RecommendedGame({super.key});
 
   @override
@@ -74,10 +74,11 @@ class RecommendedGame extends GetView<ListController> {
                   padding: const EdgeInsets.only(left: 30, right: 30),
                   child: ElevatedButton(
                     onPressed: () async {
-                      final boardId = await controller.getRecommendList();
+                      await controller.setRecommendGameId();
+
                       /// TODO : 화면이동 연결
                       Get.toNamed('/game_detail', arguments: {
-                        'boardId' : boardId.toString(),
+                        'boardId': controller.recommendGameId.value.toString(),
                       });
                     },
                     style: ElevatedButton.styleFrom(

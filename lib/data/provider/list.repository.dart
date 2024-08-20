@@ -20,8 +20,6 @@ class ListRepository {
     final response = await http.get(
       request.searching
           ? Uri.parse('$url?'
-              // 2호관 307호 칼라프린터 지저분하게 나옴
-              //     14일 기계설계공학과
               'query=${request.query}&'
               'page=${request.page}&'
               'size=${request.size}&'

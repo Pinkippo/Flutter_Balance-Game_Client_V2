@@ -6,6 +6,7 @@ import 'package:yangjataekil/controller/game_upload_controller.dart';
 import 'package:yangjataekil/controller/list_controller.dart';
 import 'package:yangjataekil/controller/login_controller.dart';
 import 'package:yangjataekil/controller/notification_controller.dart';
+import 'package:yangjataekil/controller/recommend_controller.dart';
 import 'package:yangjataekil/controller/register_controller.dart';
 import 'package:yangjataekil/controller/tab/theme_list_controller.dart';
 import 'package:yangjataekil/controller/notice_controller.dart';
@@ -20,12 +21,12 @@ import 'package:yangjataekil/screen/register_profile_screen.dart';
 import 'package:yangjataekil/screen/notification_screen.dart';
 import 'package:yangjataekil/screen/notice_screen.dart';
 import 'package:yangjataekil/screen/register_screen.dart';
+import 'package:yangjataekil/widget/home/recommended_game_widget.dart';
 
 import '../controller/agreeterms_controller.dart';
 import '../screen/agreeterms_screen.dart';
 import '../screen/my_games_screen.dart';
 import '../screen/notice_detail_screen.dart';
-import '../screen/today_recommend_list_screen.dart';
 import '../screen/upload_game_screen.dart';
 
 part 'app_routes.dart';
@@ -55,6 +56,9 @@ class AppPages {
           });
           Get.lazyPut<ListController>(() {
             return ListController();
+          });
+          Get.lazyPut<RecommendController>(() {
+            return RecommendController();
           });
           Get.lazyPut<ThemeListController>(() {
             return ThemeListController();
@@ -176,18 +180,6 @@ class AppPages {
       name: Routes.noticeDetail,
       page: () => const NoticeDetailScreen(),
       transition: Transition.fade,
-    ),
-
-    /// 오늘의 추천 페이지
-    GetPage(
-      name: Routes.todayRecommend,
-      page: () => const TodayRecommendListScreen(),
-      transition: Transition.fade,
-      binding: BindingsBuilder(() {
-        Get.lazyPut<ListController>(() {
-          return ListController();
-        });
-      }),
     ),
 
     /// 게임 상세 페이지

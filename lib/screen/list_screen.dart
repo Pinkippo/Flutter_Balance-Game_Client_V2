@@ -13,6 +13,7 @@ class ListScreen extends GetView<ListController> {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: AppBar(
           foregroundColor: Colors.black,
@@ -113,7 +114,10 @@ class ListScreen extends GetView<ListController> {
             itemBuilder: (_, index) {
               if (index < controller.boards.length + 1) {
                 return ListItemWidget(
-                    controller: controller, index: index, isFiltered: false, isMyGame: false);
+                    controller: controller,
+                    index: index,
+                    isFiltered: false,
+                    isMyGame: false);
               }
               return null;
             },
