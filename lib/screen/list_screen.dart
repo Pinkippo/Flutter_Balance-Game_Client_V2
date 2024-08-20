@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:yangjataekil/controller/auth_controller.dart';
 import 'package:yangjataekil/controller/list_controller.dart';
 import 'package:yangjataekil/theme/app_color.dart';
 import 'package:yangjataekil/widget/game/custom_search_widget.dart';
@@ -97,6 +98,9 @@ class ListScreen extends GetView<ListController> {
           borderRadius: BorderRadius.circular(50),
         ),
         onPressed: () {
+          AuthController.to.accessToken.value.isEmpty
+              ? Get.toNamed('/login')
+              :
           Get.toNamed('/upload_game');
         },
         child: const Icon(Icons.add, color: Colors.white),
