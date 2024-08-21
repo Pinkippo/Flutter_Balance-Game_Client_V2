@@ -71,7 +71,6 @@ class AllListController extends GetxController {
           query: '',
           size: size.value,
           page: page.value,
-          // themeId: ThemeListController.to.selectedThemeId.value,
           sortCondition: sortCondition.value,
         ),
         AuthController.to.accessToken.value,

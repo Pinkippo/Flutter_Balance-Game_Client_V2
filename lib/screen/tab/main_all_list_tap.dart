@@ -15,7 +15,7 @@ class MainAllListTap extends GetView<AllListController> {
   @override
   Widget build(BuildContext context) {
     final FilteredListController filteredListController =
-        Get.put(FilteredListController());
+        Get.put(FilteredListController(isAllList: true));
     return Scaffold(
       appBar: AppBar(
           foregroundColor: Colors.black,
@@ -31,7 +31,7 @@ class MainAllListTap extends GetView<AllListController> {
                 // 검색을 위해 검색 창 표시
                 showSearch(
                   context: context,
-                  delegate: CustomSearchWidget(),
+                  delegate: CustomSearchWidget(isAllList: true),
                 );
               },
             ),

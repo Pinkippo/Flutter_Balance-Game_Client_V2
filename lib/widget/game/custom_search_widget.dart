@@ -7,9 +7,10 @@ import 'package:yangjataekil/theme/app_color.dart';
 import 'package:yangjataekil/widget/game/filtered_list_item_widget.dart';
 
 class CustomSearchWidget extends SearchDelegate {
-  final FilteredListController controller = Get.put(FilteredListController());
+  final bool isAllList;
+  final FilteredListController controller = Get.put(FilteredListController(isAllList: false));
 
-  CustomSearchWidget()
+  CustomSearchWidget({required this.isAllList})
       : super(
             searchFieldLabel: '검색어를 입력하세요',
             searchFieldStyle: const TextStyle(fontSize: 17));
@@ -22,7 +23,7 @@ class CustomSearchWidget extends SearchDelegate {
         icon: const Icon(Icons.search),
         onPressed: () {
           controller.updateSearchText(query);
-          controller.clickSearchBtn();
+          controller.clickSearchBtn(isAllList);
           showResults(context);
         },
       ),

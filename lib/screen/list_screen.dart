@@ -37,7 +37,7 @@ class ListScreen extends GetView<ThemeListController> {
                 // 검색을 위해 검색 창 표시
                 showSearch(
                   context: context,
-                  delegate: CustomSearchWidget(),
+                  delegate: CustomSearchWidget(isAllList: false),
                 );
               },
             ),

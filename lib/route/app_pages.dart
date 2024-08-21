@@ -62,7 +62,7 @@ class AppPages {
             return RecommendController();
           });
           Get.lazyPut<FilteredListController>(() {
-            return FilteredListController();
+            return FilteredListController(isAllList: true);
           });
           await Get.putAsync<AuthController>(() async {
             return AuthController();
@@ -155,7 +155,7 @@ class AppPages {
           return ThemeListController();
         });
         Get.lazyPut<FilteredListController>(() {
-          return FilteredListController(); // 명시적으로 FilteredListController 등록
+          return FilteredListController(isAllList: false); // 명시적으로 FilteredListController 등록
         });
       }),
     ),
