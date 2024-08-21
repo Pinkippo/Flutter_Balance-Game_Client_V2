@@ -17,7 +17,7 @@ class ThemeListController extends GetxController {
 
   void changeIndex(int themeId) {
     selectedThemeId.value = themeId; // selectedTheme를 새로운 값으로 설정
-    print(selectedThemeId);
+    print('선택된 테마 ID: $selectedThemeId');
   }
 
   Future<void> _getThemes() async {

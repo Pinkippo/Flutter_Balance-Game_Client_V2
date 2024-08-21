@@ -20,8 +20,6 @@ class ListRepository {
     final response = await http.get(
       request.searching
           ? Uri.parse('$url?'
-              // 2호관 307호 칼라프린터 지저분하게 나옴
-              //     14일 기계설계공학과
               'query=${request.query}&'
               'page=${request.page}&'
               'size=${request.size}&'
@@ -71,7 +69,7 @@ class ListRepository {
     );
 
     if (response.statusCode == 200) {
-      print('오늘의 추천 게시글 조회 응답: ${utf8.decode(response.bodyBytes)}');
+      // print('오늘의 추천 게시글 조회 응답: ${utf8.decode(response.bodyBytes)}');
       return RecommendBoardResponseModel.fromJson(
           jsonDecode(utf8.decode(response.bodyBytes)));
     } else {

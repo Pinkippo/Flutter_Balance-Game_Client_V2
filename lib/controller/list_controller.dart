@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -48,11 +50,13 @@ class ListController extends GetxController {
   final Rx<ScrollController> searchScrollController = ScrollController().obs;
 
   @override
-  void onInit() async{
+  void onInit() async {
     // 내 게임 리스트 페이지를 제외한 다른 페이지에서는 게임 리스트를 가져옴
-    if(Get.currentRoute != '/my_games') {
+    if (Get.currentRoute != '/my_games') {
+      print('현재 라우트: ${Get.currentRoute}');
       await _getList();
-    } else if(Get.currentRoute == '/my_games') {
+    } else {
+      print('현재 라우트: ${Get.currentRoute}');
       await getMyGames();
     }
 
@@ -177,23 +181,12 @@ class ListController extends GetxController {
     }
   }
 
-  /// 오늘의 추천 게시글 호출 메서드
-  Future<void> getRecommendList() async {
-    try {
-      await ListRepository().getRecommendList();
-    } catch (e) {
-      Get.snackbar(
-        '오류',
-        '오늘의 추천 게시글을 가져오는 중 오류가 발생했습니다: $e',
-        snackPosition: SnackPosition.BOTTOM,
-      );
-    }
-  }
-
+  /// 내가 쓴 게임 리스트 호출 메서드
   Future<void> getMyGames() async {
     try {
       final response = await ListRepository()
           .getMyGames(AuthController.to.accessToken.value);
+      print('내가 쓴 게임 리스트: ${response.boards}');
 
       // 내가 쓴 게임 리스트 초기화 후 새로운 값으로 업데이트
       myBoards.clear();
