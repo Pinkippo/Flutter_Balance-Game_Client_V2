@@ -1,18 +1,22 @@
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
+import 'package:yangjataekil/controller/filtered_list_controller.dart';
 
-import '../../controller/list_controller.dart';
+import '../../controller/all_list_controller.dart';
+import '../../controller/theme_list_controller.dart';
 import '../list/keyword_widget.dart';
 
-class ListItemWidget extends StatelessWidget {
-  const ListItemWidget(
+class FilteredListItemWidget extends StatelessWidget {
+  const FilteredListItemWidget(
       {super.key,
-      required this.controller,
+      this.themeListController,
+      this.filteredListController,
       required this.index,
       required this.isFiltered,
       required this.isMyGame});
 
-  final ListController controller;
+  final ThemeListController? themeListController;
+  final FilteredListController? filteredListController;
   final int index;
   final bool isFiltered;
   final bool isMyGame;
@@ -24,10 +28,10 @@ class ListItemWidget extends StatelessWidget {
         /// 게임 상세 이동
         Get.toNamed('/game_detail', arguments: {
           'boardId': isFiltered
-              ? controller.filteredGames[index].boardId.toString()
+              ? filteredListController?.filteredList[index].boardId.toString()
               : isMyGame
-                  ? controller.myBoards[index].boardId.toString()
-                  : controller.boards[index].boardId.toString(),
+                  ? themeListController?.myBoards[index].boardId.toString()
+                  : themeListController?.boards[index].boardId.toString(),
         });
       },
       child: Container(
@@ -43,10 +47,13 @@ class ListItemWidget extends StatelessWidget {
           children: [
             Text(
               isFiltered
-                  ? controller.filteredGames[index].title
+                  ? filteredListController?.filteredList[index].title ??
+                      'Unknown Title'
                   : isMyGame
-                      ? controller.myBoards[index].title
-                      : controller.boards[index].title,
+                      ? themeListController?.myBoards[index].title ??
+                          'Unknown Title'
+                      : themeListController?.boards[index].title ??
+                          'Unknown Title',
               style: const TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.w300,
@@ -58,14 +65,14 @@ class ListItemWidget extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: isFiltered
-                  ? controller.filteredGames[index].keywords
+                  ? (filteredListController?.filteredList[index].keywords ?? [])
                       .map((keyword) => KeywordWidget(keyword: keyword))
                       .toList()
                   : isMyGame
-                      ? controller.myBoards[index].keywords
+                      ? (themeListController?.myBoards[index].keywords ?? [])
                           .map((keyword) => KeywordWidget(keyword: keyword))
                           .toList()
-                      : controller.boards[index].keywords
+                      : (themeListController?.boards[index].keywords ?? [])
                           .map((keyword) => KeywordWidget(keyword: keyword))
                           .toList(),
             ),
@@ -78,10 +85,10 @@ class ListItemWidget extends StatelessWidget {
                 maxLines: 5,
                 text: TextSpan(
                     text: isFiltered
-                        ? controller.filteredGames[index].introduce
+                        ? filteredListController?.filteredList[index].introduce
                         : isMyGame
-                            ? controller.myBoards[index].introduce
-                            : controller.boards[index].introduce,
+                            ? themeListController?.myBoards[index].introduce
+                            : themeListController?.boards[index].introduce,
                     style: const TextStyle(color: Colors.black)),
               ),
             ),

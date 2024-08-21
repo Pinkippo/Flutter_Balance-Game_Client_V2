@@ -27,13 +27,18 @@ class ListRepository {
               'themeId=${request.themeId}&'
               // 'themeId=${request.themeId}&'
               )
-          : Uri.parse('$url?'
-              'page=${request.page}&'
-              'size=${request.size}&'
-              'sortCondition=${request.sortCondition?.name ?? ''}&'
-              'themeId=${request.themeId}&'
-              // 'themeId=${request.themeId}&'
-              ),
+          : request.themeId == null
+              ? Uri.parse('$url?'
+                  'page=${request.page}&'
+                  'size=${request.size}&'
+                  'sortCondition=${request.sortCondition?.name ?? ''}&')
+              : Uri.parse('$url?'
+                  'page=${request.page}&'
+                  'size=${request.size}&'
+                  'sortCondition=${request.sortCondition?.name ?? ''}&'
+                  'themeId=${request.themeId}&'
+                  // 'themeId=${request.themeId}&'
+                  ),
       headers: <String, String>{
         'Content-Type': 'application/json',
         'Authorization': 'Bearer $token',
@@ -41,7 +46,9 @@ class ListRepository {
     );
 
     if (response.statusCode == 200) {
-      print(request.query);
+      final decodedResponse = jsonDecode(utf8.decode(response.bodyBytes));
+      print(decodedResponse);
+      print('테마별 조회 리스트 갯수: ${decodedResponse['boards']['boards'].length}');
       return ListBoardResponseModel.fromJson(
           jsonDecode(utf8.decode(response.bodyBytes)));
     } else {

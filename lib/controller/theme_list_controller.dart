@@ -4,17 +4,17 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:yangjataekil/controller/auth_controller.dart';
-import 'package:yangjataekil/controller/tab/theme_list_controller.dart';
+import 'package:yangjataekil/controller/tab/theme_controller.dart';
 import 'package:yangjataekil/data/model/board/board.dart';
 import 'package:yangjataekil/data/model/board/list_board_request_model.dart';
 import 'package:yangjataekil/data/model/board/list_board_response_model.dart';
 import 'package:yangjataekil/data/provider/list.repository.dart';
 
-enum SORTCONDITION { LIKE, DATE }
 
-class ListController extends GetxController {
+/// 테마별 게임 리스트 컨트롤러
+class ThemeListController extends GetxController {
   /// .to로 생성된 인스턴스에 접근하기 위한 static 변수
-  static ListController get to => Get.find();
+  static ThemeListController get to => Get.find();
 
   /// 페이지 당 게시글 수
   final Rx<int> size = 10.obs;
@@ -36,12 +36,6 @@ class ListController extends GetxController {
 
   /// 내가 쓴 게임 리스트
   final RxList<Board> myBoards = <Board>[].obs;
-
-  /// 검색 결과 리스트
-  final RxList<Board> filteredGames = <Board>[].obs;
-
-  /// 검색 텍스트
-  final Rx<String> searchText = ''.obs;
 
   /// 스크롤 컨트롤러
   final Rx<ScrollController> scrollController = ScrollController().obs;
@@ -68,14 +62,6 @@ class ListController extends GetxController {
       }
     });
 
-    // 검색 스크롤 이벤트
-    searchScrollController.value.addListener(() {
-      if (searchScrollController.value.position.pixels ==
-          searchScrollController.value.position.maxScrollExtent) {
-        _getSearchedList();
-      }
-    });
-
     super.onInit();
   }
 
@@ -88,11 +74,6 @@ class ListController extends GetxController {
       page.value = 0;
       _getList();
     }
-  }
-
-  /// 검색 텍스트 업데이트
-  void updateSearchText(String text) {
-    searchText.value = text;
   }
 
   /// 리스트 호출 메서드
@@ -108,7 +89,7 @@ class ListController extends GetxController {
           query: '',
           size: size.value,
           page: page.value,
-          themeId: ThemeListController.to.selectedThemeId.value,
+          themeId: ThemeController.to.selectedThemeId.value,
           sortCondition: sortCondition.value,
         ),
         AuthController.to.accessToken.value,
@@ -124,60 +105,6 @@ class ListController extends GetxController {
       );
     } finally {
       isLoading.value = false;
-    }
-  }
-
-  /// 검색 리스트 호출 메서드
-  Future<void> _getSearchedList() async {
-    if (isLoading.value || page.value >= totalPage.value) return;
-
-    // 로딩 시작 상태로 설정
-    isLoading.value = true;
-
-    try {
-      // 딜레이 추가
-      await Future.delayed(const Duration(seconds: 1));
-
-      ListBoardResponseModel response = await ListRepository().getList(
-        ListBoardRequestModel(
-          searching: true,
-          query: searchText.value,
-          size: size.value,
-          page: page.value,
-          themeId: ThemeListController.to.selectedThemeId.value,
-          sortCondition: sortCondition.value,
-        ),
-        AuthController.to.accessToken.value,
-      );
-
-      filteredGames.addAll(response.boards);
-      totalPage.value = response.totalPage!; // totalPage 값 업데이트
-      page.value += 1; // 페이지 값 증가
-    } catch (e) {
-      Get.snackbar(
-        '오류',
-        '리스트를 가져오는 중 오류가 발생했습니다: $e',
-        snackPosition: SnackPosition.BOTTOM,
-      );
-    } finally {
-      isLoading.value = false;
-    }
-  }
-
-  /// 검색 버튼을 눌렀을 때 호출되는 메서드
-  void clickSearchBtn() async {
-    if (searchText.isEmpty) {
-      filteredGames.clear();
-      Get.snackbar(
-        '검색어를 입력해주세요',
-        '검색어를 입력하지 않으면 검색할 수 없습니다.',
-        snackPosition: SnackPosition.BOTTOM,
-      );
-    } else {
-      filteredGames.clear(); // 이전 검색 결과 초기화
-      page.value = 0; // 페이지 초기화
-      totalPage.value = 1; // 총 페이지 수 초기화
-      await _getSearchedList(); // 검색 API 호출
     }
   }
 
