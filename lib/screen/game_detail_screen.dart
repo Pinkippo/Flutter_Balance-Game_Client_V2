@@ -108,7 +108,10 @@ class GameDetailScreen extends GetView<GameDetailController> {
                           ),
                           elevation: 0,
                         ),
-                        onPressed: () {},
+                        onPressed: () async {
+                          /// 게임 플레이 이동
+                          Get.toNamed('/game_play', arguments: controller.gameDetail.value.boardId.toString());
+                        },
                         child: const Text('게임하러 가기',
                             style: TextStyle(fontSize: 16, color: Colors.black)),
                       ),
