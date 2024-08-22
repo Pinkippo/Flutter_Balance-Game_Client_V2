@@ -5,6 +5,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:yangjataekil/data/model/game/game_detail_response_model.dart';
+import 'package:yangjataekil/data/model/game/game_play_content_response_model.dart';
 import 'package:yangjataekil/data/model/game/related_game_model.dart';
 import 'package:yangjataekil/data/model/upload_game_request_model.dart';
 
@@ -98,4 +99,34 @@ class GameRepository {
       throw Exception('관련 게임 조회 실패');
     }
   }
+
+  /// 게임 플레이 컨텐츠 조회
+  Future<List<BoardContent>> getGameContent(String boardId, String token) async {
+    final url = Uri.parse('$baseUrl/board/v2/boards/$boardId/contents');
+    final response = await http.get(
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+        'charset': 'utf-8',
+        'Authorization': 'Bearer $token',
+      },
+    );
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> body = jsonDecode(utf8.decode(response.bodyBytes));
+      debugPrint("body >>>> $body");
+      return body['boardContents']
+          .map<BoardContent>((item) => BoardContent.fromJson(item))
+          .toList();
+    } else {
+      Get.snackbar(
+        '게임 컨텐츠 조회 실패',
+        '다시 시도해주세요.',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: AppColors.primaryColor,
+        colorText: Colors.white,
+      );
+      throw Exception('게임 목록 조회 실패');
+    }
+  }
+
 }

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:yangjataekil/controller/game_detail_controller.dart';
+import 'package:yangjataekil/controller/game_play_controller.dart';
 import 'package:yangjataekil/theme/app_color.dart';
 import 'package:yangjataekil/widget/game_detail/game_vertical_info_widget.dart';
 
@@ -109,8 +111,34 @@ class GameDetailScreen extends GetView<GameDetailController> {
                           elevation: 0,
                         ),
                         onPressed: () async {
-                          /// 게임 플레이 이동
-                          Get.toNamed('/game_play', arguments: controller.gameDetail.value.boardId.toString());
+                          /// 게임 플레이 페이지 이동
+                          /// TODO : 로딩 화면 수정 고려 필요
+                          await Get.showOverlay(
+                              asyncFunction: () async {
+                                /// 최소 로딩 기간 1.5초 보장
+                                final gameContentFuture =
+                                    GamePlayController.to.getGameContent(
+                                        controller.gameDetail.value.boardId.toString()
+                                    );
+                                final delayFuture = Future.delayed(
+                                    const Duration(
+                                        seconds: 1, milliseconds: 500));
+                                return await Future.wait(
+                                        [gameContentFuture, delayFuture])
+                                    .then((results) {
+                                  return results[0];
+                                });
+                              },
+                              loadingWidget: const Center(
+                                child: SpinKitThreeBounce(
+                                  color: AppColors.primaryColor,
+                                  size: 30.0,
+                                ),
+                              )).then((value) {
+                            if (value == true) {
+                              Get.toNamed('/game_play');
+                            }
+                          });
                         },
                         child: const Text('게임하러 가기',
                             style: TextStyle(fontSize: 16, color: Colors.black)),

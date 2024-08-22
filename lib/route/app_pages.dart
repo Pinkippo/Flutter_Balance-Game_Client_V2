@@ -195,6 +195,7 @@ class AppPages {
       transition: Transition.fade,
       binding: BindingsBuilder(() {
         Get.lazyPut<GameDetailController>(() => GameDetailController());
+        Get.lazyPut<GamePlayController>(() => GamePlayController());
       }),
     ),
 
