@@ -1,14 +1,16 @@
 import 'package:get/get.dart';
+import 'package:yangjataekil/controller/all_list_controller.dart';
 import 'package:yangjataekil/controller/auth_controller.dart';
 import 'package:yangjataekil/controller/bottom_navigator_controller.dart';
+import 'package:yangjataekil/controller/filtered_list_controller.dart';
 import 'package:yangjataekil/controller/game_detail_controller.dart';
 import 'package:yangjataekil/controller/game_upload_controller.dart';
-import 'package:yangjataekil/controller/list_controller.dart';
+import 'package:yangjataekil/controller/theme_list_controller.dart';
 import 'package:yangjataekil/controller/login_controller.dart';
 import 'package:yangjataekil/controller/notification_controller.dart';
 import 'package:yangjataekil/controller/recommend_controller.dart';
 import 'package:yangjataekil/controller/register_controller.dart';
-import 'package:yangjataekil/controller/tab/theme_list_controller.dart';
+import 'package:yangjataekil/controller/tab/theme_controller.dart';
 import 'package:yangjataekil/controller/notice_controller.dart';
 import 'package:yangjataekil/screen/change_pw_screen.dart';
 import 'package:yangjataekil/screen/game_detail_screen.dart';
@@ -21,7 +23,6 @@ import 'package:yangjataekil/screen/register_profile_screen.dart';
 import 'package:yangjataekil/screen/notification_screen.dart';
 import 'package:yangjataekil/screen/notice_screen.dart';
 import 'package:yangjataekil/screen/register_screen.dart';
-import 'package:yangjataekil/widget/home/recommended_game_widget.dart';
 
 import '../controller/agreeterms_controller.dart';
 import '../screen/agreeterms_screen.dart';
@@ -54,14 +55,14 @@ class AppPages {
           Get.lazyPut<BottomNavigatorController>(() {
             return BottomNavigatorController();
           });
-          Get.lazyPut<ListController>(() {
-            return ListController();
+          Get.lazyPut<AllListController>(() {
+            return AllListController();
           });
           Get.lazyPut<RecommendController>(() {
             return RecommendController();
           });
-          Get.lazyPut<ThemeListController>(() {
-            return ThemeListController();
+          Get.lazyPut<FilteredListController>(() {
+            return FilteredListController(isAllList: true);
           });
           await Get.putAsync<AuthController>(() async {
             return AuthController();
@@ -150,8 +151,11 @@ class AppPages {
       page: () => const ListScreen(),
       transition: Transition.fade,
       binding: BindingsBuilder(() {
-        Get.lazyPut<ListController>(() {
-          return ListController();
+        Get.lazyPut<ThemeListController>(() {
+          return ThemeListController();
+        });
+        Get.lazyPut<FilteredListController>(() {
+          return FilteredListController(isAllList: false); // 명시적으로 FilteredListController 등록
         });
       }),
     ),
@@ -198,8 +202,8 @@ class AppPages {
         page: () => const MyGamesScreen(),
         transition: Transition.fade,
         binding: BindingsBuilder(() {
-          Get.lazyPut<ListController>(() {
-            return ListController();
+          Get.lazyPut<ThemeListController>(() {
+            return ThemeListController();
           });
         })),
   ];

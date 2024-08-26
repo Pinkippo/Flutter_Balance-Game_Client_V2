@@ -1,4 +1,6 @@
-import 'package:yangjataekil/controller/list_controller.dart';
+import 'package:yangjataekil/controller/theme_list_controller.dart';
+
+enum SORTCONDITION { LIKE, DATE }
 
 class ListBoardRequestModel {
   final bool searching;
@@ -6,7 +8,7 @@ class ListBoardRequestModel {
   final int size;
   final int page;
   final SORTCONDITION? sortCondition;
-  final int themeId;
+  int? themeId;
 
   ListBoardRequestModel({
     required this.searching,
@@ -14,25 +16,6 @@ class ListBoardRequestModel {
     required this.size,
     required this.page,
     required this.sortCondition,
-    required this.themeId,
+    this.themeId,
   });
-
-  Map<String, dynamic> toJson() {
-    if(searching) {
-      return {
-        'query': query,
-        'page': page,
-        'size': size,
-        'sortCondition': sortCondition?.name ?? '',
-        'themeId': themeId,
-      };
-    } else {
-      return {
-        'page': page,
-        'size': size,
-        'sortCondition': sortCondition?.name ?? '',
-        'themeId': themeId,
-      };
-    }
-  }
 }

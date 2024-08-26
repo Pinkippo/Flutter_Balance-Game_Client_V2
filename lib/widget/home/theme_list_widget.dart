@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:yangjataekil/controller/tab/theme_list_controller.dart';
+import 'package:yangjataekil/controller/tab/theme_controller.dart';
 
-class GameByTheme extends GetView<ThemeListController> {
+class GameByTheme extends GetView<ThemeController> {
   const GameByTheme({super.key});
 
   @override

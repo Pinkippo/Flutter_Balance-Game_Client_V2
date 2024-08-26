@@ -13,8 +13,6 @@ class ListBoardResponseModel {
     var boardsJson = json['boards']['boards'] as List;
     List<Board> boardsList = boardsJson.map((i) => Board.fromJson(i)).toList();
 
-    print(boardsList);
-    print(json['boards']['totalPage']);
     return ListBoardResponseModel(
       boards: boardsList,
       totalPage: json['boards']['totalPage'],

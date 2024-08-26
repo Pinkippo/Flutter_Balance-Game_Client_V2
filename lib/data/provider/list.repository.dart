@@ -17,23 +17,35 @@ class ListRepository {
       ListBoardRequestModel request, String token) async {
     final url = Uri.parse('$baseUrl/board/v2/boards');
 
+    print('query=${request.query}&'
+        'page=${request.page}&'
+        'size=${request.size}&'
+        'sortCondition=${request.sortCondition?.name ?? ''}&'
+        'themeId=${request.themeId}&');
     final response = await http.get(
       request.searching
-          ? Uri.parse('$url?'
-              'query=${request.query}&'
-              'page=${request.page}&'
-              'size=${request.size}&'
-              'sortCondition=${request.sortCondition?.name ?? ''}&'
-              'themeId=${request.themeId}&'
-              // 'themeId=${request.themeId}&'
-              )
-          : Uri.parse('$url?'
-              'page=${request.page}&'
-              'size=${request.size}&'
-              'sortCondition=${request.sortCondition?.name ?? ''}&'
-              'themeId=${request.themeId}&'
-              // 'themeId=${request.themeId}&'
-              ),
+          ? (request.themeId == null
+              ? Uri.parse('$url?'
+                  'query=${request.query}&'
+                  'page=${request.page}&'
+                  'size=${request.size}&'
+                  'sortCondition=${request.sortCondition?.name ?? ''}&')
+              : Uri.parse('$url?'
+                  'query=${request.query}&'
+                  'page=${request.page}&'
+                  'size=${request.size}&'
+                  'sortCondition=${request.sortCondition?.name ?? ''}&'
+                  'themeId=${request.themeId}&'))
+          : request.themeId == null
+              ? Uri.parse('$url?'
+                  'page=${request.page}&'
+                  'size=${request.size}&'
+                  'sortCondition=${request.sortCondition?.name ?? ''}&')
+              : Uri.parse('$url?'
+                  'page=${request.page}&'
+                  'size=${request.size}&'
+                  'sortCondition=${request.sortCondition?.name ?? ''}&'
+                  'themeId=${request.themeId}&'),
       headers: <String, String>{
         'Content-Type': 'application/json',
         'Authorization': 'Bearer $token',
@@ -41,10 +53,13 @@ class ListRepository {
     );
 
     if (response.statusCode == 200) {
-      print(request.query);
+      final decodedResponse = jsonDecode(utf8.decode(response.bodyBytes));
+      print(decodedResponse);
+      print('테마별 조회 리스트 갯수: ${decodedResponse['boards']['boards'].length}');
       return ListBoardResponseModel.fromJson(
           jsonDecode(utf8.decode(response.bodyBytes)));
     } else {
+      print('게임 리스트 조회 실패(repository)');
       Get.snackbar(
         '조회 실패',
         '서버 상태가 불안정합니다. 잠시 후 다시 시도해주세요.',

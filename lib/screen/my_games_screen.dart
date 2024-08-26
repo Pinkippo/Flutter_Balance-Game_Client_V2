@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:yangjataekil/controller/list_controller.dart';
 
-import '../widget/game/list_item_widget.dart';
+import '../controller/theme_list_controller.dart';
+import '../widget/game/filtered_list_item_widget.dart';
 
-class MyGamesScreen extends GetView<ListController> {
+class MyGamesScreen extends GetView<ThemeListController> {
   const MyGamesScreen({super.key});
 
   @override
@@ -34,8 +34,8 @@ class MyGamesScreen extends GetView<ListController> {
             itemCount: controller.myBoards.length,
             itemBuilder: (_, index) {
               if (index < controller.myBoards.length + 1) {
-                return ListItemWidget(
-                    controller: controller, index: index, isFiltered: false, isMyGame: true);
+                return FilteredListItemWidget(
+                    themeListController: controller, index: index, isFiltered: false, isMyGame: true);
               }
               return null;
             },
