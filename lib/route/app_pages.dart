@@ -5,6 +5,7 @@ import 'package:yangjataekil/controller/bottom_navigator_controller.dart';
 import 'package:yangjataekil/controller/filtered_list_controller.dart';
 import 'package:yangjataekil/controller/game_detail_controller.dart';
 import 'package:yangjataekil/controller/game_upload_controller.dart';
+import 'package:yangjataekil/controller/report_controller.dart';
 import 'package:yangjataekil/controller/theme_list_controller.dart';
 import 'package:yangjataekil/controller/login_controller.dart';
 import 'package:yangjataekil/controller/notification_controller.dart';
@@ -63,6 +64,9 @@ class AppPages {
           });
           Get.lazyPut<FilteredListController>(() {
             return FilteredListController(isAllList: true);
+          });
+          Get.lazyPut<ReportController>(() {
+            return ReportController();
           });
           await Get.putAsync<AuthController>(() async {
             return AuthController();
@@ -155,7 +159,8 @@ class AppPages {
           return ThemeListController();
         });
         Get.lazyPut<FilteredListController>(() {
-          return FilteredListController(isAllList: false); // 명시적으로 FilteredListController 등록
+          return FilteredListController(
+              isAllList: false); // 명시적으로 FilteredListController 등록
         });
       }),
     ),
