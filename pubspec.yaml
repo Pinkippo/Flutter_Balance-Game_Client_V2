@@ -34,6 +34,9 @@ dependencies:
     sdk: flutter
   image_picker: ^1.1.2
 
+  # 버전 관리
+  package_info: ^2.0.2
+
   # 상태관리
   get: ^4.6.5
 

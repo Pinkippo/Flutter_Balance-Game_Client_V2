@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
-import 'package:yangjataekil/data/model/login_request_model.dart';
+import 'package:package_info/package_info.dart';
+import 'package:yangjataekil/data/model/version_model.dart';
 import 'package:yangjataekil/data/provider/auth_repository.dart';
-import 'package:yangjataekil/data/provider/login_repository.dart';
 
-import '../data/model/login_response_model.dart';
 import '../data/model/user_response_model.dart';
 import '../theme/app_color.dart';
-import 'bottom_navigator_controller.dart';
-
 /// 로그인 컨트롤러 - main.dart에서 영속성 생성하여 사용
 class AuthController extends GetxController {
   static AuthController get to => Get.find();
@@ -39,10 +36,13 @@ class AuthController extends GetxController {
   final Rx<String> invitationCode = Rx<String>('');
   final Rx<String> profileUrl = Rx<String>('');
   final RxInt userBoardCount = RxInt(0);
+  final Rx<String> version = Rx<String>('');
+  final Rx<bool> isCurrent = Rx<bool>(false);
 
   @override
   void onInit() {
     super.onInit();
+    getVersion();
   }
   /// 비밀번호 찾기
   final Rx<String> currentPw = Rx<String>('');
@@ -221,4 +221,44 @@ class AuthController extends GetxController {
       );
     }
   }
+
+  /// 버전조회
+  Future<void> getVersion() async {
+    try {
+      final PackageInfo packageInfo = await PackageInfo.fromPlatform();
+      final String appVersion = packageInfo.version;
+
+      final VersionModel response = await authRepository.getVersion();
+      print('버전 정보 조회, profileUrl>> ${response.toString()}');
+
+      final checkVersion = _checkVersion(appVersion, response.minimumVersion);
+      if (checkVersion == -1) {
+          // TODO: 업데이트 유도 링크 추가
+          print('업데이트 해야합니다');
+      } else if (checkVersion == 0) {
+        isCurrent.value = true;
+      }
+      version.value = appVersion;
+    } catch (e) {
+      print('버전 조회 실패: $e');
+      Get.snackbar(
+        '오류 발생',
+        '버전 정보를 조회하는 중 오류가 발생했습니다.',
+        backgroundColor: AppColors.primaryColor,
+        colorText: Colors.white,
+        snackPosition: SnackPosition.BOTTOM,
+      );
+    }
+  }
+}
+
+int _checkVersion(String appVersion, String minimumVersion) {
+  List<int> appVersionList = appVersion.split('.').map(int.parse).toList();
+  List<int> minimumVersionList = minimumVersion.split('.').map(int.parse).toList();
+
+  for (int i=0; i< appVersionList.length; i++) {
+    if (appVersionList[i] > minimumVersionList[i]) return 1;
+    if (appVersionList[i] < minimumVersionList[i]) return -1;
+  }
+  return 0;
 }
