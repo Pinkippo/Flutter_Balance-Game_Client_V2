@@ -73,7 +73,7 @@ class GameRepository {
   /// 관련 게임 조회
   Future<List<RelatedGameModel>> getRelatedGame(String boardId) async {
     final url =
-        Uri.parse('$baseUrl/board/v2/public/boards/$boardId/related-boards');
+        Uri.parse('$baseUrl/board/v2/boards/$boardId/related-boards');
     final response = await http.get(
       url,
       headers: {
