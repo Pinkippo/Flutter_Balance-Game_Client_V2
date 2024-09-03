@@ -66,7 +66,7 @@ class GamePlayController extends GetxController {
 
           if (result) {
             /// TODO : 리뷰 여부 확인 후 각 페이지 이동
-            Get.back();
+            resetResult().then((_)=> Get.back());
           }
         } catch (e) {
           print('게임 제출 에러 발생: $e');
