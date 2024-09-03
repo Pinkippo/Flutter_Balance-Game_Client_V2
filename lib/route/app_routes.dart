@@ -24,4 +24,5 @@ abstract class Routes {
   static const myPageModify = '/myPage/modify';
   static const gameDetail = '/game_detail';
   static const myGames = '/my_games';
+  static const reviewList = '/review_list';
 }

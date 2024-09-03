@@ -48,7 +48,8 @@ class ListRepository {
                   'themeId=${request.themeId}&'),
       headers: <String, String>{
         'Content-Type': 'application/json',
-        'Authorization': 'Bearer $token',
+        if(token.isNotEmpty)
+          'Authorization': 'Bearer $token'
       },
     );
 
