@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:yangjataekil/data/model/game/game_detail_response_model.dart';
 import 'package:yangjataekil/data/model/game/game_play_content_response_model.dart';
+import 'package:yangjataekil/data/model/game/game_play_request_model.dart';
 import 'package:yangjataekil/data/model/game/related_game_model.dart';
 import 'package:yangjataekil/data/model/upload_game_request_model.dart';
 
@@ -124,6 +125,32 @@ class GameRepository {
         colorText: Colors.white,
       );
       throw Exception('게임 목록 조회 실패');
+    }
+  }
+
+  /// 게임 플레이 결과 전송
+  Future<bool> postGameResult(String boardId, List<GamePlayRequestModel> selectedResult, String token) async {
+    final url = Uri.parse('$baseUrl/board/v2/boards/$boardId/result');
+    final response = await http.post(
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+        'charset': 'utf-8',
+        'Authorization': 'Bearer $token',
+      },
+      body: jsonEncode(selectedResult.map((e) => e.toJson()).toList()),
+    );
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      Get.snackbar(
+        '게임 결과 전송 실패',
+        '다시 시도해주세요.',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: AppColors.primaryColor,
+        colorText: Colors.white,
+      );
+      throw Exception('게임 결과 전송 실패');
     }
   }
 
