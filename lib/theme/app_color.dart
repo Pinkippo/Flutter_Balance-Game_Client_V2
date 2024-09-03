@@ -9,4 +9,8 @@ class AppColors {
   static const Color profileBackgroundColor = Color(0xffD9D9D9);
   static const Color profileIconColor = Color(0xffF2F2F2);
   static const Color gameGreyColor = Color(0xffA3A3A3);
+
+  static const Color gamePlayPinkColor = Color(0xFFFFA7A7);
+  static const Color gamePlayYellowColor = Color(0xFFFFE0A5);
+  static const Color gamePlayBarColor = Color(0xFFFF8E9C);
 }

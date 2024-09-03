@@ -101,7 +101,7 @@ class GameRepository {
   }
 
   /// 게임 플레이 컨텐츠 조회
-  Future<List<BoardContent>> getGameContent(String boardId, String token) async {
+  Future<BoardContentResponse> getGameContent(String boardId, String token) async {
     final url = Uri.parse('$baseUrl/board/v2/boards/$boardId/contents');
     final response = await http.get(
       url,
@@ -114,9 +114,7 @@ class GameRepository {
     if (response.statusCode == 200) {
       final Map<String, dynamic> body = jsonDecode(utf8.decode(response.bodyBytes));
       debugPrint("body >>>> $body");
-      return body['boardContents']
-          .map<BoardContent>((item) => BoardContent.fromJson(item))
-          .toList();
+      return BoardContentResponse.fromJson(body);
     } else {
       Get.snackbar(
         '게임 컨텐츠 조회 실패',

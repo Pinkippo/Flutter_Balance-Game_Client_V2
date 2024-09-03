@@ -45,3 +45,22 @@ class BoardContent {
     );
   }
 }
+
+/// 게임 컨텐츠 응답 모델
+class BoardContentResponse {
+  final List<BoardContent> boardContents;
+  final bool isReviewExist;
+
+  BoardContentResponse({
+    required this.boardContents,
+    required this.isReviewExist,
+  });
+
+  factory BoardContentResponse.fromJson(Map<String, dynamic> json) {
+    return BoardContentResponse(
+      boardContents: json['boardContents']['boardContentsDTO']
+          .map<BoardContent>((item) => BoardContent.fromJson(item)).toList(),
+      isReviewExist: json['boardContents']['isReviewExist'] ?? false,
+    );
+  }
+}

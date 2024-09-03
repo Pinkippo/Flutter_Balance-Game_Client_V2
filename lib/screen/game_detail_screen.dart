@@ -118,7 +118,8 @@ class GameDetailScreen extends GetView<GameDetailController> {
                                 /// 최소 로딩 기간 1.5초 보장
                                 final gameContentFuture =
                                     GamePlayController.to.getGameContent(
-                                        controller.gameDetail.value.boardId.toString()
+                                        controller.gameDetail.value.boardId.toString(),
+                                        controller.gameDetail.value.title.toString()
                                     );
                                 final delayFuture = Future.delayed(
                                     const Duration(
