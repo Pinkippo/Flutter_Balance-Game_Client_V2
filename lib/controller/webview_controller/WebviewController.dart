@@ -4,7 +4,6 @@ import 'package:webview_flutter/webview_flutter.dart';
 
 /// 웹뷰 컨트롤러
 class MyWebViewController extends GetxController {
-
   /// GetX 컨트롤러 인스턴스 생성
   static MyWebViewController get to => Get.find();
 
@@ -19,6 +18,11 @@ class MyWebViewController extends GetxController {
 
   /// 웹뷰 URL
   final url = ''.obs;
+
+  /// 생성자
+  MyWebViewController(String url) {
+    this.url.value = url;
+  }
 
   @override
   void onInit() async {
@@ -54,7 +58,8 @@ class MyWebViewController extends GetxController {
             print('웹 리소스 에러: ${error.description}');
           },
           onNavigationRequest: (NavigationRequest request) {
-            if (request.url.startsWith('https://www.youtube.com/')) {
+            if (request.url.startsWith('https:') ||
+                request.url.startsWith('http:')) {
               return NavigationDecision.prevent;
             }
             return NavigationDecision.navigate;
@@ -74,4 +79,3 @@ class MyWebViewController extends GetxController {
     this.url.value = url;
   }
 }
-

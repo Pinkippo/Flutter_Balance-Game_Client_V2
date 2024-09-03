@@ -11,10 +11,10 @@ class WebViewScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // myWebViewController 인스턴스 생성
-    final MyWebViewController controller = Get.put(MyWebViewController());
+    final MyWebViewController controller = Get.put(MyWebViewController(url));
 
     // 매개변수로 받은 url을 controller에 설정
-    controller.setUrl(url);
+    // controller.setUrl(url);
     print('웹뷰 url>>>>>>>>: $url');
 
     return Scaffold(
