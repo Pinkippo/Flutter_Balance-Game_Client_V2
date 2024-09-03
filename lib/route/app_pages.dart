@@ -4,6 +4,7 @@ import 'package:yangjataekil/controller/auth_controller.dart';
 import 'package:yangjataekil/controller/bottom_navigator_controller.dart';
 import 'package:yangjataekil/controller/filtered_list_controller.dart';
 import 'package:yangjataekil/controller/game_detail_controller.dart';
+import 'package:yangjataekil/controller/game_play_controller.dart';
 import 'package:yangjataekil/controller/game_upload_controller.dart';
 import 'package:yangjataekil/controller/theme_list_controller.dart';
 import 'package:yangjataekil/controller/login_controller.dart';
@@ -13,6 +14,7 @@ import 'package:yangjataekil/controller/register_controller.dart';
 import 'package:yangjataekil/controller/notice_controller.dart';
 import 'package:yangjataekil/screen/change_pw_screen.dart';
 import 'package:yangjataekil/screen/game_detail_screen.dart';
+import 'package:yangjataekil/screen/game_play_screen.dart';
 import 'package:yangjataekil/screen/list_screen.dart';
 import 'package:yangjataekil/controller/user_modify_controller.dart';
 import 'package:yangjataekil/screen/login_screen.dart';
@@ -191,6 +193,17 @@ class AppPages {
       transition: Transition.fade,
       binding: BindingsBuilder(() {
         Get.lazyPut<GameDetailController>(() => GameDetailController());
+        Get.lazyPut<GamePlayController>(() => GamePlayController());
+      }),
+    ),
+
+    /// 게임 플레이 페이지
+    GetPage(
+      name: Routes.gamePlay,
+      page: () => const GamePlayScreen(),
+      transition: Transition.fade,
+      binding: BindingsBuilder(() {
+        Get.lazyPut<GamePlayController>(() => GamePlayController());
       }),
     ),
 
