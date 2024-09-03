@@ -28,6 +28,7 @@ import '../controller/agreeterms_controller.dart';
 import '../screen/agreeterms_screen.dart';
 import '../screen/my_games_screen.dart';
 import '../screen/notice_detail_screen.dart';
+import '../screen/review_list_screen.dart';
 import '../screen/upload_game_screen.dart';
 
 part 'app_routes.dart';
@@ -155,7 +156,8 @@ class AppPages {
           return ThemeListController();
         });
         Get.lazyPut<FilteredListController>(() {
-          return FilteredListController(isAllList: false); // 명시적으로 FilteredListController 등록
+          return FilteredListController(
+              isAllList: false); // 명시적으로 FilteredListController 등록
         });
       }),
     ),
@@ -217,5 +219,12 @@ class AppPages {
             return ThemeListController();
           });
         })),
+
+    /// 리뷰 리스트 페이지
+    GetPage(
+      name: Routes.reviewList,
+      page: () => const ReviewListScreen(),
+      transition: Transition.fade,
+    ),
   ];
 }
