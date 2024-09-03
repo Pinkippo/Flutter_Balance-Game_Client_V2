@@ -106,7 +106,7 @@ class GamePlayScreen extends GetView<GamePlayController> {
                                       Center(
                                         child: Text(
                                           controller.boardContent[index]
-                                              .boardContentItems[1].item,
+                                              .boardContentItems[0].item,
                                           style: const TextStyle(
                                             color: Colors.black,
                                             fontSize: 20,
