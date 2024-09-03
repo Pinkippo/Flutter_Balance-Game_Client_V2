@@ -16,7 +16,7 @@ class MiddleStackContent extends GetView<AuthController> {
         right: 20, // 조정이 필요할 경우 이 값을 수정
         child: GestureDetector(
           onTap: () {
-            BottomNavigatorController.to.changeIndex(3);
+            Get.toNamed('/my_games');
           },
           child: Container(
             width: double.infinity,

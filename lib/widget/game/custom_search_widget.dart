@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
+import 'package:yangjataekil/controller/filtered_list_controller.dart';
 import 'package:yangjataekil/theme/app_color.dart';
-import 'package:yangjataekil/widget/game/list_item_widget.dart';
-
-import '../../controller/list_controller.dart';
+import 'package:yangjataekil/widget/game/filtered_list_item_widget.dart';
 
 class CustomSearchWidget extends SearchDelegate {
-  final ListController controller;
+  final bool isAllList;
+  final FilteredListController controller = Get.put(FilteredListController(isAllList: false));
 
-  CustomSearchWidget(this.controller)
+  CustomSearchWidget({required this.isAllList})
       : super(
             searchFieldLabel: '검색어를 입력하세요',
             searchFieldStyle: const TextStyle(fontSize: 17));
@@ -23,7 +23,7 @@ class CustomSearchWidget extends SearchDelegate {
         icon: const Icon(Icons.search),
         onPressed: () {
           controller.updateSearchText(query);
-          controller.clickSearchBtn();
+          controller.clickSearchBtn(isAllList);
           showResults(context);
         },
       ),
@@ -57,15 +57,18 @@ class CustomSearchWidget extends SearchDelegate {
         );
       }
 
-      if (controller.filteredGames.isEmpty) {
+      if (controller.filteredList.isEmpty) {
         // 검색 결과가 없을 때
         return Container(
           color: Colors.white,
           child: const Center(
-            child: Text('검색 결과가 없습니다.', style: TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
-            ),),
+            child: Text(
+              '검색 결과가 없습니다.',
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
           ),
         );
       }
@@ -77,15 +80,18 @@ class CustomSearchWidget extends SearchDelegate {
   /// 검색 결과 리스트
   @override
   Widget buildSuggestions(BuildContext context) {
-    if (controller.filteredGames.isEmpty) {
+    if (controller.filteredList.isEmpty) {
       // 검색 결과가 없을 때
       return Container(
         color: Colors.white,
         child: const Center(
-          child: Text('검색 결과가 없습니다.', style: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
-          ),),
+          child: Text(
+            '검색 결과가 없습니다.',
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
         ),
       );
     }
@@ -100,14 +106,17 @@ class CustomSearchWidget extends SearchDelegate {
         color: Colors.white,
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
         child: ListView.separated(
-          controller: controller.searchScrollController.value,
-          itemCount: controller.filteredGames.length,
+          controller: controller.scrollController.value,
+          itemCount: controller.filteredList.length,
           separatorBuilder: (_, index) => const SizedBox(
             height: 20,
           ),
           itemBuilder: (_, index) {
-            return ListItemWidget(
-                controller: controller, index: index, isFiltered: true);
+            return FilteredListItemWidget(
+                filteredListController: controller,
+                index: index,
+                isFiltered: true,
+                isMyGame: false);
           },
         ),
       ),

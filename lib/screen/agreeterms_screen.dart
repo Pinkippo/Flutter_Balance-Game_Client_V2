@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:yangjataekil/controller/agreeterms_controller.dart';
+import 'package:yangjataekil/screen/web_view_screen.dart';
 import 'package:yangjataekil/theme/app_color.dart';
 
 class AgreeTermsScreen extends GetView<AgreeTermsController> {
@@ -103,7 +104,7 @@ class AgreeTermsScreen extends GetView<AgreeTermsController> {
                   ),
                 ),
                 title: Text(
-                  '이용약관 및 개인정보취급방침 (필수)',
+                  '개인정보 수집 및 이용동의 (필수)',
                   style: TextStyle(
                     fontSize: 15,
                     color: Colors.black.withOpacity(0.4),
@@ -115,8 +116,12 @@ class AgreeTermsScreen extends GetView<AgreeTermsController> {
                   size: 15,
                 ),
                 onTap: () {
-                  /// TODO : 이용약관 및 개인정보 처리방침 연결
-                  print('이용약관 및 개인정보 취급방침 페이지');
+                  Get.to(
+                    () => const WebViewScreen(
+                      url:
+                          'https://www.notion.so/6427195b9c764fedbf5533462be5aabd?pvs=4',
+                    ),
+                  );
                 },
               ),
             ),
@@ -143,7 +148,7 @@ class AgreeTermsScreen extends GetView<AgreeTermsController> {
                   ),
                 ),
                 title: Text(
-                  '마케팅 정보 수신 동의 (선택)',
+                  '서비스 이용약관 동의 (필수)',
                   style: TextStyle(
                     fontSize: 15,
                     color: Colors.black.withOpacity(0.4),
@@ -155,8 +160,11 @@ class AgreeTermsScreen extends GetView<AgreeTermsController> {
                   size: 15,
                 ),
                 onTap: () {
-                  /// TODO : 마케팅 정보 수신 동의 연결
-                  print('마케팅 정보 수신 동의 연결');
+                  Get.to(
+                    () => const WebViewScreen(
+                        url:
+                            'https://www.notion.so/b93ac0029cec4144ad3a09774e8f2929?pvs=4'),
+                  );
                 },
               ),
             ),

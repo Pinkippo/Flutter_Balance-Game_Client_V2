@@ -1,8 +1,7 @@
 part of 'app_pages.dart';
 
 /// 앱 페이지 경로 설정 클래스
-abstract class Routes{
-
+abstract class Routes {
   Routes._(); // 생성자 private
 
   /// 페이지 경로
@@ -23,7 +22,8 @@ abstract class Routes{
   static const list = '/list';
   static const changePw = '/change_pw';
   static const myPageModify = '/myPage/modify';
-  static const todayRecommend = '/today_recommend';
   static const gameDetail = '/game_detail';
   static const gamePlay = '/game_play';
+  static const myGames = '/my_games';
+  static const reviewList = '/review_list';
 }

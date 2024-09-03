@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:yangjataekil/controller/list_controller.dart';
+import 'package:yangjataekil/controller/auth_controller.dart';
+import 'package:yangjataekil/controller/filtered_list_controller.dart';
+import 'package:yangjataekil/controller/theme_list_controller.dart';
 import 'package:yangjataekil/theme/app_color.dart';
 import 'package:yangjataekil/widget/game/custom_search_widget.dart';
-import 'package:yangjataekil/widget/game/list_item_widget.dart';
-import 'package:yangjataekil/widget/list/keyword_widget.dart';
+import 'package:yangjataekil/widget/game/filtered_list_item_widget.dart';
 
-import '../controller/tab/theme_list_controller.dart';
+import '../controller/tab/theme_controller.dart';
+import '../data/model/board/list_board_request_model.dart';
 
-class ListScreen extends GetView<ListController> {
+class ListScreen extends GetView<ThemeListController> {
   const ListScreen({super.key});
 
   @override
@@ -18,7 +20,7 @@ class ListScreen extends GetView<ListController> {
           foregroundColor: Colors.black,
           backgroundColor: Colors.white,
           elevation: 0,
-          title: Text('${ThemeListController.to.getThemeName()} 벨런스 게임',
+          title: Text('${ThemeController.to.getThemeName()} 벨런스 게임',
               style:
                   const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
           leading: IconButton(
@@ -31,11 +33,11 @@ class ListScreen extends GetView<ListController> {
             IconButton(
               icon: const Icon(Icons.search),
               onPressed: () {
-                controller.filteredGames.clear();
+                FilteredListController.to.filteredList.clear();
                 // 검색을 위해 검색 창 표시
                 showSearch(
                   context: context,
-                  delegate: CustomSearchWidget(controller),
+                  delegate: CustomSearchWidget(isAllList: false),
                 );
               },
             ),
@@ -96,7 +98,9 @@ class ListScreen extends GetView<ListController> {
           borderRadius: BorderRadius.circular(50),
         ),
         onPressed: () {
-          Get.toNamed('/upload_game');
+          AuthController.to.accessToken.value.isEmpty
+              ? Get.toNamed('/login')
+              : Get.toNamed('/upload_game');
         },
         child: const Icon(Icons.add, color: Colors.white),
       ),
@@ -112,8 +116,11 @@ class ListScreen extends GetView<ListController> {
             itemCount: controller.boards.length,
             itemBuilder: (_, index) {
               if (index < controller.boards.length + 1) {
-                return ListItemWidget(
-                    controller: controller, index: index, isFiltered: false);
+                return FilteredListItemWidget(
+                    themeListController: controller,
+                    index: index,
+                    isFiltered: false,
+                    isMyGame: false);
               }
               return null;
             },

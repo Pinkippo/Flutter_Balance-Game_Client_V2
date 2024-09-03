@@ -3,8 +3,8 @@ import 'package:yangjataekil/data/model/theme/list_theme_response.dart';
 import 'package:yangjataekil/data/provider/theme_repository.dart';
 import 'package:yangjataekil/data/model/theme/theme.dart';
 
-class ThemeListController extends GetxController {
-  static ThemeListController get to => Get.find();
+class ThemeController extends GetxController {
+  static ThemeController get to => Get.find();
 
   final RxList<Theme> themes = <Theme>[].obs;
   final RxInt selectedThemeId = 0.obs;
@@ -17,7 +17,7 @@ class ThemeListController extends GetxController {
 
   void changeIndex(int themeId) {
     selectedThemeId.value = themeId; // selectedTheme를 새로운 값으로 설정
-    print(selectedThemeId);
+    print('선택된 테마 ID: $selectedThemeId');
   }
 
   Future<void> _getThemes() async {

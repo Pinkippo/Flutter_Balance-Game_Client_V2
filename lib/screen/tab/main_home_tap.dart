@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:yangjataekil/controller/tab/theme_list_controller.dart';
+import 'package:yangjataekil/controller/tab/theme_controller.dart';
 import 'package:yangjataekil/theme/app_color.dart';
 import 'package:yangjataekil/widget/home/theme_list_widget.dart';
 import 'package:yangjataekil/widget/home/home_header_widget.dart';
@@ -14,7 +14,7 @@ class HomeTap extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Get.put(ThemeListController());
+    Get.put(ThemeController());
 
     return Scaffold(
       appBar: AppBar(

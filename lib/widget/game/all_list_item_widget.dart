@@ -1,19 +1,15 @@
-import 'package:get/get.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:yangjataekil/controller/all_list_controller.dart';
 
-import '../../controller/list_controller.dart';
 import '../list/keyword_widget.dart';
 
-class ListItemWidget extends StatelessWidget {
-  const ListItemWidget(
-      {super.key,
-      required this.controller,
-      required this.index,
-      required this.isFiltered});
+class AllListItemWidget extends StatelessWidget {
+  const AllListItemWidget(
+      {super.key, required this.controller, required this.index});
 
-  final ListController controller;
+  final AllListController controller;
   final int index;
-  final bool isFiltered;
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +17,7 @@ class ListItemWidget extends StatelessWidget {
       onTap: () {
         /// 게임 상세 이동
         Get.toNamed('/game_detail', arguments: {
-          'boardId' : controller.boards[index].boardId.toString(),
+          'boardId': controller.allBoards[index].boardId.toString(),
         });
       },
       child: Container(
@@ -36,9 +32,7 @@ class ListItemWidget extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              isFiltered
-                  ? controller.filteredGames[index].title
-                  : controller.boards[index].title,
+              controller.allBoards[index].title,
               style: const TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.w300,
@@ -49,13 +43,11 @@ class ListItemWidget extends StatelessWidget {
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: isFiltered
-                  ? controller.filteredGames[index].keywords
-                      .map((keyword) => KeywordWidget(keyword: keyword))
-                      .toList()
-                  : controller.boards[index].keywords
-                      .map((keyword) => KeywordWidget(keyword: keyword))
-                      .toList(),
+              children: controller.allBoards[index].keywords
+                  .map((keyword) => KeywordWidget(
+                        keyword: keyword,
+                      ))
+                  .toList(),
             ),
             const SizedBox(
               height: 10,
@@ -65,10 +57,8 @@ class ListItemWidget extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
                 maxLines: 5,
                 text: TextSpan(
-                    text: isFiltered
-                        ? controller.filteredGames[index].introduce
-                        : controller.boards[index].introduce,
-                    style: const TextStyle(color: Colors.black)),
+                  text: controller.allBoards[index].introduce,
+                ),
               ),
             ),
           ],

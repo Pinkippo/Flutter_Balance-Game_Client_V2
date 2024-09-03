@@ -9,6 +9,7 @@ import 'package:yangjataekil/controller/auth_controller.dart';
 import 'package:yangjataekil/data/model/register_response_model.dart';
 import 'package:yangjataekil/data/model/user_modify_request_model.dart';
 import 'package:yangjataekil/data/model/user_response_model.dart';
+import 'package:yangjataekil/data/model/version_model.dart';
 import 'package:yangjataekil/theme/app_color.dart';
 import 'package:http/http.dart' as http;
 
@@ -33,6 +34,7 @@ class AuthRepository {
     // print('회원 조회 응답: ${utf8.decode(response.bodyBytes)}');
 
     if (response.statusCode == 200) {
+      print('회원 토큰 조회: $token');
       print('회원조회 API response : \n${utf8.decode(response.bodyBytes)}');
       final responseData = jsonDecode(utf8.decode(response.bodyBytes));
       if (responseData is Map<String, dynamic>) {
@@ -251,6 +253,49 @@ class AuthRepository {
       }
     } else {
       throw Exception('유저 정보 조회 실패');
+    }
+  }
+
+  /// 회원탈퇴
+  Future<bool> deleteUser(String token) async {
+    final url = Uri.parse('$baseUrl/user/v2/users/me/withdraw');
+    final response = await http.post(
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+        'charset': 'utf-8',
+        'Authorization': 'Bearer $token',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      print('회원탈퇴 응답: ${utf8.decode(response.bodyBytes)}');
+      return true;
+    } else {
+      throw Exception('회원탈퇴 실패');
+    }
+  }
+
+  Future<VersionModel> getVersion() async {
+    final url = Uri.parse('$baseUrl/common/v2/version');
+    final response = await http.get(
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+        'charset': 'utf-8',
+      }
+    );
+    if (response.statusCode  == 200) {
+      final responseData = jsonDecode(utf8.decode(response.bodyBytes));
+      print('버전조회 응답: ${responseData}');
+
+      if (responseData is Map<String, dynamic>) {
+        return VersionModel.fromJson(responseData);
+      } else {
+        throw Exception('Unexpected response format');
+      }
+    } else {
+      throw Exception('버전 조회 실패');
     }
   }
 }
