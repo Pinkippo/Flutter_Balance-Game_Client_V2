@@ -32,27 +32,38 @@ class WebViewScreen extends StatelessWidget {
       ),
       body: Obx(
         () {
-          // controller 초기화 여부에 따라 화면 표시
+          // 컨트롤러가 초기화되었는지 확인
           if (!controller.isInitialized.value) {
-            return const Center(
-              child: CircularProgressIndicator(
-                color: Colors.black,
-              ),
-            );
-          } else if (controller.isLoading.value) {
             return Container(
-              color: Colors.white,
+              color: Colors.white.withOpacity(0.5), // 반투명 배경
               child: const Center(
                 child: CircularProgressIndicator(
                   color: Colors.black,
                 ),
               ),
             );
-          } else {
-            return Container(
-                color: Colors.white,
-                child: WebViewWidget(controller: controller.getController()));
           }
+
+          return Stack(
+            children: [
+              // WebView 위젯
+              Container(
+                color: Colors.white,
+                child: WebViewWidget(controller: controller.getController()),
+              ),
+
+              // 로딩 인디케이터
+              if (controller.isLoading.value)
+                Container(
+                  color: Colors.white.withOpacity(0.5), // 반투명 배경
+                  child: const Center(
+                    child: CircularProgressIndicator(
+                      color: Colors.black,
+                    ),
+                  ),
+                ),
+            ],
+          );
         },
       ),
     );

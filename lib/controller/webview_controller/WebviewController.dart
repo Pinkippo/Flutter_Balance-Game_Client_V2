@@ -36,6 +36,14 @@ class MyWebViewController extends GetxController {
 
   /// 컨트롤러 설정
   Future<void> setupController() async {
+    // 노션 페이지
+    final List<String> notionPages = [
+      'https://www.notion.so/b93ac0029cec4144ad3a09774e8f2929?pvs=4',
+      'https://scandalous-collision-6b5.notion.site/b93ac0029cec4144ad3a09774e8f2929',
+      'https://www.notion.so/6427195b9c764fedbf5533462be5aabd?pvs=4',
+      'https://scandalous-collision-6b5.notion.site/6427195b9c764fedbf5533462be5aabd'
+    ];
+
     isLoading.value = true; // 로딩 시작
     controller = WebViewController(); // 컨트롤러 초기화
 
@@ -55,14 +63,16 @@ class MyWebViewController extends GetxController {
             isLoading.value = false;
           },
           onWebResourceError: (WebResourceError error) {
-            print('웹 리소스 에러: ${error.description}');
+            print('웹 리소스 에러: ${error.errorCode}');
           },
           onNavigationRequest: (NavigationRequest request) {
-            if (request.url.startsWith('https:') ||
-                request.url.startsWith('http:')) {
-              return NavigationDecision.prevent;
+            print('리퀘스트>>>>>>>>> ${request.url}');
+
+            if (notionPages.any((page) => request.url.startsWith(page))) {
+              return NavigationDecision.navigate;
             }
-            return NavigationDecision.navigate;
+
+            return NavigationDecision.prevent;
           },
         ),
       )
