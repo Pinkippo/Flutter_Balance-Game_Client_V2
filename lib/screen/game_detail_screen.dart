@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:yangjataekil/controller/game_detail_controller.dart';
+import 'package:yangjataekil/controller/game_play_controller.dart';
 import 'package:yangjataekil/theme/app_color.dart';
 import 'package:yangjataekil/widget/game_detail/game_vertical_info_widget.dart';
 
@@ -108,7 +110,37 @@ class GameDetailScreen extends GetView<GameDetailController> {
                           ),
                           elevation: 0,
                         ),
-                        onPressed: () {},
+                        onPressed: () async {
+                          /// 게임 플레이 페이지 이동
+                          /// TODO : 로딩 화면 수정 고려 필요
+                          await Get.showOverlay(
+                              asyncFunction: () async {
+                                /// 최소 로딩 기간 1.5초 보장
+                                final gameContentFuture =
+                                    GamePlayController.to.getGameContent(
+                                        controller.gameDetail.value.boardId.toString(),
+                                        controller.gameDetail.value.title.toString()
+                                    );
+                                final delayFuture = Future.delayed(
+                                    const Duration(
+                                        seconds: 1, milliseconds: 500));
+                                return await Future.wait(
+                                        [gameContentFuture, delayFuture])
+                                    .then((results) {
+                                  return results[0];
+                                });
+                              },
+                              loadingWidget: const Center(
+                                child: SpinKitThreeBounce(
+                                  color: AppColors.primaryColor,
+                                  size: 30.0,
+                                ),
+                              )).then((value) {
+                            if (value == true) {
+                              Get.toNamed('/game_play');
+                            }
+                          });
+                        },
                         child: const Text('게임하러 가기',
                             style: TextStyle(fontSize: 16, color: Colors.black)),
                       ),
@@ -127,129 +159,135 @@ class GameDetailScreen extends GetView<GameDetailController> {
               /// 게임 리뷰 정리
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Container(
-                  height: 250,
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      border: Border.all(
-                        color: Colors.black.withOpacity(0.2),
-                      ),
-                      borderRadius: BorderRadius.circular(10)),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Text(
-                              "리뷰",
-                              style: TextStyle(
-                                fontSize: 18,
-                                color: Colors.black.withOpacity(0.6),
-                              ),
-                            ),
-                            const SizedBox(height: 10),
-                            const Text(
-                              "키워드로 먼저 \n리뷰를 봐요",
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            const Spacer(),
-                            Text(
-                              "참여자 ${controller.gameDetail.value.boardReviewsPreview.length}명",
-                              style: TextStyle(
-                                fontSize: 18,
-                                color: Colors.black.withOpacity(0.6),
-                              ),
-                            ),
-                          ],
+                child: GestureDetector(
+                  onTap: () async {
+                    // print(controller.gameDetail.value.boardId);
+                    await Get.toNamed('/review_list', arguments: controller.gameDetail.value.boardId);
+                  },
+                  child: Container(
+                    height: 250,
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        border: Border.all(
+                          color: Colors.black.withOpacity(0.2),
                         ),
-                      ),
-                      SizedBox(
-                        width: 200,
-                        child: Stack(
-                          alignment: Alignment.center,
-                          children: [
-                            if (controller.gameDetail.value.boardReviewsPreview.isNotEmpty) ...[
-                              Positioned(
-                                top: 10,
-                                left: 20,
-                                child: CircleAvatar(
-                                  radius: 70,
-                                  backgroundColor: Colors.lightBlueAccent.withOpacity(0.5),
-                                  child: Text(
-                                    controller.gameDetail.value.boardReviewsPreview[0].keyword ?? "",
-                                    style: const TextStyle(
-                                      fontSize: 16,
-                                      color: Colors.black,
-                                    ),
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
+                        borderRadius: BorderRadius.circular(10)),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Text(
+                                "리뷰",
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  color: Colors.black.withOpacity(0.6),
                                 ),
                               ),
-                              if (controller.gameDetail.value.boardReviewsPreview.length > 1)
-                                Positioned(
-                                  top: 90,
-                                  right: 10,
-                                  child: CircleAvatar(
-                                    radius: 60,
-                                    backgroundColor: Colors.blue.withOpacity(0.5),
-                                    child: Text(
-                                      controller.gameDetail.value.boardReviewsPreview[1].keyword ?? "",
-                                      style: const TextStyle(
-                                        fontSize: 14,
-                                        color: Colors.black,
-                                      ),
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                  ),
+                              const SizedBox(height: 10),
+                              const Text(
+                                "키워드로 먼저 \n리뷰를 봐요",
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
                                 ),
-                              if (controller.gameDetail.value.boardReviewsPreview.length > 2)
-                                Positioned(
-                                  top: 130,
-                                  right: 110,
-                                  child: CircleAvatar(
-                                    radius: 40,
-                                    backgroundColor: Colors.tealAccent.withOpacity(0.5),
-                                    child: Text(
-                                      controller.gameDetail.value.boardReviewsPreview[2].keyword ?? "",
-                                      style: const TextStyle(
-                                        fontSize: 12,
-                                        color: Colors.black,
-                                      ),
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                  ),
-                                ),
-                            ] else ...[
-                              Positioned(
-                                top: 0,
-                                bottom: 0,
-                                left: 0,
-                                right: 0,
-                                child: CircleAvatar(
-                                  radius: 75,
-                                  backgroundColor: Colors.lightBlueAccent.withOpacity(0.5),
-                                  child: const Text(
-                                    "리뷰가 존재하지\n않습니다",
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      color: Colors.black,
-                                    ),
-                                    textAlign: TextAlign.center,
-                                  ),
+                              ),
+                              const Spacer(),
+                              Text(
+                                "참여자 ${controller.gameDetail.value.boardReviewsPreview.length}명",
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  color: Colors.black.withOpacity(0.6),
                                 ),
                               ),
                             ],
-                          ],
+                          ),
                         ),
-                      ),
-                    ],
+                        SizedBox(
+                          width: 200,
+                          child: Stack(
+                            alignment: Alignment.center,
+                            children: [
+                              if (controller.gameDetail.value.boardReviewsPreview.isNotEmpty) ...[
+                                Positioned(
+                                  top: 10,
+                                  left: 20,
+                                  child: CircleAvatar(
+                                    radius: 70,
+                                    backgroundColor: Colors.lightBlueAccent.withOpacity(0.5),
+                                    child: Text(
+                                      controller.gameDetail.value.boardReviewsPreview[0].keyword ?? "",
+                                      style: const TextStyle(
+                                        fontSize: 16,
+                                        color: Colors.black,
+                                      ),
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ),
+                                ),
+                                if (controller.gameDetail.value.boardReviewsPreview.length > 1)
+                                  Positioned(
+                                    top: 90,
+                                    right: 10,
+                                    child: CircleAvatar(
+                                      radius: 60,
+                                      backgroundColor: Colors.blue.withOpacity(0.5),
+                                      child: Text(
+                                        controller.gameDetail.value.boardReviewsPreview[1].keyword ?? "",
+                                        style: const TextStyle(
+                                          fontSize: 14,
+                                          color: Colors.black,
+                                        ),
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ),
+                                  ),
+                                if (controller.gameDetail.value.boardReviewsPreview.length > 2)
+                                  Positioned(
+                                    top: 130,
+                                    right: 110,
+                                    child: CircleAvatar(
+                                      radius: 40,
+                                      backgroundColor: Colors.tealAccent.withOpacity(0.5),
+                                      child: Text(
+                                        controller.gameDetail.value.boardReviewsPreview[2].keyword ?? "",
+                                        style: const TextStyle(
+                                          fontSize: 12,
+                                          color: Colors.black,
+                                        ),
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ),
+                                  ),
+                              ] else ...[
+                                Positioned(
+                                  top: 0,
+                                  bottom: 0,
+                                  left: 0,
+                                  right: 0,
+                                  child: CircleAvatar(
+                                    radius: 75,
+                                    backgroundColor: Colors.lightBlueAccent.withOpacity(0.5),
+                                    child: const Text(
+                                      "리뷰가 존재하지\n않습니다",
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        color: Colors.black,
+                                      ),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),

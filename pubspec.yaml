@@ -34,6 +34,9 @@ dependencies:
     sdk: flutter
   image_picker: ^1.1.2
 
+  # 버전 관리
+  package_info: ^2.0.2
+
   # 상태관리
   get: ^4.6.5
 
@@ -59,11 +62,17 @@ dependencies:
   flutter_animated_dialog: ^2.0.1
   flutter_native_splash: ^2.3.3
 
+  # font_awesome 아이콘
+  font_awesome_flutter: ^10.7.0
+
   # 점선 테두리
   dotted_border: ^2.1.0
 
   # 딥링크
   uni_links: ^0.5.1
+
+  # 웹뷰
+  webview_flutter: ^4.0.2
 
   # env
   flutter_dotenv: ^5.0.2
@@ -97,6 +106,7 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/images/
+    - assets/images/game/
     - assets/images/banner/
     - assets/images/myPage/
     - assets/config/.env

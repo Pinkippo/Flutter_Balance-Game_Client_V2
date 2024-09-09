@@ -23,5 +23,7 @@ abstract class Routes {
   static const changePw = '/change_pw';
   static const myPageModify = '/myPage/modify';
   static const gameDetail = '/game_detail';
+  static const gamePlay = '/game_play';
   static const myGames = '/my_games';
+  static const reviewList = '/review_list';
 }

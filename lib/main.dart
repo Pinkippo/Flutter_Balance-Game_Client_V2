@@ -4,8 +4,6 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
 import 'package:yangjataekil/controller/auth_controller.dart';
-import 'package:yangjataekil/controller/login_controller.dart';
-import 'package:yangjataekil/controller/register_controller.dart';
 import 'package:yangjataekil/pref/app_preferences.dart';
 import 'package:yangjataekil/route/app_pages.dart';
 import 'package:yangjataekil/theme/app_thene.dart';
@@ -65,5 +63,6 @@ Future<void> initService() async {
     /// 저장된 토큰 조회 후 업데이트
     await value.getToken();
     await value.getUserInfoFromHomeScreen();
+    await value.getVersion();
   });
 }

@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:yangjataekil/controller/auth_controller.dart';
 import 'package:yangjataekil/controller/bottom_navigator_controller.dart';
-import 'package:yangjataekil/theme/app_color.dart';
 
 /// 로그인 화면
 class MyPageTap extends GetView<AuthController> {
@@ -276,16 +275,18 @@ class MyPageTap extends GetView<AuthController> {
               const SizedBox(
                 height: 30,
               ),
-              const Row(
+              Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text('버전정보 2.48.1'),
-                  Text(
+                  Text('버전 정보: ${controller.version.value}'),
+                  controller.isCurrent.value ?
+                  const Text(
                     '최신 버전이에요.',
                     style: TextStyle(
                       color: Colors.grey,
                     ),
                   )
+                  : Container(),
                 ],
               )
             ],

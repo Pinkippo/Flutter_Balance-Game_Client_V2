@@ -4,6 +4,7 @@ import 'package:yangjataekil/controller/auth_controller.dart';
 import 'package:yangjataekil/controller/bottom_navigator_controller.dart';
 import 'package:yangjataekil/controller/filtered_list_controller.dart';
 import 'package:yangjataekil/controller/game_detail_controller.dart';
+import 'package:yangjataekil/controller/game_play_controller.dart';
 import 'package:yangjataekil/controller/game_upload_controller.dart';
 import 'package:yangjataekil/controller/report_controller.dart';
 import 'package:yangjataekil/controller/theme_list_controller.dart';
@@ -11,10 +12,10 @@ import 'package:yangjataekil/controller/login_controller.dart';
 import 'package:yangjataekil/controller/notification_controller.dart';
 import 'package:yangjataekil/controller/recommend_controller.dart';
 import 'package:yangjataekil/controller/register_controller.dart';
-import 'package:yangjataekil/controller/tab/theme_controller.dart';
 import 'package:yangjataekil/controller/notice_controller.dart';
 import 'package:yangjataekil/screen/change_pw_screen.dart';
 import 'package:yangjataekil/screen/game_detail_screen.dart';
+import 'package:yangjataekil/screen/game_play_screen.dart';
 import 'package:yangjataekil/screen/list_screen.dart';
 import 'package:yangjataekil/controller/user_modify_controller.dart';
 import 'package:yangjataekil/screen/login_screen.dart';
@@ -24,11 +25,11 @@ import 'package:yangjataekil/screen/register_profile_screen.dart';
 import 'package:yangjataekil/screen/notification_screen.dart';
 import 'package:yangjataekil/screen/notice_screen.dart';
 import 'package:yangjataekil/screen/register_screen.dart';
-
 import '../controller/agreeterms_controller.dart';
 import '../screen/agreeterms_screen.dart';
 import '../screen/my_games_screen.dart';
 import '../screen/notice_detail_screen.dart';
+import '../screen/review_list_screen.dart';
 import '../screen/upload_game_screen.dart';
 
 part 'app_routes.dart';
@@ -198,6 +199,17 @@ class AppPages {
       transition: Transition.fade,
       binding: BindingsBuilder(() {
         Get.lazyPut<GameDetailController>(() => GameDetailController());
+        Get.lazyPut<GamePlayController>(() => GamePlayController());
+      }),
+    ),
+
+    /// 게임 플레이 페이지
+    GetPage(
+      name: Routes.gamePlay,
+      page: () => const GamePlayScreen(),
+      transition: Transition.fade,
+      binding: BindingsBuilder(() {
+        Get.lazyPut<GamePlayController>(() => GamePlayController());
       }),
     ),
 
@@ -211,5 +223,12 @@ class AppPages {
             return ThemeListController();
           });
         })),
+
+    /// 리뷰 리스트 페이지
+    GetPage(
+      name: Routes.reviewList,
+      page: () => const ReviewListScreen(),
+      transition: Transition.fade,
+    ),
   ];
 }
