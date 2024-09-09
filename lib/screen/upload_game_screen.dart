@@ -91,7 +91,7 @@ class UploadGameScreen extends GetView<GameUploadController> {
               const SizedBox(
                 height: 10,
               ),
-              const HashtagList(),
+              HashtagList(controller: controller),
               const SizedBox(
                 height: 30,
               ),

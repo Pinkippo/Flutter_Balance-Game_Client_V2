@@ -1,28 +1,40 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:yangjataekil/controller/game_upload_controller.dart';
+import 'package:yangjataekil/theme/app_color.dart';
 import 'package:yangjataekil/widget/game/empty_hash_widget.dart';
 
-class HashtagList extends GetView<GameUploadController> {
-  const HashtagList({super.key});
+import '../../controller/game_review_controller.dart';
+
+class HashtagList extends StatelessWidget {
+  const HashtagList({super.key, required this.controller});
+
+  final controller;
 
   @override
   Widget build(BuildContext context) {
+    if (controller == GameUploadController) {
+      Get.put(GameUploadController());
+    } else {
+      Get.put(GameReviewController());
+    }
+
     return Obx(
       () => SizedBox(
         height: 50,
         child: controller.keyword.isEmpty
-            ? const Padding(
-                padding: EdgeInsets.symmetric(vertical: 5),
-                child: EmptyHashWidget(),
+            ? Padding(
+                padding: const EdgeInsets.symmetric(vertical: 5),
+                child: EmptyHashWidget(controller: controller),
               )
             : ListView.builder(
                 itemCount: controller.keyword.length + 1,
                 itemBuilder: (context, index) {
                   return index == controller.keyword.length
-                      ? const Padding(
-                          padding: EdgeInsets.symmetric(vertical: 5),
-                          child: EmptyHashWidget(),
+                      ? Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 5),
+                          child: EmptyHashWidget(controller: controller),
                         )
                       : Stack(
                           children: [
@@ -36,7 +48,9 @@ class HashtagList extends GetView<GameUploadController> {
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: 10, vertical: 5),
                                 decoration: BoxDecoration(
-                                  color: const Color(0xffFF9297),
+                                  color: controller == GameUploadController
+                                      ? AppColors.primaryColor
+                                      : Colors.black.withOpacity(0.7),
                                   borderRadius: BorderRadius.circular(20),
                                 ),
                                 child: Center(

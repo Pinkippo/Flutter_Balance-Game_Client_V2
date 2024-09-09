@@ -4,11 +4,21 @@ import 'package:get/get.dart';
 import 'package:yangjataekil/controller/game_upload_controller.dart';
 import 'package:yangjataekil/theme/app_color.dart';
 
-class EmptyHashWidget extends GetView<GameUploadController> {
-  const EmptyHashWidget({super.key});
+import '../../controller/game_review_controller.dart';
+
+class EmptyHashWidget extends StatelessWidget {
+  const EmptyHashWidget({super.key, required this.controller});
+
+  final controller;
 
   @override
   Widget build(BuildContext context) {
+    if (controller == GameUploadController) {
+      Get.put(GameUploadController());
+    } else {
+      Get.put(GameReviewController());
+    }
+
     return ClipRRect(
       borderRadius: BorderRadius.circular(20),
       child: Material(

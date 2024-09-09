@@ -5,6 +5,7 @@ import 'package:yangjataekil/controller/bottom_navigator_controller.dart';
 import 'package:yangjataekil/controller/filtered_list_controller.dart';
 import 'package:yangjataekil/controller/game_detail_controller.dart';
 import 'package:yangjataekil/controller/game_play_controller.dart';
+import 'package:yangjataekil/controller/game_review_controller.dart';
 import 'package:yangjataekil/controller/game_upload_controller.dart';
 import 'package:yangjataekil/controller/theme_list_controller.dart';
 import 'package:yangjataekil/controller/login_controller.dart';
@@ -26,6 +27,7 @@ import 'package:yangjataekil/screen/notice_screen.dart';
 import 'package:yangjataekil/screen/register_screen.dart';
 import '../controller/agreeterms_controller.dart';
 import '../screen/agreeterms_screen.dart';
+import '../screen/game_review_screen.dart';
 import '../screen/my_games_screen.dart';
 import '../screen/notice_detail_screen.dart';
 import '../screen/review_list_screen.dart';
@@ -226,5 +228,16 @@ class AppPages {
       page: () => const ReviewListScreen(),
       transition: Transition.fade,
     ),
+
+    /// 게임 리뷰 등록 페이지
+    GetPage(
+        name: Routes.gameReview,
+        page: () => const GameReviewScreen(),
+        transition: Transition.fade,
+        binding: BindingsBuilder(() {
+          Get.lazyPut<GameReviewController>(() {
+            return GameReviewController();
+          });
+        })),
   ];
 }
