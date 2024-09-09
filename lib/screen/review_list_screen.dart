@@ -4,7 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:yangjataekil/controller/report_controller.dart';
 import 'package:yangjataekil/theme/app_color.dart';
 
-import '../controller/review_list_controller.dart';
+import '../controller/review_controller.dart';
 import '../widget/report/review_report_dialog_widget.dart';
 
 class ReviewListScreen extends StatelessWidget {
@@ -12,8 +12,7 @@ class ReviewListScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final reviewController = Get.find<ReviewListController>();
-    final reportController = Get.find<ReportController>();
+    final reviewController = Get.find<ReviewController>();
 
     return Scaffold(
       appBar: AppBar(
@@ -140,18 +139,18 @@ class ReviewListScreen extends StatelessWidget {
                     top: 0,
                     child: IconButton(
                       onPressed: () {
-                        reportController.boardReviewId.value =
+                        reviewController.boardReviewId.value =
                             review.boardReviewId;
                         print(
-                            'boardReviewId: ${reportController.boardReviewId.value}');
+                            'boardReviewId: ${reviewController.boardReviewId.value}');
                         Get.dialog(
                           PopScope(
                             onPopInvokedWithResult:
                                 (bool didPop, dynamic result) {
-                              reportController.selectedCategory.value = null;
-                              reportController.content.value = '';
+                                  reviewController.selectedCategory.value = null;
+                                  reviewController.content.value = '';
                             },
-                            child: reportDialog(context, reportController),
+                            child: reportDialog(context, reviewController),
                           ),
                         );
                       },

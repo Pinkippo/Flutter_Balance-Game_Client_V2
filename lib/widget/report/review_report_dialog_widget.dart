@@ -3,11 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
+import 'package:yangjataekil/controller/review_controller.dart';
 
 import '../../controller/report_controller.dart';
 import '../../theme/app_color.dart';
 
-Widget reportDialog(BuildContext context, ReportController reportController) {
+Widget reportDialog(BuildContext context, ReviewController reviewController) {
   return Dialog(
     backgroundColor: Colors.white,
     shape: RoundedRectangleBorder(
@@ -41,7 +42,7 @@ Widget reportDialog(BuildContext context, ReportController reportController) {
                 '신고 사유를 선택해주세요.',
                 style: TextStyle(fontSize: 14),
               ),
-              items: reportController.categories
+              items: reviewController.categories
                   .map((category) => DropdownMenuItem<REPORTCATEGORY>(
                         value: category,
                         child: Text(category.displayName),
@@ -54,11 +55,11 @@ Widget reportDialog(BuildContext context, ReportController reportController) {
                 return null;
               },
               onChanged: (value) {
-                reportController.toggleCategory(value!);
+                reviewController.toggleCategory(value!);
               },
-              value: reportController.selectedCategory.value == null
+              value: reviewController.selectedCategory.value == null
                   ? null
-                  : reportController.selectedCategory.value,
+                  : reviewController.selectedCategory.value,
               decoration: const InputDecoration(
                 // 드롭다운메뉴 클릭 전 테두리 색상
                 border: OutlineInputBorder(
@@ -79,13 +80,13 @@ Widget reportDialog(BuildContext context, ReportController reportController) {
 
           /// 기타 선택 시 신고 내용 입력 필드 보여주기
           Obx(() {
-            if (reportController.selectedCategory.value ==
+            if (reviewController.selectedCategory.value ==
                 REPORTCATEGORY.others) {
               return TextField(
                 maxLines: 5,
                 maxLength: 100,
                 onChanged: (value) {
-                  reportController.updateContent(value);
+                  reviewController.updateContent(value);
                 },
                 decoration: InputDecoration(
                   filled: true,
@@ -121,7 +122,7 @@ Widget reportDialog(BuildContext context, ReportController reportController) {
                   ),
                   onTap: () {
                     // 신고 사유 선택하지 않았을 때
-                    if (reportController.selectedCategory.value == null) {
+                    if (reviewController.selectedCategory.value == null) {
                       Get.snackbar('미입력 항목', '신고 사유를 선택해주세요.',
                           backgroundColor: AppColors.primaryColor,
                           colorText: Colors.white,
@@ -129,9 +130,9 @@ Widget reportDialog(BuildContext context, ReportController reportController) {
                       return;
                     }
                     // 신고 사유는 '기타'로 선택,, 신고 내용은 비어 있을 때
-                    else if (reportController.selectedCategory.value ==
+                    else if (reviewController.selectedCategory.value ==
                         REPORTCATEGORY.others) {
-                      if (reportController.content.value == '') {
+                      if (reviewController.content.value == '') {
                         Get.snackbar('미입력 항목', '신고 내용을 입력해주세요.',
                             backgroundColor: AppColors.primaryColor,
                             colorText: Colors.white,
@@ -159,10 +160,10 @@ Widget reportDialog(BuildContext context, ReportController reportController) {
                             TextButton(
                               // 신고하기
                               onPressed: () {
-                                reportController
+                                reviewController
                                     .reviewReport(
-                                        reportController.boardReviewId.value,
-                                        reportController.content.value)
+                                        reviewController.boardReviewId.value,
+                                        reviewController.content.value)
                                     .then((value) {
                                   if (value) {
                                     Get.snackbar(

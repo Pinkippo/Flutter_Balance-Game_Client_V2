@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:yangjataekil/controller/auth_controller.dart';
 import 'package:yangjataekil/controller/report_controller.dart';
+import 'package:yangjataekil/controller/review_controller.dart';
 import 'package:yangjataekil/theme/app_color.dart';
 
-class BoardTap extends GetView<ReportController> {
+class BoardTap extends GetView<ReviewController> {
   const BoardTap({super.key});
 
   @override

@@ -26,7 +26,7 @@ import 'package:yangjataekil/screen/notification_screen.dart';
 import 'package:yangjataekil/screen/notice_screen.dart';
 import 'package:yangjataekil/screen/register_screen.dart';
 import '../controller/agreeterms_controller.dart';
-import '../controller/review_list_controller.dart';
+import '../controller/review_controller.dart';
 import '../screen/agreeterms_screen.dart';
 import '../screen/my_games_screen.dart';
 import '../screen/notice_detail_screen.dart';
@@ -231,11 +231,8 @@ class AppPages {
       page: () => const ReviewListScreen(),
       transition: Transition.fade,
       binding: BindingsBuilder(() {
-        Get.lazyPut<ReviewListController>(() {
-          return ReviewListController(Get.arguments);
-        });
-        Get.lazyPut<ReportController>(() {
-          return ReportController();
+        Get.lazyPut<ReviewController>(() {
+          return ReviewController(Get.arguments);
         });
       }),
     ),
