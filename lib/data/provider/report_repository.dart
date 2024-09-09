@@ -12,7 +12,7 @@ final baseUrl = dotenv.env['BASE_URL'];
 class ReportRepository {
   /// 리뷰 신고 메서드
   Future<bool> reviewReport(String token, int boardReviewId, String content) async {
-    final url = Uri.parse('$baseUrl/board/v2/comments/$boardReviewId/report');
+    final url = Uri.parse('$baseUrl/board/v2/boards/$boardReviewId/report');
 
     try {
       final response = await http.post(
