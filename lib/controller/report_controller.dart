@@ -5,6 +5,34 @@ import 'package:get/get.dart';
 import 'package:yangjataekil/controller/auth_controller.dart';
 import 'package:yangjataekil/data/provider/report_repository.dart';
 
+enum REPORTCATEGORY {
+  abusiveLanguage, // 욕설
+  falseInformation, // 허위사실
+  advertising, // 광고성
+  spam, // 스팸
+  personalInformationExposure, // 개인정보노출
+  others, // 기타
+}
+
+extension ReportCategoryExtension on REPORTCATEGORY {
+  String get displayName {
+    switch (this) {
+      case REPORTCATEGORY.abusiveLanguage:
+        return "욕설";
+      case REPORTCATEGORY.falseInformation:
+        return "허위사실";
+      case REPORTCATEGORY.advertising:
+        return "광고성";
+      case REPORTCATEGORY.spam:
+        return "스팸";
+      case REPORTCATEGORY.personalInformationExposure:
+        return "개인정보노출";
+      case REPORTCATEGORY.others:
+        return "기타";
+    }
+  }
+}
+
 /// 신고 컨트롤러
 class ReportController extends GetxController {
 
@@ -17,24 +45,16 @@ class ReportController extends GetxController {
   /// 신고 내용
   final content = ''.obs;
 
-  late final selectedCategories = ''.obs;
+  /// 선택된 카테고리
+  final selectedCategory = Rx<REPORTCATEGORY?>(null);
 
-  final categories = [
-    "욕설",
-    "허위사실",
-    "광고성",
-    "스팸",
-    "개인정보노출",
-    "기타"
-  ].obs;
+  /// 카테고리
+  final categories = REPORTCATEGORY.values;
 
-  void toggleCategory(String category) {
-    selectedCategories.value = category;
+  void toggleCategory(REPORTCATEGORY category) {
+    selectedCategory.value = category;
   }
 
-  bool isSelected(String category) {
-    return selectedCategories.contains(category);
-  }
 
 
   /// 신고 내용 업데이트
