@@ -59,14 +59,14 @@ class GamePlayController extends GetxController {
       if(boardContent.length == index + 1) {
         try {
           /// 게임 결과 제출
-          bool result = await GameRepository().postGameResult(
+          BoardContentResponse result = await GameRepository().postGameResult(
             gameBoardId.value,
             selectedResult,
             AuthController.to.accessToken.value,
           );
 
-          if (result) {
-            /// TODO : 리뷰 여부 확인 후 각 페이지 이동
+          if (result.boardContents.isNotEmpty) {
+            boardContent.value = result.boardContents; // 게임 결과값 수정
             resetResult().then((_)=> Get.offAndToNamed(Routes.gameResult));
           }
         } catch (e) {

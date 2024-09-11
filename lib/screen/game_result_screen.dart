@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:yangjataekil/controller/game_result_controller.dart';
+import 'package:yangjataekil/controller/game_play_controller.dart';
 import 'package:yangjataekil/theme/app_color.dart';
 
-class GameResultScreen extends GetView<GameResultController> {
+class GameResultScreen extends GetView<GamePlayController> {
   const GameResultScreen({super.key});
 
   @override
@@ -26,19 +26,21 @@ class GameResultScreen extends GetView<GameResultController> {
               ),
             ),
           ),
-
           SingleChildScrollView(
             physics: const ClampingScrollPhysics(),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
+
+                /// 상단 공백
                 const SizedBox(height: 100),
 
+                /// 게임 참여 완료 텍스트 및 아이콘
                 Column(
                   children: [
                     const Text(
-                      '게임 참여가 완료되었습니다!',
+                      '참여가 완료되었습니다!!',
                       style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
@@ -75,10 +77,11 @@ class GameResultScreen extends GetView<GameResultController> {
                 ListView.builder(
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
-                  itemCount: 5,
+                  itemCount: controller.boardContent.length,
                   itemBuilder: (context, index) {
                     return Container(
-                      margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+                      margin: const EdgeInsets.symmetric(
+                          horizontal: 20, vertical: 15),
                       padding: const EdgeInsets.all(10),
                       decoration: BoxDecoration(
                         color: Colors.white,
@@ -95,38 +98,42 @@ class GameResultScreen extends GetView<GameResultController> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text(
-                            '밸런스게임 제목',
-                            style: TextStyle(
+                          Text(
+                            controller.boardContent[index].title,
+                            style: const TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
                             ),
+                            overflow: TextOverflow.ellipsis,
                           ),
                           const SizedBox(height: 10),
                           Row(
                             children: [
-                              // 첫 번째 항목
+                              /// 첫 번째 항목
                               Expanded(
-                                flex: 60, // 왼쪽 항목의 퍼센트 크기
+                                flex: controller.boardContent[index]
+                                    .boardContentItems[0].boardResultCount,
                                 child: Container(
                                   height: 20,
                                   decoration: const BoxDecoration(
-                                    color: AppColors.gamePlayBarColor, // 왼쪽 항목 색상
-                                    borderRadius: const BorderRadius.only(
+                                    color: AppColors.gamePlayBarColor,
+                                    borderRadius: BorderRadius.only(
                                       topLeft: Radius.circular(10),
                                       bottomLeft: Radius.circular(10),
                                     ),
                                   ),
                                 ),
                               ),
-                              // 두 항목 사이에 간격
+
+                              /// 두 번째 항목
                               Expanded(
-                                flex: 40, // 오른쪽 항목의 퍼센트 크기
+                                flex: controller.boardContent[index]
+                                    .boardContentItems[1].boardResultCount,
                                 child: Container(
                                   height: 20,
                                   decoration: const BoxDecoration(
-                                    color: AppColors.gamePlayYellowColor, // 오른쪽 항목 색상
-                                    borderRadius: const BorderRadius.only(
+                                    color: AppColors.gamePlayYellowColor,
+                                    borderRadius: BorderRadius.only(
                                       topRight: Radius.circular(10),
                                       bottomRight: Radius.circular(10),
                                     ),
@@ -139,8 +146,16 @@ class GameResultScreen extends GetView<GameResultController> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text('항목 1: 60%'), // 첫 번째 항목 퍼센트
-                              Text('항목 2: 40%'), // 두 번째 항목 퍼센트
+                              Text(
+                                controller.boardContent[index]
+                                    .boardContentItems[0].item,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                              Text(
+                                controller.boardContent[index]
+                                    .boardContentItems[1].item,
+                                overflow: TextOverflow.ellipsis,
+                              ),
                             ],
                           ),
                         ],
@@ -172,21 +187,29 @@ class GameResultScreen extends GetView<GameResultController> {
                 children: [
                   Expanded(
                     child: ElevatedButton(
-                      onPressed: () {
+                      onPressed: () async {
+                        Get.back();
                       },
                       child: const Text('돌아가기'),
                     ),
                   ),
-
-                  const SizedBox(width: 10),
-
-                  Expanded(
-                    child: ElevatedButton(
-                      onPressed: () {
-                      },
-                      child: const Text('리뷰쓰기'),
-                    ),
-                  ),
+                  (!controller.isReviewExist.value)
+                      ? Expanded(
+                          child: Row(
+                            children: [
+                              const SizedBox(width: 10),
+                              Expanded(
+                                child: ElevatedButton(
+                                  onPressed: () {
+                                    /// TODO : 리뷰 수정 페이지 이동
+                                  },
+                                  child: const Text('리뷰쓰기'),
+                                ),
+                              ),
+                            ],
+                          ),
+                        )
+                      : const SizedBox.shrink(),
                 ],
               ),
             ),
