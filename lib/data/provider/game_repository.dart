@@ -129,7 +129,7 @@ class GameRepository {
   }
 
   /// 게임 플레이 결과 전송
-  Future<bool> postGameResult(String boardId, List<GamePlayRequestModel> selectedResult, String token) async {
+  Future<BoardContentResponse> postGameResult(String boardId, List<GamePlayRequestModel> selectedResult, String token) async {
     final url = Uri.parse('$baseUrl/board/v2/boards/$boardId/result');
     final response = await http.post(
       url,
@@ -141,7 +141,7 @@ class GameRepository {
       body: jsonEncode(selectedResult.map((e) => e.toJson()).toList()),
     );
     if (response.statusCode == 200) {
-      return true;
+      return BoardContentResponse.fromPostJson(jsonDecode(utf8.decode(response.bodyBytes)));
     } else {
       Get.snackbar(
         '게임 결과 전송 실패',

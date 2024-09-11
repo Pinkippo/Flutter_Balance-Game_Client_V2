@@ -63,4 +63,13 @@ class BoardContentResponse {
       isReviewExist: json['boardContents']['isReviewExist'] ?? false,
     );
   }
+
+  /// for 게임 결과 페이지
+  factory BoardContentResponse.fromPostJson(Map<String, dynamic> json) {
+    return BoardContentResponse(
+      boardContents: json['results']
+          .map<BoardContent>((item) => BoardContent.fromJson(item)).toList(),
+      isReviewExist: false,
+    );
+  }
 }
