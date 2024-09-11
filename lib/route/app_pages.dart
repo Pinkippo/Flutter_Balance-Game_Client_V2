@@ -6,6 +6,7 @@ import 'package:yangjataekil/controller/filtered_list_controller.dart';
 import 'package:yangjataekil/controller/game_detail_controller.dart';
 import 'package:yangjataekil/controller/game_play_controller.dart';
 import 'package:yangjataekil/controller/game_upload_controller.dart';
+import 'package:yangjataekil/controller/report_controller.dart';
 import 'package:yangjataekil/controller/theme_list_controller.dart';
 import 'package:yangjataekil/controller/login_controller.dart';
 import 'package:yangjataekil/controller/notification_controller.dart';
@@ -25,6 +26,7 @@ import 'package:yangjataekil/screen/notification_screen.dart';
 import 'package:yangjataekil/screen/notice_screen.dart';
 import 'package:yangjataekil/screen/register_screen.dart';
 import '../controller/agreeterms_controller.dart';
+import '../controller/review_controller.dart';
 import '../screen/agreeterms_screen.dart';
 import '../screen/my_games_screen.dart';
 import '../screen/notice_detail_screen.dart';
@@ -64,6 +66,9 @@ class AppPages {
           });
           Get.lazyPut<FilteredListController>(() {
             return FilteredListController(isAllList: true);
+          });
+          Get.lazyPut<ReportController>(() {
+            return ReportController();
           });
           await Get.putAsync<AuthController>(() async {
             return AuthController();
@@ -225,6 +230,11 @@ class AppPages {
       name: Routes.reviewList,
       page: () => const ReviewListScreen(),
       transition: Transition.fade,
+      binding: BindingsBuilder(() {
+        Get.lazyPut<ReviewController>(() {
+          return ReviewController(Get.arguments);
+        });
+      }),
     ),
   ];
 }
