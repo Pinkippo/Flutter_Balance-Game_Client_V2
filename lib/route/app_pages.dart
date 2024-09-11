@@ -15,6 +15,7 @@ import 'package:yangjataekil/controller/notice_controller.dart';
 import 'package:yangjataekil/screen/change_pw_screen.dart';
 import 'package:yangjataekil/screen/game_detail_screen.dart';
 import 'package:yangjataekil/screen/game_play_screen.dart';
+import 'package:yangjataekil/screen/game_result_screen.dart';
 import 'package:yangjataekil/screen/list_screen.dart';
 import 'package:yangjataekil/controller/user_modify_controller.dart';
 import 'package:yangjataekil/screen/login_screen.dart';
@@ -224,6 +225,13 @@ class AppPages {
     GetPage(
       name: Routes.reviewList,
       page: () => const ReviewListScreen(),
+      transition: Transition.fade,
+    ),
+
+    /// 게임 결과 페이지
+    GetPage(
+      name: Routes.gameResult,
+      page: () => const GameResultScreen(),
       transition: Transition.fade,
     ),
   ];

@@ -4,6 +4,7 @@ import 'package:yangjataekil/controller/auth_controller.dart';
 import 'package:yangjataekil/data/model/game/game_play_request_model.dart';
 import 'package:yangjataekil/data/provider/game_repository.dart';
 import 'package:yangjataekil/data/model/game/game_play_content_response_model.dart';
+import 'package:yangjataekil/route/app_pages.dart';
 
 class GamePlayController extends GetxController {
 
@@ -66,7 +67,7 @@ class GamePlayController extends GetxController {
 
           if (result) {
             /// TODO : 리뷰 여부 확인 후 각 페이지 이동
-            resetResult().then((_)=> Get.back());
+            resetResult().then((_)=> Get.offAndToNamed(Routes.gameResult));
           }
         } catch (e) {
           print('게임 제출 에러 발생: $e');
