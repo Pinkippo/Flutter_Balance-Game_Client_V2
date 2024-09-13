@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:yangjataekil/controller/auth_controller.dart';
-import 'package:yangjataekil/data/provider/report_repository.dart';
+import 'package:yangjataekil/data/provider/review_repository.dart';
 
 
 
