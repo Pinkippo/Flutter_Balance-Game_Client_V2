@@ -2,9 +2,7 @@ import 'dart:io';
 import 'package:get/get.dart';
 import 'package:yangjataekil/controller/auth_controller.dart';
 import 'package:yangjataekil/data/model/review.dart';
-
-import '../data/provider/report_repository.dart';
-import '../data/provider/review_list_repository.dart';
+import '../data/provider/review_repository.dart';
 
 /// 신고 카테고리
 enum REPORTCATEGORY {
@@ -59,7 +57,7 @@ class ReviewController extends GetxController {
   /// 리뷰 리스트 조회 메서드
   Future<void> getReviewList(int boardId) async {
     try {
-      final reviewList = await ReviewListRepository().getReviewList(
+      final reviewList = await ReviewRepository().getReviewList(
         AuthController.to.accessToken.value,
         boardId,
       );
@@ -101,8 +99,9 @@ class ReviewController extends GetxController {
     content.value = reviewContent;
 
     try {
-      final response = await ReportRepository().reviewReport(
+      final response = await ReviewRepository().reviewReport(
           AuthController.to.accessToken.value,
+          boardId.value,
           boardReviewId.value,
           content.value);
       if (response) {
