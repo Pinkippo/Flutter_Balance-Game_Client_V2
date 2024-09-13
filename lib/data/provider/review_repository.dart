@@ -12,7 +12,6 @@ final baseUrl = dotenv.env['BASE_URL'];
 
 /// 리뷰 레포지토리
 class ReviewRepository {
-
   /// 리뷰 리스트 조회
   Future<ReviewResponseModel> getReviewList(String token, int boardId) async {
     final url = Uri.parse('$baseUrl/board/v2/public/boards/$boardId/reviews');
@@ -20,7 +19,7 @@ class ReviewRepository {
     final response = await http.get(
       url,
       headers: {
-        'Authorization': 'Bearer $token',
+        if (token.isNotEmpty) 'Authorization': 'Bearer $token',
         'Content-Type': 'application/json',
         'charset': 'utf-8',
       },
@@ -39,10 +38,11 @@ class ReviewRepository {
     }
   }
 
-
   /// 리뷰 신고 메서드
-  Future<bool> reviewReport(String token, int boardId, int boardReviewId, String content) async {
-    final url = Uri.parse('$baseUrl/board/v2/boards/$boardId/reviews/$boardReviewId/report');
+  Future<bool> reviewReport(
+      String token, int boardId, int boardReviewId, String content) async {
+    final url = Uri.parse(
+        '$baseUrl/board/v2/boards/$boardId/reviews/$boardReviewId/report');
 
     try {
       final response = await http.post(
