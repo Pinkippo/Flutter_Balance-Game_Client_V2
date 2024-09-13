@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:yangjataekil/controller/auth_controller.dart';
 import 'package:yangjataekil/controller/report_controller.dart';
 import 'package:yangjataekil/theme/app_color.dart';
 
@@ -58,8 +59,10 @@ class ReviewListScreen extends StatelessWidget {
                                     radius: 25,
                                     backgroundColor: Colors.grey[300],
                                     backgroundImage: review.profile.isNotEmpty
-                                        ? NetworkImage(review.profile) as ImageProvider
-                                        : const AssetImage('assets/images/game/profile_img.png'),
+                                        ? NetworkImage(review.profile)
+                                            as ImageProvider
+                                        : const AssetImage(
+                                            'assets/images/game/profile_img.png'),
                                   ),
                                 ),
                               ],
@@ -133,30 +136,34 @@ class ReviewListScreen extends StatelessWidget {
                       ),
                     ],
                   ),
-                  Positioned(
-                    right: 0,
-                    top: 0,
-                    child: IconButton(
-                      onPressed: () {
-                        reviewController.boardReviewId.value =
-                            review.boardReviewId;
-                        print(
-                            'boardReviewId: ${reviewController.boardReviewId.value}');
-                        Get.dialog(
-                          PopScope(
-                            onPopInvokedWithResult:
-                                (bool didPop, dynamic result) {
-                              reviewController.selectedCategory.value = null;
-                              reviewController.content.value = '';
+                  AuthController.to.accessToken.value.isEmpty
+                      ? const SizedBox.shrink()
+                      : Positioned(
+                          right: 0,
+                          top: 0,
+                          child: IconButton(
+                            onPressed: () {
+                              reviewController.boardReviewId.value =
+                                  review.boardReviewId;
+                              print(
+                                  'boardReviewId: ${reviewController.boardReviewId.value}');
+                              Get.dialog(
+                                PopScope(
+                                  onPopInvokedWithResult:
+                                      (bool didPop, dynamic result) {
+                                    reviewController.selectedCategory.value =
+                                        null;
+                                    reviewController.content.value = '';
+                                  },
+                                  child:
+                                      reportDialog(context, reviewController),
+                                ),
+                              );
                             },
-                            child: reportDialog(context, reviewController),
+                            icon: const Icon(Icons.error_outline,
+                                color: Colors.redAccent),
                           ),
-                        );
-                      },
-                      icon: const Icon(Icons.error_outline,
-                          color: Colors.redAccent),
-                    ),
-                  ),
+                        ),
                 ],
               );
             },
