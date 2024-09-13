@@ -38,6 +38,7 @@ class ReviewListScreen extends StatelessWidget {
             itemCount: reviewController.reviews.length,
             itemBuilder: (context, index) {
               final review = reviewController.reviews[index];
+              print('리뷰어 이미지 정보 : ${review.profile}');
               return Stack(
                 children: [
                   Column(
@@ -56,11 +57,9 @@ class ReviewListScreen extends StatelessWidget {
                                   child: CircleAvatar(
                                     radius: 25,
                                     backgroundColor: Colors.grey[300],
-                                    child: const Icon(
-                                      Icons.person,
-                                      color: Colors.black,
-                                      size: 30,
-                                    ),
+                                    backgroundImage: review.profile.isNotEmpty
+                                        ? NetworkImage(review.profile) as ImageProvider
+                                        : const AssetImage('assets/images/game/profile_img.png'),
                                   ),
                                 ),
                               ],
@@ -147,8 +146,8 @@ class ReviewListScreen extends StatelessWidget {
                           PopScope(
                             onPopInvokedWithResult:
                                 (bool didPop, dynamic result) {
-                                  reviewController.selectedCategory.value = null;
-                                  reviewController.content.value = '';
+                              reviewController.selectedCategory.value = null;
+                              reviewController.content.value = '';
                             },
                             child: reportDialog(context, reviewController),
                           ),
