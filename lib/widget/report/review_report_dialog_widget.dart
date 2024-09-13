@@ -8,7 +8,7 @@ import 'package:yangjataekil/controller/review_controller.dart';
 import '../../controller/report_controller.dart';
 import '../../theme/app_color.dart';
 
-Widget reportDialog(BuildContext context, ReviewController reviewController) {
+Widget reportDialog(BuildContext context, ReviewController reviewController, int boardId) {
   return Dialog(
     backgroundColor: Colors.white,
     shape: RoundedRectangleBorder(
@@ -171,6 +171,7 @@ Widget reportDialog(BuildContext context, ReviewController reviewController) {
                                       '신고가 정상적으로 접수되었습니다!',
                                       snackPosition: SnackPosition.BOTTOM,
                                     );
+                                    reviewController.getReviewList(boardId);
                                   } else {
                                     Get.snackbar(
                                       '신고 실패',

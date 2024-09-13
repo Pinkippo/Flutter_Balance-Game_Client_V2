@@ -156,7 +156,7 @@ class ReviewListScreen extends StatelessWidget {
                                     reviewController.content.value = '';
                                   },
                                   child:
-                                      reportDialog(context, reviewController),
+                                      reportDialog(context, reviewController, review.boardId),
                                 ),
                               );
                             },
