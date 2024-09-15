@@ -7,6 +7,7 @@ import 'package:yangjataekil/controller/game_detail_controller.dart';
 import 'package:yangjataekil/controller/game_play_controller.dart';
 import 'package:yangjataekil/controller/game_review_controller.dart';
 import 'package:yangjataekil/controller/game_upload_controller.dart';
+import 'package:yangjataekil/controller/report_controller.dart';
 import 'package:yangjataekil/controller/theme_list_controller.dart';
 import 'package:yangjataekil/controller/login_controller.dart';
 import 'package:yangjataekil/controller/notification_controller.dart';
@@ -16,6 +17,7 @@ import 'package:yangjataekil/controller/notice_controller.dart';
 import 'package:yangjataekil/screen/change_pw_screen.dart';
 import 'package:yangjataekil/screen/game_detail_screen.dart';
 import 'package:yangjataekil/screen/game_play_screen.dart';
+import 'package:yangjataekil/screen/game_result_screen.dart';
 import 'package:yangjataekil/screen/list_screen.dart';
 import 'package:yangjataekil/controller/user_modify_controller.dart';
 import 'package:yangjataekil/screen/login_screen.dart';
@@ -26,6 +28,7 @@ import 'package:yangjataekil/screen/notification_screen.dart';
 import 'package:yangjataekil/screen/notice_screen.dart';
 import 'package:yangjataekil/screen/register_screen.dart';
 import '../controller/agreeterms_controller.dart';
+import '../controller/review_controller.dart';
 import '../screen/agreeterms_screen.dart';
 import '../screen/game_review_screen.dart';
 import '../screen/my_games_screen.dart';
@@ -66,6 +69,9 @@ class AppPages {
           });
           Get.lazyPut<FilteredListController>(() {
             return FilteredListController(isAllList: true);
+          });
+          Get.lazyPut<ReportController>(() {
+            return ReportController();
           });
           await Get.putAsync<AuthController>(() async {
             return AuthController();
@@ -226,6 +232,18 @@ class AppPages {
     GetPage(
       name: Routes.reviewList,
       page: () => const ReviewListScreen(),
+      transition: Transition.fade,
+      binding: BindingsBuilder(() {
+        Get.lazyPut<ReviewController>(() {
+          return ReviewController(Get.arguments);
+        });
+      }),
+    ),
+
+    /// 게임 결과 페이지
+    GetPage(
+      name: Routes.gameResult,
+      page: () => const GameResultScreen(),
       transition: Transition.fade,
     ),
 

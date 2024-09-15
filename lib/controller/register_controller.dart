@@ -224,9 +224,7 @@ class RegisterController extends GetxController {
     }
 
     // 이메일 중복확인 체크
-    if (checkDuplicate.value) {
-      Get.toNamed('/profile');
-    } else {
+    if (!checkDuplicate.value) {
       Get.snackbar('아이디 중복 확인', '아이디 중복을 확인해주세요.',
           backgroundColor: AppColors.primaryColor,
           colorText: Colors.white,
@@ -235,14 +233,17 @@ class RegisterController extends GetxController {
     }
 
     // 이메일 인증 확인 체크
-    if (isEmailVerified.value) {
-      Get.toNamed('/profile');
-    } else {
+    if (!isEmailVerified.value) {
       Get.snackbar('이메일 인증', '이메일 인증을 완료해주세요.',
           backgroundColor: AppColors.primaryColor,
           colorText: Colors.white,
           snackPosition: SnackPosition.BOTTOM);
       return;
+    }
+
+    // 중복 확인 완료 시 다음 페이지로 이동
+    if(checkDuplicate.value && isEmailVerified.value) {
+      Get.toNamed('/profile');
     }
   }
 

@@ -52,6 +52,9 @@ dependencies:
   # 배너 슬라이더
   carousel_slider: ^4.2.1
 
+  # dropdown 위젯
+  dropdown_button2: ^2.3.9
+
   # 내부 저장소
   shared_preferences: ^2.0.15
   flutter_secure_storage:
