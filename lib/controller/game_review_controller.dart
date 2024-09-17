@@ -4,7 +4,6 @@ import 'package:yangjataekil/controller/auth_controller.dart';
 import 'package:yangjataekil/data/model/review_request_model.dart';
 import 'package:yangjataekil/data/provider/review_repository.dart';
 
-
 class GameReviewController extends GetxController {
   /// 좋아요
   final isLike = true.obs;
@@ -40,17 +39,16 @@ class GameReviewController extends GetxController {
   }
 
   Future<void> uploadReview(int boardId) async {
-    final reviewRequestModel = ReviewRequestModel(title: reviewTitle.value,
+    final reviewRequestModel = ReviewRequestModel(
+        title: reviewTitle.value,
         comment: reviewContent.value,
         keywords: keyword,
         isLike: isLike.value,
         isDislike: !isLike.value);
 
     try {
-      // final response = await ReviewRepository().uploadReview(
-      //     AuthController.to.accessToken.value, boardId, reviewRequestModel);
-
       Get.dialog(AlertDialog(
+        backgroundColor: Colors.white,
         title: Text('리뷰'),
         content: Text('리뷰를 작성하시겠습니까?'),
         actions: [
@@ -63,16 +61,25 @@ class GameReviewController extends GetxController {
           TextButton(
             onPressed: () async {
               await ReviewRepository().uploadReview(
-                  AuthController.to.accessToken.value, boardId, reviewRequestModel);
+                  AuthController.to.accessToken.value,
+                  boardId,
+                  reviewRequestModel);
               print('리뷰 작성 완료: $reviewRequestModel');
               Get.back();
               Get.back();
+              Get.snackbar(
+                '리뷰 작성 성공',
+                '리뷰가 작성이 완료되었습니다!',
+                backgroundColor: Colors.black,
+                colorText: Colors.white,
+                snackPosition: SnackPosition.BOTTOM,
+              );
             },
             child: Text('확인'),
           ),
         ],
       ));
-    } catch(e) {
+    } catch (e) {
       print('리뷰 작성 실패: $e');
     }
   }

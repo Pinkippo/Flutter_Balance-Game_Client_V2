@@ -19,6 +19,8 @@ class GameReviewScreen extends GetView<GameReviewController> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
+        backgroundColor: Colors.white,
+        scrolledUnderElevation: 0, // 스크롤 시 앱바 그림자 제거
         leading: IconButton(
           onPressed: () => Get.back(),
           icon: const Icon(Icons.arrow_back),

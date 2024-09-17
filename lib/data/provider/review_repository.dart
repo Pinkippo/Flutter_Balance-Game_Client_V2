@@ -14,9 +14,8 @@ final baseUrl = dotenv.env['BASE_URL'];
 
 /// 리뷰 레포지토리
 class ReviewRepository {
-
   /// 리뷰 작성
-  Future<void> uploadReview(
+  Future<bool> uploadReview(
       String token, int boardId, ReviewRequestModel reviewRequestModel) async {
     final url = Uri.parse('$baseUrl/board/v2/boards/$boardId/review');
 
@@ -29,29 +28,13 @@ class ReviewRepository {
       },
       body: jsonEncode(reviewRequestModel.toJson()),
     );
-    final responseBody = jsonDecode(utf8.decode(response.bodyBytes));
-    print('리뷰작성 response: ${(utf8.decode(response.bodyBytes))}');
+    // final responseBody = jsonDecode(utf8.decode(response.bodyBytes));
 
-    if (responseBody['code'] == "NOT_SIGNED_GAME_ERROR") {
-      Get.dialog(AlertDialog(
-        title: Text('로그인'),
-        content: Text('로그인 후 이용해주세요.'),
-        actions: [
-          TextButton(
-            onPressed: () {
-              Get.back();
-            },
-            child: Text('확인'),
-          ),
-        ],
-      ));
+    if (response.statusCode == 200) {
+      return true;
     } else {
-      if (response.statusCode == 200) {
-        Get.snackbar('리뷰 작성 성공', '리뷰가 작성되었습니다.');
-      } else {
-        Get.snackbar('리뷰 작성 실패', '다시 시도해주세요.');
-        throw Exception('Failed to upload review');
-      }
+      Get.snackbar('리뷰 작성 실패', '다시 시도해주세요.');
+      throw Exception('Failed to upload review');
     }
   }
 
