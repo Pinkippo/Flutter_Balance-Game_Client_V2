@@ -78,6 +78,7 @@ class AppPages {
           }, permanent: true)
               .then((value) async {
             await value.getToken();
+            await value.getUserInfoFromHomeScreen();
           });
         })),
 
