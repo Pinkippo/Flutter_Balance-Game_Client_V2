@@ -80,7 +80,8 @@ class MyPageTap extends GetView<AuthController> {
                 height: 13,
               ),
               Container(
-                padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 13),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 10, horizontal: 13),
                 height: 245,
                 decoration: BoxDecoration(
                     border: Border.all(color: Colors.black.withOpacity(0.13)),
@@ -104,7 +105,8 @@ class MyPageTap extends GetView<AuthController> {
                             ),
                             const Expanded(
                               child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
                                     '공지사항',
@@ -137,7 +139,8 @@ class MyPageTap extends GetView<AuthController> {
                             ),
                             const Expanded(
                               child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
                                     '알림설정',
@@ -179,32 +182,33 @@ class MyPageTap extends GetView<AuthController> {
                     const Divider(),
                     GestureDetector(
                       onTap: () => {
-                        Get.dialog(
-                          AlertDialog(
-                            backgroundColor: Colors.white,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(15),
-                            ),
-                            title: const Text('회원탈퇴'),
-                            content: const Text('정말 탈퇴하시겠습니까?'),
-                            actions: [
-                              TextButton(
-                                onPressed: () {
-                                  /// TODO : 회원탈퇴 연결
-                                  // controller.deleteUser();
-                                  Get.back();
-                                },
-                                child: const Text('확인', style: TextStyle(color: Colors.red,)),
-                              ),
-                              TextButton(
-                                onPressed: () {
-                                  Get.back();
-                                },
-                                child: const Text('취소', style: TextStyle(color: Colors.blue,)),
-                              ),
-                            ],
-                          ),
-                        ),
+                        Get.toNamed('/delete_user'),
+                        // Get.dialog(
+                        //   AlertDialog(
+                        //     backgroundColor: Colors.white,
+                        //     shape: RoundedRectangleBorder(
+                        //       borderRadius: BorderRadius.circular(15),
+                        //     ),
+                        //     title: const Text('회원탈퇴'),
+                        //     content: const Text('정말 탈퇴하시겠습니까?'),
+                        //     actions: [
+                        //       TextButton(
+                        //         onPressed: () {
+                        //           /// TODO : 회원탈퇴 연결
+                        //           // controller.deleteUser();
+                        //           Get.back();
+                        //         },
+                        //         child: const Text('확인', style: TextStyle(color: Colors.red,)),
+                        //       ),
+                        //       TextButton(
+                        //         onPressed: () {
+                        //           Get.back();
+                        //         },
+                        //         child: const Text('취소', style: TextStyle(color: Colors.blue,)),
+                        //       ),
+                        //     ],
+                        //   ),
+                        // ),
                       },
                       child: Container(
                         color: Colors.transparent,
@@ -279,14 +283,14 @@ class MyPageTap extends GetView<AuthController> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text('버전 정보: ${controller.version.value}'),
-                  controller.isCurrent.value ?
-                  const Text(
-                    '최신 버전이에요.',
-                    style: TextStyle(
-                      color: Colors.grey,
-                    ),
-                  )
-                  : Container(),
+                  controller.isCurrent.value
+                      ? const Text(
+                          '최신 버전이에요.',
+                          style: TextStyle(
+                            color: Colors.grey,
+                          ),
+                        )
+                      : Container(),
                 ],
               )
             ],
