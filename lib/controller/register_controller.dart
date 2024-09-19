@@ -54,10 +54,12 @@ class RegisterController extends GetxController {
   /// 아이디 중복 확인 상태
   final Rx<bool> checkDuplicate = false.obs;
 
-
   /// 텍스트 컨트롤러
   final accountNameController = TextEditingController();
-  final birthController = TextEditingController();
+  final birthController = TextEditingController(
+    text:
+        "${DateTime.now().year.toString().padLeft(4, '0')}-${DateTime.now().month.toString().padLeft(2, '0')}-${DateTime.now().day.toString().padLeft(2, '0')}",
+  );
   final nicknameController = TextEditingController();
 
   /// 이름 변경
@@ -201,7 +203,7 @@ class RegisterController extends GetxController {
         accountName.value == '' ||
         pw.value == '' ||
         pwChk.value == '' ||
-        selectedDate.value == null) {
+        selectedDate.value.toString() == '') {
       print('realName >> ${realName.value},'
           'email >> ${accountName.value},'
           'pw >> ${pw.value},'
@@ -242,7 +244,7 @@ class RegisterController extends GetxController {
     }
 
     // 중복 확인 완료 시 다음 페이지로 이동
-    if(checkDuplicate.value && isEmailVerified.value) {
+    if (checkDuplicate.value && isEmailVerified.value) {
       Get.toNamed('/profile');
     }
   }
