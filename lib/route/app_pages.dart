@@ -34,7 +34,7 @@ import '../screen/game_review_screen.dart';
 import '../screen/my_games_screen.dart';
 import '../screen/notice_detail_screen.dart';
 import '../screen/review_list_screen.dart';
-import '../screen/upload_game_screen.dart';
+import '../screen/game_upload_screen.dart';
 
 part 'app_routes.dart';
 

@@ -1,24 +1,15 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:yangjataekil/controller/game_upload_controller.dart';
 import 'package:yangjataekil/theme/app_color.dart';
 
 import '../../controller/game_review_controller.dart';
 
-class EmptyHashWidget extends StatelessWidget {
-  const EmptyHashWidget({super.key, required this.controller});
-
-  final controller;
+class EmptyGameReviewHashWidget extends GetView<GameReviewController> {
+  const EmptyGameReviewHashWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
-    if (controller == GameUploadController) {
-      Get.put(GameUploadController());
-    } else {
-      Get.put(GameReviewController());
-    }
-
     return ClipRRect(
       borderRadius: BorderRadius.circular(20),
       child: Material(
@@ -49,7 +40,7 @@ class EmptyHashWidget extends StatelessWidget {
   }
 
   void _showHashtagDialog() {
-    final TextEditingController hashtagController = TextEditingController();
+    final hashtagController = TextEditingController();
     Get.defaultDialog(
       title: '해시태그 추가',
       backgroundColor: Colors.white,

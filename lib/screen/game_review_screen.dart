@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:yangjataekil/controller/game_review_controller.dart';
 
-import '../widget/game/hashtag_list_widget.dart';
+import '../widget/game/game_review_hashtag_widget.dart';
 
 class GameReviewScreen extends GetView<GameReviewController> {
   const GameReviewScreen({super.key});
@@ -48,7 +48,7 @@ class GameReviewScreen extends GetView<GameReviewController> {
               // 태그 선택 파트
               const Text('태그로 알려주세요!'),
               const SizedBox(height: 10),
-              HashtagList(controller: controller),
+              const GameReviewHashtag(),
 
               const SizedBox(height: 40),
 

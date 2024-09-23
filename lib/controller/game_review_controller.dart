@@ -23,6 +23,7 @@ class GameReviewController extends GetxController {
     print('키워드 추가 >>> $value');
   }
 
+  /// 좋아요 변경
   void changeLike(bool like) {
     isLike.value = like;
     print('좋아요: $isLike');
@@ -38,6 +39,7 @@ class GameReviewController extends GetxController {
     print('리뷰 내용: $reviewContent');
   }
 
+  /// 리뷰 업로드
   Future<void> uploadReview(int boardId) async {
     final reviewRequestModel = ReviewRequestModel(
         title: reviewTitle.value,
