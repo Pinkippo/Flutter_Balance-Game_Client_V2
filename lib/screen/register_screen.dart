@@ -96,7 +96,6 @@ class RegisterScreen extends GetView<RegisterController> {
                               ? Colors.grey
                               : Colors.white,
                           onPressed: () => {
-                            /// TODO: 이메일 중복 검사 연결
                             controller.checkDuplicateAccountName()
                           },
                           isEnabled:
@@ -211,7 +210,6 @@ class RegisterScreen extends GetView<RegisterController> {
                               : Colors.white,
                           onPressed: () =>
 
-                              /// TODO: 이메일 인증 요청
                               controller.requestEmailVerification(),
                           isEnabled: controller.email.isEmpty ? false : true,
                         ),
@@ -241,7 +239,6 @@ class RegisterScreen extends GetView<RegisterController> {
                             ),
                           ),
                           onChanged: (value) {
-                            /// TODO: 인증번호 입력
                             controller.updateEmailAuthCode(value);
                           },
                         ),
@@ -262,7 +259,6 @@ class RegisterScreen extends GetView<RegisterController> {
                               ? Colors.white
                               : Colors.grey,
                           onPressed: () => {
-                            /// TODO: 이메일 인증 요청
                             controller.verifyEmail()
                           },
                           isEnabled: controller.isEmailSent.value,

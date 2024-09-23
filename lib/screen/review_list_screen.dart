@@ -2,19 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:yangjataekil/controller/auth_controller.dart';
-import 'package:yangjataekil/controller/report_controller.dart';
 import 'package:yangjataekil/theme/app_color.dart';
 
 import '../controller/review_controller.dart';
 import '../widget/report/review_report_dialog_widget.dart';
 
-class ReviewListScreen extends StatelessWidget {
+class ReviewListScreen extends GetView<ReviewController> {
   const ReviewListScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final reviewController = Get.find<ReviewController>();
-
     return Scaffold(
       appBar: AppBar(
         title: const Text('리뷰 목록'),
@@ -23,7 +20,7 @@ class ReviewListScreen extends StatelessWidget {
       body: Container(
         color: Colors.white,
         child: Obx(() {
-          if (reviewController.reviews.isEmpty) {
+          if (controller.reviews.isEmpty) {
             return const Center(
               child: Text(
                 '리뷰가 없습니다.',
@@ -36,10 +33,9 @@ class ReviewListScreen extends StatelessWidget {
           }
 
           return ListView.builder(
-            itemCount: reviewController.reviews.length,
+            itemCount: controller.reviews.length,
             itemBuilder: (context, index) {
-              final review = reviewController.reviews[index];
-              print('리뷰어 이미지 정보 : ${review.profile}');
+              final review = controller.reviews[index];
               return Stack(
                 children: [
                   Column(
@@ -143,20 +139,19 @@ class ReviewListScreen extends StatelessWidget {
                           top: 0,
                           child: IconButton(
                             onPressed: () {
-                              reviewController.boardReviewId.value =
+                              controller.boardReviewId.value =
                                   review.boardReviewId;
                               print(
-                                  'boardReviewId: ${reviewController.boardReviewId.value}');
+                                  'boardReviewId: ${controller.boardReviewId.value}');
                               Get.dialog(
                                 PopScope(
                                   onPopInvokedWithResult:
                                       (bool didPop, dynamic result) {
-                                    reviewController.selectedCategory.value =
-                                        null;
-                                    reviewController.content.value = '';
+                                    controller.selectedCategory.value = null;
+                                    controller.content.value = '';
                                   },
-                                  child:
-                                      reportDialog(context, reviewController, review.boardId),
+                                  child: reportDialog(
+                                      context, controller, review.boardId),
                                 ),
                               );
                             },
