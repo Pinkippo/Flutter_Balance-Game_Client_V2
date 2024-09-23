@@ -55,6 +55,15 @@ class GameDetailScreen extends GetView<GameDetailController> {
                             ),
                           ),
                           const Spacer(),
+
+                          /// TODO: 게임 리뷰 페이지로 이동 (임시위치)
+                          ElevatedButton(
+                              onPressed: () {
+                                Get.toNamed('/game_review', arguments: {
+                                  'boardId': controller.gameDetail.value.boardId
+                                });
+                              },
+                              child: Text('리뷰달기')),
                           Text(
                             /// 게임 소개
                             controller.gameDetail.value.introduce,
@@ -84,7 +93,8 @@ class GameDetailScreen extends GetView<GameDetailController> {
                                 ),
                                 VerticalInfoWidget(
                                   label: '싫어요',
-                                  count: controller.gameDetail.value.dislikeCount,
+                                  count:
+                                      controller.gameDetail.value.dislikeCount,
                                 ),
                                 VerticalInfoWidget(
                                   label: '조회수',
@@ -116,11 +126,12 @@ class GameDetailScreen extends GetView<GameDetailController> {
                           await Get.showOverlay(
                               asyncFunction: () async {
                                 /// 최소 로딩 기간 1.5초 보장
-                                final gameContentFuture =
-                                    GamePlayController.to.getGameContent(
-                                        controller.gameDetail.value.boardId.toString(),
-                                        controller.gameDetail.value.title.toString()
-                                    );
+                                final gameContentFuture = GamePlayController.to
+                                    .getGameContent(
+                                        controller.gameDetail.value.boardId
+                                            .toString(),
+                                        controller.gameDetail.value.title
+                                            .toString());
                                 final delayFuture = Future.delayed(
                                     const Duration(
                                         seconds: 1, milliseconds: 500));
@@ -142,7 +153,8 @@ class GameDetailScreen extends GetView<GameDetailController> {
                           });
                         },
                         child: const Text('게임하러 가기',
-                            style: TextStyle(fontSize: 16, color: Colors.black)),
+                            style:
+                                TextStyle(fontSize: 16, color: Colors.black)),
                       ),
                     ),
                     const SizedBox(
@@ -162,7 +174,8 @@ class GameDetailScreen extends GetView<GameDetailController> {
                 child: GestureDetector(
                   onTap: () async {
                     // print(controller.gameDetail.value.boardId);
-                    await Get.toNamed('/review_list', arguments: controller.gameDetail.value.boardId);
+                    await Get.toNamed('/review_list',
+                        arguments: controller.gameDetail.value.boardId);
                   },
                   child: Container(
                     height: 250,
@@ -212,15 +225,19 @@ class GameDetailScreen extends GetView<GameDetailController> {
                           child: Stack(
                             alignment: Alignment.center,
                             children: [
-                              if (controller.gameDetail.value.boardReviewsPreview.isNotEmpty) ...[
+                              if (controller.gameDetail.value
+                                  .boardReviewsPreview.isNotEmpty) ...[
                                 Positioned(
                                   top: 10,
                                   left: 20,
                                   child: CircleAvatar(
                                     radius: 70,
-                                    backgroundColor: Colors.lightBlueAccent.withOpacity(0.5),
+                                    backgroundColor:
+                                        Colors.lightBlueAccent.withOpacity(0.5),
                                     child: Text(
-                                      controller.gameDetail.value.boardReviewsPreview[0].keyword ?? "",
+                                      controller.gameDetail.value
+                                              .boardReviewsPreview[0].keyword ??
+                                          "",
                                       style: const TextStyle(
                                         fontSize: 16,
                                         color: Colors.black,
@@ -229,15 +246,23 @@ class GameDetailScreen extends GetView<GameDetailController> {
                                     ),
                                   ),
                                 ),
-                                if (controller.gameDetail.value.boardReviewsPreview.length > 1)
+                                if (controller.gameDetail.value
+                                        .boardReviewsPreview.length >
+                                    1)
                                   Positioned(
                                     top: 90,
                                     right: 10,
                                     child: CircleAvatar(
                                       radius: 60,
-                                      backgroundColor: Colors.blue.withOpacity(0.5),
+                                      backgroundColor:
+                                          Colors.blue.withOpacity(0.5),
                                       child: Text(
-                                        controller.gameDetail.value.boardReviewsPreview[1].keyword ?? "",
+                                        controller
+                                                .gameDetail
+                                                .value
+                                                .boardReviewsPreview[1]
+                                                .keyword ??
+                                            "",
                                         style: const TextStyle(
                                           fontSize: 14,
                                           color: Colors.black,
@@ -246,15 +271,23 @@ class GameDetailScreen extends GetView<GameDetailController> {
                                       ),
                                     ),
                                   ),
-                                if (controller.gameDetail.value.boardReviewsPreview.length > 2)
+                                if (controller.gameDetail.value
+                                        .boardReviewsPreview.length >
+                                    2)
                                   Positioned(
                                     top: 130,
                                     right: 110,
                                     child: CircleAvatar(
                                       radius: 40,
-                                      backgroundColor: Colors.tealAccent.withOpacity(0.5),
+                                      backgroundColor:
+                                          Colors.tealAccent.withOpacity(0.5),
                                       child: Text(
-                                        controller.gameDetail.value.boardReviewsPreview[2].keyword ?? "",
+                                        controller
+                                                .gameDetail
+                                                .value
+                                                .boardReviewsPreview[2]
+                                                .keyword ??
+                                            "",
                                         style: const TextStyle(
                                           fontSize: 12,
                                           color: Colors.black,
@@ -271,7 +304,108 @@ class GameDetailScreen extends GetView<GameDetailController> {
                                   right: 0,
                                   child: CircleAvatar(
                                     radius: 75,
-                                    backgroundColor: Colors.lightBlueAccent.withOpacity(0.5),
+                                    backgroundColor:
+                                        Colors.lightBlueAccent.withOpacity(0.5),
+                                    child: const Text(
+                                      "리뷰가 존재하지\n않습니다",
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        color: Colors.black,
+                                      ),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          width: 200,
+                          child: Stack(
+                            alignment: Alignment.center,
+                            children: [
+                              if (controller.gameDetail.value
+                                  .boardReviewsPreview.isNotEmpty) ...[
+                                Positioned(
+                                  top: 10,
+                                  left: 20,
+                                  child: CircleAvatar(
+                                    radius: 70,
+                                    backgroundColor:
+                                        Colors.lightBlueAccent.withOpacity(0.5),
+                                    child: Text(
+                                      controller.gameDetail.value
+                                              .boardReviewsPreview[0].keyword ??
+                                          "",
+                                      style: const TextStyle(
+                                        fontSize: 16,
+                                        color: Colors.black,
+                                      ),
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ),
+                                ),
+                                if (controller.gameDetail.value
+                                        .boardReviewsPreview.length >
+                                    1)
+                                  Positioned(
+                                    top: 90,
+                                    right: 10,
+                                    child: CircleAvatar(
+                                      radius: 60,
+                                      backgroundColor:
+                                          Colors.blue.withOpacity(0.5),
+                                      child: Text(
+                                        controller
+                                                .gameDetail
+                                                .value
+                                                .boardReviewsPreview[1]
+                                                .keyword ??
+                                            "",
+                                        style: const TextStyle(
+                                          fontSize: 14,
+                                          color: Colors.black,
+                                        ),
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ),
+                                  ),
+                                if (controller.gameDetail.value
+                                        .boardReviewsPreview.length >
+                                    2)
+                                  Positioned(
+                                    top: 130,
+                                    right: 110,
+                                    child: CircleAvatar(
+                                      radius: 40,
+                                      backgroundColor:
+                                          Colors.tealAccent.withOpacity(0.5),
+                                      child: Text(
+                                        controller
+                                                .gameDetail
+                                                .value
+                                                .boardReviewsPreview[2]
+                                                .keyword ??
+                                            "",
+                                        style: const TextStyle(
+                                          fontSize: 12,
+                                          color: Colors.black,
+                                        ),
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ),
+                                  ),
+                              ] else ...[
+                                Positioned(
+                                  top: 0,
+                                  bottom: 0,
+                                  left: 0,
+                                  right: 0,
+                                  child: CircleAvatar(
+                                    radius: 75,
+                                    backgroundColor:
+                                        Colors.lightBlueAccent.withOpacity(0.5),
                                     child: const Text(
                                       "리뷰가 존재하지\n않습니다",
                                       style: TextStyle(
@@ -307,7 +441,9 @@ class GameDetailScreen extends GetView<GameDetailController> {
                   itemBuilder: (context, index) {
                     return GestureDetector(
                       onTap: () async {
-                        await controller.changeGameDetail(controller.relatedGameList[index].boardId.toString());
+                        await controller.changeGameDetail(controller
+                            .relatedGameList[index].boardId
+                            .toString());
                       },
                       child: Container(
                           width: 120,

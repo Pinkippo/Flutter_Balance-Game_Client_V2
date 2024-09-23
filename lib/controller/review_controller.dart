@@ -96,7 +96,9 @@ class ReviewController extends GetxController {
   /// 리뷰 신고 메서드
   Future<bool> reviewReport(int reviewId, String reviewContent) async {
     boardReviewId.value = reviewId;
-    content.value = reviewContent;
+    content.value = reviewContent.isEmpty
+        ? selectedCategory.value!.displayName
+        : reviewContent;
 
     try {
       final response = await ReviewRepository().reviewReport(

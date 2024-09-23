@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:yangjataekil/controller/game_upload_controller.dart';
 import 'package:yangjataekil/theme/app_color.dart';
+import 'package:yangjataekil/widget/game/game_upload_hashtag_widget.dart';
 import 'package:yangjataekil/widget/game/question_list_widget.dart';
-import 'package:yangjataekil/widget/game/hashtag_list_widget.dart';
 
 class UploadGameScreen extends GetView<GameUploadController> {
   const UploadGameScreen({super.key});
@@ -91,7 +91,7 @@ class UploadGameScreen extends GetView<GameUploadController> {
               const SizedBox(
                 height: 10,
               ),
-              const HashtagList(),
+              const GameUploadHashtag(),
               const SizedBox(
                 height: 30,
               ),

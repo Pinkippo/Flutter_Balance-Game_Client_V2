@@ -1,4 +1,3 @@
-
 /// 리뷰 모델
 class Review {
   final int boardReviewId;
@@ -10,6 +9,7 @@ class Review {
   final List<String> keywords;
   final bool isLike;
   final bool isDislike;
+  final String profile;
 
   Review({
     required this.boardReviewId,
@@ -21,6 +21,7 @@ class Review {
     required this.keywords,
     required this.isLike,
     required this.isDislike,
+    required this.profile,
   });
 
   factory Review.fromJson(Map<String, dynamic> json) {
@@ -35,6 +36,7 @@ class Review {
           (json['keywords'] as List).map((item) => item.toString()).toList(),
       isLike: json['isLike'] ?? false,
       isDislike: json['isDislike'] ?? false,
+      profile: json['profile'] ?? '',
     );
   }
 }

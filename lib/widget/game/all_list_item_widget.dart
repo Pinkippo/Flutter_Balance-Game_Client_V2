@@ -57,8 +57,8 @@ class AllListItemWidget extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
                 maxLines: 5,
                 text: TextSpan(
-                  text: controller.allBoards[index].introduce,
-                ),
+                    text: controller.allBoards[index].introduce,
+                    style: const TextStyle(color: Colors.black)),
               ),
             ),
           ],
