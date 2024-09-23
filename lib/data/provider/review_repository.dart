@@ -1,17 +1,40 @@
 import 'dart:convert';
 import 'dart:io';
-
-import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:get/get.dart';
+import 'package:yangjataekil/data/model/review_request_model.dart';
 import '../model/review_response_model.dart';
 
-/// 서버 baseUrl
 final baseUrl = dotenv.env['BASE_URL'];
 
 /// 리뷰 레포지토리
 class ReviewRepository {
+  /// 리뷰 작성
+  Future<bool> uploadReview(
+      String token, int boardId, ReviewRequestModel reviewRequestModel) async {
+    final url = Uri.parse('$baseUrl/board/v2/boards/$boardId/review');
+
+    final response = await http.post(
+      url,
+      headers: <String, String>{
+        'Authorization': 'Bearer $token',
+        'Content-Type': 'application/json',
+        'charset': 'utf-8',
+      },
+      body: jsonEncode(reviewRequestModel.toJson()),
+    );
+    // final responseBody = jsonDecode(utf8.decode(response.bodyBytes));
+
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      Get.snackbar('리뷰 작성 실패', '다시 시도해주세요.');
+      throw Exception('Failed to upload review');
+    }
+  }
+
   /// 리뷰 리스트 조회
   Future<ReviewResponseModel> getReviewList(String token, int boardId) async {
     final url = Uri.parse('$baseUrl/board/v2/boards/$boardId/reviews');

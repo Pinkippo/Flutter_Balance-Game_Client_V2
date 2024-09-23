@@ -1,11 +1,12 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:yangjataekil/controller/game_upload_controller.dart';
 import 'package:yangjataekil/theme/app_color.dart';
 
-class EmptyHashWidget extends GetView<GameUploadController> {
-  const EmptyHashWidget({super.key});
+import '../../controller/game_review_controller.dart';
+
+class EmptyGameReviewHashWidget extends GetView<GameReviewController> {
+  const EmptyGameReviewHashWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +40,7 @@ class EmptyHashWidget extends GetView<GameUploadController> {
   }
 
   void _showHashtagDialog() {
-    final TextEditingController hashtagController = TextEditingController();
+    final hashtagController = TextEditingController();
     Get.defaultDialog(
       title: '해시태그 추가',
       backgroundColor: Colors.white,

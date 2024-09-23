@@ -16,7 +16,10 @@ class MiddleStackContent extends GetView<AuthController> {
         right: 20, // 조정이 필요할 경우 이 값을 수정
         child: GestureDetector(
           onTap: () {
-            Get.toNamed('/my_games');
+            // 로그인이 되어있으면 my_games로 이동, 아니면 login으로 이동
+            controller.accessToken.isNotEmpty
+                ? Get.toNamed('/my_games')
+                : Get.toNamed('/login');
           },
           child: Container(
             width: double.infinity,

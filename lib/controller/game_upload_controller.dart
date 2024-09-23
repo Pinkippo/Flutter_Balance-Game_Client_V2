@@ -135,6 +135,14 @@ class GameUploadController extends GetxController {
         AuthController.to.accessToken.value,
       );
       print('게임 업로드 성공 >>> $uploadGameRequestModel');
+      Get.back();
+      Get.snackbar(
+        '게임 업로드 성공',
+        '게임 업로드가 완료되었습니다!',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.black,
+        colorText: Colors.white,
+      );
       return true;
     }
   }

@@ -24,23 +24,39 @@ class MyGamesScreen extends GetView<ThemeListController> {
         ),
       ),
       body: Obx(
-        () => Container(
-          color: Colors.white,
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-          child: ListView.separated(
-            separatorBuilder: (_, index) => const SizedBox(
-              height: 20,
-            ),
-            itemCount: controller.myBoards.length,
-            itemBuilder: (_, index) {
-              if (index < controller.myBoards.length + 1) {
+            () {
+          // 게임 목록이 비어있는 경우
+          if (controller.myBoards.isEmpty) {
+            return Container(
+              padding: const EdgeInsets.only(bottom: 30),
+              color: Colors.white,
+              child: const Center(
+                child: Text('내 게임이 없습니다.',
+                    style: TextStyle(fontSize: 18, color: Colors.grey)),
+              ),
+            );
+          }
+
+          // 게임 목록이 있는 경우
+          return Container(
+            color: Colors.white,
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            child: ListView.separated(
+              separatorBuilder: (_, index) => const SizedBox(
+                height: 20,
+              ),
+              itemCount: controller.myBoards.length,
+              itemBuilder: (_, index) {
                 return FilteredListItemWidget(
-                    themeListController: controller, index: index, isFiltered: false, isMyGame: true);
-              }
-              return null;
-            },
-          ),
-        ),
+                  themeListController: controller,
+                  index: index,
+                  isFiltered: false,
+                  isMyGame: true,
+                );
+              },
+            ),
+          );
+        },
       ),
     );
   }
