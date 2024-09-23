@@ -75,6 +75,7 @@ class MyRecordsScreen extends StatelessWidget {
                   contentPadding: EdgeInsets.zero,
                   onTap: () {
                     // '내 게임' 클릭 시 동작 추가
+                    Get.toNamed('/my_games');
                     print('내 게임 클릭');
                   },
                 ),
@@ -105,7 +106,7 @@ class MyRecordsScreen extends StatelessWidget {
                     size: 30,
                   ),
                   contentPadding: EdgeInsets.zero,
-                  onTap: () async {
+                  onTap: () {
                     /// 내가 작성한 리뷰 리스트 페이지
                     Get.toNamed('/my_reviews');
                   },
