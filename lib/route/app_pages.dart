@@ -225,7 +225,7 @@ class AppPages {
     GetPage(
         name: Routes.myGames,
         page: () => const MyGamesScreen(),
-        transition: Transition.fade,
+        transition: Transition.rightToLeftWithFade,
         binding: BindingsBuilder(() {
           Get.lazyPut<ThemeListController>(() {
             return ThemeListController();
