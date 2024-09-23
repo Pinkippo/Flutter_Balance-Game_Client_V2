@@ -74,9 +74,7 @@ class MyRecordsScreen extends StatelessWidget {
                   ),
                   contentPadding: EdgeInsets.zero,
                   onTap: () {
-                    // '내 게임' 클릭 시 동작 추가
                     Get.toNamed('/my_games');
-                    print('내 게임 클릭');
                   },
                 ),
                 // 내가 참여한 게임
@@ -91,7 +89,7 @@ class MyRecordsScreen extends StatelessWidget {
                   ),
                   contentPadding: EdgeInsets.zero,
                   onTap: () {
-                    // '내가 참여한 게임' 클릭 시 동작 추가
+                    /// TODO: '내가 참여한 게임' 클릭 시 동작 추가
                     print('내가 참여한 게임 클릭');
                   },
                 ),
