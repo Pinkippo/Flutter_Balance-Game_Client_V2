@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
-import 'package:yangjataekil/controller/review_controller.dart';
 
-class MyRecordsScreen extends GetView<ReviewController> {
+class MyRecordsScreen extends StatelessWidget {
   const MyRecordsScreen({super.key});
 
   @override
@@ -108,7 +107,7 @@ class MyRecordsScreen extends GetView<ReviewController> {
                   contentPadding: EdgeInsets.zero,
                   onTap: () async {
                     /// 내가 작성한 리뷰 리스트 페이지
-                    Get.toNamed('/my-reviews');
+                    Get.toNamed('/my_reviews');
                   },
                 ),
               ],

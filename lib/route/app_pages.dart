@@ -24,6 +24,7 @@ import 'package:yangjataekil/controller/user_modify_controller.dart';
 import 'package:yangjataekil/screen/login_screen.dart';
 import 'package:yangjataekil/screen/main_screen.dart';
 import 'package:yangjataekil/screen/my_records_screen.dart';
+import 'package:yangjataekil/screen/my_reviews_screen.dart';
 import 'package:yangjataekil/screen/user_modify_screen.dart';
 import 'package:yangjataekil/screen/register_profile_screen.dart';
 import 'package:yangjataekil/screen/notification_screen.dart';
@@ -272,7 +273,14 @@ class AppPages {
     GetPage(
       name: Routes.myRecords,
       page: () => const MyRecordsScreen(),
-      transition: Transition.fade,
+      transition: Transition.rightToLeftWithFade,
+    ),
+
+    /// 내가 작성한 리뷰 페이지
+    GetPage(
+      name: Routes.myReviews,
+      page: () => const MyReviewsScreen(),
+      transition: Transition.rightToLeftWithFade,
       binding: BindingsBuilder(() {
         Get.lazyPut<ReviewController>(() {
           return ReviewController(0);

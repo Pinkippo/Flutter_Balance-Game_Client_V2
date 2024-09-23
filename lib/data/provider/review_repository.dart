@@ -51,11 +51,7 @@ class ReviewRepository {
     if (response.statusCode == 200) {
       print('리뷰 리스트 조회 API response : \n${utf8.decode(response.bodyBytes)}');
       final responseData = jsonDecode(utf8.decode(response.bodyBytes));
-      if (responseData is Map<String, dynamic>) {
-        return ReviewResponseModel.fromJson(responseData);
-      } else {
-        throw Exception('Unexpected response format');
-      }
+      return ReviewResponseModel.fromJson(responseData);
     } else {
       throw Exception('리뷰 리스트 조회 실패');
     }
