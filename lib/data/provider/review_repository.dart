@@ -61,6 +61,33 @@ class ReviewRepository {
     }
   }
 
+  /// 내가 작성한 리뷰 조회
+  Future<ReviewResponseModel> getMyReviewList(String token) async {
+    final url = Uri.parse('$baseUrl/v2/boards/me/wrote-reviews');
+
+    try {
+      final response = await http.get(
+        url,
+        headers: {
+          'Authorization': 'Bearer $token',
+          'Content-Type': 'application/json',
+          'charset': 'utf-8',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        final responseDate = jsonDecode(utf8.decode(response.bodyBytes));
+        print('response: $response');
+        print('responseData: $responseDate');
+        return ReviewResponseModel.fromJson(responseDate);
+      } else {
+        throw Exception('내가 작성한 리뷰 리스트 >>> 변환 실패');
+      }
+    } catch (e) {
+      throw Exception('내가 작성한 리뷰 리스트 >>> 조회 실패');
+    }
+  }
+
   /// 리뷰 신고 메서드
   Future<bool> reviewReport(
       String token, int boardId, int boardReviewId, String content) async {

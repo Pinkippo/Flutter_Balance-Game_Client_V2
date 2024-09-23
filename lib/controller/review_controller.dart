@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:yangjataekil/controller/auth_controller.dart';
 import 'package:yangjataekil/data/model/review.dart';
@@ -47,6 +48,9 @@ class ReviewController extends GetxController {
     this.boardId.value = boardId;
   }
 
+  /// 내가 작성한 리뷰
+  final myReviews = <Review>[].obs;
+
   @override
   void onInit() {
     // 게시글 ID를 받아온 후 리뷰 리스트 조회
@@ -65,6 +69,35 @@ class ReviewController extends GetxController {
       print('리뷰 리스트 조회 성공 : ${reviews.toString()}');
     } catch (e) {
       print('리뷰 리스트 조회 실패 : $e');
+      Get.snackbar(
+        '리뷰 리스트',
+        '리뷰 가져오기를 실패했어요!',
+        backgroundColor: Colors.black,
+        colorText: Colors.white,
+        snackPosition: SnackPosition.BOTTOM,
+      );
+      throw Exception('리뷰 리스트 조회 실패');
+    }
+  }
+
+  /// 내가 작성한 리뷰 리스트 조회
+  Future<void> getMyReviewList() async {
+    try {
+      final myReviewList = await ReviewRepository().getMyReviewList(
+        AuthController.to.accessToken.value,
+      );
+
+      myReviews.value = myReviewList.reviews;
+    } catch (e) {
+      print('내가 작성한 리뷰 리스트 조회 실패 : $e');
+      Get.snackbar(
+        '내 리뷰 리스트',
+        '내 리뷰 가져오기를 실패했어요!',
+        backgroundColor: Colors.black,
+        colorText: Colors.white,
+        snackPosition: SnackPosition.BOTTOM,
+      );
+      throw Exception('내 리뷰 리스트 조회 실패');
     }
   }
 
