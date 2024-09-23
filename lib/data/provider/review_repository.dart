@@ -37,12 +37,12 @@ class ReviewRepository {
 
   /// 리뷰 리스트 조회
   Future<ReviewResponseModel> getReviewList(String token, int boardId) async {
-    final url = Uri.parse('$baseUrl/board/v2/public/boards/$boardId/reviews');
+    final url = Uri.parse('$baseUrl/board/v2/boards/$boardId/reviews');
 
     final response = await http.get(
       url,
       headers: {
-        'Authorization': 'Bearer $token',
+        if (token.isNotEmpty) 'Authorization': 'Bearer $token',
         'Content-Type': 'application/json',
         'charset': 'utf-8',
       },
