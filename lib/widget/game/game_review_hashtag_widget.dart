@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:yangjataekil/controller/game_upload_controller.dart';
-import 'package:yangjataekil/theme/app_color.dart';
 import 'package:yangjataekil/widget/game/empty_review_hashtag_widget.dart';
 
 import '../../controller/game_review_controller.dart';
