@@ -7,9 +7,62 @@ import 'package:yangjataekil/data/provider/auth_repository.dart';
 
 import '../data/model/user_response_model.dart';
 import '../theme/app_color.dart';
+
+enum DELETEREASONS {
+  // 개인정보가 걱정돼요
+  personalInfo,
+  // 자주 사용하지 않음
+  notUsedOften,
+  // 앱 용량이 커요
+  appSize,
+  // 알람이 너무 자주 와요
+  tooManyAlarms,
+  // 앱 오류가 있어요
+  appError,
+  // 직접입력
+  directInput,
+}
+
+extension DeleteReasonExtension on DELETEREASONS {
+  String get name {
+    switch (this) {
+      case DELETEREASONS.personalInfo:
+        return '개인정보가 걱정돼요';
+      case DELETEREASONS.notUsedOften:
+        return '자주 사용하지 않아요';
+      case DELETEREASONS.appSize:
+        return '앱 용량이 커요';
+      case DELETEREASONS.tooManyAlarms:
+        return '알람이 너무 자주 와요';
+      case DELETEREASONS.appError:
+        return '앱 오류가 있어요';
+      case DELETEREASONS.directInput:
+        return '직접입력';
+    }
+  }
+}
+
 /// 로그인 컨트롤러 - main.dart에서 영속성 생성하여 사용
 class AuthController extends GetxController {
   static AuthController get to => Get.find();
+
+  /// 탈퇴 사유
+  final deleteReasons = DELETEREASONS.values;
+
+  /// 선택된 탈퇴 사유
+  final selectedDeleteReason = DELETEREASONS.personalInfo.obs;
+
+  /// 기타사유
+  final directInputReason = ''.obs;
+
+  /// 기타 사유일 경우 텍스트 입력
+  final directInputText = ''.obs;
+
+  /// 기타사유 입력
+  void changeDirectInputText(String value) {
+    directInputText.value = value;
+    print('기타사유 입력 >>> $directInputText');
+  }
 
   /// 생성자
   AuthController() {
@@ -44,6 +97,7 @@ class AuthController extends GetxController {
     super.onInit();
     getVersion();
   }
+
   /// 비밀번호 찾기
   final Rx<String> currentPw = Rx<String>('');
   final Rx<String> newPw = Rx<String>('');
@@ -206,12 +260,16 @@ class AuthController extends GetxController {
 
   /// 회원탈퇴
   Future<void> deleteUser() async {
+    final String deleteReason = selectedDeleteReason.value == DELETEREASONS.directInput
+        ? directInputText.value
+        : selectedDeleteReason.value.name;
+
     try {
-      await authRepository.deleteUser(accessToken.value);
+      await authRepository.deleteUser(accessToken.value, deleteReason);
       await logout();
       Get.offAllNamed('/main');
     } catch (e) {
-      print('Error while deleting user: $e');
+      print('회원탈퇴 중 에러 발생: $e');
       Get.snackbar(
         '오류 발생',
         '회원 탈퇴 중 오류가 발생했습니다.',
@@ -233,8 +291,8 @@ class AuthController extends GetxController {
 
       final checkVersion = _checkVersion(appVersion, response.minimumVersion);
       if (checkVersion == -1) {
-          // TODO: 업데이트 유도 링크 추가
-          print('업데이트 해야합니다');
+        // TODO: 업데이트 유도 링크 추가
+        print('업데이트 해야합니다');
       } else if (checkVersion == 0) {
         isCurrent.value = true;
       }
@@ -254,9 +312,10 @@ class AuthController extends GetxController {
 
 int _checkVersion(String appVersion, String minimumVersion) {
   List<int> appVersionList = appVersion.split('.').map(int.parse).toList();
-  List<int> minimumVersionList = minimumVersion.split('.').map(int.parse).toList();
+  List<int> minimumVersionList =
+      minimumVersion.split('.').map(int.parse).toList();
 
-  for (int i=0; i< appVersionList.length; i++) {
+  for (int i = 0; i < appVersionList.length; i++) {
     if (appVersionList[i] > minimumVersionList[i]) return 1;
     if (appVersionList[i] < minimumVersionList[i]) return -1;
   }

@@ -27,10 +27,10 @@ class RegisterProfile extends GetView<RegisterController> {
         Positioned(
           child: InkWell(
             onTap: () {
-              showModalBottomSheet(
-                  backgroundColor: Colors.white,
-                  context: context,
-                  builder: ((builder) => bottomSheet()));
+              Get.bottomSheet(
+                bottomSheet(),
+                backgroundColor: Colors.white,
+              );
             },
             child: const Icon(
               Icons.add,

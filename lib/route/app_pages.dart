@@ -15,6 +15,7 @@ import 'package:yangjataekil/controller/recommend_controller.dart';
 import 'package:yangjataekil/controller/register_controller.dart';
 import 'package:yangjataekil/controller/notice_controller.dart';
 import 'package:yangjataekil/screen/change_pw_screen.dart';
+import 'package:yangjataekil/screen/delete_user_screen.dart';
 import 'package:yangjataekil/screen/game_detail_screen.dart';
 import 'package:yangjataekil/screen/game_play_screen.dart';
 import 'package:yangjataekil/screen/game_result_screen.dart';
@@ -247,7 +248,7 @@ class AppPages {
       page: () => const GameResultScreen(),
       transition: Transition.fade,
     ),
-
+    
     /// 게임 리뷰 등록 페이지
     GetPage(
         name: Routes.gameReview,
@@ -258,5 +259,12 @@ class AppPages {
             return GameReviewController();
           });
         })),
+    
+    /// 회원 탈퇴 페이지
+    GetPage(
+      name: Routes.deleteUser,
+      page: () => const DeleteUserScreen(),
+      transition: Transition.fade,
+    ),
   ];
 }

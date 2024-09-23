@@ -256,8 +256,8 @@ class AuthRepository {
     }
   }
 
-  /// 회원탈퇴
-  Future<bool> deleteUser(String token) async {
+  /// 회원 탈퇴
+  Future<bool> deleteUser(String token, String reason) async {
     final url = Uri.parse('$baseUrl/user/v2/users/me/withdraw');
     final response = await http.post(
       url,
@@ -266,16 +266,18 @@ class AuthRepository {
         'charset': 'utf-8',
         'Authorization': 'Bearer $token',
       },
+      body: jsonEncode({'reason': reason}),
     );
 
     if (response.statusCode == 200) {
-      print('회원탈퇴 응답: ${utf8.decode(response.bodyBytes)}');
+      print('회원 탈퇴 성공');
       return true;
     } else {
       throw Exception('회원탈퇴 실패');
     }
   }
 
+  /// 버전 조회
   Future<VersionModel> getVersion() async {
     final url = Uri.parse('$baseUrl/common/v2/version');
     final response = await http.get(
