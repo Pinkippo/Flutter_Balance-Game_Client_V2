@@ -37,6 +37,8 @@ extension ReportCategoryExtension on REPORTCATEGORY {
 
 /// 리뷰 리스트 컨트롤러
 class ReviewController extends GetxController {
+  static ReviewController get to => Get.find();
+
   /// 리뷰 리스트
   final reviews = <Review>[].obs;
 
@@ -48,14 +50,20 @@ class ReviewController extends GetxController {
     this.boardId.value = boardId;
   }
 
+  /// 기본 생성자
+
   /// 내가 작성한 리뷰
   final myReviews = <Review>[].obs;
 
   @override
   void onInit() {
     // 게시글 ID를 받아온 후 리뷰 리스트 조회
-    getReviewList(boardId.value);
-    super.onInit();
+    if (boardId.value != 0)  {
+      getReviewList(boardId.value);
+    } else {
+      getMyReviewList();
+    }
+      super.onInit();
   }
 
   /// 리뷰 리스트 조회 메서드

@@ -39,7 +39,6 @@ class ReviewListScreen extends StatelessWidget {
             itemCount: reviewController.reviews.length,
             itemBuilder: (context, index) {
               final review = reviewController.reviews[index];
-              print('리뷰어 이미지 정보 : ${review.profile}');
               return Stack(
                 children: [
                   Column(

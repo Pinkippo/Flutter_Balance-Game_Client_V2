@@ -63,7 +63,7 @@ class ReviewRepository {
 
   /// 내가 작성한 리뷰 조회
   Future<ReviewResponseModel> getMyReviewList(String token) async {
-    final url = Uri.parse('$baseUrl/v2/boards/me/wrote-reviews');
+    final url = Uri.parse('$baseUrl/board/v2/boards/me/wrote-reviews');
 
     try {
       final response = await http.get(

@@ -82,7 +82,7 @@ class MyPageTap extends GetView<AuthController> {
               Container(
                 padding:
                     const EdgeInsets.symmetric(vertical: 10, horizontal: 13),
-                height: 245,
+                height: 285,
                 decoration: BoxDecoration(
                     border: Border.all(color: Colors.black.withOpacity(0.13)),
                     borderRadius: BorderRadius.circular(10)),
@@ -160,6 +160,43 @@ class MyPageTap extends GetView<AuthController> {
                     const Divider(),
                     GestureDetector(
                       onTap: () => {
+                        Get.toNamed('/my_records'),
+                        print('내 활동'),
+                      },
+                      child: Container(
+                        color: Colors.transparent,
+                        child: Row(
+                          children: [
+                            const SizedBox(
+                              width: 4,
+                            ),
+                            Image.asset('assets/images/myPage/history.png', fit: BoxFit.cover, width: 23, height: 23,),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            const Expanded(
+                              child: Row(
+                                mainAxisAlignment:
+                                MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    '내 활동',
+                                    style: TextStyle(fontSize: 17),
+                                  ),
+                                  Text(
+                                    '>',
+                                    style: TextStyle(fontSize: 17),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    const Divider(),
+                    GestureDetector(
+                      onTap: () => {
                         Get.toNamed('/change_pw'),
                       },
                       child: Container(
@@ -183,32 +220,6 @@ class MyPageTap extends GetView<AuthController> {
                     GestureDetector(
                       onTap: () => {
                         Get.toNamed('/delete_user'),
-                        // Get.dialog(
-                        //   AlertDialog(
-                        //     backgroundColor: Colors.white,
-                        //     shape: RoundedRectangleBorder(
-                        //       borderRadius: BorderRadius.circular(15),
-                        //     ),
-                        //     title: const Text('회원탈퇴'),
-                        //     content: const Text('정말 탈퇴하시겠습니까?'),
-                        //     actions: [
-                        //       TextButton(
-                        //         onPressed: () {
-                        //           /// TODO : 회원탈퇴 연결
-                        //           // controller.deleteUser();
-                        //           Get.back();
-                        //         },
-                        //         child: const Text('확인', style: TextStyle(color: Colors.red,)),
-                        //       ),
-                        //       TextButton(
-                        //         onPressed: () {
-                        //           Get.back();
-                        //         },
-                        //         child: const Text('취소', style: TextStyle(color: Colors.blue,)),
-                        //       ),
-                        //     ],
-                        //   ),
-                        // ),
                       },
                       child: Container(
                         color: Colors.transparent,
