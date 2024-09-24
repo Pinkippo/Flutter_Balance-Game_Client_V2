@@ -15,11 +15,11 @@ class Board {
 
   factory Board.fromJson(Map<String, dynamic> json) {
     return Board(
-      boardId: json['boardId'],
-      title: json['title'],
+      boardId: json['boardId'] ?? -1,
+      title: json['title'] ?? 'title is null',
       keywords: List<String>.from(json['keywords']),
-      introduce: json['introduce'],
-      isReviewExist: json['isReviewExist'],
+      introduce: json['introduce'] ?? 'introduce is null',
+      isReviewExist: json['isReviewExist'] ?? false,
     );
   }
 }
