@@ -74,6 +74,7 @@ class MyRecordsScreen extends StatelessWidget {
                   ),
                   contentPadding: EdgeInsets.zero,
                   onTap: () {
+                    /// 내 게임 리스트 페이지
                     Get.toNamed('/my_games');
                   },
                 ),
@@ -89,8 +90,8 @@ class MyRecordsScreen extends StatelessWidget {
                   ),
                   contentPadding: EdgeInsets.zero,
                   onTap: () {
-                    /// TODO: '내가 참여한 게임' 클릭 시 동작 추가
-                    print('내가 참여한 게임 클릭');
+                    /// 내가 참여한 게임 리스트 페이지
+                    Get.toNamed('/participated_games');
                   },
                 ),
                 // 내가 작성한 리뷰

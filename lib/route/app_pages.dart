@@ -25,6 +25,7 @@ import 'package:yangjataekil/screen/login_screen.dart';
 import 'package:yangjataekil/screen/main_screen.dart';
 import 'package:yangjataekil/screen/my_records_screen.dart';
 import 'package:yangjataekil/screen/my_reviews_screen.dart';
+import 'package:yangjataekil/screen/participated_games_screen.dart';
 import 'package:yangjataekil/screen/user_modify_screen.dart';
 import 'package:yangjataekil/screen/register_profile_screen.dart';
 import 'package:yangjataekil/screen/notification_screen.dart';
@@ -284,6 +285,18 @@ class AppPages {
       binding: BindingsBuilder(() {
         Get.lazyPut<ReviewController>(() {
           return ReviewController(0);
+        });
+      }),
+    ),
+
+    /// 참여한 게임 리스트 페이지
+    GetPage(
+      name: Routes.participatedGames,
+      page: () => const ParticipatedGamesScreen(),
+      transition: Transition.rightToLeftWithFade,
+      binding: BindingsBuilder(() {
+        Get.lazyPut<ThemeListController>(() {
+          return ThemeListController();
         });
       }),
     ),
