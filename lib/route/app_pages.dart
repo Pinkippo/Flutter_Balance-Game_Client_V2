@@ -3,6 +3,7 @@ import 'package:yangjataekil/controller/all_list_controller.dart';
 import 'package:yangjataekil/controller/auth_controller.dart';
 import 'package:yangjataekil/controller/bottom_navigator_controller.dart';
 import 'package:yangjataekil/controller/filtered_list_controller.dart';
+import 'package:yangjataekil/controller/find_id_pw_controller.dart';
 import 'package:yangjataekil/controller/game_detail_controller.dart';
 import 'package:yangjataekil/controller/game_play_controller.dart';
 import 'package:yangjataekil/controller/game_review_controller.dart';
@@ -16,6 +17,7 @@ import 'package:yangjataekil/controller/register_controller.dart';
 import 'package:yangjataekil/controller/notice_controller.dart';
 import 'package:yangjataekil/screen/change_pw_screen.dart';
 import 'package:yangjataekil/screen/delete_user_screen.dart';
+import 'package:yangjataekil/screen/find_id_screen.dart';
 import 'package:yangjataekil/screen/game_detail_screen.dart';
 import 'package:yangjataekil/screen/game_play_screen.dart';
 import 'package:yangjataekil/screen/game_result_screen.dart';
@@ -297,6 +299,18 @@ class AppPages {
       binding: BindingsBuilder(() {
         Get.lazyPut<ThemeListController>(() {
           return ThemeListController();
+        });
+      }),
+    ),
+
+    /// ID 찾기 페이지
+    GetPage(
+      name: Routes.findId,
+      page: () => const FindIdScreen(),
+      transition: Transition.fade,
+      binding: BindingsBuilder(() {
+        Get.lazyPut<FindIdPwController>(() {
+          return FindIdPwController();
         });
       }),
     ),

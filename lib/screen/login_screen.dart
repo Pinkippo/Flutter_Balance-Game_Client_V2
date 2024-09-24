@@ -104,7 +104,7 @@ class LoginScreen extends GetView<LoginController> {
                             GestureDetector(
                               onTap: () {
                                 /// TODO : 아이디 찾기 연결
-                                // Get.toNamed('/find_id');
+                                Get.toNamed('/find_id');
                               },
                               child: const Text(
                                 '아이디 찾기 ',

@@ -277,17 +277,45 @@ class AuthRepository {
     }
   }
 
+  /// 아이디 찾기
+  Future<bool> findId(String token, String email) async {
+    final url = Uri.parse('$baseUrl/user/v2/find-account-name');
+    try {
+      final response = await http.post(
+        url,
+        headers: {
+          'Authorization': 'Bearer $token',
+          'Content-Type': 'application/json',
+          'charset': 'utf-8',
+        },
+        body: jsonEncode({'email': email}),
+      );
+
+      if (response.statusCode == 200) {
+        print('아이디 찾기 성공 respository: ${response.statusCode}');
+        return true;
+      } else if (response.statusCode == 400) {
+        print('아이디 찾기 실패 respository: ${response.statusCode}');
+        return false; // 실패 처리
+      } else {
+        print('아이디 찾기 실패 respository: ${response.statusCode}');
+        return false; // 실패 처리
+      }
+    } catch (e) {
+      print('아이디 찾기 중 에러 발생 respository: $e');
+      return false; // 예외 처리
+    }
+  }
+
+
   /// 버전 조회
   Future<VersionModel> getVersion() async {
     final url = Uri.parse('$baseUrl/common/v2/version');
-    final response = await http.get(
-      url,
-      headers: {
-        'Content-Type': 'application/json',
-        'charset': 'utf-8',
-      }
-    );
-    if (response.statusCode  == 200) {
+    final response = await http.get(url, headers: {
+      'Content-Type': 'application/json',
+      'charset': 'utf-8',
+    });
+    if (response.statusCode == 200) {
       final responseData = jsonDecode(utf8.decode(response.bodyBytes));
       print('버전조회 응답: ${responseData}');
 
