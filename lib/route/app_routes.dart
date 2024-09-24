@@ -31,4 +31,5 @@ abstract class Routes {
   static const deleteUser = '/delete_user';
   static const myRecords = '/my_records';
   static const myReviews = '/my_reviews';
+  static const participatedGames = '/participated_games';
 }
