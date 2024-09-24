@@ -17,7 +17,7 @@ import 'package:yangjataekil/controller/register_controller.dart';
 import 'package:yangjataekil/controller/notice_controller.dart';
 import 'package:yangjataekil/screen/change_pw_screen.dart';
 import 'package:yangjataekil/screen/delete_user_screen.dart';
-import 'package:yangjataekil/screen/find_id_screen.dart';
+import 'package:yangjataekil/screen/find_id_or_pw_screen.dart';
 import 'package:yangjataekil/screen/game_detail_screen.dart';
 import 'package:yangjataekil/screen/game_play_screen.dart';
 import 'package:yangjataekil/screen/game_result_screen.dart';
@@ -303,10 +303,22 @@ class AppPages {
       }),
     ),
 
-    /// ID 찾기 페이지
+    /// ID or PW 찾기 페이지
     GetPage(
       name: Routes.findId,
-      page: () => const FindIdScreen(),
+      page: () => const FindIdOrPw(findType: "id"),
+      transition: Transition.fade,
+      binding: BindingsBuilder(() {
+        Get.lazyPut<FindIdPwController>(() {
+          return FindIdPwController();
+        });
+      }),
+    ),
+
+    /// 비밀번호 찾기 페이지
+    GetPage(
+      name: Routes.findPw,
+      page: () => const FindIdOrPw(findType: "pw"),
       transition: Transition.fade,
       binding: BindingsBuilder(() {
         Get.lazyPut<FindIdPwController>(() {

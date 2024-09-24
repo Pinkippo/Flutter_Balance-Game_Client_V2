@@ -278,13 +278,12 @@ class AuthRepository {
   }
 
   /// 아이디 찾기
-  Future<bool> findId(String token, String email) async {
+  Future<bool> findId(String email) async {
     final url = Uri.parse('$baseUrl/user/v2/find-account-name');
     try {
       final response = await http.post(
         url,
         headers: {
-          'Authorization': 'Bearer $token',
           'Content-Type': 'application/json',
           'charset': 'utf-8',
         },
@@ -307,6 +306,34 @@ class AuthRepository {
     }
   }
 
+  /// 비밀번호 찾기
+  Future<bool> findPw(String id) async {
+    final url = Uri.parse('$baseUrl/user/v2/temporary-password');
+    try {
+      final response = await http.post(
+        url,
+        headers: {
+          'Content-Type': 'application/json',
+          'charset': 'utf-8',
+        },
+        body: jsonEncode({'accountName': id}),
+      );
+
+      if (response.statusCode == 200) {
+        print('비밀번호 찾기 성공 respository: ${response.statusCode}');
+        return true;
+      } else if (response.statusCode == 400) {
+        print('비밀번호 찾기 실패 respository: ${response.statusCode}');
+        return false;
+      } else {
+        print('비밀번호 찾기 실패 respository: ${response.statusCode}');
+        return false;
+      }
+    } catch (e) {
+      print('비밀번호 찾기 중 에러 발생 respository: $e');
+      return false;
+    }
+  }
 
   /// 버전 조회
   Future<VersionModel> getVersion() async {

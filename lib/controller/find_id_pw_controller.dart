@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:yangjataekil/controller/auth_controller.dart';
 import 'package:yangjataekil/data/provider/auth_repository.dart';
 
 class FindIdPwController extends GetxController {
@@ -29,7 +28,7 @@ class FindIdPwController extends GetxController {
       isLoading.value = true;
       print('아이디 찾기 로딩 ======> $isLoading');
       final response = await AuthRepository()
-          .findId(AuthController.to.accessToken.value, inputEmail.value);
+          .findId(inputEmail.value);
 
       if (response) {
         Get.back();
@@ -68,6 +67,53 @@ class FindIdPwController extends GetxController {
     } finally {
       isLoading.value = false;
       print('아이디 찾기 로딩 ======> $isLoading');
+    }
+  }
+
+  /// 비밀번호 찾기
+  Future<void> findPw() async {
+    try {
+      isLoading.value = true;
+      print('비밀번호 찾기 로딩 ======> $isLoading');
+      final response = await AuthRepository().findPw(inputId.value);
+
+      if (response) {
+        Get.back();
+        Get.snackbar(
+          '성공',
+          '가입하신 이메일로 임시 비밀번호를 발송했습니다.',
+          backgroundColor: Colors.green,
+          colorText: Colors.white,
+          snackPosition: SnackPosition.BOTTOM,
+        );
+      } else {
+        // 실패 처리
+        if (!Get.isSnackbarOpen) {
+          // 스낵바가 열려 있지 않을 경우
+          Get.snackbar(
+            '실패',
+            '아이디를 다시 확인해주세요.',
+            backgroundColor: Colors.red,
+            colorText: Colors.white,
+            snackPosition: SnackPosition.BOTTOM,
+          );
+        }
+      }
+    } catch (e) {
+      print('비밀번호 찾기 Error >> $e');
+      if (!Get.isSnackbarOpen) {
+        // 스낵바가 열려 있지 않을 경우
+        Get.snackbar(
+          '오류 발생',
+          '비밀번호 찾기 중 오류가 발생했습니다.',
+          backgroundColor: Colors.red,
+          colorText: Colors.white,
+          snackPosition: SnackPosition.BOTTOM,
+        );
+      }
+    } finally {
+      isLoading.value = false;
+      print('비밀번호 찾기 로딩 ======> $isLoading');
     }
   }
 }

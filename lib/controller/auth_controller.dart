@@ -98,7 +98,7 @@ class AuthController extends GetxController {
     getVersion();
   }
 
-  /// 비밀번호 찾기
+  /// 비밀번호 변경
   final Rx<String> currentPw = Rx<String>('');
   final Rx<String> newPw = Rx<String>('');
   final Rx<String> newPwCheck = Rx<String>('');
