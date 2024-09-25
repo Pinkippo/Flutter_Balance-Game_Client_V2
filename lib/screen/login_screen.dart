@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
+import 'package:yangjataekil/controller/auth_controller.dart';
+import 'package:yangjataekil/route/app_pages.dart';
 import 'package:yangjataekil/theme/app_color.dart';
 import 'package:yangjataekil/widget/login/auto_login.dart';
 import 'package:yangjataekil/widget/login/login_input_field.dart';
@@ -85,8 +87,11 @@ class LoginScreen extends GetView<LoginController> {
                                 size: 30.0,
                               ),
                             )).then((value) {
-                          if (value == true) {
-                            Get.offAllNamed('/main');
+                          if (value == LoginState.success) {
+                            Get.offAllNamed(Routes.main);
+                          } else if(value == LoginState.reject) {
+                            AuthController.to.getRejectReason();
+                            Get.offAllNamed(Routes.rejectUser);
                           }
                         });
                       }),

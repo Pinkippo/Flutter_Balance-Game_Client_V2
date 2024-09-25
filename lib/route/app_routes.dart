@@ -29,4 +29,5 @@ abstract class Routes {
   static const gameReview = '/game_review';
   static const gameResult = '/game_result';
   static const deleteUser = '/delete_user';
+  static const rejectUser = '/reject_user';
 }

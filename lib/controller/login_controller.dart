@@ -41,13 +41,13 @@ class LoginController extends GetxController {
   }
 
   /// 로그인 - 메서드
-  Future<bool> login(String id, String pw) async {
+  Future<LoginState> login(String id, String pw) async {
     if (loginUserId.value == '' || loginUserPw.value == '') {
       Get.snackbar('로그인 실패', '아이디와 비밀번호를 확인해주세요.',
           backgroundColor: AppColors.primaryColor,
           colorText: Colors.white,
           snackPosition: SnackPosition.BOTTOM);
-      return false;
+      return LoginState.fail;
     }
 
     /// 로그인 API
@@ -57,11 +57,18 @@ class LoginController extends GetxController {
 
     if (response.accessToken.isNotEmpty) {
       /// 토큰 업데이트
-      await AuthController()
+      await AuthController.to
           .updateToken(response.accessToken, response.refreshToken);
-      return true;
+      if(response.status == "BLOCK"){
+        return LoginState.reject;
+      } else {
+        return LoginState.success;
+      }
     } else {
-      return false;
+      return LoginState.fail;
     }
   }
 }
+
+/// 로그인 완료 상태
+enum LoginState { success, fail, reject}
