@@ -23,7 +23,9 @@ import 'package:yangjataekil/screen/list_screen.dart';
 import 'package:yangjataekil/controller/user_modify_controller.dart';
 import 'package:yangjataekil/screen/login_screen.dart';
 import 'package:yangjataekil/screen/main_screen.dart';
-import 'package:yangjataekil/screen/reject_user_screen.dart';
+import 'package:yangjataekil/screen/my_records_screen.dart';
+import 'package:yangjataekil/screen/my_reviews_screen.dart';
+import 'package:yangjataekil/screen/participated_games_screen.dart';
 import 'package:yangjataekil/screen/user_modify_screen.dart';
 import 'package:yangjataekil/screen/register_profile_screen.dart';
 import 'package:yangjataekil/screen/notification_screen.dart';
@@ -225,7 +227,7 @@ class AppPages {
     GetPage(
         name: Routes.myGames,
         page: () => const MyGamesScreen(),
-        transition: Transition.fade,
+        transition: Transition.rightToLeftWithFade,
         binding: BindingsBuilder(() {
           Get.lazyPut<ThemeListController>(() {
             return ThemeListController();
@@ -250,7 +252,7 @@ class AppPages {
       page: () => const GameResultScreen(),
       transition: Transition.fade,
     ),
-    
+
     /// 게임 리뷰 등록 페이지
     GetPage(
         name: Routes.gameReview,
@@ -261,7 +263,7 @@ class AppPages {
             return GameReviewController();
           });
         })),
-    
+
     /// 회원 탈퇴 페이지
     GetPage(
       name: Routes.deleteUser,
@@ -274,6 +276,37 @@ class AppPages {
       name: Routes.rejectUser,
       page: () => const RejectUserScreen(),
       transition: Transition.fade,
+
+    /// 내 활동 페이지
+    GetPage(
+      name: Routes.myRecords,
+      page: () => const MyRecordsScreen(),
+      transition: Transition.rightToLeftWithFade,
+    ),
+
+    /// 내가 작성한 리뷰 페이지
+    GetPage(
+      name: Routes.myReviews,
+      page: () => const MyReviewsScreen(),
+      transition: Transition.rightToLeftWithFade,
+      binding: BindingsBuilder(() {
+        Get.lazyPut<ReviewController>(() {
+          return ReviewController(0);
+        });
+      }),
+    ),
+
+    /// 참여한 게임 리스트 페이지
+    GetPage(
+      name: Routes.participatedGames,
+      page: () => const ParticipatedGamesScreen(),
+      transition: Transition.rightToLeftWithFade,
+      binding: BindingsBuilder(() {
+        Get.lazyPut<ThemeListController>(() {
+          return ThemeListController();
+        });
+      }),
+
     ),
   ];
 }

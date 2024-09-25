@@ -48,8 +48,7 @@ class ListRepository {
                   'themeId=${request.themeId}&'),
       headers: <String, String>{
         'Content-Type': 'application/json',
-        if(token.isNotEmpty)
-          'Authorization': 'Bearer $token'
+        if (token.isNotEmpty) 'Authorization': 'Bearer $token'
       },
     );
 
@@ -124,6 +123,36 @@ class ListRepository {
         colorText: Colors.white,
       );
       throw Exception('내 게임 리스트 조회 실패');
+    }
+  }
+
+  /// 참가한 게임 리스트 조회
+  Future<ListBoardResponseModel> getParticipatedGames(String token) async {
+    final url = Uri.parse('$baseUrl/board/v2/boards/me/participated-games');
+
+    final response = await http.get(
+      url,
+      headers: {
+        'Authorization': 'Bearer $token',
+        'Content-Type': 'application/json',
+        'charset': 'utf-8',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      print('참가한 게임 리스트 조회 response: ${utf8.decode(response.bodyBytes)}');
+      return ListBoardResponseModel.fromJsonForMyBoard(
+          jsonDecode(utf8.decode(response.bodyBytes)));
+    } else {
+      print('참가한 게임 리스트 조회 실패');
+      Get.snackbar(
+        '조회 실패',
+        '서버 상태가 불안정합니다. 잠시 후 다시 시도해주세요.',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
+      throw Exception('참가한 게임 리스트 조회 실패');
     }
   }
 }

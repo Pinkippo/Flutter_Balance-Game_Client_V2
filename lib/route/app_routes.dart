@@ -30,4 +30,7 @@ abstract class Routes {
   static const gameResult = '/game_result';
   static const deleteUser = '/delete_user';
   static const rejectUser = '/reject_user';
+  static const myRecords = '/my_records';
+  static const myReviews = '/my_reviews';
+  static const participatedGames = '/participated_games';
 }

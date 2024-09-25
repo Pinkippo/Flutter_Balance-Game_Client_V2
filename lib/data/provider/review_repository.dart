@@ -51,13 +51,36 @@ class ReviewRepository {
     if (response.statusCode == 200) {
       print('리뷰 리스트 조회 API response : \n${utf8.decode(response.bodyBytes)}');
       final responseData = jsonDecode(utf8.decode(response.bodyBytes));
-      if (responseData is Map<String, dynamic>) {
-        return ReviewResponseModel.fromJson(responseData);
-      } else {
-        throw Exception('Unexpected response format');
-      }
+      return ReviewResponseModel.fromJson(responseData);
     } else {
       throw Exception('리뷰 리스트 조회 실패');
+    }
+  }
+
+  /// 내가 작성한 리뷰 조회
+  Future<ReviewResponseModel> getMyReviewList(String token) async {
+    final url = Uri.parse('$baseUrl/board/v2/boards/me/wrote-reviews');
+
+    try {
+      final response = await http.get(
+        url,
+        headers: {
+          'Authorization': 'Bearer $token',
+          'Content-Type': 'application/json',
+          'charset': 'utf-8',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        final responseDate = jsonDecode(utf8.decode(response.bodyBytes));
+        print('response: $response');
+        print('responseData: $responseDate');
+        return ReviewResponseModel.fromJson(responseDate);
+      } else {
+        throw Exception('내가 작성한 리뷰 리스트 >>> 변환 실패');
+      }
+    } catch (e) {
+      throw Exception('내가 작성한 리뷰 리스트 >>> 조회 실패');
     }
   }
 

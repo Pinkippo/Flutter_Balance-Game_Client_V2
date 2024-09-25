@@ -12,19 +12,12 @@ class CustomBottomNavigationBar extends GetView<BottomNavigatorController> {
   Widget build(BuildContext context) {
     return Obx(
       () => BottomNavigationBar(
-        // backgroundColor: Colors.white,
-        // type: BottomNavigationBarType.fixed,
         backgroundColor: Colors.white,
         elevation: 0,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.list),
             label: '게임목록',
-            backgroundColor: Colors.white,
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.article),
-            label: '글작성',
             backgroundColor: Colors.white,
           ),
           BottomNavigationBarItem(
@@ -46,7 +39,6 @@ class CustomBottomNavigationBar extends GetView<BottomNavigatorController> {
           fontSize: 12,
           fontWeight: FontWeight.bold,
         ),
-
         onTap: controller.changeIndex,
       ),
     );

@@ -7,11 +7,11 @@ class BottomNavigatorController extends GetxController {
   static BottomNavigatorController get to => Get.find();
 
   /// 선택된 탭 인덱스 정보
-  final RxInt selectedIndex = 2.obs;
+  final RxInt selectedIndex = 1.obs;
 
   /// 선택된 탭 인덱스 변경 - 메서드
   void changeIndex(int index) async {
-    if(index != 3){
+    if(index != 2){
       selectedIndex(index);
     }else{
       /// 마이페이지 로그인 유무 확인

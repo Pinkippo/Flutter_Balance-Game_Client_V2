@@ -73,9 +73,9 @@ class LoginScreen extends GetView<LoginController> {
 
                       const SizedBox(height: 20),
 
-                      LoginBtn(onPressed: () {
-                        /// TODO : 로그인 기능 연결
-                        Get.showOverlay(
+                      LoginBtn(
+                        onPressed: () {
+                          Get.showOverlay(
                             asyncFunction: () async {
                               return await controller.login(
                                   controller.loginUserId.value,

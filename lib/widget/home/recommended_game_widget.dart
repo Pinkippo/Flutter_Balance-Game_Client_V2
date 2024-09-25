@@ -76,7 +76,7 @@ class RecommendedGame extends GetView<RecommendController> {
                     onPressed: () async {
                       await controller.setRecommendGameId();
 
-                      /// TODO : 화면이동 연결
+                      /// 추천 게임 상세 페이지로 이동
                       Get.toNamed('/game_detail', arguments: {
                         'boardId': controller.recommendGameId.value.toString(),
                       });

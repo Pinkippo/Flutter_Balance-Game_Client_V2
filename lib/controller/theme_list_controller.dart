@@ -31,11 +31,9 @@ class ThemeListController extends GetxController {
   /// 로딩 상태
   final RxBool isLoading = false.obs;
 
-  /// 게임 리스트
-  final RxList<Board> boards = <Board>[].obs;
-
-  /// 내가 쓴 게임 리스트
-  final RxList<Board> myBoards = <Board>[].obs;
+  final RxList<Board> boards = <Board>[].obs; // 게임 리스트
+  final RxList<Board> myBoards = <Board>[].obs; // 내가 쓴 게임 리스트
+  final RxList<Board> participatedBoards = <Board>[].obs; // 참여한 게임 리스트
 
   /// 스크롤 컨트롤러
   final Rx<ScrollController> scrollController = ScrollController().obs;
@@ -45,13 +43,14 @@ class ThemeListController extends GetxController {
 
   @override
   void onInit() async {
-    // 내 게임 리스트 페이지를 제외한 다른 페이지에서는 게임 리스트를 가져옴
-    if (Get.currentRoute != '/my_games') {
-      print('현재 라우트: ${Get.currentRoute}');
-      await _getList();
-    } else {
+    if(Get.currentRoute == '/my_games') {
       print('현재 라우트: ${Get.currentRoute}');
       await getMyGames();
+    } else if(Get.currentRoute == '/participated_games') {
+      print('현재 라우트: ${Get.currentRoute}');
+      await getParticipatedGames();
+    } else {
+      await _getList();
     }
 
     // 스크롤 이벤트
@@ -128,4 +127,27 @@ class ThemeListController extends GetxController {
       );
     }
   }
+
+  /// 참여한 게임 리스트 호출 메서드
+  Future<void> getParticipatedGames() async {
+    try {
+      final response = await ListRepository()
+          .getParticipatedGames(AuthController.to.accessToken.value);
+      print('참여한 게임 리스트: ${response.boards}');
+
+      // 참여한 게임 리스트 초기화 후 새로운 값으로 업데이트
+      participatedBoards.clear();
+      participatedBoards.addAll(response.boards);
+    } catch (e) {
+      printError(info: '참여한 게임 리스트 호출 오류: $e');
+      Get.snackbar(
+        '오류',
+        '참여한 게임 리스트를 가져오는 중 오류가 발생했습니다: $e',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
+    }
+  }
+
 }
