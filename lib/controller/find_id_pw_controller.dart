@@ -4,19 +4,21 @@ import 'package:yangjataekil/data/provider/auth_repository.dart';
 
 class FindIdPwController extends GetxController {
   /// 가입된 이메일
-  final inputEmail = ''.obs;
+  final Rx<String> inputEmail = Rx<String>('');
 
   /// 찾을 계정의 ID
-  final inputId = ''.obs;
+  final Rx<String> inputId = Rx<String>('');
 
   /// 로딩
-  final isLoading = false.obs;
+  final Rx<bool> isLoading = Rx<bool>(true);
 
+  /// 이메일 입력
   void changeInputEmail(String email) {
     inputEmail.value = email;
     print('입력된 이메일 >>> $inputEmail');
   }
 
+  /// 아이디 입력
   void changeInputId(String id) {
     inputId.value = id;
     print('입력된 아이디 >>> $inputId');
