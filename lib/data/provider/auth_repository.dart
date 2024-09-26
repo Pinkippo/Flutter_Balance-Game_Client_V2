@@ -278,7 +278,7 @@ class AuthRepository {
   }
 
   /// 아이디 찾기
-  Future<bool> findId(String email) async {
+  Future<int> findId(String email) async {
     final url = Uri.parse('$baseUrl/user/v2/find-account-name');
     try {
       final response = await http.post(
@@ -290,24 +290,15 @@ class AuthRepository {
         body: jsonEncode({'email': email}),
       );
 
-      if (response.statusCode == 200) {
-        print('아이디 찾기 성공 respository: ${response.statusCode}');
-        return true;
-      } else if (response.statusCode == 400) {
-        print('아이디 찾기 실패 respository: ${response.statusCode}');
-        return false; // 실패 처리
-      } else {
-        print('아이디 찾기 실패 respository: ${response.statusCode}');
-        return false; // 실패 처리
-      }
+      return response.statusCode;
     } catch (e) {
       print('아이디 찾기 중 에러 발생 respository: $e');
-      return false; // 예외 처리
+      throw Exception('아이디 찾기 중 에러 발생');
     }
   }
 
   /// 비밀번호 찾기
-  Future<bool> findPw(String id) async {
+  Future<int> findPw(String id) async {
     final url = Uri.parse('$baseUrl/user/v2/temporary-password');
     try {
       final response = await http.post(
@@ -319,19 +310,10 @@ class AuthRepository {
         body: jsonEncode({'accountName': id}),
       );
 
-      if (response.statusCode == 200) {
-        print('비밀번호 찾기 성공 respository: ${response.statusCode}');
-        return true;
-      } else if (response.statusCode == 400) {
-        print('비밀번호 찾기 실패 respository: ${response.statusCode}');
-        return false;
-      } else {
-        print('비밀번호 찾기 실패 respository: ${response.statusCode}');
-        return false;
-      }
+      return response.statusCode;
     } catch (e) {
       print('비밀번호 찾기 중 에러 발생 respository: $e');
-      return false;
+      throw Exception('비밀번호 찾기 중 에러 발생');
     }
   }
 
