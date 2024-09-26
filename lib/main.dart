@@ -64,5 +64,6 @@ Future<void> initService() async {
     await value.getToken();
     await value.getUserInfoFromHomeScreen();
     await value.getVersion();
+    await value.checkRejectUser();
   });
 }
