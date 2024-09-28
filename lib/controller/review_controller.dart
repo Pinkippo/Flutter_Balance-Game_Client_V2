@@ -37,31 +37,12 @@ extension ReportCategoryExtension on REPORTCATEGORY {
 
 /// 리뷰 리스트 컨트롤러
 class ReviewController extends GetxController {
-  /// 리뷰 리스트
-  final reviews = <Review>[].obs;
+  final reviews = [].obs; // 리뷰 리스트
+  final myReviews = [].obs; // 내가 작성한 리뷰
 
   /// 게시글 ID
   final boardId = 0.obs;
 
-  /// 게시글 ID를 받아오는 생성자
-  ReviewController(int boardId) {
-    this.boardId.value = boardId;
-  }
-
-  /// 내가 작성한 리뷰
-  final myReviews = <Review>[].obs;
-
-  @override
-  void onInit() {
-    // 게시글 ID를 받아온 후 리뷰 리스트 조회
-    // 0은 내가 작성한 리뷰의 경우로 설정
-    if (boardId.value != 0) {
-      getReviewList(boardId.value);
-    } else {
-      getMyReviewList();
-    }
-    super.onInit();
-  }
 
   /// 리뷰 리스트 조회 메서드
   Future<void> getReviewList(int boardId) async {
@@ -132,7 +113,7 @@ class ReviewController extends GetxController {
   }
 
   /// 리뷰 신고 메서드
-  Future<bool> reviewReport(int reviewId, String reviewContent) async {
+  Future<bool> reviewReport(int boardId, int reviewId, String reviewContent) async {
     boardReviewId.value = reviewId;
     content.value = reviewContent.isEmpty
         ? selectedCategory.value!.displayName
@@ -141,7 +122,7 @@ class ReviewController extends GetxController {
     try {
       final response = await ReviewRepository().reviewReport(
           AuthController.to.accessToken.value,
-          boardId.value,
+          boardId,
           boardReviewId.value,
           content.value);
       if (response) {

@@ -5,7 +5,6 @@ import 'package:yangjataekil/controller/auth_controller.dart';
 import 'package:yangjataekil/controller/bottom_navigator_controller.dart';
 import 'package:yangjataekil/route/app_pages.dart';
 import 'package:yangjataekil/screen/tab/main_all_list_tap.dart';
-import 'package:yangjataekil/screen/tab/main_board_tap.dart';
 import 'package:yangjataekil/screen/tab/main_home_tap.dart';
 import 'package:yangjataekil/screen/tab/main_mypage_tap.dart';
 import 'package:yangjataekil/theme/app_color.dart';

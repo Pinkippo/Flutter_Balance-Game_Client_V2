@@ -7,7 +7,6 @@ import 'package:yangjataekil/controller/game_detail_controller.dart';
 import 'package:yangjataekil/controller/game_play_controller.dart';
 import 'package:yangjataekil/controller/game_review_controller.dart';
 import 'package:yangjataekil/controller/game_upload_controller.dart';
-import 'package:yangjataekil/controller/report_controller.dart';
 import 'package:yangjataekil/controller/theme_list_controller.dart';
 import 'package:yangjataekil/controller/login_controller.dart';
 import 'package:yangjataekil/controller/notification_controller.dart';
@@ -74,9 +73,6 @@ class AppPages {
           });
           Get.lazyPut<FilteredListController>(() {
             return FilteredListController(isAllList: true);
-          });
-          Get.lazyPut<ReportController>(() {
-            return ReportController();
           });
           await Get.putAsync<AuthController>(() async {
             return AuthController();
@@ -242,7 +238,7 @@ class AppPages {
       transition: Transition.fade,
       binding: BindingsBuilder(() {
         Get.lazyPut<ReviewController>(() {
-          return ReviewController(Get.arguments);
+          return ReviewController();
         });
       }),
     ),
@@ -293,7 +289,7 @@ class AppPages {
       transition: Transition.rightToLeftWithFade,
       binding: BindingsBuilder(() {
         Get.lazyPut<ReviewController>(() {
-          return ReviewController(0);
+          return ReviewController();
         });
       }),
     ),
