@@ -1,14 +1,11 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:yangjataekil/controller/review_controller.dart';
+import 'package:yangjataekil/theme/app_color.dart';
 
-import '../../controller/report_controller.dart';
-import '../../theme/app_color.dart';
-
-Widget reportDialog(BuildContext context, ReviewController reviewController, int boardId) {
+Widget reportDialog(
+    BuildContext context, ReviewController reviewController, int boardId) {
   return Dialog(
     backgroundColor: Colors.white,
     shape: RoundedRectangleBorder(
@@ -57,9 +54,7 @@ Widget reportDialog(BuildContext context, ReviewController reviewController, int
               onChanged: (value) {
                 reviewController.toggleCategory(value!);
               },
-              value: reviewController.selectedCategory.value == null
-                  ? null
-                  : reviewController.selectedCategory.value,
+              value: reviewController.selectedCategory.value,
               decoration: const InputDecoration(
                 // 드롭다운메뉴 클릭 전 테두리 색상
                 border: OutlineInputBorder(
@@ -162,10 +157,13 @@ Widget reportDialog(BuildContext context, ReviewController reviewController, int
                               onPressed: () {
                                 reviewController
                                     .reviewReport(
+                                        boardId,
                                         reviewController.boardReviewId.value,
                                         reviewController.content.value)
                                     .then((value) {
                                   if (value) {
+                                    Get.back();
+                                    Get.back();
                                     Get.snackbar(
                                       '신고 완료',
                                       '신고가 정상적으로 접수되었습니다!',
@@ -173,6 +171,8 @@ Widget reportDialog(BuildContext context, ReviewController reviewController, int
                                     );
                                     reviewController.getReviewList(boardId);
                                   } else {
+                                    Get.back();
+                                    Get.back();
                                     Get.snackbar(
                                       '신고 실패',
                                       '신고 접수에 오류가 생겼습니다.',
@@ -180,8 +180,6 @@ Widget reportDialog(BuildContext context, ReviewController reviewController, int
                                     );
                                   }
                                 });
-                                Get.back();
-                                Get.back();
                               },
                               child: const Text('확인',
                                   style: TextStyle(color: Colors.red)),
