@@ -26,126 +26,147 @@ class MyReviewsScreen extends GetView<ReviewController> {
       ),
       body: Container(
         color: Colors.white,
-        child: Obx(() {
-          if (controller.myReviews.isEmpty) {
-            return const Center(
-              child: Text(
-                '작성한 리뷰가 없습니다.',
-                style: TextStyle(
-                  fontSize: 18,
-                  color: Colors.grey,
+        child: FutureBuilder(
+          future: controller.getMyReviewList(), // 비동기 작업 호출
+          builder: (context, snapshot) {
+            // 로딩 중일 때 로딩 인디케이터 표시
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(child: CircularProgressIndicator());
+            }
+            // 오류가 발생했을 때
+            else if (snapshot.hasError) {
+              return const Center(
+                child: Text(
+                  '리뷰를 불러오는 중 오류가 발생했습니다.',
+                  style: TextStyle(fontSize: 18, color: Colors.red),
                 ),
-              ),
-            );
-          }
+              );
+            }
+            // 데이터가 성공적으로 로드되었을 때
+            else {
+              return Obx(() {
+                // 만약 리뷰가 비어있다면
+                if (controller.myReviews.isEmpty) {
+                  return const Center(
+                    child: Text(
+                      '작성한 리뷰가 없습니다.',
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: Colors.grey,
+                      ),
+                    ),
+                  );
+                }
 
-          return ListView.builder(
-            itemCount: controller.myReviews.length,
-            itemBuilder: (context, index) {
-              final review = controller.myReviews[index];
-              return GestureDetector(
-                onTap: () {
-                  // 해당 게임 상세 페이지로 이동
-                  Get.toNamed('/game_detail',
-                      arguments: {'boardId': review.boardId.toString()});
-                },
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(10, 13, 0, 13),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                // 리뷰 리스트가 있을 경우
+                return ListView.builder(
+                  itemCount: controller.myReviews.length,
+                  itemBuilder: (context, index) {
+                    final review = controller.myReviews[index];
+                    return GestureDetector(
+                      onTap: () {
+                        Get.toNamed('/game_detail',
+                            arguments: {'boardId': review.boardId.toString()});
+                      },
+                      child: Column(
                         children: [
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.fromLTRB(5, 8, 0, 0),
-                                child: CircleAvatar(
-                                  radius: 25,
-                                  backgroundColor: Colors.grey[300],
-                                  backgroundImage: review.profile.isNotEmpty
-                                      ? NetworkImage(review.profile)
-                                          as ImageProvider
-                                      : const AssetImage(
-                                          'assets/images/game/profile_img.png'),
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(10, 13, 0, 13),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Padding(
+                                      padding:
+                                          const EdgeInsets.fromLTRB(5, 8, 0, 0),
+                                      child: CircleAvatar(
+                                        radius: 25,
+                                        backgroundColor: Colors.grey[300],
+                                        backgroundImage: review
+                                                .profile.isNotEmpty
+                                            ? NetworkImage(review.profile)
+                                                as ImageProvider
+                                            : const AssetImage(
+                                                'assets/images/game/profile_img.png'),
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                              ),
-                            ],
-                          ),
-                          Flexible(
-                            child: ListTile(
-                              /// 닉네임
-                              title: Text(
-                                review.nickName,
-                                style: const TextStyle(
-                                  fontWeight: FontWeight.normal,
-                                  fontSize: 16,
-                                  color: Colors.black,
+                                Flexible(
+                                  child: ListTile(
+                                    title: Text(
+                                      review.nickName,
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.normal,
+                                        fontSize: 16,
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                    subtitle: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          '#${review.keywords.join('  #')}',
+                                          style: const TextStyle(
+                                            fontSize: 13,
+                                            color: Colors.black45,
+                                          ),
+                                        ),
+                                        const SizedBox(height: 5),
+                                        Text(
+                                          '"${review.title}"',
+                                          style: const TextStyle(
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.black87,
+                                          ),
+                                        ),
+                                        Text(
+                                          review.comment,
+                                          style: const TextStyle(
+                                            fontSize: 14,
+                                            color: Colors.black87,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    trailing: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        if (review.isLike)
+                                          const FaIcon(
+                                            FontAwesomeIcons.thumbsUp,
+                                            color: Colors.blue,
+                                          ),
+                                        if (review.isDislike)
+                                          const FaIcon(
+                                            FontAwesomeIcons.thumbsDown,
+                                            color: Colors.red,
+                                          ),
+                                      ],
+                                    ),
+                                  ),
                                 ),
-                              ),
-
-                              /// 키워드, 리뷰 제목, 내용
-                              subtitle: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    '#${review.keywords.join('  #')}',
-                                    style: const TextStyle(
-                                      fontSize: 13,
-                                      color: Colors.black45,
-                                    ),
-                                  ),
-                                  const SizedBox(height: 5),
-                                  Text(
-                                    '"${review.title}"',
-                                    style: const TextStyle(
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.black87,
-                                    ),
-                                  ),
-                                  Text(
-                                    review.comment,
-                                    style: const TextStyle(
-                                      fontSize: 14,
-                                      color: Colors.black87,
-                                    ),
-                                  ),
-                                ],
-                              ),
-
-                              /// 좋아요 or 싫어요 아이콘
-                              trailing: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  if (review.isLike)
-                                    const FaIcon(
-                                      FontAwesomeIcons.thumbsUp,
-                                      color: Colors.blue,
-                                    ),
-                                  if (review.isDislike)
-                                    const FaIcon(
-                                      FontAwesomeIcons.thumbsDown,
-                                      color: Colors.red,
-                                    ),
-                                ],
-                              ),
+                              ],
                             ),
+                          ),
+                          Divider(
+                            height: 2,
+                            color: Colors.grey[400],
                           ),
                         ],
                       ),
-                    ),
-                    Divider(
-                      height: 2,
-                      color: Colors.grey[400],
-                    ),
-                  ],
-                ),
-              );
-            },
-          );
-        }),
+                    );
+                  },
+                );
+              });
+            }
+          },
+        ),
       ),
     );
   }
