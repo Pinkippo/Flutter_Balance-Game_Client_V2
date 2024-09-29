@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -30,7 +31,11 @@ class ReviewRepository {
     if (response.statusCode == 200) {
       return true;
     } else {
-      Get.snackbar('리뷰 작성 실패', '다시 시도해주세요.');
+      Get.back();
+      Get.snackbar('리뷰 작성 실패', '다시 시도해주세요.',
+          backgroundColor: Colors.red,
+          colorText: Colors.white,
+          snackPosition: SnackPosition.BOTTOM);
       throw Exception('Failed to upload review');
     }
   }
@@ -54,6 +59,27 @@ class ReviewRepository {
       return ReviewResponseModel.fromJson(responseData);
     } else {
       throw Exception('리뷰 리스트 조회 실패');
+    }
+  }
+
+  /// 추천 리뷰 조회
+  Future<ReviewResponseModel> getRecommendedReviews() async {
+    final url = Uri.parse('$baseUrl/board/v2/recommend-review');
+
+    final response = await http.get(
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+        'charset': 'utf-8',
+      },
+    );
+    if (response.statusCode == 200) {
+      print('추천 리뷰 조회 API response : \n${utf8.decode(response.bodyBytes)}');
+      final responseData = jsonDecode(utf8.decode(response.bodyBytes));
+      return ReviewResponseModel.fromJson(responseData);
+    } else {
+      print('추천 리뷰 조회 실패 api');
+      throw Exception('추천 리뷰 조회 실패 api');
     }
   }
 
@@ -101,6 +127,7 @@ class ReviewRepository {
         body: jsonEncode({'content': content}),
       );
 
+      print('(api)response : $boardId');
       print('(api)response : $boardReviewId');
       print('(api)response : $content');
       if (response.statusCode == 200) {
