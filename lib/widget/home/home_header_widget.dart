@@ -52,7 +52,7 @@ class HomeHeader extends StatelessWidget {
             width: Get.width * 0.35, // 너비를 화면 너비의 35%로 설정
             height: Get.width * 0.35, // 높이를 화면 너비의 35%로 설정
             margin: const EdgeInsets.only(right: 20, top: 10),
-            child: Image.asset('assets/images/home_img.png'),
+            child: Image.asset('assets/images/game/in_game_character.png'),
           ),
         ],
       ),
