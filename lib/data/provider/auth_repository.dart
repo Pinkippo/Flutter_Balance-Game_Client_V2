@@ -278,17 +278,54 @@ class AuthRepository {
     }
   }
 
+  /// 아이디 찾기
+  Future<int> findId(String email) async {
+    final url = Uri.parse('$baseUrl/user/v2/find-account-name');
+    try {
+      final response = await http.post(
+        url,
+        headers: {
+          'Content-Type': 'application/json',
+          'charset': 'utf-8',
+        },
+        body: jsonEncode({'email': email}),
+      );
+
+      return response.statusCode;
+    } catch (e) {
+      print('아이디 찾기 중 에러 발생 respository: $e');
+      throw Exception('아이디 찾기 중 에러 발생');
+    }
+  }
+
+  /// 비밀번호 찾기
+  Future<int> findPw(String id) async {
+    final url = Uri.parse('$baseUrl/user/v2/temporary-password');
+    try {
+      final response = await http.post(
+        url,
+        headers: {
+          'Content-Type': 'application/json',
+          'charset': 'utf-8',
+        },
+        body: jsonEncode({'accountName': id}),
+      );
+
+      return response.statusCode;
+    } catch (e) {
+      print('비밀번호 찾기 중 에러 발생 respository: $e');
+      throw Exception('비밀번호 찾기 중 에러 발생');
+    }
+  }
+
   /// 버전 조회
   Future<VersionModel> getVersion() async {
     final url = Uri.parse('$baseUrl/common/v2/version');
-    final response = await http.get(
-      url,
-      headers: {
-        'Content-Type': 'application/json',
-        'charset': 'utf-8',
-      }
-    );
-    if (response.statusCode  == 200) {
+    final response = await http.get(url, headers: {
+      'Content-Type': 'application/json',
+      'charset': 'utf-8',
+    });
+    if (response.statusCode == 200) {
       final responseData = jsonDecode(utf8.decode(response.bodyBytes));
       print('버전조회 응답: ${responseData}');
 

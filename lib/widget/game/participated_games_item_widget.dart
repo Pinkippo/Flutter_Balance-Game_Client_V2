@@ -50,12 +50,16 @@ class ParticipatedGamesItemWidget extends StatelessWidget {
                       child: SizedBox(
                         height: 45,
                         child: ElevatedButton(
-                          onPressed: () =>
-                              Get.toNamed('/game_detail', arguments: {
-                            'boardId': controller
-                                .participatedBoards[index].boardId
-                                .toString(),
-                          }),
+                          onPressed: () {
+
+                            /// 게임 상세 페이지 이동
+                            Get.back();
+                            Get.toNamed('/game_detail', arguments: {
+                              'boardId': controller
+                                  .participatedBoards[index].boardId
+                                  .toString(),
+                            });
+                          },
                           style: ElevatedButton.styleFrom(
                               elevation: 0,
                               backgroundColor: Colors.white,
@@ -75,7 +79,9 @@ class ParticipatedGamesItemWidget extends StatelessWidget {
                         height: 45,
                         child: ElevatedButton(
                           onPressed: () {
+
                             /// 게임 리뷰 작성 페이지 이동
+                            Get.back();
                             Get.toNamed('/game_review', arguments: {
                               'boardId': controller
                                   .participatedBoards[index].boardId
