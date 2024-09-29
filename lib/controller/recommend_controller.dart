@@ -17,11 +17,6 @@ class RecommendController extends GetxController {
 
   final recommendedReviews = [].obs; // 추천 리뷰
 
-  @override
-  void onInit() {
-    _getRecommendedReviews();
-    super.onInit();
-  }
 
   /// 오늘의 추천 게시글 호출 메서드
   Future<int> getRecommendList() async {
@@ -49,7 +44,7 @@ class RecommendController extends GetxController {
   }
 
   /// 추천 리뷰 리스트 조회
-  Future<void> _getRecommendedReviews() async {
+  Future<void> getRecommendedReviews() async {
     try {
       final reviewList = await ReviewRepository().getRecommendedReviews();
       recommendedReviews.value = reviewList.reviews;
