@@ -12,29 +12,17 @@ class UserReview extends GetView<RecommendController> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Padding(
-          padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
+        const Padding(
+          padding: EdgeInsets.fromLTRB(15, 0, 15, 0),
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              const Text(
+              Text(
                 '사용자 리뷰로 확인해보자!',
                 style: TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.bold,
                 ),
-              ),
-              GestureDetector(
-                onTap: () {
-                  /// TODO : 화면이동 연결
-                  print('사용자 리뷰 더보기 클릭');
-                },
-                child: Text('더보기 ',
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: Colors.black.withOpacity(0.5),
-                      decoration: TextDecoration.underline,
-                    )),
               ),
             ],
           ),
@@ -42,29 +30,31 @@ class UserReview extends GetView<RecommendController> {
         const SizedBox(height: 10),
 
         /// 추천 리뷰 중 1개
-        GestureDetector(
-          onTap: () {
-            /// TODO : 화면이동 연결 (게임 상세)
-            print('사용자 리뷰 클릭');
-          },
-          child: SizedBox(
-            height: 230,
-            child: ListView.builder(
-              padding: const EdgeInsets.symmetric(horizontal: 15),
-              scrollDirection: Axis.horizontal,
-              itemCount: controller.recommendedReviews.length,
-              itemBuilder: (context, index) {
-                final review = controller.recommendedReviews[index];
-                return Padding(
-                  padding: EdgeInsets.only(right: index == 4 ? 0 : 10),
-                  // 마지막 아이템은 오른쪽 패딩 없음
-                  child: Stack(
-                    children: [
-                      Container(
-                        color: Colors.transparent,
-                        padding: const EdgeInsets.all(10),
-                        width: 240,
-                        height: 200,
+        SizedBox(
+          height: 230,
+          child: ListView.builder(
+            padding: const EdgeInsets.symmetric(horizontal: 15),
+            scrollDirection: Axis.horizontal,
+            itemCount: controller.recommendedReviews.length,
+            itemBuilder: (context, index) {
+              final review = controller.recommendedReviews[index];
+              return Padding(
+                padding: EdgeInsets.only(right: index == 4 ? 0 : 10),
+                // 마지막 아이템은 오른쪽 패딩 없음
+                child: Stack(
+                  children: [
+                    Container(
+                      color: Colors.transparent,
+                      padding: const EdgeInsets.all(10),
+                      width: 240,
+                      height: 200,
+                      child: GestureDetector(
+                        onTap: () {
+                          /// 게임 상세 페이지로 이동
+                          Get.toNamed('/game_detail', arguments: {
+                            'boardId': review.boardId.toString(),
+                          });
+                        },
                         child: Container(
                           padding: const EdgeInsets.fromLTRB(12, 24, 12, 15),
                           decoration: BoxDecoration(
@@ -136,22 +126,23 @@ class UserReview extends GetView<RecommendController> {
                           ),
                         ),
                       ),
-                      Positioned(
-                        top: -10,
-                        left: 20,
-                        child: SizedBox(
-                          width: 35,
-                          height: 35,
-                          child: Image.asset(
-                            'assets/images/game/".png',
-                          ),
+                    ),
+                    Positioned(
+                      top: -10,
+                      left: 20,
+                      child: SizedBox(
+                        width: 35,
+                        height: 35,
+                        child: Image.asset(
+                          'assets/images/game/".png',
                         ),
                       ),
-                    ],
-                  ),
-                );
-              },
-            ),
+                    ),
+                  ],
+                ),
+              );
+            },
+
           ),
         ),
       ],

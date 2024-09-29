@@ -16,12 +16,11 @@ class RegisterScreen extends GetView<RegisterController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        foregroundColor: Colors.black,
         backgroundColor: Colors.white,
+        scrolledUnderElevation: 0,
         shape: const Border(
-          bottom: BorderSide(color: Colors.grey, width: 0.3),
+          bottom: BorderSide(color: Colors.grey, width: 0.2),
         ),
-        elevation: 0,
         title: const Text(
           '회원가입',
           style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
@@ -95,9 +94,8 @@ class RegisterScreen extends GetView<RegisterController> {
                           fontColor: controller.accountName.isEmpty
                               ? Colors.grey
                               : Colors.white,
-                          onPressed: () => {
-                            controller.checkDuplicateAccountName()
-                          },
+                          onPressed: () =>
+                              {controller.checkDuplicateAccountName()},
                           isEnabled:
                               controller.accountName.isEmpty ? false : true,
                         ),
@@ -209,9 +207,10 @@ class RegisterScreen extends GetView<RegisterController> {
                               ? Colors.grey
                               : Colors.white,
                           onPressed: () =>
-
                               controller.requestEmailVerification(),
+                          // 이메일 인증 완료 시 비활성화
                           isEnabled: controller.email.isEmpty ? false : true,
+                          // controller.email.isEmpty ? false : true,
                         ),
                       ),
                     ),
@@ -226,21 +225,25 @@ class RegisterScreen extends GetView<RegisterController> {
                       flex: 7,
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 7),
-                        child: TextField(
-                          style: const TextStyle(
-                            fontSize: 15,
-                          ),
-                          decoration: const InputDecoration(
-                            hintText: '인증번호를 입력해주세요.',
-                            focusedBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(
-                                color: Color(0xffFF9297),
+                        child: Obx(
+                          () => TextField(
+                            // 이메일 인증 완료 시 비활성화
+                            enabled: !controller.isEmailVerified.value,
+                            style: const TextStyle(
+                              fontSize: 15,
+                            ),
+                            decoration: const InputDecoration(
+                              hintText: '인증번호를 입력해주세요.',
+                              focusedBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: Color(0xffFF9297),
+                                ),
                               ),
                             ),
+                            onChanged: (value) {
+                              controller.updateEmailAuthCode(value);
+                            },
                           ),
-                          onChanged: (value) {
-                            controller.updateEmailAuthCode(value);
-                          },
                         ),
                       ),
                     ),
@@ -258,10 +261,11 @@ class RegisterScreen extends GetView<RegisterController> {
                           fontColor: controller.isEmailSent.value
                               ? Colors.white
                               : Colors.grey,
-                          onPressed: () => {
-                            controller.verifyEmail()
-                          },
-                          isEnabled: controller.isEmailSent.value,
+                          onPressed: () => controller.verifyEmail(),
+                          // 이메일 인증 완료 시 비활성화
+                          isEnabled: controller.isEmailVerified.value
+                              ? false
+                              : (controller.isEmailSent.value ? true : false),
                         ),
                       ),
                     ),

@@ -54,21 +54,21 @@ class RecommendedGame extends GetView<RecommendController> {
                     color: Colors.black.withOpacity(0.4),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 20, right: 30),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      bubbleWidget(
-                          icon: Icons.monetization_on_outlined,
-                          iconColor: Colors.black.withOpacity(0.2),
-                          comment: '게임 참여만 해도 포인트 증정!',
-                          color: const Color(0xFFFFD644)),
-                    ],
-                  ),
-                ),
+                // Padding(
+                //   padding: const EdgeInsets.only(top: 20, right: 30),
+                //   child: Row(
+                //     mainAxisAlignment: MainAxisAlignment.end,
+                //     children: [
+                //       bubbleWidget(
+                //           icon: Icons.monetization_on_outlined,
+                //           iconColor: Colors.black.withOpacity(0.2),
+                //           comment: '게임 참여만 해도 포인트 증정!',
+                //           color: const Color(0xFFFFD644)),
+                //     ],
+                //   ),
+                // ),
+                const SizedBox(height: 30),
                 Container(
-                  // color: Colors.blue,
                   width: double.infinity,
                   height: 48,
                   padding: const EdgeInsets.only(left: 30, right: 30),

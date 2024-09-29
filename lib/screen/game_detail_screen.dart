@@ -11,6 +11,7 @@ class GameDetailScreen extends GetView<GameDetailController> {
 
   @override
   Widget build(BuildContext context) {
+    /// TODO: 리뷰달리 버튼 추가
     return Scaffold(
       backgroundColor: Colors.white,
 
@@ -56,14 +57,14 @@ class GameDetailScreen extends GetView<GameDetailController> {
                           ),
                           const Spacer(),
 
-                          /// TODO: 게임 리뷰 페이지로 이동 (임시위치)
-                          ElevatedButton(
-                              onPressed: () {
-                                Get.toNamed('/game_review', arguments: {
-                                  'boardId': controller.gameDetail.value.boardId
-                                });
-                              },
-                              child: Text('리뷰달기')),
+                          //
+                          // ElevatedButton(
+                          //     onPressed: () {
+                          //       Get.toNamed('/game_review', arguments: {
+                          //         'boardId': controller.gameDetail.value.boardId
+                          //       });
+                          //     },
+                          //     child: Text('리뷰달기')),
                           Text(
                             /// 게임 소개
                             controller.gameDetail.value.introduce,

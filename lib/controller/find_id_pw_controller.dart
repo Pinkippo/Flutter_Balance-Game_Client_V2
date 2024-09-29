@@ -10,7 +10,7 @@ class FindIdPwController extends GetxController {
   final Rx<String> inputId = Rx<String>('');
 
   /// 로딩
-  final Rx<bool> isLoading = Rx<bool>(true);
+  final Rx<bool> isLoading = Rx<bool>(false);
 
   /// 이메일 입력
   void changeInputEmail(String email) {
