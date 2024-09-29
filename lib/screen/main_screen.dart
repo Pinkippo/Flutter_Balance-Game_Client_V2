@@ -3,6 +3,7 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
 import 'package:yangjataekil/controller/auth_controller.dart';
 import 'package:yangjataekil/controller/bottom_navigator_controller.dart';
+import 'package:yangjataekil/route/app_pages.dart';
 import 'package:yangjataekil/screen/tab/main_all_list_tap.dart';
 import 'package:yangjataekil/screen/tab/main_board_tap.dart';
 import 'package:yangjataekil/screen/tab/main_home_tap.dart';
@@ -33,6 +34,13 @@ class _MainScreenState extends State<MainScreen> {
     print('메인 스크린 INIT');
     print('ACCESS TOKEN : ${AuthController.to.accessToken.value}');
     print('REFRESH TOKEN : ${AuthController.to.accessToken.value}');
+
+    /// 화면 빌드가 끝난 후 차단 유저인 경우 차단 페이지 이동
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (AuthController.to.isRejectUser.value) {
+        Get.offAllNamed(Routes.rejectUser);
+      }
+    });
 
     super.initState();
   }

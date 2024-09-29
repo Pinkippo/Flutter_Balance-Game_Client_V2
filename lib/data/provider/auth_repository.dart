@@ -7,6 +7,7 @@ import 'package:http_parser/http_parser.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:yangjataekil/controller/auth_controller.dart';
 import 'package:yangjataekil/data/model/register_response_model.dart';
+import 'package:yangjataekil/data/model/reject_reason_response_model.dart';
 import 'package:yangjataekil/data/model/user_modify_request_model.dart';
 import 'package:yangjataekil/data/model/user_response_model.dart';
 import 'package:yangjataekil/data/model/version_model.dart';
@@ -337,4 +338,48 @@ class AuthRepository {
       throw Exception('버전 조회 실패');
     }
   }
+
+  /// 차단 여부 확인
+  Future<bool> checkRejectUser(String token) async {
+    final url = Uri.parse('$baseUrl/user/v2/check-token-validation');
+    final response = await http.get(
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+        'charset': 'utf-8',
+        'Authorization': 'Bearer $token',
+      }
+    );
+
+    if (response.statusCode == 400) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  /// 차단 이유 확인
+  Future<RejectReasonResponseModel> getRejectReason(String token) async {
+    final url = Uri.parse('$baseUrl/user/v2/check-block-reason');
+    final response = await http.get(
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+        'charset': 'utf-8',
+        'Authorization': 'Bearer $token',
+      }
+    );
+
+    if (response.statusCode == 200) {
+      final responseData = jsonDecode(utf8.decode(response.bodyBytes));
+      if (responseData is Map<String, dynamic>) {
+        return RejectReasonResponseModel.fromJson(responseData['reason']);
+      } else {
+        throw Exception('Unexpected response format');
+      }
+    } else {
+      throw Exception('차단 이유 조회 실패');
+    }
+  }
+
 }

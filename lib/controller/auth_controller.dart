@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 import 'package:package_info/package_info.dart';
+import 'package:yangjataekil/data/model/reject_reason_response_model.dart';
 import 'package:yangjataekil/data/model/version_model.dart';
 import 'package:yangjataekil/data/provider/auth_repository.dart';
 
@@ -77,6 +78,15 @@ class AuthController extends GetxController {
 
   /// 리프레시 토큰
   final Rx<String> refreshToken = Rx<String>('');
+
+  /// 차단 여부
+  final RxBool isRejectUser = RxBool(false);
+
+  /// 차단한 어드민
+  final Rx<String> rejectAdminName = Rx<String>('익명의 어드민1');
+
+  /// 차단 당한 이유
+  final Rx<String> rejectReason =  Rx<String>('규정 위반으로 차단되었습니다.');
 
   /// 유저 정보
   final RxInt uid = RxInt(0);
@@ -231,6 +241,7 @@ class AuthController extends GetxController {
     await storage.delete(key: 'refreshToken');
     accessToken.value = '';
     refreshToken.value = '';
+    isRejectUser.value = false;
   }
 
   /// 홈 화면 유저 정보 조회
@@ -308,6 +319,43 @@ class AuthController extends GetxController {
       );
     }
   }
+
+  /// 회원 차단 여부 확인
+  Future<void> checkRejectUser() async {
+    // 토큰이 유효한지 확인
+    if (accessToken.value.isEmpty) {
+      print('홈 화면 차단여부 조회 실패>>>>>>>>>>>>>>>>>>> 토큰 없음');
+      return;
+    }
+    try {
+      bool isReject = await authRepository.checkRejectUser(accessToken.value);
+      if(isReject){
+        isRejectUser.value = isReject;
+        getRejectReason();
+      }
+
+    } catch (e) {
+      print('회원 차단 확인 중 에러 발생: $e');
+    }
+  }
+
+  /// 차단 사유 조회
+  Future<void> getRejectReason() async {
+    try {
+      if (accessToken.value.isEmpty) {
+        return;
+      }
+
+      final RejectReasonResponseModel response =
+          await authRepository.getRejectReason(accessToken.value);
+
+      rejectAdminName.value = response.adminName;
+      rejectReason.value = response.reason;
+    } catch (e) {
+      print('차단 사유 조회 중 에러 발생: $e');
+    }
+  }
+
 }
 
 int _checkVersion(String appVersion, String minimumVersion) {

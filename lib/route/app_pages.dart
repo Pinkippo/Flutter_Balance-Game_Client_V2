@@ -28,6 +28,7 @@ import 'package:yangjataekil/screen/main_screen.dart';
 import 'package:yangjataekil/screen/my_records_screen.dart';
 import 'package:yangjataekil/screen/my_reviews_screen.dart';
 import 'package:yangjataekil/screen/participated_games_screen.dart';
+import 'package:yangjataekil/screen/reject_user_screen.dart';
 import 'package:yangjataekil/screen/user_modify_screen.dart';
 import 'package:yangjataekil/screen/register_profile_screen.dart';
 import 'package:yangjataekil/screen/notification_screen.dart';
@@ -85,6 +86,7 @@ class AppPages {
               .then((value) async {
             await value.getToken();
             await value.getUserInfoFromHomeScreen();
+            await value.checkRejectUser();
           });
         })),
 
@@ -272,6 +274,13 @@ class AppPages {
       transition: Transition.fade,
     ),
 
+    /// 차단회원 페이지
+    GetPage(
+      name: Routes.rejectUser,
+      page: () => const RejectUserScreen(),
+      transition: Transition.fade,
+    ),
+
     /// 내 활동 페이지
     GetPage(
       name: Routes.myRecords,
@@ -301,6 +310,7 @@ class AppPages {
           return ThemeListController();
         });
       }),
+
     ),
 
     /// ID or PW 찾기 페이지
