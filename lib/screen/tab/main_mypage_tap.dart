@@ -82,7 +82,8 @@ class MyPageTap extends GetView<AuthController> {
               Container(
                 padding:
                     const EdgeInsets.symmetric(vertical: 10, horizontal: 13),
-                height: 285,
+                height: 240,
+                // height: 285,
                 decoration: BoxDecoration(
                     border: Border.all(color: Colors.black.withOpacity(0.13)),
                     borderRadius: BorderRadius.circular(10)),
@@ -124,40 +125,40 @@ class MyPageTap extends GetView<AuthController> {
                       ),
                     ),
                     const Divider(),
-                    GestureDetector(
-                      onTap: () => {
-                        Get.toNamed('/notification'),
-                        print('알림설정'),
-                      },
-                      child: Container(
-                        color: Colors.transparent,
-                        child: Row(
-                          children: [
-                            Image.asset('assets/images/myPage/notice.png'),
-                            const SizedBox(
-                              width: 7,
-                            ),
-                            const Expanded(
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    '알림설정',
-                                    style: TextStyle(fontSize: 17),
-                                  ),
-                                  Text(
-                                    '>',
-                                    style: TextStyle(fontSize: 17),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    const Divider(),
+                    // GestureDetector(
+                    //   onTap: () => {
+                    //     Get.toNamed('/notification'),
+                    //     print('알림설정'),
+                    //   },
+                    //   child: Container(
+                    //     color: Colors.transparent,
+                    //     child: Row(
+                    //       children: [
+                    //         Image.asset('assets/images/myPage/notice.png'),
+                    //         const SizedBox(
+                    //           width: 7,
+                    //         ),
+                    //         const Expanded(
+                    //           child: Row(
+                    //             mainAxisAlignment:
+                    //                 MainAxisAlignment.spaceBetween,
+                    //             children: [
+                    //               Text(
+                    //                 '알림설정',
+                    //                 style: TextStyle(fontSize: 17),
+                    //               ),
+                    //               Text(
+                    //                 '>',
+                    //                 style: TextStyle(fontSize: 17),
+                    //               ),
+                    //             ],
+                    //           ),
+                    //         ),
+                    //       ],
+                    //     ),
+                    //   ),
+                    // ),
+                    // const Divider(),
                     GestureDetector(
                       onTap: () => {
                         Get.toNamed('/my_records'),

@@ -25,7 +25,7 @@ class HomeHeader extends StatelessWidget {
                 height: 55,
                 margin: const EdgeInsets.only(left: 20, top: 20),
                 child: const Text(
-                  '첫 의견 남기고 5000원\n받아가세요 어쩌고~!',
+                  '하나만 골라봐! 쉽지만 고민되는 질문들, 너라면?',
                   style: TextStyle(
                     fontSize: 17,
                     fontWeight: FontWeight.bold,
@@ -38,9 +38,9 @@ class HomeHeader extends StatelessWidget {
                 height: 55,
                 margin: const EdgeInsets.only(left: 20, top: 5),
                 child: Text(
-                  '질문만 만들어도 어쩌고 저쩌고\n포인트가 쑥쑥!',
+                  '재미있었다면 리뷰 한 줄 남겨주세요! 여러분의 선택이 더 많은 고민을 불러올 지 몰라요.☺️',
                   style: TextStyle(
-                    fontSize: 14,
+                    fontSize: 13,
                     color: Colors.black.withOpacity(0.5),
                   ),
                 ),

@@ -17,9 +17,8 @@ class ListScreen extends GetView<ThemeListController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          foregroundColor: Colors.black,
           backgroundColor: Colors.white,
-          elevation: 0,
+          scrolledUnderElevation: 0,
           title: Text('${ThemeController.to.getThemeName()} 벨런스 게임',
               style:
                   const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
@@ -57,7 +56,7 @@ class ListScreen extends GetView<ThemeListController> {
                             controller.updateSortCondition(SORTCONDITION.LIKE);
                           },
                           child: Text(
-                            '별점 높은 순',
+                            '좋아요순',
                             style: TextStyle(
                               color: controller.sortCondition.value ==
                                       SORTCONDITION.LIKE
