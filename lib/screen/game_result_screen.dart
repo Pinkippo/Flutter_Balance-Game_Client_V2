@@ -79,9 +79,15 @@ class GameResultScreen extends GetView<GamePlayController> {
                   physics: const NeverScrollableScrollPhysics(),
                   itemCount: controller.boardContent.length,
                   itemBuilder: (context, index) {
+
+                    final firstCount = controller.boardContent[index].boardContentItems[0].boardResultCount;
+                    final secondCount = controller.boardContent[index].boardContentItems[1].boardResultCount;
+                    final total = firstCount + secondCount;
+                    final firstPercentage = (firstCount / total * 100);
+                    final secondPercentage = (secondCount / total * 100);
+
                     return Container(
-                      margin: const EdgeInsets.symmetric(
-                          horizontal: 20, vertical: 15),
+                      margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
                       padding: const EdgeInsets.all(10),
                       decoration: BoxDecoration(
                         color: Colors.white,
@@ -107,35 +113,64 @@ class GameResultScreen extends GetView<GamePlayController> {
                             overflow: TextOverflow.ellipsis,
                           ),
                           const SizedBox(height: 10),
-                          Row(
+                          Stack(
                             children: [
-                              /// 첫 번째 항목
-                              Expanded(
-                                flex: controller.boardContent[index]
-                                    .boardContentItems[0].boardResultCount,
-                                child: Container(
-                                  height: 20,
-                                  decoration: const BoxDecoration(
-                                    color: AppColors.gamePlayBarColor,
-                                    borderRadius: BorderRadius.only(
-                                      topLeft: Radius.circular(10),
-                                      bottomLeft: Radius.circular(10),
+                              Row(
+                                children: [
+                                  Expanded(
+                                    flex: firstCount,
+                                    child: Container(
+                                      height: 20,
+                                      decoration: const BoxDecoration(
+                                        color: AppColors.gamePlayBarColor,
+                                        borderRadius: BorderRadius.only(
+                                          topLeft: Radius.circular(10),
+                                          bottomLeft: Radius.circular(10),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  Expanded(
+                                    flex: secondCount,
+                                    child: Container(
+                                      height: 20,
+                                      decoration: const BoxDecoration(
+                                        color: AppColors.gamePlayYellowColor,
+                                        borderRadius: BorderRadius.only(
+                                          topRight: Radius.circular(10),
+                                          bottomRight: Radius.circular(10),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Positioned(
+                                left: 20,
+                                top: 0,
+                                bottom: 0,
+                                child: Center(
+                                  child: Text(
+                                    '${firstPercentage.toStringAsFixed(1)}%',
+                                    style: const TextStyle(
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.normal,
+                                      fontSize: 10,
                                     ),
                                   ),
                                 ),
                               ),
-
-                              /// 두 번째 항목
-                              Expanded(
-                                flex: controller.boardContent[index]
-                                    .boardContentItems[1].boardResultCount,
-                                child: Container(
-                                  height: 20,
-                                  decoration: const BoxDecoration(
-                                    color: AppColors.gamePlayYellowColor,
-                                    borderRadius: BorderRadius.only(
-                                      topRight: Radius.circular(10),
-                                      bottomRight: Radius.circular(10),
+                              Positioned(
+                                right: 20,
+                                top: 0,
+                                bottom: 0,
+                                child: Center(
+                                  child: Text(
+                                    '${secondPercentage.toStringAsFixed(1)}%',
+                                    style: const TextStyle(
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.normal,
+                                      fontSize: 10,
                                     ),
                                   ),
                                 ),
@@ -146,15 +181,18 @@ class GameResultScreen extends GetView<GamePlayController> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(
-                                controller.boardContent[index]
-                                    .boardContentItems[0].item,
-                                overflow: TextOverflow.ellipsis,
+                              Expanded(
+                                child: Text(
+                                  controller.boardContent[index].boardContentItems[0].item,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
                               ),
-                              Text(
-                                controller.boardContent[index]
-                                    .boardContentItems[1].item,
-                                overflow: TextOverflow.ellipsis,
+                              Expanded(
+                                child: Text(
+                                  controller.boardContent[index].boardContentItems[1].item,
+                                  textAlign: TextAlign.right,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
                               ),
                             ],
                           ),
@@ -214,7 +252,6 @@ class GameResultScreen extends GetView<GamePlayController> {
               ),
             ),
           ),
-
         ],
       ),
     );
