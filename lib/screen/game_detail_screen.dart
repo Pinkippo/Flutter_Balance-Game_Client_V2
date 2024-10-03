@@ -5,6 +5,7 @@ import 'package:yangjataekil/controller/game_detail_controller.dart';
 import 'package:yangjataekil/controller/game_play_controller.dart';
 import 'package:yangjataekil/theme/app_color.dart';
 import 'package:yangjataekil/widget/game_detail/game_vertical_info_widget.dart';
+import 'package:yangjataekil/widget/report/game_report_dialog_widget.dart';
 
 class GameDetailScreen extends GetView<GameDetailController> {
   const GameDetailScreen({super.key});
@@ -49,11 +50,18 @@ class GameDetailScreen extends GetView<GameDetailController> {
                   ),
                 );
               }).toList(),
-              onChanged: (String? value) {
+              onChanged: (String? value) async {
                 if (value == '리뷰작성') {
-
+                  /// TODO : 리뷰 작성 연결 구현
                 } else if (value == '신고하기') {
-
+                  Get.dialog(
+                    PopScope(
+                        onPopInvokedWithResult: (bool didPop, dynamic result) {
+                          controller.selectedCategory.value = null;
+                          controller.content.value = '';
+                        },
+                        child: reportGameDialog(context, controller)),
+                  );
                 }
               },
             ),
