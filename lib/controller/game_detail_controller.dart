@@ -1,5 +1,9 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:yangjataekil/controller/auth_controller.dart';
+import 'package:yangjataekil/controller/review_controller.dart';
 import 'package:yangjataekil/data/model/game/game_detail_response_model.dart';
 import 'package:yangjataekil/data/model/game/game_detail_writer.dart';
 import 'package:yangjataekil/data/model/game/related_game_model.dart';
@@ -73,5 +77,56 @@ class GameDetailController extends GetxController {
     gameDetail.value = await GameRepository().getGameDetail(boardId);
     relatedGameList.value = await GameRepository().getRelatedGame(boardId);
   }
+
+  /// ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 리뷰 신고 파트 변수 및 메서드 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+
+  /// 신고 내용
+  final content = ''.obs;
+
+  /// 카테고리
+  final categories = REPORTCATEGORY.values;
+
+  /// 선택된 신고 카테고리
+  final selectedCategory = Rx<REPORTCATEGORY?>(null);
+
+  /// 카테고리 선택 메서드
+  void toggleCategory(REPORTCATEGORY category) {
+    selectedCategory.value = category;
+  }
+
+  /// 신고 내용 업데이트
+  void updateContent(String value) {
+    content.value = value;
+    print('게임 신고 내용: ${content.value}');
+  }
+
+  /// 게임 신고 메서드
+  Future<bool> gameReport(String reportContent) async {
+    content.value = reportContent.isEmpty
+        ? selectedCategory.value!.displayName
+        : reportContent;
+
+    try {
+      final response = await GameRepository().reviewReport(
+          AuthController.to.accessToken.value,
+          gameDetail.value.boardId,
+          content.value);
+      if (response) {
+        print('(controller)게임 신고 성공');
+        return true;
+      } else {
+        print('(controller)게임 신고 api조회 false');
+        return false;
+      }
+    } on HttpException catch (e) {
+      print('(controller)게임 신고 실패 - Http 예외: $e');
+      rethrow;
+    } catch (e) {
+      print('(controller)게임 신고 api 받아오기 실패: $e');
+      rethrow;
+    }
+  }
+
+/// ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 
 }

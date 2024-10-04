@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -151,6 +152,33 @@ class GameRepository {
         colorText: Colors.white,
       );
       throw Exception('게임 결과 전송 실패');
+    }
+  }
+
+  /// 게임 신고 메서드
+  Future<bool> reviewReport(
+      String token, int boardId, String content) async {
+    final url = Uri.parse(
+        '$baseUrl/board/v2/boards/$boardId/report');
+
+    try {
+      final response = await http.post(
+        url,
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+          'charset': 'utf-8',
+          'Authorization': 'Bearer $token',
+        },
+        body: jsonEncode({'content': content}),
+      );
+      if (response.statusCode == 200) {
+        return true;
+      } else {
+        throw HttpException('Failed to report review: ${response.statusCode}');
+      }
+    } catch (error) {
+      print('Exception occurred: $error');
+      rethrow;
     }
   }
 
