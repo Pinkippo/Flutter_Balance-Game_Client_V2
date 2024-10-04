@@ -16,6 +16,9 @@ class GamePlayController extends GetxController {
   /// 페이지 컨트롤러
   final pageController = PageController();
 
+  /// 로딩 간 클릭 제어
+  RxBool isLoading = false.obs;
+
   /// 퍼센트
   RxDouble firstPercentage = 0.0.obs;
   RxDouble secondPercentage = 0.0.obs;
@@ -40,50 +43,69 @@ class GamePlayController extends GetxController {
 
   /// 결과 선택
   void selectResult(int index, int resultIndex) async {
+    // 로딩간 클릭 처리
+    if (isLoading.value) return;
+    isLoading.value = true;
 
-    selectedResult[index] = GamePlayRequestModel(
-      boardContentId: boardContent[index].boardContentId,
-      boardContentItemId: boardContent[index].boardContentItems[resultIndex].boardContentItemId,
-    );
+    try {
+      selectedResult[index] = GamePlayRequestModel(
+        boardContentId: boardContent[index].boardContentId,
+        boardContentItemId: boardContent[index]
+            .boardContentItems[resultIndex]
+            .boardContentItemId,
+      );
 
-    final total = boardContent[index].boardContentItems[0].boardResultCount +
-        boardContent[index].boardContentItems[1].boardResultCount + 1;
+      final total = boardContent[index].boardContentItems[0].boardResultCount +
+          boardContent[index].boardContentItems[1].boardResultCount +
+          1;
 
-    final firstAdjustment = resultIndex == 0 ? 1 : 0;
-    final secondAdjustment = resultIndex == 1 ? 1 : 0;
+      final firstAdjustment = resultIndex == 0 ? 1 : 0;
+      final secondAdjustment = resultIndex == 1 ? 1 : 0;
 
-    firstPercentage.value = ((boardContent[index].boardContentItems[0].boardResultCount + firstAdjustment) / total) * 100;
-    secondPercentage.value = ((boardContent[index].boardContentItems[1].boardResultCount + secondAdjustment) / total) * 100;
+      firstPercentage.value =
+          ((boardContent[index].boardContentItems[0].boardResultCount +
+                      firstAdjustment) /
+                  total) *
+              100;
+      secondPercentage.value =
+          ((boardContent[index].boardContentItems[1].boardResultCount +
+                      secondAdjustment) /
+                  total) *
+              100;
 
-    Future.delayed(const Duration(seconds: 2), () async {
-      if(boardContent.length == index + 1) {
-        try {
-          /// 게임 결과 제출
-          BoardContentResponse result = await GameRepository().postGameResult(
-            gameBoardId.value,
-            selectedResult,
-            AuthController.to.accessToken.value,
-          );
+      await Future.delayed(const Duration(seconds: 2));
 
-          if (result.boardContents.isNotEmpty) {
-            boardContent.value = result.boardContents; // 게임 결과값 수정
-            resetResult().then((_)=> Get.offAndToNamed(Routes.gameResult));
-          }
-        } catch (e) {
-          print('게임 제출 에러 발생: $e');
+      if (boardContent.length == index + 1) {
+        // 게임 결과 제출
+        BoardContentResponse result = await GameRepository().postGameResult(
+          gameBoardId.value,
+          selectedResult,
+          AuthController.to.accessToken.value,
+        );
+
+        if (result.boardContents.isNotEmpty) {
+          boardContent.value = result.boardContents;
+          await resetResult();
+          Get.offAndToNamed(Routes.gameResult);
         }
       } else {
         currentPage.value = currentPage.value + 1;
-        pageController.animateToPage(
+        firstPercentage.value = 0.0;
+        secondPercentage.value = 0.0;
+        await pageController.animateToPage(
           currentPage.value,
           duration: const Duration(milliseconds: 1000),
           curve: Curves.easeInOut,
         );
       }
-      /// 퍼센트 초기화
+    } catch (e) {
+      print('게임 제출 에러 발생 game_play_controller: $e');
+    } finally {
+      // 퍼센트 및 로딩 초기화
       firstPercentage.value = 0.0;
       secondPercentage.value = 0.0;
-    });
+      isLoading.value = false;
+    }
   }
 
   /// 결과 리셋
