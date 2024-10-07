@@ -98,7 +98,7 @@ class GameReviewScreen extends GetView<GameReviewController> {
         child: ElevatedButton(
           onPressed: () {
             controller.uploadReview(
-              Get.arguments['boardId'],
+              int.parse(Get.arguments['boardId']),
             );
           },
           style: ElevatedButton.styleFrom(
