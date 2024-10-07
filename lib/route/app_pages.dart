@@ -16,6 +16,7 @@ import 'package:yangjataekil/controller/register_controller.dart';
 import 'package:yangjataekil/controller/notice_controller.dart';
 import 'package:yangjataekil/screen/change_pw_screen.dart';
 import 'package:yangjataekil/screen/delete_user_screen.dart';
+import 'package:yangjataekil/screen/empty_game_detail_screen.dart';
 import 'package:yangjataekil/screen/find_id_or_pw_screen.dart';
 import 'package:yangjataekil/screen/game_detail_screen.dart';
 import 'package:yangjataekil/screen/game_play_screen.dart';
@@ -210,6 +211,13 @@ class AppPages {
         Get.lazyPut<GameDetailController>(() => GameDetailController());
         Get.lazyPut<GamePlayController>(() => GamePlayController());
       }),
+    ),
+
+    /// 빈 게임 상세 페이지
+    GetPage(
+      name: Routes.emptyGameDetail,
+      page: () => const EmptyGameDetailScreen(),
+      transition: Transition.fade,
     ),
 
     /// 게임 플레이 페이지

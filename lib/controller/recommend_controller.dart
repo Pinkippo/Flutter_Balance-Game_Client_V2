@@ -40,6 +40,8 @@ class RecommendController extends GetxController {
     if (boardId != -1) {
       // 오류가 없을 때만 getRecommendId 호출
       getRecommendId(boardId);
+    } else {
+      getRecommendId(-1);
     }
   }
 
