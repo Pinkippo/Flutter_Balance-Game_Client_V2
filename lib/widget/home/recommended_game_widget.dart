@@ -77,9 +77,14 @@ class RecommendedGame extends GetView<RecommendController> {
                       await controller.setRecommendGameId();
 
                       /// 추천 게임 상세 페이지로 이동
-                      Get.toNamed('/game_detail', arguments: {
-                        'boardId': controller.recommendGameId.value.toString(),
-                      });
+                      if(controller.recommendGameId.value != -1) {
+                        Get.toNamed('/game_detail', arguments: {
+                          'boardId':
+                              controller.recommendGameId.value.toString(),
+                        });
+                      } else {
+                        Get.toNamed('/empty_game_detail');
+                      }
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: AppColors.secondaryColor,
