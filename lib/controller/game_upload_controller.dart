@@ -37,7 +37,6 @@ class GameUploadController extends GetxController {
     // 기본 질문 두 개 추가
     boardContent.addAll([
       Question(questionTitle: '', questionItems: ['', '']),
-      Question(questionTitle: '', questionItems: ['', '']),
     ]);
   }
 
@@ -107,16 +106,7 @@ class GameUploadController extends GetxController {
         colorText: Colors.white,
       );
       return false;
-    } else if (keyword.isEmpty) {
-      Get.snackbar(
-        '미입력 항목',
-        '키워드를 입력해주세요.',
-        snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Colors.red,
-        colorText: Colors.white,
-      );
-      return false;
-    } else if (boardContent.isEmpty) {
+    } else if (boardContent.any((element) => element.questionItems.any((element) => element.isEmpty))) {
       Get.snackbar(
         '미입력 항목',
         '질문을 입력해주세요.',
