@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class ChkEmailBtn extends StatelessWidget {
   const ChkEmailBtn({
@@ -22,6 +23,7 @@ class ChkEmailBtn extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = Get.width;
     return SizedBox(
       width: double.infinity,
       height: 55,
@@ -34,11 +36,14 @@ class ChkEmailBtn extends StatelessWidget {
           elevation: 0,
         ),
         onPressed: isEnabled ? onPressed : null,
-        child: Text(
-          title,
-          style: TextStyle(
-            fontSize: 14,
-            color: fontColor,
+        child: FittedBox(
+          fit: BoxFit.scaleDown,
+          child: Text(
+            title,
+            style: TextStyle(
+              fontSize: screenWidth * 0.035, // 화면 크기에 따라 텍스트 크기 조정
+              color: fontColor,
+            ),
           ),
         ),
       ),
