@@ -19,6 +19,12 @@ class RecommendController extends GetxController {
   final recommendedReviews = [].obs; // 추천 리뷰
 
 
+  @override
+  void onInit() {
+    super.onInit();
+    getRecommendedReviews();
+  }
+
   /// 오늘의 추천 게시글 호출 메서드
   Future<int> getRecommendList() async {
     try {
