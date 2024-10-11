@@ -8,6 +8,7 @@ import 'package:yangjataekil/controller/game_detail_controller.dart';
 import 'package:yangjataekil/controller/game_play_controller.dart';
 import 'package:yangjataekil/controller/game_review_controller.dart';
 import 'package:yangjataekil/controller/game_upload_controller.dart';
+import 'package:yangjataekil/controller/tab/theme_controller.dart';
 import 'package:yangjataekil/controller/theme_list_controller.dart';
 import 'package:yangjataekil/controller/login_controller.dart';
 import 'package:yangjataekil/controller/notification_controller.dart';
@@ -70,6 +71,9 @@ class AppPages {
           });
           Get.lazyPut<AllListController>(() {
             return AllListController();
+          });
+          Get.lazyPut<ThemeController>(() {
+            return ThemeController();
           });
           Get.lazyPut<RecommendController>(() {
             return RecommendController();
