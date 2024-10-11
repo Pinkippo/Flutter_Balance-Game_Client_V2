@@ -87,8 +87,8 @@ class RecommendedGame extends GetView<RecommendController> {
                       }
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColors.secondaryColor,
-                      foregroundColor: Colors.black,
+                      backgroundColor: AppColors.homeBtnColor,
+                      foregroundColor: Colors.white,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(6),
                       ),

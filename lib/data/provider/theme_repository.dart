@@ -25,14 +25,7 @@ class ThemeRepository {
       return ListThemeResponse.fromJson(
           jsonDecode(utf8.decode(response.bodyBytes)));
     } else {
-      Get.snackbar(
-        '조회 실패',
-        '서버 상태가 불안정합니다. 잠시 후 다시 시도해주세요.',
-        snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: AppColors.primaryColor,
-        colorText: Colors.white,
-      );
-      throw Exception('Failed to get');
+      throw Exception('테마 조회 실패 ${response.statusCode}');
     }
   }
 }

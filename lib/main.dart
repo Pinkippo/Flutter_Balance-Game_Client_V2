@@ -12,6 +12,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'data/provider/auth_repository.dart';
 
 void main() async {
+  Get.testMode = true;
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
 
   /// .env 파일 로드

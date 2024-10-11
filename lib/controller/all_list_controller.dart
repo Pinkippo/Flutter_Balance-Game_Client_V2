@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:yangjataekil/widget/snackbar_widget.dart';
 
 import '../data/model/board/board.dart';
 import '../data/model/board/list_board_request_model.dart';
@@ -79,11 +80,7 @@ class AllListController extends GetxController {
       totalPage.value = response.totalPage!; // totalPage 값 업데이트
       page.value += 1; // 페이지 값 증가
     } catch (e) {
-      Get.snackbar(
-        '오류',
-        '리스트를 가져오는 중 오류가 발생했습니다: $e',
-        snackPosition: SnackPosition.BOTTOM,
-      );
+      CustomSnackBar.showErrorSnackBar(message: '게임 리스트를 가져오는 중 오류가 발생했습니다.');
     } finally {
       isLoading.value = false;
     }

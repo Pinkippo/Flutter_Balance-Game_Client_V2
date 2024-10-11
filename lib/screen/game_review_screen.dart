@@ -97,9 +97,13 @@ class GameReviewScreen extends GetView<GameReviewController> {
         color: Colors.white,
         child: ElevatedButton(
           onPressed: () {
-            controller.uploadReview(
-              int.parse(Get.arguments['boardId']),
-            );
+            // Get.arguments['boardId']가 이미 int 타입인지 확인하고 처리
+            final boardId = Get.arguments['boardId'];
+            if (boardId is int) {
+              controller.uploadReview(boardId);
+            } else {
+              controller.uploadReview(int.parse(boardId));
+            }
           },
           style: ElevatedButton.styleFrom(
             backgroundColor: Colors.black,

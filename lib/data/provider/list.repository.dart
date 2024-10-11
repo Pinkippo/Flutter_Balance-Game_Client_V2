@@ -59,15 +59,8 @@ class ListRepository {
       return ListBoardResponseModel.fromJson(
           jsonDecode(utf8.decode(response.bodyBytes)));
     } else {
-      print('게임 리스트 조회 실패(repository)');
-      Get.snackbar(
-        '조회 실패',
-        '서버 상태가 불안정합니다. 잠시 후 다시 시도해주세요.',
-        snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: AppColors.primaryColor,
-        colorText: Colors.white,
-      );
-      throw Exception('Failed to get');
+      print('게임 리스트 조회 실패 ${response.statusCode}');
+      throw Exception('게임 리스트 조회 실패');
     }
   }
 
@@ -88,13 +81,7 @@ class ListRepository {
       return RecommendBoardResponseModel.fromJson(
           jsonDecode(utf8.decode(response.bodyBytes)));
     } else {
-      Get.snackbar(
-        '조회 실패',
-        '서버 상태가 불안정합니다. 잠시 후 다시 시도해주세요.',
-        snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: AppColors.primaryColor,
-        colorText: Colors.white,
-      );
+      print('오늘의 추천 게시글 조회 실패');
       throw Exception('Failed to get');
     }
   }
@@ -115,13 +102,6 @@ class ListRepository {
           jsonDecode(utf8.decode(response.bodyBytes)));
     } else {
       print('내 게임 리스트 조회 실패');
-      Get.snackbar(
-        '조회 실패',
-        '서버 상태가 불안정합니다. 잠시 후 다시 시도해주세요.',
-        snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Colors.red,
-        colorText: Colors.white,
-      );
       throw Exception('내 게임 리스트 조회 실패');
     }
   }
@@ -145,13 +125,6 @@ class ListRepository {
           jsonDecode(utf8.decode(response.bodyBytes)));
     } else {
       print('참가한 게임 리스트 조회 실패');
-      Get.snackbar(
-        '조회 실패',
-        '서버 상태가 불안정합니다. 잠시 후 다시 시도해주세요.',
-        snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Colors.red,
-        colorText: Colors.white,
-      );
       throw Exception('참가한 게임 리스트 조회 실패');
     }
   }

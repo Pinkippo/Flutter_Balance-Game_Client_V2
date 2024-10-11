@@ -9,6 +9,7 @@ import 'package:yangjataekil/data/model/game/game_detail_writer.dart';
 import 'package:yangjataekil/data/model/game/related_game_model.dart';
 import 'package:yangjataekil/data/provider/game_repository.dart';
 import 'package:yangjataekil/theme/app_color.dart';
+import 'package:yangjataekil/widget/snackbar_widget.dart';
 
 class GameDetailController extends GetxController {
   /// 스크롤 컨트롤러
@@ -56,13 +57,8 @@ class GameDetailController extends GetxController {
     final String parameterBoardId = arguments['boardId'] ?? '';
 
     if (parameterBoardId == '') {
-      Get.snackbar(
-        '게임 조회 오류',
-        '잠시 후 다시 시도해주세요.',
-        snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: AppColors.primaryColor,
-        colorText: Colors.white,
-      );
+      CustomSnackBar.showErrorSnackBar(
+          title: '게임 조회 실패', message: '게임 정보를 불러올 수 없습니다.');
       Get.back();
       return;
     }
@@ -107,7 +103,7 @@ class GameDetailController extends GetxController {
         : reportContent;
 
     try {
-      final response = await GameRepository().reviewReport(
+      final response = await GameRepository().reportGame(
           AuthController.to.accessToken.value,
           gameDetail.value.boardId,
           content.value);

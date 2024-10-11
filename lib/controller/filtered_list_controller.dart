@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:yangjataekil/controller/tab/theme_controller.dart';
+import 'package:yangjataekil/widget/snackbar_widget.dart';
 
 import '../data/model/board/board.dart';
 import '../data/model/board/list_board_request_model.dart';
@@ -44,7 +45,7 @@ class FilteredListController extends GetxController {
 
   /// 생성자
   FilteredListController({required this.isAllList});
-  
+
   @override
   void onInit() {
     // 스크롤 이벤트
@@ -82,7 +83,7 @@ class FilteredListController extends GetxController {
 
     final ListBoardRequestModel requestModel;
 
-    if(isAllList) {
+    if (isAllList) {
       requestModel = ListBoardRequestModel(
         searching: true,
         query: searchText.value,
@@ -114,11 +115,7 @@ class FilteredListController extends GetxController {
       totalPage.value = response.totalPage!; // totalPage 값 업데이트
       page.value += 1; // 페이지 값 증가
     } catch (e) {
-      Get.snackbar(
-        '오류',
-        '리스트를 가져오는 중 오류가 발생했습니다: $e',
-        snackPosition: SnackPosition.BOTTOM,
-      );
+      CustomSnackBar.showErrorSnackBar(message: '게임 리스트를 가져오는 중 오류가 발생했습니다.');
     } finally {
       isLoading.value = false;
     }
@@ -128,11 +125,7 @@ class FilteredListController extends GetxController {
   void clickSearchBtn(bool isAllList) async {
     if (searchText.isEmpty) {
       filteredList.clear();
-      Get.snackbar(
-        '검색어를 입력해주세요',
-        '검색어를 입력하지 않으면 검색할 수 없습니다.',
-        snackPosition: SnackPosition.BOTTOM,
-      );
+      CustomSnackBar.showSnackBar(message: '검색어를 입력해주세요.');
     } else {
       filteredList.clear(); // 이전 검색 결과 초기화
       page.value = 0; // 페이지 초기화
