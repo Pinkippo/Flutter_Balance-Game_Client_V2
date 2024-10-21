@@ -54,8 +54,11 @@ class ListRepository {
 
     if (response.statusCode == 200) {
       final decodedResponse = jsonDecode(utf8.decode(response.bodyBytes));
-      print(decodedResponse);
+      // print(decodedResponse);
       print('테마별 조회 리스트 갯수: ${decodedResponse['boards']['boards'].length}');
+      for (int i = 0; i < decodedResponse['boards']['boards'].length; i++) {
+        print('리스트 boardId: ${decodedResponse['boards']['boards'][i]['boardId']}');
+      }
       return ListBoardResponseModel.fromJson(
           jsonDecode(utf8.decode(response.bodyBytes)));
     } else {

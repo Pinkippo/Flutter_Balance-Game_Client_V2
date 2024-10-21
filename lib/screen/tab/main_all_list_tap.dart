@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:yangjataekil/controller/all_list_controller.dart';
+import 'package:yangjataekil/controller/list_controller/all_list_controller.dart';
 
 import '../../controller/auth_controller.dart';
-import '../../controller/filtered_list_controller.dart';
 import '../../data/model/board/list_board_request_model.dart';
 import '../../theme/app_color.dart';
 import '../../widget/game/all_list_item_widget.dart';
@@ -14,8 +13,6 @@ class MainAllListTap extends GetView<AllListController> {
 
   @override
   Widget build(BuildContext context) {
-    final FilteredListController filteredListController =
-        Get.put(FilteredListController(isAllList: true));
     return Scaffold(
       appBar: AppBar(
           backgroundColor: Colors.white,
@@ -26,11 +23,9 @@ class MainAllListTap extends GetView<AllListController> {
             IconButton(
               icon: const Icon(Icons.search),
               onPressed: () {
-                filteredListController.filteredList.clear();
-                // 검색을 위해 검색 창 표시
                 showSearch(
                   context: context,
-                  delegate: CustomSearchWidget(isAllList: true),
+                  delegate: CustomSearchWidget(),
                 );
               },
             ),
@@ -106,9 +101,9 @@ class MainAllListTap extends GetView<AllListController> {
             separatorBuilder: (_, index) => const SizedBox(
               height: 20,
             ),
-            itemCount: controller.allBoards.length,
+            itemCount: controller.boards.length,
             itemBuilder: (_, index) {
-              if (index < controller.allBoards.length + 1) {
+              if (index < controller.boards.length + 1) {
                 return AllListItemWidget(
                   controller: controller,
                   index: index,

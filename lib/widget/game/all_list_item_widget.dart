@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:yangjataekil/controller/all_list_controller.dart';
+import 'package:yangjataekil/controller/list_controller/all_list_controller.dart';
 
 import '../list/keyword_widget.dart';
 
@@ -17,7 +17,7 @@ class AllListItemWidget extends StatelessWidget {
       onTap: () {
         /// 게임 상세 이동
         Get.toNamed('/game_detail', arguments: {
-          'boardId': controller.allBoards[index].boardId.toString(),
+          'boardId': controller.boards[index].boardId.toString(),
         });
       },
       child: LayoutBuilder(
@@ -26,9 +26,9 @@ class AllListItemWidget extends StatelessWidget {
           final widgetWidth = constraints.maxWidth;
 
           // 키워드들이 차지하는 총 가로 크기 계산
-          final keywordTotalWidth = controller.allBoards[index].keywords.isEmpty
+          final keywordTotalWidth = controller.boards[index].keywords.isEmpty
               ? 0
-              : controller.allBoards[index].keywords
+              : controller.boards[index].keywords
               .map((keyword) => _calculateKeywordWidth(context, keyword))
               .fold(0.0, (a, b) => a + b);
 
@@ -50,7 +50,7 @@ class AllListItemWidget extends StatelessWidget {
               children: [
                 Text(
                   overflow: TextOverflow.ellipsis,
-                  controller.allBoards[index].title,
+                  controller.boards[index].title,
                   style: const TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.w300,
@@ -64,7 +64,7 @@ class AllListItemWidget extends StatelessWidget {
                   height: 30,
                   child: ListView(
                     scrollDirection: Axis.horizontal,
-                    children: controller.allBoards[index].keywords
+                    children: controller.boards[index].keywords
                         .map((keyword) => KeywordWidget(keyword: keyword))
                         .toList(),
                   ),
@@ -73,7 +73,7 @@ class AllListItemWidget extends StatelessWidget {
                   child: Wrap(
                     spacing: 8.0, // 키워드 간의 간격
                     alignment: WrapAlignment.center,
-                    children: controller.allBoards[index].keywords
+                    children: controller.boards[index].keywords
                         .map((keyword) => KeywordWidget(keyword: keyword))
                         .toList(),
                   ),
@@ -86,7 +86,7 @@ class AllListItemWidget extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                     maxLines: 3,
                     text: TextSpan(
-                      text: controller.allBoards[index].introduce,
+                      text: controller.boards[index].introduce,
                       style: const TextStyle(color: Colors.black),
                     ),
                   ),

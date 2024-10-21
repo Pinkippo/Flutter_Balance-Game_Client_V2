@@ -1,29 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:yangjataekil/controller/filtered_list_controller.dart';
-import 'package:yangjataekil/controller/theme_list_controller.dart';
+import 'package:yangjataekil/controller/list_controller/base_list_controller.dart';
+import 'package:yangjataekil/controller/list_controller/searched_list_controller.dart';
+import 'package:yangjataekil/controller/list_controller/theme_list_controller.dart';
 
 import '../list/keyword_widget.dart';
 
-class FilteredListItemWidget extends StatelessWidget {
-  const FilteredListItemWidget({
+class ListItemWidget extends StatelessWidget {
+  const ListItemWidget({
     super.key,
-    this.themeListController,
-    this.filteredListController,
+    required this.controller,
     required this.index,
-    required this.isFiltered,
     required this.isMyGame,
+    required this.isParticipated,
   });
 
-  final ThemeListController? themeListController;
-  final FilteredListController? filteredListController;
+  final BaseListController controller;
   final int index;
-  final bool isFiltered;
   final bool isMyGame;
+  final bool isParticipated;
 
   @override
   Widget build(BuildContext context) {
-    // 각 조건에 따라 적절한 데이터를 가져오는 함수
+    // 조건에 따라 게임 데이터 가져오기
     final boardData = _getBoardData();
 
     return GestureDetector(
@@ -79,18 +78,18 @@ class FilteredListItemWidget extends StatelessWidget {
     );
   }
 
-  // 조건에 따라 적절한 board 데이터를 선택하는 함수
+  /// 조건에 따라 게임 데이터를 가져오는 메서드
   dynamic _getBoardData() {
-    if (isFiltered) {
-      return filteredListController?.filteredList[index];
+    if (isParticipated) {
+      return controller.participatedBoards[index];
     } else if (isMyGame) {
-      return themeListController?.myBoards[index];
+      return controller.myBoards[index];
     } else {
-      return themeListController?.boards[index];
+      return controller.boards[index];
     }
   }
 
-  // 키워드 리스트의 너비를 계산하여 Wrap 또는 ListView로 반환
+  /// 키워드 리스트의 너비를 계산하여 Wrap 또는 ListView로 반환
   Widget _buildResponsiveKeywordList(dynamic boardData, double containerWidth) {
     if (boardData?.keywords == null || boardData.keywords.isEmpty) {
       return const SizedBox.shrink(); // 키워드가 없을 경우 빈 위젯 반환
@@ -103,7 +102,7 @@ class FilteredListItemWidget extends StatelessWidget {
 
     final totalKeywordWidth = _calculateTotalKeywordWidth(boardData.keywords);
 
-    // 키워드의 총 너비가 컨테이너 너비를 초과하면 스크롤 가능하게 ListView로, 초과하지 않으면 Wrap으로 가운데 정렬
+    /// 키워드의 총 너비가 컨테이너 너비를 초과하면 스크롤 가능하게 ListView로, 초과하지 않으면 Wrap으로 가운데 정렬
     if (totalKeywordWidth < containerWidth) {
       // 키워드가 컨테이너 너비보다 작을 경우, Wrap으로 가운데 정렬
       return Wrap(
@@ -112,7 +111,7 @@ class FilteredListItemWidget extends StatelessWidget {
         children: keywordWidgets,
       );
     } else {
-      // 키워드가 컨테이너 너비보다 클 경우, 스크롤 가능한 ListView로 처리
+      /// 키워드가 컨테이너 너비보다 클 경우, 스크롤 가능한 ListView로 처리
       return SizedBox(
         height: 30,
         child: ListView(
@@ -122,6 +121,7 @@ class FilteredListItemWidget extends StatelessWidget {
       );
     }
   }
+
 
   // 각 키워드의 너비를 대략적으로 계산하는 함수 (단순 문자열 길이 기준)
   double _calculateTotalKeywordWidth(List<String> keywords) {

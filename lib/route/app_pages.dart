@@ -1,48 +1,48 @@
 import 'package:get/get.dart';
-import 'package:yangjataekil/controller/all_list_controller.dart';
+import 'package:yangjataekil/controller/list_controller/all_list_controller.dart';
 import 'package:yangjataekil/controller/auth_controller.dart';
 import 'package:yangjataekil/controller/bottom_navigator_controller.dart';
-import 'package:yangjataekil/controller/filtered_list_controller.dart';
+import 'package:yangjataekil/controller/list_controller/searched_list_controller.dart';
 import 'package:yangjataekil/controller/find_id_pw_controller.dart';
 import 'package:yangjataekil/controller/game_detail_controller.dart';
 import 'package:yangjataekil/controller/game_play_controller.dart';
 import 'package:yangjataekil/controller/game_review_controller.dart';
 import 'package:yangjataekil/controller/game_upload_controller.dart';
 import 'package:yangjataekil/controller/tab/theme_controller.dart';
-import 'package:yangjataekil/controller/theme_list_controller.dart';
+import 'package:yangjataekil/controller/list_controller/theme_list_controller.dart';
 import 'package:yangjataekil/controller/login_controller.dart';
 import 'package:yangjataekil/controller/notification_controller.dart';
 import 'package:yangjataekil/controller/recommend_controller.dart';
 import 'package:yangjataekil/controller/register_controller.dart';
 import 'package:yangjataekil/controller/notice_controller.dart';
-import 'package:yangjataekil/screen/change_pw_screen.dart';
-import 'package:yangjataekil/screen/delete_user_screen.dart';
-import 'package:yangjataekil/screen/empty_game_detail_screen.dart';
-import 'package:yangjataekil/screen/find_id_or_pw_screen.dart';
-import 'package:yangjataekil/screen/game_detail_screen.dart';
-import 'package:yangjataekil/screen/game_play_screen.dart';
-import 'package:yangjataekil/screen/game_result_screen.dart';
-import 'package:yangjataekil/screen/list_screen.dart';
+import 'package:yangjataekil/screen/register/agreeterms_screen.dart';
+import 'package:yangjataekil/screen/user_info/change_pw_screen.dart';
+import 'package:yangjataekil/screen/user_info/delete_user_screen.dart';
+import 'package:yangjataekil/screen/game/empty_game_detail_screen.dart';
+import 'package:yangjataekil/screen/user_info/find_id_or_pw_screen.dart';
+import 'package:yangjataekil/screen/game/game_detail_screen.dart';
+import 'package:yangjataekil/screen/game/game_play_screen.dart';
+import 'package:yangjataekil/screen/game/game_result_screen.dart';
+import 'package:yangjataekil/screen/game/list_screen.dart';
 import 'package:yangjataekil/controller/user_modify_controller.dart';
 import 'package:yangjataekil/screen/login_screen.dart';
 import 'package:yangjataekil/screen/main_screen.dart';
-import 'package:yangjataekil/screen/my_records_screen.dart';
-import 'package:yangjataekil/screen/my_reviews_screen.dart';
-import 'package:yangjataekil/screen/participated_games_screen.dart';
-import 'package:yangjataekil/screen/reject_user_screen.dart';
-import 'package:yangjataekil/screen/user_modify_screen.dart';
-import 'package:yangjataekil/screen/register_profile_screen.dart';
-import 'package:yangjataekil/screen/notification_screen.dart';
-import 'package:yangjataekil/screen/notice_screen.dart';
-import 'package:yangjataekil/screen/register_screen.dart';
+import 'package:yangjataekil/screen/mypage/my_records_screen.dart';
+import 'package:yangjataekil/screen/mypage/my_reviews_screen.dart';
+import 'package:yangjataekil/screen/mypage/participated_games_screen.dart';
+import 'package:yangjataekil/screen/user_info/reject_user_screen.dart';
+import 'package:yangjataekil/screen/user_info/user_modify_screen.dart';
+import 'package:yangjataekil/screen/register/register_profile_screen.dart';
+import 'package:yangjataekil/screen/mypage/notification_screen.dart';
+import 'package:yangjataekil/screen/mypage/notice_screen.dart';
+import 'package:yangjataekil/screen/register/register_screen.dart';
 import '../controller/agreeterms_controller.dart';
 import '../controller/review_controller.dart';
-import '../screen/agreeterms_screen.dart';
-import '../screen/game_review_screen.dart';
-import '../screen/my_games_screen.dart';
-import '../screen/notice_detail_screen.dart';
+import '../screen/game/game_review_screen.dart';
+import '../screen/mypage/my_games_screen.dart';
+import '../screen/mypage/notice_detail_screen.dart';
 import '../screen/review_list_screen.dart';
-import '../screen/game_upload_screen.dart';
+import '../screen/game/game_upload_screen.dart';
 
 part 'app_routes.dart';
 
@@ -78,8 +78,8 @@ class AppPages {
           Get.lazyPut<RecommendController>(() {
             return RecommendController();
           });
-          Get.lazyPut<FilteredListController>(() {
-            return FilteredListController(isAllList: true);
+          Get.lazyPut<SearchedListController>(() {
+            return SearchedListController();
           });
           await Get.putAsync<AuthController>(() async {
             return AuthController();
@@ -173,9 +173,8 @@ class AppPages {
         Get.lazyPut<ThemeListController>(() {
           return ThemeListController();
         });
-        Get.lazyPut<FilteredListController>(() {
-          return FilteredListController(
-              isAllList: false); // 명시적으로 FilteredListController 등록
+        Get.lazyPut<SearchedListController>(() {
+          return SearchedListController(); // 명시적으로 FilteredListController 등록
         });
       }),
     ),
@@ -318,7 +317,6 @@ class AppPages {
           return ThemeListController();
         });
       }),
-
     ),
 
     /// ID or PW 찾기 페이지
