@@ -52,7 +52,6 @@ class GameDetailScreen extends GetView<GameDetailController> {
               }).toList(),
               onChanged: (String? value) async {
                 if (value == '리뷰작성') {
-                  /// TODO : 리뷰 작성 연결 구현
                   Get.toNamed('/game_review', arguments: {
                     'boardId': controller.gameDetail.value.boardId
                   });
