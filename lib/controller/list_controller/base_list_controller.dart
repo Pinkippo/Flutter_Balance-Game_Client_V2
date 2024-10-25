@@ -32,22 +32,6 @@ abstract class BaseListController extends GetxController {
   Future<void> getList();
 
   /// 정렬 조건 업데이트
-  void updateSortCondition(SORTCONDITION condition) {}
-
-
-  // @override
-  // void onInit() {
-  //   getList();
-  //
-  //   // 스크롤 이벤트
-  //   scrollController.value.addListener(() {
-  //     if (scrollController.value.position.pixels ==
-  //         scrollController.value.position.maxScrollExtent) {
-  //       getList();
-  //     }
-  //   });
-  //   super.onInit();
-  // }
-
+  void updateSortCondition(SORTCONDITION condition);
 
 }

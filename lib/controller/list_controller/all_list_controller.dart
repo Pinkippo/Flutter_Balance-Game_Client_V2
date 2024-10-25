@@ -14,27 +14,6 @@ import '../auth_controller.dart';
 class AllListController extends BaseListController {
   static AllListController get to => Get.find();
 
-  /// 페이지 당 게시글 수
-  get getSize => size.value;
-
-  /// 현재 페이지
-  get getPage => page.value;
-
-  /// 총 페이지 수
-  get getTotalPage => totalPage.value;
-
-  /// 정렬 조건
-  get getSortCondition => sortCondition.value;
-
-  /// 로딩 상태
-  get getIsLoading => isLoading.value;
-
-  /// 전체 게임 리스트
-  get getBoards => boards;
-
-  /// 스크롤 컨트롤러
-  get getScrollController => scrollController.value;
-
 
   @override
   void onInit() {
