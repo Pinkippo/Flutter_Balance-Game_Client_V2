@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:yangjataekil/controller/game_detail_controller.dart';
 import 'package:yangjataekil/controller/review_controller.dart';
 import 'package:yangjataekil/theme/app_color.dart';
+import 'package:yangjataekil/widget/snackbar_widget.dart';
 
 Widget reportGameDialog(
     BuildContext context, GameDetailController gameController) {
@@ -119,20 +120,20 @@ Widget reportGameDialog(
                   onTap: () {
                     // 신고 사유 선택하지 않았을 때
                     if (gameController.selectedCategory.value == null) {
-                      Get.snackbar('미입력 항목', '신고 사유를 선택해주세요.',
-                          backgroundColor: AppColors.primaryColor,
-                          colorText: Colors.white,
-                          snackPosition: SnackPosition.BOTTOM);
+                      CustomSnackBar.showErrorSnackBar(
+                        title: '미입력 항목',
+                        message: '신고 사유를 선택해주세요.',
+                      );
                       return;
                     }
                     // 신고 사유는 '기타'로 선택,, 신고 내용은 비어 있을 때
                     else if (gameController.selectedCategory.value ==
                         REPORTCATEGORY.others) {
                       if (gameController.content.value == '') {
-                        Get.snackbar('미입력 항목', '신고 내용을 입력해주세요.',
-                            backgroundColor: AppColors.primaryColor,
-                            colorText: Colors.white,
-                            snackPosition: SnackPosition.BOTTOM);
+                        CustomSnackBar.showErrorSnackBar(
+                          title: '미입력 항목',
+                          message: '신고 내용을 입력해주세요.',
+                        );
                         return;
                       }
                     }
@@ -157,24 +158,19 @@ Widget reportGameDialog(
                               // 신고하기
                               onPressed: () {
                                 gameController
-                                    .gameReport(
-                                      gameController.content.value)
+                                    .gameReport(gameController.content.value)
                                     .then((value) {
+                                  Get.back();
+                                  Get.back();
                                   if (value) {
-                                    Get.back();
-                                    Get.back();
-                                    Get.snackbar(
-                                      '신고 완료',
-                                      '신고가 정상적으로 접수되었습니다!',
-                                      snackPosition: SnackPosition.BOTTOM,
+                                    CustomSnackBar.showSuccessSnackBar(
+                                      title: '신고 성공',
+                                      message: '신고가 접수되었습니다.',
                                     );
                                   } else {
-                                    Get.back();
-                                    Get.back();
-                                    Get.snackbar(
-                                      '신고 실패',
-                                      '신고 접수에 오류가 생겼습니다.',
-                                      snackPosition: SnackPosition.BOTTOM,
+                                    CustomSnackBar.showErrorSnackBar(
+                                      title: '신고 실패',
+                                      message: '신고 접수에 실패했습니다.',
                                     );
                                   }
                                 });

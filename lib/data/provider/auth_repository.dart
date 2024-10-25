@@ -13,6 +13,7 @@ import 'package:yangjataekil/data/model/user_response_model.dart';
 import 'package:yangjataekil/data/model/version_model.dart';
 import 'package:yangjataekil/theme/app_color.dart';
 import 'package:http/http.dart' as http;
+import 'package:yangjataekil/widget/snackbar_widget.dart';
 
 import '../model/register_request_model.dart';
 
@@ -70,14 +71,7 @@ class AuthRepository {
       return RegisterResponseModel.fromJson(
           jsonDecode(utf8.decode(response.bodyBytes)));
     } else {
-      Get.snackbar(
-        '회원가입 실패',
-        '다시 입력해주세요.',
-        snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: AppColors.primaryColor,
-        colorText: Colors.white,
-      );
-      throw Exception('Failed to register');
+      throw Exception('회원가입 실패 ${response.statusCode}');
     }
   }
 
@@ -321,10 +315,13 @@ class AuthRepository {
   /// 버전 조회
   Future<VersionModel> getVersion() async {
     final url = Uri.parse('$baseUrl/common/v2/version');
-    final response = await http.get(url, headers: {
-      'Content-Type': 'application/json',
-      'charset': 'utf-8',
-    });
+    final response = await http.get(
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+        'charset': 'utf-8',
+      },
+    );
     if (response.statusCode == 200) {
       final responseData = jsonDecode(utf8.decode(response.bodyBytes));
       print('버전조회 응답: ${responseData}');
@@ -348,7 +345,7 @@ class AuthRepository {
         'Content-Type': 'application/json',
         'charset': 'utf-8',
         'Authorization': 'Bearer $token',
-      }
+      },
     );
 
     if (response.statusCode == 400) {
@@ -367,7 +364,7 @@ class AuthRepository {
         'Content-Type': 'application/json',
         'charset': 'utf-8',
         'Authorization': 'Bearer $token',
-      }
+      },
     );
 
     if (response.statusCode == 200) {
@@ -381,5 +378,4 @@ class AuthRepository {
       throw Exception('차단 이유 조회 실패');
     }
   }
-
 }

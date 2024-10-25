@@ -24,26 +24,19 @@ class LoginRepository {
       body: jsonEncode(loginRequestModel.toJson()),
     );
     print('로그인 요청 응답: ${utf8.decode(response.bodyBytes)}');
+    final responseData = jsonDecode(utf8.decode(response.bodyBytes));
     if (response.statusCode == 200) {
       return LoginResponseModel.fromJson(
           jsonDecode(utf8.decode(response.bodyBytes)));
-    } else if (response.statusCode != 200) {
-      Get.snackbar(
-        '아이디 혹은 비밀번호가 일치하지 않습니다.',
-        '다시 입력해주세요.',
-        snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: AppColors.primaryColor,
-        colorText: Colors.white,
-      );
-      throw Exception('Failed to login');
+    } else if (response.statusCode == 400) {
+      if(responseData['code'] == 'NOT_SIGN_UP_USER_ERROR'){
+        throw Exception('NOT_SIGN_UP_USER_ERROR');
+      } else if (responseData['code'] == 'PASSWORD_MISMATCH_ERROR') {
+        throw Exception('PASSWORD_MISMATCH_ERROR');
+      } else {
+        throw Exception('Failed to login');
+      }
     } else {
-      Get.snackbar(
-        '로그인 실패',
-        '서버 상태가 불안정합니다. 잠시 후 다시 시도해주세요.',
-        snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: AppColors.primaryColor,
-        colorText: Colors.white,
-      );
       throw Exception('Failed to login');
     }
   }

@@ -125,7 +125,6 @@ class ChangePwScreen extends GetView<AuthController> {
                       minimumSize: const Size(double.infinity, 55),
                     ),
                     onPressed: () {
-                      // TODO : 비밀번호 변경 API 연결
                       controller.changePw();
                     },
                     child: const Text(

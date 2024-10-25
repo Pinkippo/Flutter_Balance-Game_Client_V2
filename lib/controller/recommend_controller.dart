@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:yangjataekil/data/model/review.dart';
 import 'package:yangjataekil/data/provider/review_repository.dart';
+import 'package:yangjataekil/widget/snackbar_widget.dart';
 
 import '../data/provider/list.repository.dart';
 
@@ -18,6 +19,12 @@ class RecommendController extends GetxController {
   final recommendedReviews = [].obs; // 추천 리뷰
 
 
+  @override
+  void onInit() {
+    super.onInit();
+    getRecommendedReviews();
+  }
+
   /// 오늘의 추천 게시글 호출 메서드
   Future<int> getRecommendList() async {
     try {
@@ -25,11 +32,8 @@ class RecommendController extends GetxController {
       print('오늘의 추천 게시글: ${response.boardId}');
       return response.boardId;
     } catch (e) {
-      Get.snackbar(
-        '오류',
-        '오늘의 추천 게시글을 가져오는 중 오류가 발생했습니다: $e',
-        snackPosition: SnackPosition.BOTTOM,
-      );
+      CustomSnackBar.showErrorSnackBar(
+          title: '오늘의 추천 게시글 조회 실패', message: '다시 시도해주세요.');
       return -1;
     }
   }
@@ -53,13 +57,8 @@ class RecommendController extends GetxController {
       print('추천 리뷰 조회 성공 : ${recommendedReviews.toString()}');
     } catch (e) {
       print('추천 리뷰 조회 실패 : $e');
-      Get.snackbar(
-        '추천 리뷰',
-        '리뷰 가져오기를 실패했어요!',
-        backgroundColor: Colors.black,
-        colorText: Colors.white,
-        snackPosition: SnackPosition.BOTTOM,
-      );
+      CustomSnackBar.showErrorSnackBar(
+          title: '추천 리뷰 조회 실패', message: '다시 시도해주세요.');
       print('추천 리뷰 조회 실패 controller');
       throw Exception('추천 리뷰 조회 실패 controller');
     }

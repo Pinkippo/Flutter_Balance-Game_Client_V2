@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:yangjataekil/controller/auth_controller.dart';
 
-import '../theme/app_color.dart';
+import '../../theme/app_color.dart';
 
 class DeleteUserScreen extends GetView<AuthController> {
   const DeleteUserScreen({super.key});

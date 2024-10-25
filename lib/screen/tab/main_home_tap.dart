@@ -14,7 +14,6 @@ class HomeTap extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Get.put(ThemeController());
 
     return Scaffold(
       appBar: AppBar(

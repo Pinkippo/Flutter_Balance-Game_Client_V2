@@ -54,7 +54,7 @@ class _MainScreenState extends State<MainScreen> {
         child: Obx(() {
           Color appBarColor;
           if (BottomNavigatorController.to.selectedIndex.value == 1) {
-            appBarColor = AppColors.secondaryColor; // 홈 탭의 색상
+            appBarColor = AppColors.primaryColor; // 홈 탭의 색상
           } else {
             appBarColor = Colors.white; // 기본 색상
           }

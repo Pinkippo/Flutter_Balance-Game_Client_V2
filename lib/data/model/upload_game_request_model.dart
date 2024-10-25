@@ -1,13 +1,13 @@
 /// 질문
 class Question {
-  String questionTitle;
+  String? questionTitle;
   List<String> questionItems;
 
   Question({required this.questionTitle, required this.questionItems});
 
   Map<String, dynamic> toJson() {
     return {
-      'title': questionTitle,
+      'title': questionTitle!.isNotEmpty ? questionTitle : null,
       'items': questionItems,
     };
   }
@@ -17,13 +17,12 @@ class Question {
 class UploadGameRequestModel {
   final String gameTitle;
   final String introduce;
-  List<String> keyword;
+  List<String>? keyword;
   List<Question> boardContent;
 
   UploadGameRequestModel(
       {required this.gameTitle,
-      required this.introduce,
-      required this.keyword,
+      required this.introduce, this.keyword,
       required this.boardContent});
 
   Map<String, dynamic> toJson() {

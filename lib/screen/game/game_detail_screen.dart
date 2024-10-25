@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
+import 'package:yangjataekil/controller/auth_controller.dart';
 import 'package:yangjataekil/controller/game_detail_controller.dart';
 import 'package:yangjataekil/controller/game_play_controller.dart';
 import 'package:yangjataekil/theme/app_color.dart';
 import 'package:yangjataekil/widget/game_detail/game_vertical_info_widget.dart';
 import 'package:yangjataekil/widget/report/game_report_dialog_widget.dart';
+import 'package:yangjataekil/widget/snackbar_widget.dart';
 
 class GameDetailScreen extends GetView<GameDetailController> {
   const GameDetailScreen({super.key});
@@ -52,7 +54,9 @@ class GameDetailScreen extends GetView<GameDetailController> {
               }).toList(),
               onChanged: (String? value) async {
                 if (value == '리뷰작성') {
-                  /// TODO : 리뷰 작성 연결 구현
+                  Get.toNamed('/game_review', arguments: {
+                    'boardId': controller.gameDetail.value.boardId
+                  });
                 } else if (value == '신고하기') {
                   Get.dialog(
                     PopScope(
@@ -173,6 +177,11 @@ class GameDetailScreen extends GetView<GameDetailController> {
                           /// TODO : 로딩 화면 수정 고려 필요
                           await Get.showOverlay(
                               asyncFunction: () async {
+
+                                if(AuthController.to.accessToken.isEmpty){
+                                  return false;
+                                }
+
                                 /// 최소 로딩 기간 1.5초 보장
                                 final gameContentFuture = GamePlayController.to
                                     .getGameContent(
@@ -197,6 +206,8 @@ class GameDetailScreen extends GetView<GameDetailController> {
                               )).then((value) {
                             if (value == true) {
                               Get.toNamed('/game_play');
+                            }else{
+                              Get.toNamed('/login');
                             }
                           });
                         },

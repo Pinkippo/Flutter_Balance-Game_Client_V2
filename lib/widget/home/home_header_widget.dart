@@ -11,7 +11,7 @@ class HomeHeader extends StatelessWidget {
   Widget build(BuildContext context) {
 
     return Container(
-      color: AppColors.secondaryColor,
+      color: AppColors.primaryColor,
       height: Get.height * 0.25, // 높이를 화면 높이의 25%로 설정
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -29,6 +29,7 @@ class HomeHeader extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 17,
                     fontWeight: FontWeight.bold,
+                    color: Colors.white,
                   ),
                 ),
               ),
@@ -41,7 +42,7 @@ class HomeHeader extends StatelessWidget {
                   '재미있었다면 리뷰 한 줄 남겨주세요! 여러분의 선택이 더 많은 고민을 불러올 지 몰라요.☺️',
                   style: TextStyle(
                     fontSize: 13,
-                    color: Colors.black.withOpacity(0.5),
+                    color: Colors.white.withOpacity(0.8),
                   ),
                 ),
               ),

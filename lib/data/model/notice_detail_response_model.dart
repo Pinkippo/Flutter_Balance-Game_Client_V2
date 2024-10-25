@@ -1,5 +1,5 @@
 class NoticeDetailResponseModel {
-  final int? announcementId;
+  final int announcementId;
   final String type;
   final String title;
   final String content;
@@ -25,9 +25,9 @@ class NoticeDetailResponseModel {
       type: announcement['type'] ?? 'UNKNOWN',
       title: announcement['title'] ?? 'No Title',
       content: announcement['content'] ?? 'No Content',
-      viewCount: announcement['viewCount'] ?? 0,
-      createdAt: announcement['createdAt'] ?? '',
-      updatedAt: announcement['updatedAt'] ?? '',
+      viewCount: announcement['viewCount'] ?? -1,
+      createdAt: announcement['createdAt'] ?? '---',
+      updatedAt: announcement['updatedAt'] ?? '---',
     );
   }
 }

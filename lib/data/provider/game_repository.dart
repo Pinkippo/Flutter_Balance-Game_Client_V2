@@ -10,6 +10,7 @@ import 'package:yangjataekil/data/model/game/game_play_content_response_model.da
 import 'package:yangjataekil/data/model/game/game_play_request_model.dart';
 import 'package:yangjataekil/data/model/game/related_game_model.dart';
 import 'package:yangjataekil/data/model/upload_game_request_model.dart';
+import 'package:yangjataekil/widget/snackbar_widget.dart';
 
 import '../../theme/app_color.dart';
 
@@ -35,13 +36,6 @@ class GameRepository {
     if (response.statusCode == 200) {
       return true;
     } else {
-      Get.snackbar(
-        '게임 등록 실패',
-        '다시 입력해주세요.',
-        snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: AppColors.primaryColor,
-        colorText: Colors.white,
-      );
       throw Exception('Failed to upload game');
     }
   }
@@ -60,13 +54,8 @@ class GameRepository {
       return GameDetailResponseModel.fromJson(
           jsonDecode(utf8.decode(response.bodyBytes)));
     } else {
-      Get.snackbar(
-        '게임 상세 조회 실패',
-        '다시 시도해주세요.',
-        snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: AppColors.primaryColor,
-        colorText: Colors.white,
-      );
+      CustomSnackBar.showErrorSnackBar(
+          title: '게임 상세 조회 실패', message: '다시 시도해주세요.');
       /// 뒤로가기
       Get.back();
       throw Exception('게임 상세 조회 실패');
@@ -91,13 +80,8 @@ class GameRepository {
           .map<RelatedGameModel>((item) => RelatedGameModel.fromJson(item))
           .toList();
     } else {
-      Get.snackbar(
-        '관련 게임 조회 실패',
-        '다시 시도해주세요.',
-        snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: AppColors.primaryColor,
-        colorText: Colors.white,
-      );
+      CustomSnackBar.showErrorSnackBar(
+          title: '관련 게임 조회 실패', message: '다시 시도해주세요.');
       throw Exception('관련 게임 조회 실패');
     }
   }
@@ -118,13 +102,8 @@ class GameRepository {
       debugPrint("body >>>> $body");
       return BoardContentResponse.fromJson(body);
     } else {
-      Get.snackbar(
-        '게임 컨텐츠 조회 실패',
-        '다시 시도해주세요.',
-        snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: AppColors.primaryColor,
-        colorText: Colors.white,
-      );
+      CustomSnackBar.showErrorSnackBar(
+          title: '게임 목록 조회 실패', message: '다시 시도해주세요.');
       throw Exception('게임 목록 조회 실패');
     }
   }
@@ -144,19 +123,14 @@ class GameRepository {
     if (response.statusCode == 200) {
       return BoardContentResponse.fromPostJson(jsonDecode(utf8.decode(response.bodyBytes)));
     } else {
-      Get.snackbar(
-        '게임 결과 전송 실패',
-        '다시 시도해주세요.',
-        snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: AppColors.primaryColor,
-        colorText: Colors.white,
-      );
+      CustomSnackBar.showErrorSnackBar(
+          title: '게임 결과 전송 실패', message: '다시 시도해주세요.');
       throw Exception('게임 결과 전송 실패');
     }
   }
 
   /// 게임 신고 메서드
-  Future<bool> reviewReport(
+  Future<bool> reportGame(
       String token, int boardId, String content) async {
     final url = Uri.parse(
         '$baseUrl/board/v2/boards/$boardId/report');

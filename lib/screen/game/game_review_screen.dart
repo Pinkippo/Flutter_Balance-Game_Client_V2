@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:yangjataekil/controller/game_review_controller.dart';
 
-import '../widget/game/game_review_hashtag_widget.dart';
+import '../../widget/game/game_review_hashtag_widget.dart';
 
 class GameReviewScreen extends GetView<GameReviewController> {
   const GameReviewScreen({super.key});
@@ -97,9 +97,13 @@ class GameReviewScreen extends GetView<GameReviewController> {
         color: Colors.white,
         child: ElevatedButton(
           onPressed: () {
-            controller.uploadReview(
-              int.parse(Get.arguments['boardId']),
-            );
+            // Get.arguments['boardId']가 이미 int 타입인지 확인하고 처리
+            final boardId = Get.arguments['boardId'];
+            if (boardId is int) {
+              controller.uploadReview(boardId);
+            } else {
+              controller.uploadReview(int.parse(boardId));
+            }
           },
           style: ElevatedButton.styleFrom(
             backgroundColor: Colors.black,

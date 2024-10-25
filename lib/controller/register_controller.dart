@@ -6,6 +6,7 @@ import 'package:yangjataekil/data/model/register_request_model.dart';
 import 'package:yangjataekil/data/model/register_response_model.dart';
 import 'package:yangjataekil/data/provider/auth_repository.dart';
 import 'package:yangjataekil/theme/app_color.dart';
+import 'package:yangjataekil/widget/snackbar_widget.dart';
 
 // 회원가입 컨트롤러
 class RegisterController extends GetxController {
@@ -130,10 +131,7 @@ class RegisterController extends GetxController {
   /// 아이디 중복 확인
   void checkDuplicateAccountName() async {
     if (accountName.value == '') {
-      Get.snackbar('아이디 중복 확인', '아이디를 입력해주세요.',
-          backgroundColor: AppColors.primaryColor,
-          colorText: Colors.white,
-          snackPosition: SnackPosition.BOTTOM);
+      CustomSnackBar.showErrorSnackBar(title: '아이디 중복 확인', message: '아이디를 입력해주세요.');
       return;
     }
 
@@ -141,22 +139,13 @@ class RegisterController extends GetxController {
       final response =
           await authRepository.checkDuplicateAccountName(accountName.value);
       if (response) {
-        Get.snackbar('아이디 중복 확인', '이미 사용중인 아이디입니다..',
-            backgroundColor: Colors.red,
-            colorText: Colors.white,
-            snackPosition: SnackPosition.BOTTOM);
+        CustomSnackBar.showErrorSnackBar(title: '아이디 중복 확인', message: '이미 사용중인 아이디입니다.');
       } else {
-        Get.snackbar('아이디 중복 확인', '사용 가능한 아이디입니다..',
-            backgroundColor: AppColors.primaryColor,
-            colorText: Colors.white,
-            snackPosition: SnackPosition.BOTTOM);
+        CustomSnackBar.showSuccessSnackBar(title: '아이디 중복 확인', message: '사용 가능한 아이디입니다.');
         checkDuplicate.value = true;
       }
     } catch (e) {
-      Get.snackbar('오류', e.toString(),
-          backgroundColor: Colors.red,
-          colorText: Colors.white,
-          snackPosition: SnackPosition.BOTTOM);
+      CustomSnackBar.showErrorSnackBar(title: '아이디 중복 확인', message: '아이디 중복 확인에 실패했습니다.');
     }
   }
 
@@ -165,16 +154,10 @@ class RegisterController extends GetxController {
     try {
       await authRepository.requestEmailAuth(email.value);
       isEmailSent.value = true;
-      Get.snackbar('이메일 인증', '인증 이메일이 전송되었습니다.',
-          backgroundColor: AppColors.primaryColor,
-          colorText: Colors.white,
-          snackPosition: SnackPosition.BOTTOM);
+      CustomSnackBar.showSnackBar(message: '이메일 인증 요청이 완료되었습니다.');
     } catch (e) {
       isEmailSent.value = false;
-      Get.snackbar('오류', '이메일 인증 요청에 실패했습니다.',
-          backgroundColor: Colors.red,
-          colorText: Colors.white,
-          snackPosition: SnackPosition.BOTTOM);
+      CustomSnackBar.showErrorSnackBar(title: '이메일 인증 요청', message: '이메일 인증 요청에 실패했습니다.');
     }
   }
 
@@ -182,16 +165,10 @@ class RegisterController extends GetxController {
   Future<void> verifyEmail() async {
     try {
       await authRepository.verifyEmailAuth(email.value, emailAuthCode.value);
-      Get.snackbar('이메일 인증', '인증이 완료되었습니다.',
-          backgroundColor: AppColors.primaryColor,
-          colorText: Colors.white,
-          snackPosition: SnackPosition.BOTTOM);
+      CustomSnackBar.showSuccessSnackBar(message: '이메일 인증이 완료되었습니다.');
       isEmailVerified.value = true;
     } catch (e) {
-      Get.snackbar('오류', '이메일 인증에 실패했습니다.',
-          backgroundColor: Colors.red,
-          colorText: Colors.white,
-          snackPosition: SnackPosition.BOTTOM);
+      CustomSnackBar.showErrorSnackBar(title: '이메일 인증', message: '이메일 인증에 실패했습니다.');
       isEmailVerified.value = false;
     }
   }
@@ -209,37 +186,25 @@ class RegisterController extends GetxController {
           'pw >> ${pw.value},'
           'pwChk >> ${pwChk.value},'
           'selectedDate >> ${selectedDate.value},');
-      Get.snackbar('미입력 항목', '모든 항목을 입력해주세요.',
-          backgroundColor: AppColors.primaryColor,
-          colorText: Colors.white,
-          snackPosition: SnackPosition.BOTTOM);
+      CustomSnackBar.showErrorSnackBar(title: '미입력 항목', message: '모든 항목을 입력해주세요.');
       return;
     }
 
     // 비밀번호 일치 여부 확인
     if (pw.value != pwChk.value) {
-      Get.snackbar('비밀번호 불일치', '비밀번호가 일치하지 않습니다.',
-          backgroundColor: AppColors.primaryColor,
-          colorText: Colors.white,
-          snackPosition: SnackPosition.BOTTOM);
+      CustomSnackBar.showErrorSnackBar(title: '비밀번호 불일치', message: '비밀번호가 일치하지 않습니다.');
       return;
     }
 
     // 이메일 중복확인 체크
     if (!checkDuplicate.value) {
-      Get.snackbar('아이디 중복 확인', '아이디 중복을 확인해주세요.',
-          backgroundColor: AppColors.primaryColor,
-          colorText: Colors.white,
-          snackPosition: SnackPosition.BOTTOM);
+      CustomSnackBar.showErrorSnackBar(title: '아이디 중복 확인', message: '아이디 중복 확인을 해주세요.');
       return;
     }
 
     // 이메일 인증 확인 체크
     if (!isEmailVerified.value) {
-      Get.snackbar('이메일 인증', '이메일 인증을 완료해주세요.',
-          backgroundColor: AppColors.primaryColor,
-          colorText: Colors.white,
-          snackPosition: SnackPosition.BOTTOM);
+      CustomSnackBar.showErrorSnackBar(title: '이메일 인증', message: '이메일 인증을 해주세요.');
       return;
     }
 
@@ -271,23 +236,11 @@ class RegisterController extends GetxController {
     if (response.accessToken.isNotEmpty) {
       await AuthController()
           .updateToken(response.accessToken, response.refreshToken);
-      Get.snackbar(
-        '회원가입 성공',
-        '회원가입이 완료되었습니다.',
-        snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: AppColors.primaryColor,
-        colorText: Colors.white,
-      );
       Get.offAllNamed('/login');
+      CustomSnackBar.showSuccessSnackBar(title: '회원가입 성공', message: '회원가입에 성공했습니다.');
       return true;
     } else {
-      Get.snackbar(
-        '회원가입 실패',
-        '다시 입력해주세요.',
-        snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: AppColors.primaryColor,
-        colorText: Colors.white,
-      );
+      CustomSnackBar.showErrorSnackBar(title: '회원가입 실패', message: '회원가입에 실패했습니다.');
       return false;
     }
   }
