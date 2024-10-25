@@ -30,12 +30,24 @@ class NoticeDetailScreen extends GetView<NoticeController> {
               ),
             ),
             const SizedBox(height: 5),
-            Text(
-              controller.createdAt.value,
-              style: const TextStyle(
-                fontSize: 14,
-                color: Colors.grey,
-              ),
+            Row(
+              children: [
+                Text(
+                  controller.createdAt.value,
+                  style: const TextStyle(
+                    fontSize: 14,
+                    color: Colors.grey,
+                  ),
+                ),
+                const Spacer(),
+                Text(
+                  '조회수 ${controller.viewCount.value}회',
+                  style: const TextStyle(
+                    fontSize: 14,
+                    color: Colors.grey,
+                  ),
+                )
+              ],
             ),
             const SizedBox(height: 15),
             Divider(
@@ -43,9 +55,9 @@ class NoticeDetailScreen extends GetView<NoticeController> {
               color: Colors.black.withOpacity(0.1),
             ),
             const SizedBox(height: 25),
-            const Text(
-              '공지사항 내용',
-              style: TextStyle(
+            Text(
+              controller.content.value,
+              style: const TextStyle(
                 fontSize: 16,
               ),
             ),
