@@ -31,12 +31,7 @@ class ReviewRepository {
     if (response.statusCode == 200) {
       return true;
     } else {
-      Get.back();
-      Get.snackbar('리뷰 작성 실패', '다시 시도해주세요.',
-          backgroundColor: Colors.red,
-          colorText: Colors.white,
-          snackPosition: SnackPosition.BOTTOM);
-      throw Exception('Failed to upload review');
+      return false;
     }
   }
 
@@ -73,8 +68,9 @@ class ReviewRepository {
         'charset': 'utf-8',
       },
     );
+    print('추천 리뷰 조회 API response : \n${jsonDecode(utf8.decode(response.bodyBytes))}');
     if (response.statusCode == 200) {
-      print('추천 리뷰 조회 API response : \n${utf8.decode(response.bodyBytes)}');
+      print('추천 리뷰 조회 성공');
       final responseData = jsonDecode(utf8.decode(response.bodyBytes));
       return ReviewResponseModel.fromJson(responseData);
     } else {
@@ -111,7 +107,7 @@ class ReviewRepository {
   }
 
   /// 리뷰 신고 메서드
-  Future<bool> reviewReport(
+  Future<bool> reportReview(
       String token, int boardId, int boardReviewId, String content) async {
     final url = Uri.parse(
         '$baseUrl/board/v2/boards/$boardId/reviews/$boardReviewId/report');

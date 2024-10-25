@@ -92,7 +92,6 @@ class MyPageTap extends GetView<AuthController> {
                   children: [
                     GestureDetector(
                       onTap: () => {
-                        /// TODO : 공지사항 연결
                         Get.toNamed('/notice')
                       },
                       child: Container(

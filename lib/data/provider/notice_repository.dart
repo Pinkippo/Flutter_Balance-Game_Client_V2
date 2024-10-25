@@ -8,18 +8,16 @@ import 'package:http/http.dart' as http;
 
 import '../model/notice_detail_response_model.dart';
 
-
 final baseUrl = dotenv.env['BASE_URL'];
 
-class NoticeRepository  {
+class NoticeRepository {
   /// 공지사항 조회
   Future<NoticeResponseModel> getNotice(String searchCondition) async {
     final url = Uri.parse('$baseUrl/common/v2/announcements');
 
     final response = await http.get(
       Uri.parse('$url?'
-          'searchCondition=$searchCondition&'
-          ),
+          'searchCondition=$searchCondition&'),
       headers: {
         'Content-Type': 'application/json',
         'charset': 'utf-8',
@@ -57,21 +55,13 @@ class NoticeRepository  {
       final responseData = jsonDecode(utf8.decode(response.bodyBytes));
 
       if (responseData is Map<String, dynamic>) {
-        final announcementData = responseData['announcement'];
-
-        if (announcementData is Map<String, dynamic>) {
-          return NoticeDetailResponseModel.fromJson(announcementData);
-        } else {
-          throw Exception('Unexpected announcement data format');
-        }
+        return NoticeDetailResponseModel.fromJson(responseData);
       } else {
-        throw Exception('Unexpected response format');
+        print('변환 에러');
+        throw Exception('transfer error');
       }
     } else {
-      throw Exception('공지사항 상세 조회 실패');
+      throw Exception('Unexpected response format');
     }
   }
-
-
-
 }

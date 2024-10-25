@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:yangjataekil/controller/auth_controller.dart';
 import 'package:yangjataekil/data/model/review.dart';
+import 'package:yangjataekil/widget/snackbar_widget.dart';
 import '../data/provider/review_repository.dart';
 
 /// 신고 카테고리
@@ -55,14 +56,7 @@ class ReviewController extends GetxController {
       print('리뷰 리스트 조회 성공 : ${reviews.toString()}');
     } catch (e) {
       print('리뷰 리스트 조회 실패 : $e');
-      Get.snackbar(
-        '리뷰 리스트',
-        '리뷰 가져오기를 실패했어요!',
-        backgroundColor: Colors.black,
-        colorText: Colors.white,
-        snackPosition: SnackPosition.BOTTOM,
-      );
-      throw Exception('리뷰 리스트 조회 실패');
+      CustomSnackBar.showErrorSnackBar(message: '리뷰 리스트 조회 실패');
     }
   }
 
@@ -76,14 +70,7 @@ class ReviewController extends GetxController {
       myReviews.value = myReviewList.reviews;
     } catch (e) {
       print('내가 작성한 리뷰 리스트 조회 실패 : $e');
-      Get.snackbar(
-        '내 리뷰 리스트',
-        '내 리뷰 가져오기를 실패했어요!',
-        backgroundColor: Colors.black,
-        colorText: Colors.white,
-        snackPosition: SnackPosition.BOTTOM,
-      );
-      throw Exception('내 리뷰 리스트 조회 실패');
+      CustomSnackBar.showErrorSnackBar(message: '내가 작성한 리뷰 리스트 조회 실패');
     }
   }
 
@@ -113,14 +100,14 @@ class ReviewController extends GetxController {
   }
 
   /// 리뷰 신고 메서드
-  Future<bool> reviewReport(int boardId, int reviewId, String reviewContent) async {
+  Future<bool> reportReview(int boardId, int reviewId, String reviewContent) async {
     boardReviewId.value = reviewId;
     content.value = reviewContent.isEmpty
         ? selectedCategory.value!.displayName
         : reviewContent;
 
     try {
-      final response = await ReviewRepository().reviewReport(
+      final response = await ReviewRepository().reportReview(
           AuthController.to.accessToken.value,
           boardId,
           boardReviewId.value,

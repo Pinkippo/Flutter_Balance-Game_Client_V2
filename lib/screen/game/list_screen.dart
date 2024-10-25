@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:yangjataekil/controller/auth_controller.dart';
-import 'package:yangjataekil/controller/filtered_list_controller.dart';
-import 'package:yangjataekil/controller/theme_list_controller.dart';
+import 'package:yangjataekil/controller/list_controller/theme_list_controller.dart';
 import 'package:yangjataekil/theme/app_color.dart';
 import 'package:yangjataekil/widget/game/custom_search_widget.dart';
-import 'package:yangjataekil/widget/game/filtered_list_item_widget.dart';
+import 'package:yangjataekil/widget/game/list_item_widget.dart';
 
-import '../controller/tab/theme_controller.dart';
-import '../data/model/board/list_board_request_model.dart';
+import '../../controller/tab/theme_controller.dart';
+import '../../data/model/board/list_board_request_model.dart';
 
 class ListScreen extends GetView<ThemeListController> {
   const ListScreen({super.key});
@@ -32,11 +31,10 @@ class ListScreen extends GetView<ThemeListController> {
             IconButton(
               icon: const Icon(Icons.search),
               onPressed: () {
-                FilteredListController.to.filteredList.clear();
                 // 검색을 위해 검색 창 표시
                 showSearch(
                   context: context,
-                  delegate: CustomSearchWidget(isAllList: false),
+                  delegate: CustomSearchWidget(),
                 );
               },
             ),
@@ -115,11 +113,12 @@ class ListScreen extends GetView<ThemeListController> {
             itemCount: controller.boards.length,
             itemBuilder: (_, index) {
               if (index < controller.boards.length + 1) {
-                return FilteredListItemWidget(
-                    themeListController: controller,
-                    index: index,
-                    isFiltered: false,
-                    isMyGame: false);
+                return ListItemWidget(
+                  controller: controller,
+                  index: index,
+                  isMyGame: false,
+                  isParticipated: false,
+                );
               }
               return null;
             },

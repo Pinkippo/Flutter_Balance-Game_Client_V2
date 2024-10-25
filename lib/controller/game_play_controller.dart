@@ -5,6 +5,7 @@ import 'package:yangjataekil/data/model/game/game_play_request_model.dart';
 import 'package:yangjataekil/data/provider/game_repository.dart';
 import 'package:yangjataekil/data/model/game/game_play_content_response_model.dart';
 import 'package:yangjataekil/route/app_pages.dart';
+import 'package:yangjataekil/widget/snackbar_widget.dart';
 
 class GamePlayController extends GetxController {
 
@@ -124,13 +125,8 @@ class GamePlayController extends GetxController {
   Future<bool> getGameContent(String boardId, String title) async {
 
     if (boardId == '') {
-      Get.snackbar(
-        '컨텐츠 조회 오류',
-        '잠시 후 다시 시도해주세요.',
-        snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Colors.red,
-        colorText: Colors.white,
-      );
+      CustomSnackBar.showErrorSnackBar(
+          title: '컨텐츠 조회 오류', message: '잠시 후 시도해주세요.');
       return false;
     }
 

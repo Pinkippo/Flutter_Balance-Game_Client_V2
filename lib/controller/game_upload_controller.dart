@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:yangjataekil/controller/auth_controller.dart';
 import 'package:yangjataekil/data/provider/game_repository.dart';
+import 'package:yangjataekil/widget/snackbar_widget.dart';
 
 import '../data/model/upload_game_request_model.dart';
 
@@ -36,7 +37,6 @@ class GameUploadController extends GetxController {
     super.onInit();
     // 기본 질문 두 개 추가
     boardContent.addAll([
-      Question(questionTitle: '', questionItems: ['', '']),
       Question(questionTitle: '', questionItems: ['', '']),
     ]);
   }
@@ -88,45 +88,22 @@ class GameUploadController extends GetxController {
   }
 
   /// 게임 업로드
-  Future<bool> uploadGame() async {
+  Future<void> uploadGame() async {
     if (gameTitle.value.isEmpty) {
-      Get.snackbar(
-        '미입력 항목',
-        '게임 이름을 입력해주세요.',
-        snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Colors.red,
-        colorText: Colors.white,
-      );
-      return false;
+      CustomSnackBar.showErrorSnackBar(
+          title: '미입력 항목', message: '게임 이름을 입력해주세요.');
+      return;
     } else if (introduce.value.isEmpty) {
-      Get.snackbar(
-        '미입력 항목',
-        '게임 소개를 입력해주세요.',
-        snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Colors.red,
-        colorText: Colors.white,
-      );
-      return false;
-    } else if (keyword.isEmpty) {
-      Get.snackbar(
-        '미입력 항목',
-        '키워드를 입력해주세요.',
-        snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Colors.red,
-        colorText: Colors.white,
-      );
-      return false;
-    } else if (boardContent.isEmpty) {
-      Get.snackbar(
-        '미입력 항목',
-        '질문을 입력해주세요.',
-        snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Colors.red,
-        colorText: Colors.white,
-      );
-      return false;
+      CustomSnackBar.showErrorSnackBar(
+          title: '미입력 항목', message: '게임 소개를 입력해주세요.');
+      return;
+    } else if (boardContent.any(
+        (element) => element.questionItems.any((element) => element.isEmpty))) {
+      CustomSnackBar.showErrorSnackBar(
+          title: '미입력 항목', message: '답변을 모두 입력해주세요.');
+      return;
     } else {
-      final bool uploadGameRequestModel = await GameRepository().uploadGame(
+      final uploadResult = await GameRepository().uploadGame(
         UploadGameRequestModel(
             gameTitle: gameTitle.value,
             introduce: introduce.value,
@@ -134,16 +111,15 @@ class GameUploadController extends GetxController {
             boardContent: boardContent),
         AuthController.to.accessToken.value,
       );
-      print('게임 업로드 성공 >>> $uploadGameRequestModel');
-      Get.back();
-      Get.snackbar(
-        '게임 업로드 성공',
-        '게임 업로드가 완료되었습니다!',
-        snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Colors.black,
-        colorText: Colors.white,
-      );
-      return true;
+      if (uploadResult) {
+        Get.offAllNamed('/main');
+        CustomSnackBar.showSuccessSnackBar(
+            title: '게임 업로드', message: '게임이 성공적으로 업로드되었습니다.');
+      } else {
+        CustomSnackBar.showErrorSnackBar(
+            title: '게임 업로드', message: '게임 업로드에 실패했습니다.');
+        return;
+      }
     }
   }
 }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:yangjataekil/controller/theme_list_controller.dart';
-import 'package:yangjataekil/widget/game/participated_games_item_widget.dart';
+import 'package:yangjataekil/controller/list_controller/theme_list_controller.dart';
+import 'package:yangjataekil/widget/game/list_item_widget.dart';
 
 class ParticipatedGamesScreen extends GetView<ThemeListController> {
   const ParticipatedGamesScreen({super.key});
@@ -10,10 +10,9 @@ class ParticipatedGamesScreen extends GetView<ThemeListController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        foregroundColor: Colors.black,
         backgroundColor: Colors.white,
-        elevation: 0,
-        title: const Text('참가 게임',
+        scrolledUnderElevation: 0,
+        title: const Text('참가한 게임',
             style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
@@ -46,9 +45,11 @@ class ParticipatedGamesScreen extends GetView<ThemeListController> {
               ),
               itemCount: controller.participatedBoards.length,
               itemBuilder: (_, index) {
-                return ParticipatedGamesItemWidget(
+                return ListItemWidget(
                   controller: controller,
                   index: index,
+                  isMyGame: false,
+                  isParticipated: true,
                 );
               },
             ),

@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:yangjataekil/controller/auth_controller.dart';
 import 'package:yangjataekil/data/model/review_request_model.dart';
 import 'package:yangjataekil/data/provider/review_repository.dart';
+import 'package:yangjataekil/widget/snackbar_widget.dart';
 
 class GameReviewController extends GetxController {
   /// 좋아요
@@ -41,6 +42,15 @@ class GameReviewController extends GetxController {
 
   /// 리뷰 업로드
   Future<void> uploadReview(int boardId) async {
+    // title, comment는 필수 입력
+    if (reviewTitle.value.isEmpty || reviewContent.value.isEmpty) {
+      CustomSnackBar.showErrorSnackBar(
+        title: '리뷰 작성 실패',
+        message: '리뷰 제목과 내용을 입력해주세요.',
+      );
+      return;
+    }
+
     final reviewRequestModel = ReviewRequestModel(
         title: reviewTitle.value,
         comment: reviewContent.value,
@@ -62,20 +72,25 @@ class GameReviewController extends GetxController {
           ),
           TextButton(
             onPressed: () async {
-              await ReviewRepository().uploadReview(
+              final response = await ReviewRepository().uploadReview(
                   AuthController.to.accessToken.value,
                   boardId,
                   reviewRequestModel);
-              print('리뷰 작성 완료: $reviewRequestModel');
               Get.back();
-              Get.back();
-              Get.snackbar(
-                '리뷰 작성 성공',
-                '리뷰가 작성이 완료되었습니다!',
-                backgroundColor: Colors.black,
-                colorText: Colors.white,
-                snackPosition: SnackPosition.BOTTOM,
-              );
+              if (response) {
+                print('리뷰 작성 완료: $reviewRequestModel');
+                Get.back();
+                CustomSnackBar.showSuccessSnackBar(
+                  title: '리뷰 작성 성공',
+                  message: '리뷰가 작성이 완료되었습니다!',
+                );
+              } else {
+                print('리뷰 작성 실패: $reviewRequestModel');
+                CustomSnackBar.showErrorSnackBar(
+                  title: '리뷰 작성 실패',
+                  message: '리뷰 작성에 실패했습니다.',
+                );
+              }
             },
             child: Text('확인'),
           ),

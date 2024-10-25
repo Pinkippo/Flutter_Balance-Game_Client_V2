@@ -239,7 +239,6 @@ class GameResultScreen extends GetView<GamePlayController> {
                               Expanded(
                                 child: ElevatedButton(
                                   onPressed: () {
-                                    /// TODO : 리뷰 작성 페이지로 이동
                                     print(controller.gameBoardId.value);
                                     Get.toNamed('/game_review', arguments: {
                                       'boardId': controller.gameBoardId.value,

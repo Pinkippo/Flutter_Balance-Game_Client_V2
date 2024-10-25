@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import 'package:yangjataekil/data/model/theme/list_theme_response.dart';
 import 'package:yangjataekil/data/provider/theme_repository.dart';
 import 'package:yangjataekil/data/model/theme/theme.dart';
+import 'package:yangjataekil/widget/snackbar_widget.dart';
 
 class ThemeController extends GetxController {
   static ThemeController get to => Get.find();
@@ -25,11 +26,8 @@ class ThemeController extends GetxController {
       ListThemeResponse response = await ThemeRepository().getList();
       themes.addAll(response.themes);
     } catch (e) {
-      Get.snackbar(
-        '오류',
-        '리스트를 가져오는 중 오류가 발생했습니다: $e',
-        snackPosition: SnackPosition.BOTTOM,
-      );
+      print('테마 조회 실패: $e');
+      CustomSnackBar.showErrorSnackBar(message: '테마 조회 실패');
     }
   }
 

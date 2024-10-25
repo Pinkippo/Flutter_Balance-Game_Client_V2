@@ -54,10 +54,6 @@ class NoticeController extends GetxController {
   /// 로딩 상태
   final RxBool isLoading = false.obs;
 
-  /// 공지사항 상세
-  final Rx<NoticeDetailResponseModel?> noticeDetail = Rx<NoticeDetailResponseModel?>(null);
-
-
   /// 공지사항 조회
   Future<void> getNotice() async {
     try {
@@ -95,11 +91,17 @@ class NoticeController extends GetxController {
 
       final response = await NoticeRepository().getNoticeDetail(announcementId);
 
-      noticeDetail.value = response;
+      title.value = response.title;
+      content.value = response.content;
+      createdAt.value = response.createdAt;
+      viewCount.value = response.viewCount;
+      updatedAt.value = response.updatedAt;
 
-      print('공지사항 상세 조회 성공: ${noticeDetail.value}');
+      createdAt.value = response.createdAt.split('T')[0];
+      updatedAt.value = response.updatedAt.split('T')[0];
 
-
+      print('response 값 title: ${response.title}');
+      print("response title: $title");
     } catch (e) {
       print('공지사항 상세 조회 실패: $e');
     } finally {

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:yangjataekil/data/provider/auth_repository.dart';
+import 'package:yangjataekil/widget/snackbar_widget.dart';
 
 class FindIdPwController extends GetxController {
   /// 가입된 이메일
@@ -33,40 +34,16 @@ class FindIdPwController extends GetxController {
 
       if (response == 200) {
         Get.back();
-        Get.snackbar(
-          '성공',
-          '아이디를 이메일로 발송했습니다.',
-          backgroundColor: Colors.green,
-          colorText: Colors.white,
-          snackPosition: SnackPosition.BOTTOM,
-        );
+        CustomSnackBar.showSuccessSnackBar(message: '가입된 이메일로 아이디를 발송했습니다.');
       } else if (response == 400) {
-        Get.snackbar(
-          '실패',
-          '가입된 이메일이 없습니다.',
-          backgroundColor: Colors.red,
-          colorText: Colors.white,
-          snackPosition: SnackPosition.BOTTOM,
-        );
+        CustomSnackBar.showErrorSnackBar(message: '가입된 이메일이 없습니다.');
       } else {
         // 스낵바가 열려 있지 않을 경우
-        Get.snackbar(
-          '실패',
-          '아이디 찾기 중 오류가 발생했습니다.',
-          backgroundColor: Colors.red,
-          colorText: Colors.white,
-          snackPosition: SnackPosition.BOTTOM,
-        );
+        CustomSnackBar.showErrorSnackBar(message: '아이디 찾기 중 오류가 발생했습니다.');
       }
     } catch (e) {
       print('아이디 찾기 Error >> $e');
-      Get.snackbar(
-        '오류 발생',
-        '서버 상태가 불안정합니다. 잠시 후 다시 시도해주세요.',
-        backgroundColor: Colors.red,
-        colorText: Colors.white,
-        snackPosition: SnackPosition.BOTTOM,
-      );
+        CustomSnackBar.showErrorSnackBar(message: '서버 상태가 불안정합니다. 잠시 후 다시 시도해주세요.');
     } finally {
       isLoading.value = false;
       print('아이디 찾기 로딩 ======> $isLoading');
@@ -82,43 +59,15 @@ class FindIdPwController extends GetxController {
 
       if (response == 200) {
         Get.back();
-        Get.snackbar(
-          '성공',
-          '가입된 이메일로 임시 비밀번호를 발송했습니다.',
-          backgroundColor: Colors.green,
-          colorText: Colors.white,
-          snackPosition: SnackPosition.BOTTOM,
-        );
+        CustomSnackBar.showSuccessSnackBar(message: '가입된 이메일로 임시 비밀번호를 발송했습니다.');
       } else if (response == 400) {
-        Get.snackbar(
-          '실패',
-          '존재하지 않는 아이디입니다.',
-          backgroundColor: Colors.red,
-          colorText: Colors.white,
-          snackPosition: SnackPosition.BOTTOM,
-        );
+        CustomSnackBar.showErrorSnackBar(message: '존재하지 않는 아이디입니다.');
       } else {
-        // 스낵바가 열려 있지 않을 경우
-        Get.snackbar(
-          '실패',
-          '비밀번호 찾기 중 오류가 발생했습니다.',
-          backgroundColor: Colors.red,
-          colorText: Colors.white,
-          snackPosition: SnackPosition.BOTTOM,
-        );
+        CustomSnackBar.showErrorSnackBar(message: '비밀번호 찾기 중 오류가 발생했습니다.');
       }
     } catch (e) {
       print('비밀번호 찾기 Error >> $e');
-      if (!Get.isSnackbarOpen) {
-        // 스낵바가 열려 있지 않을 경우
-        Get.snackbar(
-          '오류 발생',
-          '서버 상태가 불안정합니다. 잠시 후 다시 시도해주세요.',
-          backgroundColor: Colors.red,
-          colorText: Colors.white,
-          snackPosition: SnackPosition.BOTTOM,
-        );
-      }
+      CustomSnackBar.showErrorSnackBar(message: '서버 상태가 불안정합니다. 잠시 후 다시 시도해주세요.');
     } finally {
       isLoading.value = false;
       print('비밀번호 찾기 로딩 ======> $isLoading');

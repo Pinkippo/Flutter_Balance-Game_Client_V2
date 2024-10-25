@@ -2,6 +2,7 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:yangjataekil/theme/app_color.dart';
+import 'package:yangjataekil/widget/snackbar_widget.dart';
 
 import '../../controller/game_review_controller.dart';
 
@@ -84,13 +85,7 @@ class EmptyGameReviewHashWidget extends GetView<GameReviewController> {
               controller.addKeyword(hashtagController.text);
               Get.back();
             } else {
-              Get.snackbar(
-                '해시태그 추가',
-                '해시태그를 입력해주세요.',
-                snackPosition: SnackPosition.BOTTOM,
-                backgroundColor: AppColors.primaryColor,
-                colorText: Colors.white,
-              );
+              CustomSnackBar.showSnackBar(message: '해시태그를 입력해주세요.');
             }
           },
           child: const Text(
