@@ -53,19 +53,25 @@ class GameDetailScreen extends GetView<GameDetailController> {
                 );
               }).toList(),
               onChanged: (String? value) async {
-                if (value == '리뷰작성') {
-                  Get.toNamed('/game_review', arguments: {
-                    'boardId': controller.gameDetail.value.boardId
-                  });
-                } else if (value == '신고하기') {
-                  Get.dialog(
-                    PopScope(
-                        onPopInvokedWithResult: (bool didPop, dynamic result) {
-                          controller.selectedCategory.value = null;
-                          controller.content.value = '';
-                        },
-                        child: reportGameDialog(context, controller)),
-                  );
+                // 로그인 검증
+                if (AuthController.to.accessToken.isEmpty) {
+                  Get.toNamed('/login');
+                } else {
+                  if (value == '리뷰작성') {
+                    Get.toNamed('/game_review', arguments: {
+                      'boardId': controller.gameDetail.value.boardId
+                    });
+                  } else if (value == '신고하기') {
+                    Get.dialog(
+                      PopScope(
+                          onPopInvokedWithResult:
+                              (bool didPop, dynamic result) {
+                            controller.selectedCategory.value = null;
+                            controller.content.value = '';
+                          },
+                          child: reportGameDialog(context, controller)),
+                    );
+                  }
                 }
               },
             ),
