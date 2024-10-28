@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:carousel_slider_plus/carousel_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:yangjataekil/controller/auth_controller.dart';
@@ -15,6 +16,7 @@ class GameDetailController extends GetxController {
   /// 스크롤 컨트롤러
   final gameDetailScrollController = ScrollController();
   final reviewScrollController = ScrollController();
+  final carouselScrollController = CarouselSliderController();
 
   /// 게임 정보
   Rx<GameDetailResponseModel> gameDetail = GameDetailResponseModel(
@@ -43,11 +45,11 @@ class GameDetailController extends GetxController {
     /// 게임 상세 조회
     await getGameDetail();
 
-    /// 리뷰 스크롤 이동
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      double initialScrollPosition = reviewScrollController.position.maxScrollExtent / 2;
-      reviewScrollController.jumpTo(initialScrollPosition);
-    });
+    // / 리뷰 스크롤 이동
+    // WidgetsBinding.instance.addPostFrameCallback((_) {
+    //   double initialScrollPosition = reviewScrollController.position.maxScrollExtent / 2;
+    //   reviewScrollController.jumpTo(initialScrollPosition);
+    // });
 
   }
 

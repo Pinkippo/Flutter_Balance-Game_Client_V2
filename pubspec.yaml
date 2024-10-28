@@ -50,7 +50,8 @@ dependencies:
   animations: ^2.0.7
 
   # 배너 슬라이더
-  carousel_slider: ^4.2.1
+#  carousel_slider: ^4.2.1
+  carousel_slider_plus: ^7.0.1
 
   # dropdown 위젯
   dropdown_button2: ^2.3.9
