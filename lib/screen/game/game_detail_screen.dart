@@ -390,7 +390,7 @@ class GameDetailScreen extends GetView<GameDetailController> {
 
               /// 게임 추천 리스트
               Container(
-                height: 150,
+                height: 170,
                 child: CarouselSlider.builder(
                   controller: controller.carouselScrollController,
                   itemCount: controller.relatedGameList.length,
@@ -398,7 +398,7 @@ class GameDetailScreen extends GetView<GameDetailController> {
                     height: 400.0,
                     enableInfiniteScroll: false, // 무한 스크롤을 원치 않으면 false로 설정
                     enlargeCenterPage: true, // 중앙 항목을 더 크게 보이도록 설정
-                    viewportFraction: 0.6, // 슬라이드 폭의 비율을 설정
+                    viewportFraction: 0.64, // 슬라이드 폭의 비율을 설정
                   ),
                   itemBuilder: (context, index, realIndex) {
                     if (controller.relatedGameList.isEmpty) {
@@ -411,8 +411,8 @@ class GameDetailScreen extends GetView<GameDetailController> {
                             .toString());
                       },
                       child: Container(
-                        width: 200,
-                        height: 150,
+                        width: 230,
+                        height: 170,
                         margin: const EdgeInsets.symmetric(horizontal: 5),
                         decoration: BoxDecoration(
                           color: AppColors.gameReviewBackgroundColor,
@@ -456,6 +456,9 @@ class GameDetailScreen extends GetView<GameDetailController> {
                                     controller.relatedGameList[index].introduce,
                                     maxLines: 2,
                                     overflow: TextOverflow.ellipsis,
+                                    style: const TextStyle(
+                                      fontSize: 16,
+                                    ),
                                   ),
                                 ],
                               ),
