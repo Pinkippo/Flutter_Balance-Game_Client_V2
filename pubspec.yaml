@@ -65,6 +65,7 @@ dependencies:
   flutter_spinkit: ^5.2.0
   flutter_animated_dialog: ^2.0.1
   flutter_native_splash: ^2.3.3
+  expandable_text: ^2.3.0
 
   # font_awesome 아이콘
   font_awesome_flutter: ^10.7.0
