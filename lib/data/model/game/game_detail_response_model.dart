@@ -10,6 +10,7 @@ class GameDetailResponseModel {
   final int likeCount;
   final int dislikeCount;
   final int viewCount;
+  final int boardReviewCount;
   final List<BoardReviewPreview> boardReviewsPreview;
   final DateTime createdAt;
   final DateTime updatedAt;
@@ -22,6 +23,7 @@ class GameDetailResponseModel {
     required this.likeCount,
     required this.dislikeCount,
     required this.viewCount,
+    required this.boardReviewCount,
     required this.boardReviewsPreview,
     required this.createdAt,
     required this.updatedAt,
@@ -36,6 +38,7 @@ class GameDetailResponseModel {
       likeCount: json['board']['likeCount'],
       dislikeCount: json['board']['dislikeCount'],
       viewCount: json['board']['viewCount'],
+      boardReviewCount: json['board']['boardReviewCount'],
       boardReviewsPreview: (json['board']['boardReviewsPreview'] as List)
           .map((item) => BoardReviewPreview.fromJson(item))
           .toList(),

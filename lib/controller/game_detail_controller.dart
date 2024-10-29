@@ -29,6 +29,7 @@ class GameDetailController extends GetxController {
     likeCount: 0,
     dislikeCount: 0,
     viewCount: 0,
+    boardReviewCount: 0,
     boardReviewsPreview: [],
     createdAt: DateTime.now(),
     updatedAt: DateTime.now(),

@@ -38,7 +38,7 @@ class BoardContent {
   factory BoardContent.fromJson(Map<String, dynamic> json) {
     return BoardContent(
       boardContentId: json['boardContentId'],
-      title: json['title'],
+      title: json['title'] ?? '',
       boardContentItems: (json['boardContentItems'] as List)
           .map((item) => BoardContentItem.fromJson(item))
           .toList(),

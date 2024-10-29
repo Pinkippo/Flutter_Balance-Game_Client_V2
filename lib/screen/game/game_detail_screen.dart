@@ -1,5 +1,7 @@
+import 'dart:math';
 import 'package:carousel_slider_plus/carousel_slider_plus.dart';
 import 'package:expandable_text/expandable_text.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
@@ -54,19 +56,25 @@ class GameDetailScreen extends GetView<GameDetailController> {
                 );
               }).toList(),
               onChanged: (String? value) async {
-                if (value == '리뷰작성') {
-                  Get.toNamed('/game_review', arguments: {
-                    'boardId': controller.gameDetail.value.boardId
-                  });
-                } else if (value == '신고하기') {
-                  Get.dialog(
-                    PopScope(
-                        onPopInvokedWithResult: (bool didPop, dynamic result) {
-                          controller.selectedCategory.value = null;
-                          controller.content.value = '';
-                        },
-                        child: reportGameDialog(context, controller)),
-                  );
+                // 로그인 검증
+                if (AuthController.to.accessToken.isEmpty) {
+                  Get.toNamed('/login');
+                } else {
+                  if (value == '리뷰작성') {
+                    Get.toNamed('/game_review', arguments: {
+                      'boardId': controller.gameDetail.value.boardId
+                    });
+                  } else if (value == '신고하기') {
+                    Get.dialog(
+                      PopScope(
+                          onPopInvokedWithResult:
+                              (bool didPop, dynamic result) {
+                            controller.selectedCategory.value = null;
+                            controller.content.value = '';
+                          },
+                          child: reportGameDialog(context, controller)),
+                    );
+                  }
                 }
               },
             ),
@@ -229,7 +237,6 @@ class GameDetailScreen extends GetView<GameDetailController> {
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: GestureDetector(
                   onTap: () async {
-                    // print(controller.gameDetail.value.boardId);
                     await Get.toNamed('/review_list',
                         arguments: controller.gameDetail.value.boardId);
                   },
@@ -244,136 +251,155 @@ class GameDetailScreen extends GetView<GameDetailController> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        Padding(
-                          padding: const EdgeInsets.all(16.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Text(
-                                "리뷰",
-                                style: TextStyle(
-                                  fontSize: 18,
-                                  color: Colors.black.withOpacity(0.6),
-                                ),
-                              ),
-                              const SizedBox(height: 10),
-                              const Text(
-                                "키워드로 먼저 \n리뷰를 봐요",
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              const Spacer(),
-                              Text(
-                                "참여자 ${controller.gameDetail.value.boardReviewsPreview.length}명",
-                                style: TextStyle(
-                                  fontSize: 18,
-                                  color: Colors.black.withOpacity(0.6),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        SizedBox(
-                          width: 200,
-                          child: Stack(
-                            alignment: Alignment.center,
-                            children: [
-                              if (controller.gameDetail.value
-                                  .boardReviewsPreview.isNotEmpty) ...[
-                                Positioned(
-                                  top: 10,
-                                  left: 20,
-                                  child: CircleAvatar(
-                                    radius: 70,
-                                    backgroundColor:
-                                        Colors.lightBlueAccent.withOpacity(0.5),
-                                    child: Text(
-                                      controller.gameDetail.value
-                                              .boardReviewsPreview[0].keyword ??
-                                          "",
-                                      style: const TextStyle(
-                                        fontSize: 16,
-                                        color: Colors.black,
-                                      ),
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
+
+                        Expanded(
+                          flex: 2,
+                          child: Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "리뷰",
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    color: Colors.black.withOpacity(0.6),
                                   ),
                                 ),
-                                if (controller.gameDetail.value
-                                        .boardReviewsPreview.length >
-                                    1)
-                                  Positioned(
-                                    top: 90,
-                                    right: 10,
-                                    child: CircleAvatar(
-                                      radius: 60,
-                                      backgroundColor:
-                                          Colors.blue.withOpacity(0.5),
-                                      child: Text(
-                                        controller
-                                                .gameDetail
-                                                .value
-                                                .boardReviewsPreview[1]
-                                                .keyword ??
-                                            "",
-                                        style: const TextStyle(
-                                          fontSize: 14,
-                                          color: Colors.black,
-                                        ),
-                                        overflow: TextOverflow.ellipsis,
-                                      ),
-                                    ),
+                                const SizedBox(height: 10),
+                                const Text(
+                                  "키워드로 먼저\n리뷰를 봐요",
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
                                   ),
-                                if (controller.gameDetail.value
-                                        .boardReviewsPreview.length >
-                                    2)
-                                  Positioned(
-                                    top: 130,
-                                    right: 110,
-                                    child: CircleAvatar(
-                                      radius: 40,
-                                      backgroundColor:
-                                          Colors.tealAccent.withOpacity(0.5),
-                                      child: Text(
-                                        controller
-                                                .gameDetail
-                                                .value
-                                                .boardReviewsPreview[2]
-                                                .keyword ??
-                                            "",
-                                        style: const TextStyle(
-                                          fontSize: 12,
-                                          color: Colors.black,
-                                        ),
-                                        overflow: TextOverflow.ellipsis,
-                                      ),
-                                    ),
-                                  ),
-                              ] else ...[
-                                Positioned(
-                                  top: 0,
-                                  bottom: 0,
-                                  left: 0,
-                                  right: 0,
-                                  child: CircleAvatar(
-                                    radius: 75,
-                                    backgroundColor:
-                                        Colors.lightBlueAccent.withOpacity(0.5),
-                                    child: const Text(
-                                      "리뷰가 존재하지\n않습니다",
-                                      style: TextStyle(
-                                        fontSize: 16,
-                                        color: Colors.black,
-                                      ),
-                                      textAlign: TextAlign.center,
-                                    ),
+                                ),
+                                const Spacer(),
+                                Text(
+                                  "참여자 ${controller.gameDetail.value.boardReviewCount}명",
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    color: Colors.black.withOpacity(0.6),
                                   ),
                                 ),
                               ],
-                            ],
+                            ),
+                          ),
+                        ),
+
+                        Expanded(
+                          flex: 3,
+                          child: LayoutBuilder(
+                            builder: (context, constraints) {
+                              if (controller.gameDetail.value.boardReviewsPreview.isEmpty) {
+                                return Center(
+                                  child: CircleAvatar(
+                                    radius: min(constraints.maxWidth * 0.3, constraints.maxHeight * 0.3),
+                                    backgroundColor: Colors.lightBlueAccent.withOpacity(0.5),
+                                    child: const Padding(
+                                      padding: EdgeInsets.all(8.0),
+                                      child: FittedBox(
+                                        fit: BoxFit.scaleDown,
+                                        child: Text(
+                                          "리뷰가 존재하지\n않습니다",
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                            color: Colors.black,
+                                            height: 1.2,
+                                          ),
+                                          textAlign: TextAlign.center,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              }
+
+                              return Stack(
+                                clipBehavior: Clip.none,
+                                children: [
+
+                                  if (controller.gameDetail.value.boardReviewsPreview.isNotEmpty)
+                                    Positioned(
+                                      left: constraints.maxWidth * 0.1,
+                                      top: constraints.maxHeight * 0.1,
+                                      child: CircleAvatar(
+                                        radius: min(constraints.maxWidth * 0.28, constraints.maxHeight * 0.28),
+                                        backgroundColor: Colors.lightBlueAccent.withOpacity(0.5),
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: FittedBox(
+                                            fit: BoxFit.scaleDown,
+                                            child: Text(
+                                              controller.gameDetail.value.boardReviewsPreview[0].keyword ?? "",
+                                              style: const TextStyle(
+                                                fontSize: 16,
+                                                color: Colors.black,
+                                                height: 1.2,
+                                              ),
+                                              textAlign: TextAlign.center,
+                                              maxLines: 2,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+
+                                  if (controller.gameDetail.value.boardReviewsPreview.length > 1)
+                                    Positioned(
+                                      left: _getLeftValue(constraints),
+                                      top: constraints.maxHeight * 0.35,
+                                      child: CircleAvatar(
+                                        radius: min(constraints.maxWidth * 0.24, constraints.maxHeight * 0.24),
+                                        backgroundColor: Colors.blue.withOpacity(0.5),
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: FittedBox(
+                                            fit: BoxFit.scaleDown,
+                                            child: Text(
+                                              controller.gameDetail.value.boardReviewsPreview[1].keyword ?? "",
+                                              style: const TextStyle(
+                                                fontSize: 14,
+                                                color: Colors.black,
+                                                height: 1.2,
+                                              ),
+                                              textAlign: TextAlign.center,
+                                              maxLines: 2,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+
+                                  if (controller.gameDetail.value.boardReviewsPreview.length > 2)
+                                    Positioned(
+                                      left: constraints.maxWidth * 0.2,
+                                      bottom: constraints.maxHeight * 0.2,
+                                      child: CircleAvatar(
+                                        radius: min(constraints.maxWidth * 0.16, constraints.maxHeight * 0.16),
+                                        backgroundColor: Colors.tealAccent.withOpacity(0.5),
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: FittedBox(
+                                            fit: BoxFit.scaleDown,
+                                            child: Text(
+                                              controller.gameDetail.value.boardReviewsPreview[2].keyword ?? "",
+                                              style: const TextStyle(
+                                                fontSize: 12,
+                                                color: Colors.black,
+                                                height: 1.2,
+                                              ),
+                                              textAlign: TextAlign.center,
+                                              maxLines: 2,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                ],
+                              );
+                            },
                           ),
                         ),
                       ],
@@ -476,5 +502,13 @@ class GameDetailScreen extends GetView<GameDetailController> {
         ),
       ),
     );
+  }
+
+  double _getLeftValue(BoxConstraints constraints) {
+    if (Get.width > 600) {
+      return constraints.maxWidth * 0.3;
+    } else {
+      return constraints.maxWidth * 0.4;
+    }
   }
 }
