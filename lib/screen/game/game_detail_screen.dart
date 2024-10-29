@@ -280,7 +280,7 @@ class GameDetailScreen extends GetView<GameDetailController> {
                                 ),
                                 const Spacer(),
                                 Text(
-                                  "참여자 ${controller.gameDetail.value.boardReviewsPreview.length}명",
+                                  "참여자 ${controller.gameDetail.value.boardReviewCount}명",
                                   style: TextStyle(
                                     fontSize: 18,
                                     color: Colors.black.withOpacity(0.6),
