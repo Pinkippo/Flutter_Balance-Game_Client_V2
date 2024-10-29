@@ -20,7 +20,7 @@ class KeywordWidget extends StatelessWidget {
         padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 15),
         child: Text(
           keyword,
-          style: const TextStyle(color: AppColors.primaryColor),
+          style: const TextStyle(color: AppColors.primaryColor, fontWeight: FontWeight.bold),
         ),
       ),
     );

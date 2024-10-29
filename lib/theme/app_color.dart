@@ -14,4 +14,7 @@ class AppColors {
   static const Color gamePlayPinkColor = Color(0xFFFFA7A7);
   static const Color gamePlayYellowColor = Color(0xFFFFE0A5);
   static const Color gamePlayBarColor = Color(0xFFFF8E9C);
+
+  static const Color gameReviewBackgroundColor = Color(0xffFBFBFB);
+  static const Color gameReviewBorderColor = Color(0xffF2F2F2);
 }
