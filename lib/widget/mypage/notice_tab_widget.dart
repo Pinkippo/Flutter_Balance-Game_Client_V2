@@ -25,8 +25,11 @@ class NoticeAllTab extends GetView<NoticeController> {
 
       if (filteredNotices.isEmpty) {
         // 공지사항이 없을 경우 빈 상태 표시
-        return const Center(
-          child: Text('공지사항이 없습니다.'),
+        return Container(
+          color: Colors.white,
+          child: const Center(
+            child: Text('공지사항이 없습니다.'),
+          ),
         );
       }
 
