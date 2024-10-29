@@ -1,3 +1,5 @@
+import 'package:carousel_slider_plus/carousel_slider_plus.dart';
+import 'package:expandable_text/expandable_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
@@ -30,7 +32,6 @@ class GameDetailScreen extends GetView<GameDetailController> {
               Get.back();
             },
           ),
-
           actions: [
             DropdownButton<String>(
               alignment: Alignment.center,
@@ -107,25 +108,22 @@ class GameDetailScreen extends GetView<GameDetailController> {
                             ),
                           ),
                           const Spacer(),
-
-                          //
-                          // ElevatedButton(
-                          //     onPressed: () {
-                          //       Get.toNamed('/game_review', arguments: {
-                          //         'boardId': controller.gameDetail.value.boardId
-                          //       });
-                          //     },
-                          //     child: Text('리뷰달기')),
-                          Text(
-                            /// 게임 소개
+                          ExpandableText(
                             controller.gameDetail.value.introduce,
                             style: const TextStyle(
-                              fontSize: 20,
+                              fontSize: 19,
                               fontWeight: FontWeight.bold,
                             ),
-                            overflow: TextOverflow.ellipsis,
+                            linkStyle: const TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.normal,
+                            ),
+                            expandText: '더보기',
+                            collapseText: '접기',
                             maxLines: 3,
-                            textAlign: TextAlign.center,
+                            expandOnTextTap: true,
+                            collapseOnTextTap: true,
+                            linkColor: Colors.grey,
                           ),
                           const Spacer(),
                           Container(
@@ -177,8 +175,7 @@ class GameDetailScreen extends GetView<GameDetailController> {
                           /// TODO : 로딩 화면 수정 고려 필요
                           await Get.showOverlay(
                               asyncFunction: () async {
-
-                                if(AuthController.to.accessToken.isEmpty){
+                                if (AuthController.to.accessToken.isEmpty) {
                                   return false;
                                 }
 
@@ -206,7 +203,7 @@ class GameDetailScreen extends GetView<GameDetailController> {
                               )).then((value) {
                             if (value == true) {
                               Get.toNamed('/game_play');
-                            }else{
+                            } else {
                               Get.toNamed('/login');
                             }
                           });
@@ -386,18 +383,24 @@ class GameDetailScreen extends GetView<GameDetailController> {
               ),
 
               const SizedBox(
-                height: 20,
+                height: 50,
               ),
 
               /// 게임 추천 리스트
               SizedBox(
-                height: 150,
-                child: ListView.builder(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  scrollDirection: Axis.horizontal,
+                child: CarouselSlider.builder(
+                  controller: controller.carouselScrollController,
                   itemCount: controller.relatedGameList.length,
-                  controller: controller.reviewScrollController,
-                  itemBuilder: (context, index) {
+                  options: CarouselOptions(
+                    height: 200.0,
+                    enableInfiniteScroll: false, // 무한 스크롤을 원치 않으면 false로 설정
+                    enlargeCenterPage: true, // 중앙 항목을 더 크게 보이도록 설정
+                    viewportFraction: 0.71, // 슬라이드 폭의 비율을 설정
+                  ),
+                  itemBuilder: (context, index, realIndex) {
+                    if (controller.relatedGameList.isEmpty) {
+                      return const SizedBox.shrink();
+                    }
                     return GestureDetector(
                       onTap: () async {
                         await controller.changeGameDetail(controller
@@ -405,33 +408,69 @@ class GameDetailScreen extends GetView<GameDetailController> {
                             .toString());
                       },
                       child: Container(
-                          width: 120,
-                          height: 150,
-                          margin: const EdgeInsets.symmetric(horizontal: 5),
-                          decoration: BoxDecoration(
-                            color: AppColors.profileBackgroundColor,
-                            borderRadius: BorderRadius.circular(10),
-                            border: Border.all(
-                              color: AppColors.profileBackgroundColor,
-                            ),
+                        width: 270,
+                        margin: const EdgeInsets.symmetric(horizontal: 5),
+                        decoration: BoxDecoration(
+                          color: AppColors.gameReviewBackgroundColor,
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(
+                            width: 2,
+                            color: AppColors.gameReviewBorderColor,
                           ),
-                          child: Center(
-                            child: Text(
-                              /// 게임 제목
-                              controller.relatedGameList[index].introduce,
-                              style: const TextStyle(
-                                fontSize: 16,
-                                color: Colors.black,
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(12.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    children: [
+                                      SizedBox(
+                                        width: 33,
+                                        child: Image.asset(
+                                            'assets/images/game/game_controller.png'),
+                                      ),
+                                      const SizedBox(width: 5),
+                                      Expanded(
+                                        child: Text(
+                                          overflow: TextOverflow.ellipsis,
+                                          controller
+                                              .relatedGameList[index].title,
+                                          style: const TextStyle(
+                                            fontSize: 19,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Text(
+                                    controller.relatedGameList[index].introduce,
+                                    maxLines: 3,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: const TextStyle(
+                                      fontSize: 17,
+                                    ),
+                                  ),
+                                ],
                               ),
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 4,
-                              textAlign: TextAlign.center,
-                            ),
-                          )),
+                              Text(
+                                '좋아요: ${controller.relatedGameList[index].likeCount}개',
+                                style: TextStyle(color: Colors.grey[600]),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
                     );
                   },
                 ),
               ),
+              const SizedBox(height: 70),
             ],
           ),
         ),

@@ -50,7 +50,8 @@ dependencies:
   animations: ^2.0.7
 
   # 배너 슬라이더
-  carousel_slider: ^4.2.1
+#  carousel_slider: ^4.2.1
+  carousel_slider_plus: ^7.0.1
 
   # dropdown 위젯
   dropdown_button2: ^2.3.9
@@ -64,6 +65,7 @@ dependencies:
   flutter_spinkit: ^5.2.0
   flutter_animated_dialog: ^2.0.1
   flutter_native_splash: ^2.3.3
+  expandable_text: ^2.3.0
 
   # font_awesome 아이콘
   font_awesome_flutter: ^10.7.0

@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:carousel_slider_plus/carousel_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:yangjataekil/controller/auth_controller.dart';
@@ -14,7 +15,7 @@ import 'package:yangjataekil/widget/snackbar_widget.dart';
 class GameDetailController extends GetxController {
   /// 스크롤 컨트롤러
   final gameDetailScrollController = ScrollController();
-  final reviewScrollController = ScrollController();
+  final carouselScrollController = CarouselSliderController();
 
   /// 게임 정보
   Rx<GameDetailResponseModel> gameDetail = GameDetailResponseModel(
@@ -43,12 +44,6 @@ class GameDetailController extends GetxController {
     /// 게임 상세 조회
     await getGameDetail();
 
-    /// 리뷰 스크롤 이동
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      double initialScrollPosition = reviewScrollController.position.maxScrollExtent / 2;
-      reviewScrollController.jumpTo(initialScrollPosition);
-    });
-
   }
 
   /// 게임 상세 조회
@@ -72,6 +67,10 @@ class GameDetailController extends GetxController {
     // 게임 조회 변경
     gameDetail.value = await GameRepository().getGameDetail(boardId);
     relatedGameList.value = await GameRepository().getRelatedGame(boardId);
+    // 게임 바뀔 때 스크롤 맨 위로
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      gameDetailScrollController.jumpTo(0);
+    });
   }
 
   /// ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 리뷰 신고 파트 변수 및 메서드 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
