@@ -29,63 +29,58 @@ class UserModifyScreen extends GetView<UserModifyController> {
           },
         ),
       ),
-      body: GestureDetector(
-        onTap: () {
-          FocusScope.of(context).unfocus();
-        },
-        child: Container(
-          color: Colors.white,
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            children: [
-              Expanded(
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      const Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
+      body: Container(
+        color: Colors.white,
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          children: [
+            Expanded(
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    const Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        ModifyProfile(),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 30,
+                    ),
+                    const Padding(
+                      padding: EdgeInsets.only(left: 10),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          ModifyProfile(),
+                          Text(
+                            '닉네임',
+                            style: TextStyle(
+                              fontWeight: FontWeight.w500,
+                              fontSize: 18,
+                            ),
+                          ),
                         ],
                       ),
-                      const SizedBox(
-                        height: 30,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 10),
+                      child: ModifyNicknameInputField(
+                        hintText: '닉네임',
+                        obscureText: false,
+                        textController: controller.nicknameController,
                       ),
-                      const Padding(
-                        padding: EdgeInsets.only(left: 10),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Text(
-                              '닉네임',
-                              style: TextStyle(
-                                fontWeight: FontWeight.w500,
-                                fontSize: 18,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 10),
-                        child: ModifyNicknameInputField(
-                          hintText: '닉네임',
-                          obscureText: false,
-                          textController: controller.nicknameController,
-                        ),
-                      ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
-              BasicBtn(
-                onPressed: () {
-                  controller.modify();
-                },
-                buttonText: '확인',
-              ),
-            ],
-          ),
+            ),
+            BasicBtn(
+              onPressed: () {
+                controller.modify();
+              },
+              buttonText: '확인',
+            ),
+          ],
         ),
       ),
     );

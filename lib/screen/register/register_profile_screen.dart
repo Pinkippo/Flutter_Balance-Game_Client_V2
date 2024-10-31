@@ -31,77 +31,72 @@ class RegisterProfileScreen extends GetView<RegisterController> {
           },
         ),
       ),
-      body: GestureDetector(
-        onTap: () {
-          FocusScope.of(context).unfocus();
-        },
-        child: Container(
-          color: Colors.white,
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            children: [
-              Expanded(
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      const Row(
+      body: Container(
+        color: Colors.white,
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          children: [
+            Expanded(
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    const Row(
+                      children: [
+                        Text(
+                          '사진과 이름을 등록해주세요',
+                          style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 22,
+                          ),
+                        )
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 60,
+                    ),
+                    const Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        RegisterProfile(),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 30,
+                    ),
+                    const Padding(
+                      padding: EdgeInsets.only(left: 10),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           Text(
-                            '사진과 이름을 등록해주세요',
+                            '닉네임',
                             style: TextStyle(
-                              fontWeight: FontWeight.w600,
-                              fontSize: 22,
+                              fontWeight: FontWeight.w500,
+                              fontSize: 18,
                             ),
-                          )
+                          ),
                         ],
                       ),
-                      const SizedBox(
-                        height: 60,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 10),
+                      child: NicknameInputField(
+                        hintText: '닉네임',
+                        obscureText: false,
+                        textController: controller.nicknameController,
                       ),
-                      const Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          RegisterProfile(),
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 30,
-                      ),
-                      const Padding(
-                        padding: EdgeInsets.only(left: 10),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Text(
-                              '닉네임',
-                              style: TextStyle(
-                                fontWeight: FontWeight.w500,
-                                fontSize: 18,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 10),
-                        child: NicknameInputField(
-                          hintText: '닉네임',
-                          obscureText: false,
-                          textController: controller.nicknameController,
-                        ),
-                      ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
-              BasicBtn(
-                onPressed: () {
-                  controller.register();
-                },
-                buttonText: '회원가입',
-              ),
-            ],
-          ),
+            ),
+            BasicBtn(
+              onPressed: () {
+                controller.register();
+              },
+              buttonText: '회원가입',
+            ),
+          ],
         ),
       ),
     );
