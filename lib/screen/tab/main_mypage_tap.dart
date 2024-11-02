@@ -11,9 +11,9 @@ class MyPageTap extends GetView<AuthController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       /// 상단
       appBar: AppBar(
-        foregroundColor: Colors.black,
         backgroundColor: Colors.white,
         shape: const Border(
           bottom: BorderSide(color: Colors.grey, width: 0.3),

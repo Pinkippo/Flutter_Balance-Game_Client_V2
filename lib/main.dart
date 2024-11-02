@@ -32,24 +32,29 @@ void main() async {
   /// 로그인 검증 및 로그인 컨트롤러 초기화
   await initService();
 
-  runApp(GetMaterialApp(
-    debugShowCheckedModeBanner: false,
-    theme: appThemeData,
-    defaultTransition: Transition.fade,
-    getPages: AppPages.pages,
+  runApp(GestureDetector(
+    onTap: () {
+      Get.focusScope?.unfocus();
+    },
+    child: GetMaterialApp(
+      debugShowCheckedModeBanner: false,
+      theme: appThemeData,
+      defaultTransition: Transition.fade,
+      getPages: AppPages.pages,
 
-    /// 메인 페이지 라우트
-    initialRoute: Routes.main,
+      /// 메인 페이지 라우트
+      initialRoute: Routes.main,
 
-    locale: const Locale('ko', 'KR'),
-    localizationsDelegates: const [
-      GlobalMaterialLocalizations.delegate,
-      GlobalCupertinoLocalizations.delegate,
-    ],
-    supportedLocales: const [
-      Locale('en', 'US'),
-      Locale('ko', 'KR'),
-    ],
+      locale: const Locale('ko', 'KR'),
+      localizationsDelegates: const [
+        GlobalMaterialLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: const [
+        Locale('en', 'US'),
+        Locale('ko', 'KR'),
+      ],
+    ),
   ));
 }
 

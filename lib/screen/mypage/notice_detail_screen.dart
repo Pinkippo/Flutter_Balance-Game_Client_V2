@@ -8,7 +8,9 @@ class NoticeDetailScreen extends GetView<NoticeController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
+        backgroundColor: Colors.white,
         title: const Text(
           '공지사항 상세',
           style: TextStyle(
