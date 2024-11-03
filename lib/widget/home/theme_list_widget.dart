@@ -55,7 +55,7 @@ class GameByTheme extends GetView<ThemeController> {
                           ),
                         ),
                         child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
                               '${theme.theme}\n밸런스 게임',
@@ -70,11 +70,13 @@ class GameByTheme extends GetView<ThemeController> {
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
-                                  Image.network(
-                                    theme.iconUrl,
-                                    width: 40,
-                                    height: 40,
-                                  ),
+                                  theme.iconUrl.isEmpty
+                                      ? const SizedBox.shrink()
+                                      : Image.network(
+                                          theme.iconUrl,
+                                          width: 40,
+                                          height: 40,
+                                        ),
                                 ],
                               ),
                             ),
