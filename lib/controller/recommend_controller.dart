@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:yangjataekil/controller/auth_controller.dart';
 import 'package:yangjataekil/data/model/review.dart';
 import 'package:yangjataekil/data/provider/review_repository.dart';
 import 'package:yangjataekil/widget/snackbar_widget.dart';
@@ -18,7 +19,6 @@ class RecommendController extends GetxController {
 
   final recommendedReviews = [].obs; // 추천 리뷰
 
-
   @override
   void onInit() {
     super.onInit();
@@ -28,7 +28,8 @@ class RecommendController extends GetxController {
   /// 오늘의 추천 게시글 호출 메서드
   Future<int> getRecommendList() async {
     try {
-      final response = await ListRepository().getRecommendList();
+      final response = await ListRepository()
+          .getRecommendList(AuthController.to.accessToken.value);
       print('오늘의 추천 게시글: ${response.boardId}');
       return response.boardId;
     } catch (e) {

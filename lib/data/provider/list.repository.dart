@@ -13,8 +13,8 @@ import 'package:http/http.dart' as http;
 final baseUrl = dotenv.env['BASE_URL'];
 
 class ListRepository {
-  Future<ListBoardResponseModel> getList(
-      ListBoardRequestModel request, String token) async {
+  Future<ListBoardResponseModel> getList(ListBoardRequestModel request,
+      String token) async {
     final url = Uri.parse('$baseUrl/board/v2/boards');
 
     print('query=${request.query}&'
@@ -25,27 +25,27 @@ class ListRepository {
     final response = await http.get(
       request.searching
           ? (request.themeId == null
-              ? Uri.parse('$url?'
-                  'query=${request.query}&'
-                  'page=${request.page}&'
-                  'size=${request.size}&'
-                  'sortCondition=${request.sortCondition?.name ?? ''}&')
-              : Uri.parse('$url?'
-                  'query=${request.query}&'
-                  'page=${request.page}&'
-                  'size=${request.size}&'
-                  'sortCondition=${request.sortCondition?.name ?? ''}&'
-                  'themeId=${request.themeId}&'))
+          ? Uri.parse('$url?'
+          'query=${request.query}&'
+          'page=${request.page}&'
+          'size=${request.size}&'
+          'sortCondition=${request.sortCondition?.name ?? ''}&')
+          : Uri.parse('$url?'
+          'query=${request.query}&'
+          'page=${request.page}&'
+          'size=${request.size}&'
+          'sortCondition=${request.sortCondition?.name ?? ''}&'
+          'themeId=${request.themeId}&'))
           : request.themeId == null
-              ? Uri.parse('$url?'
-                  'page=${request.page}&'
-                  'size=${request.size}&'
-                  'sortCondition=${request.sortCondition?.name ?? ''}&')
-              : Uri.parse('$url?'
-                  'page=${request.page}&'
-                  'size=${request.size}&'
-                  'sortCondition=${request.sortCondition?.name ?? ''}&'
-                  'themeId=${request.themeId}&'),
+          ? Uri.parse('$url?'
+          'page=${request.page}&'
+          'size=${request.size}&'
+          'sortCondition=${request.sortCondition?.name ?? ''}&')
+          : Uri.parse('$url?'
+          'page=${request.page}&'
+          'size=${request.size}&'
+          'sortCondition=${request.sortCondition?.name ?? ''}&'
+          'themeId=${request.themeId}&'),
       headers: <String, String>{
         'Content-Type': 'application/json',
         if (token.isNotEmpty) 'Authorization': 'Bearer $token'
@@ -57,7 +57,8 @@ class ListRepository {
       // print(decodedResponse);
       print('테마별 조회 리스트 갯수: ${decodedResponse['boards']['boards'].length}');
       for (int i = 0; i < decodedResponse['boards']['boards'].length; i++) {
-        print('리스트 boardId: ${decodedResponse['boards']['boards'][i]['boardId']}');
+        print(
+            '리스트 boardId: ${decodedResponse['boards']['boards'][i]['boardId']}');
       }
       return ListBoardResponseModel.fromJson(
           jsonDecode(utf8.decode(response.bodyBytes)));
@@ -68,15 +69,16 @@ class ListRepository {
   }
 
   /// 오늘의 추천 게임 조회 API
-  Future<RecommendBoardResponseModel> getRecommendList() async {
+  Future<RecommendBoardResponseModel> getRecommendList(String token) async {
     final url = Uri.parse('$baseUrl/board/v2/boards/today-recommend-game');
 
     final response = await http.get(
       url,
       headers: <String, String>{
-        'Content-Type': 'application/json',
-        'charset': 'utf-8',
-      },
+    if (token.isNotEmpty) 'Authorization': 'Bearer $token',
+    'Content-Type': 'application/json',
+    'charset': 'utf-8',
+    },
     );
 
     if (response.statusCode == 200) {
