@@ -15,19 +15,23 @@ class Question {
 
 /// 게임 업로드 요청 모델
 class UploadGameRequestModel {
+  final int themeId;
   final String gameTitle;
   final String introduce;
   List<String>? keyword;
   List<Question> boardContent;
 
-  UploadGameRequestModel(
-      {required this.gameTitle,
-      required this.introduce, this.keyword,
-      required this.boardContent});
+  UploadGameRequestModel({
+    required this.themeId,
+    required this.gameTitle,
+    required this.introduce,
+    this.keyword,
+    required this.boardContent,
+  });
 
   Map<String, dynamic> toJson() {
     return {
-      'themeId': 1,
+      'themeId': themeId,
       'title': gameTitle,
       'introduce': introduce,
       'keywords': keyword,
