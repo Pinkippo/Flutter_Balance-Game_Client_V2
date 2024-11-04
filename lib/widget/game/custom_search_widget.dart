@@ -6,11 +6,12 @@ import 'package:yangjataekil/widget/game/list_item_widget.dart';
 
 class CustomSearchWidget extends SearchDelegate {
   final SearchedListController controller = Get.put(SearchedListController());
-
+  // final SearchedListController controller = Get.find();
   CustomSearchWidget()
       : super(
-            searchFieldLabel: '검색어를 입력하세요',
-            searchFieldStyle: const TextStyle(fontSize: 17));
+          searchFieldLabel: '검색어를 입력하세요',
+          searchFieldStyle: const TextStyle(fontSize: 17),
+        );
 
   /// 검색창 우측 검색 버튼
   @override
@@ -19,8 +20,8 @@ class CustomSearchWidget extends SearchDelegate {
       IconButton(
         icon: const Icon(Icons.search),
         onPressed: () {
-          controller.updateSearchText(query);
-          controller.clickSearchBtn();
+          // controller.updateSearchText(query);
+          controller.searchQuery();
           showResults(context);
         },
       ),
@@ -42,6 +43,18 @@ class CustomSearchWidget extends SearchDelegate {
   /// 검색 결과 리스트
   @override
   Widget buildResults(BuildContext context) {
+    return _buildResultContainer();
+  }
+
+  /// 검색 제안 리스트
+  @override
+  Widget buildSuggestions(BuildContext context) {
+    controller.updateSearchText(query);
+    return _buildResultContainer();
+  }
+
+  /// 검색 결과를 보여주는 컨테이너
+  Widget _buildResultContainer() {
     return Obx(() {
       if (controller.isLoading.value) {
         // 로딩 상태일 때
@@ -73,28 +86,6 @@ class CustomSearchWidget extends SearchDelegate {
 
       return _buildResultList();
     });
-  }
-
-  /// 검색 결과 리스트
-  @override
-  Widget buildSuggestions(BuildContext context) {
-    if (controller.boards.isEmpty) {
-      // 검색 결과가 없을 때
-      return Container(
-        color: Colors.white,
-        child: const Center(
-          child: Text(
-            '검색 결과가 없습니다.',
-            style: TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ),
-      );
-    }
-
-    return _buildResultList();
   }
 
   /// 검색 결과 리스트
