@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:yangjataekil/controller/tab/theme_controller.dart';
+import 'package:yangjataekil/controller/recommend_controller.dart';
 import 'package:yangjataekil/theme/app_color.dart';
 import 'package:yangjataekil/widget/home/theme_list_widget.dart';
 import 'package:yangjataekil/widget/home/home_header_widget.dart';
@@ -35,12 +34,16 @@ class HomeTap extends StatelessWidget {
                   Container(
                     color: Colors.white,
                     padding: const EdgeInsets.only(top: 80),
-                    child: const Column(
+                    child: Column(
                       children: [
                         Column(
                           children: [
-                            GameByTheme(), // 테마별 게임
-                            RecommendedGame(), // 추천 게임
+                            const GameByTheme(), // 테마별 게임
+                            const RecommendedGame(),
+                            // 추천 게임
+                            RecommendController.to.recommendedReviews.isEmpty
+                                ? const SizedBox.shrink()
+                                : const
                             UserReview(), // 사용자 리뷰
                           ],
                         ),

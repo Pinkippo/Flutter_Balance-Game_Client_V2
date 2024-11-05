@@ -1,12 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:yangjataekil/controller/auth_controller.dart';
+import 'package:yangjataekil/controller/tab/theme_controller.dart';
 import 'package:yangjataekil/data/provider/game_repository.dart';
+import 'package:yangjataekil/data/provider/theme_repository.dart';
 import 'package:yangjataekil/widget/snackbar_widget.dart';
 
 import '../data/model/upload_game_request_model.dart';
 
 class GameUploadController extends GetxController {
+  // / 게임 테마 리스트
+  // final RxList<String> gameTheme = <String>[].obs;
+  //
+//  / 게임 테마 index
+  // final RxList<int> gameThemeIndex = <int>[].obs;
+
+  /// 게임 테마, index
+  final RxMap<String, int> themeNameIndexMap = RxMap();
+
+  /// 선택된 게임 테마 index
+  final RxInt selectedGameThemeIndex = 0.obs;
+
   /// 게임 이름
   final gameTitle = ''.obs;
 
@@ -39,6 +53,7 @@ class GameUploadController extends GetxController {
     boardContent.addAll([
       Question(questionTitle: '', questionItems: ['', '']),
     ]);
+    getTheme();
   }
 
   /// 질문 추가
@@ -87,24 +102,38 @@ class GameUploadController extends GetxController {
     });
   }
 
+  /// 테마 조회 및 이름, index 설정
+  Future<void> getTheme() async {
+    final themes = await ThemeRepository().getList();
+    for (var theme in themes.themes) {
+      themeNameIndexMap[theme.theme] = theme.themeId;
+    }
+    print('테마 조회 성공 : ${themeNameIndexMap}');
+  }
+
   /// 게임 업로드
   Future<void> uploadGame() async {
-    if (gameTitle.value.isEmpty) {
+    if (selectedGameThemeIndex.value == 0) {
       CustomSnackBar.showErrorSnackBar(
-          title: '미입력 항목', message: '게임 이름을 입력해주세요.');
+          title: '게임 테마', message: '게임 테마를 선택해주세요.');
+      return;
+    } else if (gameTitle.value.isEmpty) {
+      CustomSnackBar.showErrorSnackBar(
+          title: '게임 이름', message: '게임 이름을 입력해주세요.');
       return;
     } else if (introduce.value.isEmpty) {
       CustomSnackBar.showErrorSnackBar(
-          title: '미입력 항목', message: '게임 소개를 입력해주세요.');
+          title: '게임 소개', message: '게임 소개를 입력해주세요.');
       return;
     } else if (boardContent.any(
         (element) => element.questionItems.any((element) => element.isEmpty))) {
       CustomSnackBar.showErrorSnackBar(
-          title: '미입력 항목', message: '답변을 모두 입력해주세요.');
+          title: '답변 입력', message: '답변을 모두 입력해주세요.');
       return;
     } else {
       final uploadResult = await GameRepository().uploadGame(
         UploadGameRequestModel(
+            themeId: selectedGameThemeIndex.value,
             gameTitle: gameTitle.value,
             introduce: introduce.value,
             keyword: keyword,
@@ -114,10 +143,10 @@ class GameUploadController extends GetxController {
       if (uploadResult) {
         Get.offAllNamed('/main');
         CustomSnackBar.showSuccessSnackBar(
-            title: '게임 업로드', message: '게임이 성공적으로 업로드되었습니다.');
+            title: '게임 생성', message: '게임이 성공적으로 업로드되었습니다.');
       } else {
         CustomSnackBar.showErrorSnackBar(
-            title: '게임 업로드', message: '게임 업로드에 실패했습니다.');
+            title: '게임 생성 실패', message: '게임 업로드에 실패했습니다.');
         return;
       }
     }

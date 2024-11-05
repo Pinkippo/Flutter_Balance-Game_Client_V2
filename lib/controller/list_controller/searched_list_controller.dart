@@ -20,8 +20,15 @@ class SearchedListController extends BaseListController {
     searchText.value = text;
   }
 
+
   @override
   void onInit() {
+    // 검색 텍스트 변경 시 검색 쿼리 호출
+    ever(searchText, (_) {
+      searchQuery();
+    });
+
+    // 전체 게임 리스트 호출
     getList();
 
     // 검색 스크롤 이벤트
@@ -59,14 +66,11 @@ class SearchedListController extends BaseListController {
       query: searchText.value,
       size: size.value,
       page: page.value,
-      // themeId: ThemeController.to.selectedThemeId.value,
       sortCondition: sortCondition.value,
     );
 
     try {
-      // 딜레이 추가
-      await Future.delayed(const Duration(seconds: 1));
-
+      await Future.delayed(const Duration(milliseconds: 100));
       ListBoardResponseModel response = await ListRepository().getList(
         requestModel,
         AuthController.to.accessToken.value,
@@ -84,11 +88,11 @@ class SearchedListController extends BaseListController {
   }
 
   /// 검색 버튼을 눌렀을 때 호출되는 메서드
-  void clickSearchBtn() async {
+  void searchQuery() async {
     if (searchText.isEmpty) {
       boards.clear();
-      CustomSnackBar.showSnackBar(message: '검색어를 입력해주세요.');
     } else {
+      if(isLoading.value) return;
       boards.clear(); // 이전 검색 결과 초기화
       page.value = 0; // 페이지 초기화
       totalPage.value = 1; // 총 페이지 수 초기화

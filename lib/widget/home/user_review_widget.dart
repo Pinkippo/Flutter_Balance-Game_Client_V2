@@ -29,7 +29,7 @@ class UserReview extends GetView<RecommendController> {
         ),
         const SizedBox(height: 10),
 
-        /// 추천 리뷰 중 1개
+        /// 추천 리뷰 리스트
         Obx(
           () => SizedBox(
             height: 230,

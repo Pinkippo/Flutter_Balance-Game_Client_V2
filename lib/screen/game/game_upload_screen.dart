@@ -1,3 +1,4 @@
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:yangjataekil/controller/game_upload_controller.dart';
@@ -13,8 +14,10 @@ class UploadGameScreen extends GetView<GameUploadController> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
+        scrolledUnderElevation: 0,
         backgroundColor: Colors.white,
         title: const Text(
+
           '게임 등록',
           style: TextStyle(
             fontSize: 18,
@@ -36,6 +39,50 @@ class UploadGameScreen extends GetView<GameUploadController> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              Obx(
+                () => DropdownButtonFormField2(
+                  hint: const Text(
+                    '게임 테마',
+                    style: TextStyle(
+                      color: Colors.grey,
+                      fontSize: 14,
+                    ),
+                  ),
+                  dropdownStyleData: DropdownStyleData(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: Colors.white,
+                    ),
+                  ),
+                  items: controller.themeNameIndexMap.keys
+                      .map((e) => DropdownMenuItem(
+                            value: e,
+                            child: Text(e),
+                          ))
+                      .toList(),
+                  onChanged: (value) {
+                    controller.selectedGameThemeIndex.value = controller.themeNameIndexMap[value]!;
+                  },
+                  decoration: const InputDecoration(
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                      borderSide: BorderSide(
+                        color: Colors.black,
+                      ),
+                    ),
+                    // fillColor: Colors.black.withOpacity(0.05),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                      borderSide: BorderSide(
+                        color: Colors.black,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(
+                height: 15,
+              ),
               TextField(
                 onChanged: (value) {
                   controller.updateGameName(value);
@@ -49,7 +96,7 @@ class UploadGameScreen extends GetView<GameUploadController> {
                   enabledBorder: const OutlineInputBorder(
                     borderSide: BorderSide.none,
                   ),
-                  fillColor: Colors.black.withOpacity(0.1),
+                  fillColor: Colors.grey[200],
                   focusedBorder: const OutlineInputBorder(
                     borderSide: BorderSide.none,
                   ),
@@ -73,7 +120,7 @@ class UploadGameScreen extends GetView<GameUploadController> {
                   enabledBorder: const OutlineInputBorder(
                     borderSide: BorderSide.none,
                   ),
-                  fillColor: Colors.black.withOpacity(0.1),
+                  fillColor: Colors.grey[200],
                   focusedBorder: const OutlineInputBorder(
                     borderSide: BorderSide.none,
                   ),

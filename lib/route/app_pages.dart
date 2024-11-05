@@ -78,9 +78,6 @@ class AppPages {
           Get.lazyPut<RecommendController>(() {
             return RecommendController();
           });
-          Get.lazyPut<SearchedListController>(() {
-            return SearchedListController();
-          });
           await Get.putAsync<AuthController>(() async {
             return AuthController();
           }, permanent: true)
@@ -172,9 +169,6 @@ class AppPages {
       binding: BindingsBuilder(() {
         Get.lazyPut<ThemeListController>(() {
           return ThemeListController();
-        });
-        Get.lazyPut<SearchedListController>(() {
-          return SearchedListController(); // 명시적으로 FilteredListController 등록
         });
       }),
     ),
