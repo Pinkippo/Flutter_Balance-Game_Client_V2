@@ -240,7 +240,7 @@ class GameResultScreen extends GetView<GamePlayController> {
                                 child: ElevatedButton(
                                   onPressed: () {
                                     print(controller.gameBoardId.value);
-                                    Get.toNamed('/game_review', arguments: {
+                                    Get.offAndToNamed('/game_review', arguments: {
                                       'boardId': controller.gameBoardId.value,
                                     });
                                   },
