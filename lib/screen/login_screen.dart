@@ -48,7 +48,7 @@ class LoginScreen extends GetView<LoginController> {
             child: Column(
               children: <Widget>[
                 const Image(
-                    image: AssetImage('assets/images/before_logo.png'),
+                    image: AssetImage('assets/images/after_logo.png'),
                     width: 180,
                     height: 180),
                 Form(
