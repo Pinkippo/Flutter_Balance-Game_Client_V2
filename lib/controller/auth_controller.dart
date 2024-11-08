@@ -134,6 +134,18 @@ class AuthController extends GetxController {
 
   /// 비밀번호 변경
   Future<void> changePw() async {
+    // 비밀번호 조건 확인 (영문 대문자/소문자, 숫자, 특수문자 중 2가지 이상 포함, 6~20자)
+    const passwordPattern =
+        r'^(?=.*[A-Za-z])(?=.*\d|(?=.*[!@#\$&*~])).{6,20}$';
+    final regex = RegExp(passwordPattern);
+
+    if (!regex.hasMatch(newPw.value)) {
+      CustomSnackBar.showErrorSnackBar(
+          title: '비밀번호 오류',
+          message: '영문 대문자와 소문자, 숫자, 특수문자 중 2가지 이상을 조합하여 6~20자로 입력해주세요.');
+      return;
+    }
+
     // 비밀번호 확인
     if (newPw.value != newPwCheck.value || newPw.value.isEmpty) {
       CustomSnackBar.showErrorSnackBar(
@@ -151,6 +163,7 @@ class AuthController extends GetxController {
       if (response == 'SUCCESS') {
         CustomSnackBar.showSuccessSnackBar(
             title: '비밀번호 변경 성공', message: '비밀번호가 변경되었습니다.');
+        logout();
         Get.offAllNamed('/main');
       }
       // 현재 비밀번호 불일치 처리

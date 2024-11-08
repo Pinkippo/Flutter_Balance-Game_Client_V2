@@ -2,22 +2,22 @@ class RegisterRequestModel {
   final String accountName;
   final String password;
   final String realName;
-  final String birth;
+  // final String birth;
   final String email;
-  final String pushToken;
+  // final String pushToken;
   final bool isCheckedMarketing;
-  final String profileUrl;
+  final String? profileUrl;
   final String? nickName;
 
   RegisterRequestModel({
     required this.accountName,
     required this.password,
     required this.realName,
-    required this.birth,
+    // required this.birth,
     required this.email,
-    required this.pushToken,
+    // required this.pushToken,
     required this.isCheckedMarketing,
-    required this.profileUrl,
+    this.profileUrl,
     required this.nickName,
   });
 
@@ -26,11 +26,11 @@ class RegisterRequestModel {
       'accountName': accountName,
       'password': password,
       'realName': realName,
-      'birth': birth,
+      // 'birth': birth,
       'email': email,
-      'pushToken': pushToken,
+      // 'pushToken': pushToken,
       'isCheckedMarketing': isCheckedMarketing,
-      'profileUrl': profileUrl,
+      'profileUrl': profileUrl?.isEmpty == true ? null : profileUrl,
       'nickName': nickName,
     };
   }
