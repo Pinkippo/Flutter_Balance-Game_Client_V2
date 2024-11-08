@@ -69,6 +69,7 @@ class RegisterProfile extends GetView<RegisterController> {
                     controller.profileUrl.value = await controller
                         .authRepository
                         .uploadProfileImage(image);
+                    print('profileUrl >> ${controller.profileUrl.value}');
                     Get.back();
                   }
                 },

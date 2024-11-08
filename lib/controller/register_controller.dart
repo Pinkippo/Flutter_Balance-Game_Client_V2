@@ -131,7 +131,8 @@ class RegisterController extends GetxController {
   /// 아이디 중복 확인
   void checkDuplicateAccountName() async {
     if (accountName.value == '') {
-      CustomSnackBar.showErrorSnackBar(title: '아이디 중복 확인', message: '아이디를 입력해주세요.');
+      CustomSnackBar.showErrorSnackBar(
+          title: '아이디 중복 확인', message: '아이디를 입력해주세요.');
       return;
     }
 
@@ -139,13 +140,16 @@ class RegisterController extends GetxController {
       final response =
           await authRepository.checkDuplicateAccountName(accountName.value);
       if (response) {
-        CustomSnackBar.showErrorSnackBar(title: '아이디 중복 확인', message: '이미 사용중인 아이디입니다.');
+        CustomSnackBar.showErrorSnackBar(
+            title: '아이디 중복 확인', message: '이미 사용중인 아이디입니다.');
       } else {
-        CustomSnackBar.showSuccessSnackBar(title: '아이디 중복 확인', message: '사용 가능한 아이디입니다.');
+        CustomSnackBar.showSuccessSnackBar(
+            title: '아이디 중복 확인', message: '사용 가능한 아이디입니다.');
         checkDuplicate.value = true;
       }
     } catch (e) {
-      CustomSnackBar.showErrorSnackBar(title: '아이디 중복 확인', message: '아이디 중복 확인에 실패했습니다.');
+      CustomSnackBar.showErrorSnackBar(
+          title: '아이디 중복 확인', message: '아이디 중복 확인에 실패했습니다.');
     }
   }
 
@@ -157,7 +161,8 @@ class RegisterController extends GetxController {
       CustomSnackBar.showSnackBar(message: '이메일 인증 요청이 완료되었습니다.');
     } catch (e) {
       isEmailSent.value = false;
-      CustomSnackBar.showErrorSnackBar(title: '이메일 인증 요청', message: '이메일 인증 요청에 실패했습니다.');
+      CustomSnackBar.showErrorSnackBar(
+          title: '이메일 인증 요청', message: '이메일 인증 요청에 실패했습니다.');
     }
   }
 
@@ -168,7 +173,8 @@ class RegisterController extends GetxController {
       CustomSnackBar.showSuccessSnackBar(message: '이메일 인증이 완료되었습니다.');
       isEmailVerified.value = true;
     } catch (e) {
-      CustomSnackBar.showErrorSnackBar(title: '이메일 인증', message: '이메일 인증에 실패했습니다.');
+      CustomSnackBar.showErrorSnackBar(
+          title: '이메일 인증', message: '이메일 인증에 실패했습니다.');
       isEmailVerified.value = false;
     }
   }
@@ -186,25 +192,40 @@ class RegisterController extends GetxController {
           'pw >> ${pw.value},'
           'pwChk >> ${pwChk.value},'
           'selectedDate >> ${selectedDate.value},');
-      CustomSnackBar.showErrorSnackBar(title: '미입력 항목', message: '모든 항목을 입력해주세요.');
+      CustomSnackBar.showErrorSnackBar(
+          title: '미입력 항목', message: '모든 항목을 입력해주세요.');
+      return;
+    }
+
+    // 비밀번호 조건 확인 (영문 대문자/소문자, 숫자, 특수문자 중 2가지 이상 포함, 6~20자)
+    const passwordPattern = r'^(?=.*[A-Za-z])(?=.*\d|(?=.*[!@#\$&*~])).{6,20}$';
+    final regex = RegExp(passwordPattern);
+
+    if (!regex.hasMatch(pw.value)) {
+      CustomSnackBar.showErrorSnackBar(
+          title: '비밀번호 오류',
+          message: '영문 대문자와 소문자, 숫자, 특수문자 중 2가지 이상을 조합하여 6~20자로 입력해주세요.');
       return;
     }
 
     // 비밀번호 일치 여부 확인
     if (pw.value != pwChk.value) {
-      CustomSnackBar.showErrorSnackBar(title: '비밀번호 불일치', message: '비밀번호가 일치하지 않습니다.');
+      CustomSnackBar.showErrorSnackBar(
+          title: '비밀번호 불일치', message: '비밀번호가 일치하지 않습니다.');
       return;
     }
 
     // 이메일 중복확인 체크
     if (!checkDuplicate.value) {
-      CustomSnackBar.showErrorSnackBar(title: '아이디 중복 확인', message: '아이디 중복 확인을 해주세요.');
+      CustomSnackBar.showErrorSnackBar(
+          title: '아이디 중복 확인', message: '아이디 중복 확인을 해주세요.');
       return;
     }
 
     // 이메일 인증 확인 체크
     if (!isEmailVerified.value) {
-      CustomSnackBar.showErrorSnackBar(title: '이메일 인증', message: '이메일 인증을 해주세요.');
+      CustomSnackBar.showErrorSnackBar(
+          title: '이메일 인증', message: '이메일 인증을 해주세요.');
       return;
     }
 
@@ -224,23 +245,27 @@ class RegisterController extends GetxController {
       accountName: accountName.value,
       password: pw.value,
       realName: realName.value,
-      birth: birthController.text,
+
+      /// TODO: 추후 생년월일, 푸쉬토큰 수정
+      // birth: birthController.text,
       email: email.value,
-      pushToken: 'pushToken',
+      // pushToken: 'pushToken',
       isCheckedMarketing: false,
       profileUrl: profileUrl.value,
       nickName: nicknameOrNull,
     ));
-    print('프로필url: ${profileUrl.value}');
+    print('프로필url(controller): ${profileUrl.value}');
 
     if (response.accessToken.isNotEmpty) {
       await AuthController()
           .updateToken(response.accessToken, response.refreshToken);
       Get.offAllNamed('/login');
-      CustomSnackBar.showSuccessSnackBar(title: '회원가입 성공', message: '회원가입에 성공했습니다.');
+      CustomSnackBar.showSuccessSnackBar(
+          title: '회원가입 성공', message: '회원가입에 성공했습니다.');
       return true;
     } else {
-      CustomSnackBar.showErrorSnackBar(title: '회원가입 실패', message: '회원가입에 실패했습니다.');
+      CustomSnackBar.showErrorSnackBar(
+          title: '회원가입 실패', message: '회원가입에 실패했습니다.');
       return false;
     }
   }

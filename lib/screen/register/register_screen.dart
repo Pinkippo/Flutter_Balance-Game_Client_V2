@@ -15,6 +15,7 @@ class RegisterScreen extends GetView<RegisterController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
         scrolledUnderElevation: 0,
@@ -154,30 +155,30 @@ class RegisterScreen extends GetView<RegisterController> {
                 const SizedBox(
                   height: 20,
                 ),
-                const Padding(
-                  padding: EdgeInsets.only(left: 10, bottom: 10),
-                  child: Text('생년월일'),
-                ),
-                Row(
-                  children: [
-                    Expanded(
-                      child: BirthInputField(
-                        registerController: controller,
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 10),
-                const Padding(
-                  padding: EdgeInsets.only(left: 10),
-                  child: Text(
-                    '생년월일 8자리를 입력해주세요',
-                    style: TextStyle(
-                      color: Colors.grey,
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 20),
+                // const Padding(
+                //   padding: EdgeInsets.only(left: 10, bottom: 10),
+                //   child: Text('생년월일'),
+                // ),
+                // Row(
+                //   children: [
+                //     Expanded(
+                //       child: BirthInputField(
+                //         registerController: controller,
+                //       ),
+                //     ),
+                //   ],
+                // ),
+                // const SizedBox(height: 10),
+                // const Padding(
+                //   padding: EdgeInsets.only(left: 10),
+                //   child: Text(
+                //     '생년월일 8자리를 입력해주세요',
+                //     style: TextStyle(
+                //       color: Colors.grey,
+                //     ),
+                //   ),
+                // ),
+                // const SizedBox(height: 20),
                 const Padding(
                   padding: EdgeInsets.only(left: 10, bottom: 10),
                   child: Text('이메일'),
@@ -271,18 +272,18 @@ class RegisterScreen extends GetView<RegisterController> {
                     ),
                   ],
                 ),
-                const SizedBox(
-                  height: 30,
-                ),
-                BasicBtn(
-                  onPressed: () {
-                    controller.nextStep();
-                  },
-                  buttonText: '다음',
-                )
               ],
             ),
           ),
+        ),
+      ),
+      bottomNavigationBar: BottomAppBar(
+        color: Colors.white,
+        child: BasicBtn(
+          onPressed: () {
+            controller.nextStep();
+          },
+          buttonText: '다음',
         ),
       ),
     );
