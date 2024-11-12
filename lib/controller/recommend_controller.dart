@@ -53,7 +53,7 @@ class RecommendController extends GetxController {
   /// 추천 리뷰 리스트 조회
   Future<void> getRecommendedReviews() async {
     try {
-      final reviewList = await ReviewRepository().getRecommendedReviews();
+      final reviewList = await ReviewRepository().getRecommendedReviews(AuthController.to.accessToken.value);
       recommendedReviews.value = reviewList.reviews;
       print('추천 리뷰 조회 성공 : ${recommendedReviews.toString()}');
     } catch (e) {

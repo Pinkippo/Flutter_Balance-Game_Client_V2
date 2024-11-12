@@ -58,12 +58,13 @@ class ReviewRepository {
   }
 
   /// 추천 리뷰 조회
-  Future<ReviewResponseModel> getRecommendedReviews() async {
+  Future<ReviewResponseModel> getRecommendedReviews(String token) async {
     final url = Uri.parse('$baseUrl/board/v2/recommend-review');
 
     final response = await http.get(
       url,
       headers: {
+        if (token.isNotEmpty) 'Authorization': 'Bearer $token',
         'Content-Type': 'application/json',
         'charset': 'utf-8',
       },
