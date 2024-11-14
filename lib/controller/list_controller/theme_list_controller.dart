@@ -19,6 +19,7 @@ class ThemeListController extends BaseListController {
     super.onInit();
   }
 
+
   void _fetchDataByRoute() {
     if (Get.currentRoute == '/list') {
       getList();
@@ -86,6 +87,7 @@ class ThemeListController extends BaseListController {
   }
 
   /// 내가 쓴 게임 리스트 호출 메서드
+  @override
   Future<void> getMyGames() async {
     try {
       final response = await ListRepository()
@@ -116,25 +118,4 @@ class ThemeListController extends BaseListController {
           message: '참여한 게임 리스트를 가져오는 중 오류가 발생했습니다.');
     }
   }
-
-  Future<void> deleteMyGame(int boardId) async {
-    try {
-      final response = await ListRepository().deleteMyGame(AuthController.to.accessToken.value, boardId);
-      Get.back();
-      print('게임 삭제 boardId: $boardId');
-
-      if(response) {
-        print('게임 삭제 성공');
-        myBoards.removeWhere((board) => board.boardId == boardId);
-        CustomSnackBar.showSuccessSnackBar(title: "게임 삭제 성공", message: "게임 삭제가 완료되었습니다.");
-      } else {
-        print('게임 삭제 실패');
-        CustomSnackBar.showErrorSnackBar(message: "게임을 삭제할 수 없습니다.\n 다시 시도해주세요.");
-      }
-    } catch(e) {
-      print('게임 삭제 실패 (catch)');
-      CustomSnackBar.showErrorSnackBar(message: "게임을 삭제할 수 없습니다.\n 다시 시도해주세요.");
-    }
-  }
-
 }

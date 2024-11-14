@@ -229,6 +229,7 @@ class AuthController extends GetxController {
   Future<void> logout() async {
     await storage.delete(key: 'accessToken');
     await storage.delete(key: 'refreshToken');
+    uid.value = 0; // 로그아웃 시 uid 초기화
     accessToken.value = '';
     refreshToken.value = '';
     isRejectUser.value = false;

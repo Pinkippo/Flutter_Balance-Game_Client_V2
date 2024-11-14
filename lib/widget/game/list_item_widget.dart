@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:yangjataekil/controller/auth_controller.dart';
 import 'package:yangjataekil/controller/list_controller/base_list_controller.dart';
 import 'package:yangjataekil/controller/list_controller/searched_list_controller.dart';
 import 'package:yangjataekil/controller/list_controller/theme_list_controller.dart';
 
+import '../dialog/custom_dialog_widget.dart';
 import '../list/keyword_widget.dart';
 
 class ListItemWidget extends StatelessWidget {
@@ -33,45 +35,62 @@ class ListItemWidget extends StatelessWidget {
       },
       child: LayoutBuilder(
         builder: (context, constraints) {
-          return Container(
-            padding: const EdgeInsets.all(10),
-            height: 200,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              border: Border.all(
-                color: Colors.black.withOpacity(0.1),
-              ),
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  overflow: TextOverflow.ellipsis,
-                  boardData.title,
-                  style: const TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w300,
+          return Stack(
+            fit: StackFit.passthrough,
+            children: [
+              Container(
+                padding: const EdgeInsets.all(10),
+                height: 200,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  border: Border.all(
+                    color: Colors.black.withOpacity(0.1),
                   ),
+                  borderRadius: BorderRadius.circular(10),
                 ),
-                const SizedBox(height: 10),
-
-                // 키워드 리스트 레이아웃 적용
-                _buildResponsiveKeywordList(boardData, constraints.maxWidth),
-
-                const SizedBox(height: 10),
-                Flexible(
-                  child: RichText(
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 3,
-                    text: TextSpan(
-                      text: boardData.introduce,
-                      style: const TextStyle(color: Colors.black),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      overflow: TextOverflow.ellipsis,
+                      boardData.title,
+                      style: const TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w300,
+                      ),
                     ),
-                  ),
+                    const SizedBox(height: 10),
+
+                    // 키워드 리스트 레이아웃 적용
+                    _buildResponsiveKeywordList(
+                        boardData, constraints.maxWidth),
+
+                    const SizedBox(height: 10),
+                    Flexible(
+                      child: RichText(
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 3,
+                        text: TextSpan(
+                          text: boardData.introduce,
+                          style: const TextStyle(color: Colors.black),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-              ],
-            ),
+              ),
+              // 드롭다운 아이콘
+              Positioned(
+                top: 0,
+                right: 0,
+                child: IconButton(
+                  icon: const Icon(Icons.more_vert, color: Colors.grey),
+                  onPressed: () {
+                    _showOptionsBottomSheet(context, boardData);
+                  },
+                ),
+              ),
+            ],
           );
         },
       ),
@@ -133,11 +152,98 @@ class ListItemWidget extends StatelessWidget {
     double totalWidth = 0;
 
     for (var keyword in keywords) {
-      textPainter.text = TextSpan(text: keyword, style: const TextStyle(fontSize: 14));
+      textPainter.text =
+          TextSpan(text: keyword, style: const TextStyle(fontSize: 14));
       textPainter.layout();
       totalWidth += textPainter.width + paddingPerKeyword;
     }
 
     return totalWidth;
   }
+
+  // 하단 팝업 표시
+  void _showOptionsBottomSheet(BuildContext context, dynamic boardData) {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.white,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(20),
+        ),
+      ),
+      builder: (BuildContext context) {
+        final isMyGame = AuthController.to.uid.value == boardData.userId;
+        // 내가 쓴 게임이면 바텀시트에 삭제하기, 취소 리스트 표시
+        // 내가 쓴 게임이 아니면 바텀시트에 신고하기, 차단하기, 취소 리스트 표시
+        if (isMyGame) {
+          return Padding(
+            padding: const EdgeInsets.only(bottom: 20),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                ListTile(
+                  leading: const Icon(Icons.cancel_rounded, color: Colors.red),
+                  title: const Text('삭제하기'),
+                  onTap: () {
+                    Get.back();
+                    // 삭제 다이얼로그 표시
+                    MyCustomDialog customDialog = MyCustomDialog();
+                    customDialog.showConfirmDialog(
+                      title: "게임 삭제",
+                      content: "게임을 삭제하시겠습니까?",
+                      onConfirm: () async {
+                        await controller.deleteMyGame(boardData.boardId);
+                      },
+                      confirmText: "삭제하기",
+                    );
+                  },
+                ),
+                ListTile(
+                  leading: const Icon(Icons.close, color: Colors.grey),
+                  title: const Text('취소'),
+                  onTap: () {
+                    Get.back(); // 팝업 닫기
+                  },
+                ),
+              ],
+            ),
+          );
+        } else {
+          return Padding(
+            padding: const EdgeInsets.only(bottom: 20),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                ListTile(
+                  leading: const Icon(Icons.report, color: Colors.red),
+                  title: const Text('신고하기'),
+                  onTap: () {
+                    // 신고하기 기능
+                    Get.back();
+                  },
+                ),
+                ListTile(
+                  leading: const Icon(Icons.block, color: Colors.orange),
+                  title: const Text('차단하기'),
+                  onTap: () {
+                    // 차단하기 기능
+                    Get.back();
+                    // _blockGame();
+                  },
+                ),
+                ListTile(
+                  leading: const Icon(Icons.close, color: Colors.grey),
+                  title: const Text('취소'),
+                  onTap: () {
+                    Get.back(); // 팝업 닫기
+                  },
+                ),
+              ],
+            ),
+          );
+        }
+      },
+    );
+  }
+
 }

@@ -1,5 +1,6 @@
 class Board {
   final int boardId;
+  final int userId;
   final String title;
   final List<String> keywords;
   final String introduce;
@@ -7,6 +8,7 @@ class Board {
 
   Board({
     required this.boardId,
+    required this.userId,
     required this.title,
     required this.keywords,
     required this.introduce,
@@ -16,6 +18,7 @@ class Board {
   factory Board.fromJson(Map<String, dynamic> json) {
     return Board(
       boardId: json['boardId'] ?? -1,
+      userId: json['userId'] ?? -1,
       title: json['title'] ?? 'title is null',
       keywords: List<String>.from(json['keywords']),
       introduce: json['introduce'] ?? 'introduce is null',

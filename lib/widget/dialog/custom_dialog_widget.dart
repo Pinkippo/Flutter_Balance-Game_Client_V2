@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class CustomDialog {
+class MyCustomDialog {
   showConfirmDialog({
     required String title,
     required String content,

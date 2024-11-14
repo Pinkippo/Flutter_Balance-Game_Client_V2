@@ -83,11 +83,13 @@ class GameDetailScreen extends GetView<GameDetailController> {
                             child: reportGameDialog(context, controller)),
                       );
                     } else {
-                      await CustomDialog().showConfirmDialog(
+                      await MyCustomDialog().showConfirmDialog(
                         title: "게임 삭제",
                         content: "게임을 삭제하시겠습니까?",
-                        onConfirm: () async => ThemeListController()
-                            .deleteMyGame(controller.gameDetail.value.boardId),
+                        onConfirm: () async {
+                          await ThemeListController()
+                              .deleteMyGame(controller.gameDetail.value.boardId);
+                        },
                         confirmText: "삭제하기",
                       );
                     }
