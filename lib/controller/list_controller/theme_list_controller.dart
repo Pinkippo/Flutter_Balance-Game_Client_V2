@@ -52,10 +52,17 @@ class ThemeListController extends BaseListController {
 
   /// 리스트 호출 메서드
   @override
-  Future<void> getList() async {
+  Future<void> getList({bool isRefresh = false}) async {
     if (isLoading.value || page.value >= totalPage.value) return;
 
     isLoading.value = true; // 로딩 시작
+
+    // 새로고침일 경우 리스트 초기화
+    if (isRefresh) {
+      boards.clear();
+      page.value = 0;
+      await Future.delayed(const Duration(milliseconds: 500));
+    }
 
     try {
       ListBoardResponseModel response = await ListRepository().getList(

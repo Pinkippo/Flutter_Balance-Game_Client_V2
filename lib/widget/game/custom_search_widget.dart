@@ -56,8 +56,8 @@ class CustomSearchWidget extends SearchDelegate {
   /// 검색 결과를 보여주는 컨테이너
   Widget _buildResultContainer() {
     return Obx(() {
-      if (controller.isLoading.value) {
-        // 로딩 상태일 때
+      // 로딩 상태일 때
+      if (controller.isLoading.value && controller.boards.isEmpty) {
         return Container(
           color: Colors.white,
           child: const Center(
@@ -94,20 +94,29 @@ class CustomSearchWidget extends SearchDelegate {
       () => Container(
         color: Colors.white,
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-        child: ListView.separated(
-          controller: controller.scrollController.value,
-          itemCount: controller.boards.length,
-          separatorBuilder: (_, index) => const SizedBox(
-            height: 20,
-          ),
-          itemBuilder: (_, index) {
-            return ListItemWidget(
-              controller: controller,
-              index: index,
-              isMyGame: false,
-              isParticipated: false,
-            );
+        child: RefreshIndicator(
+          backgroundColor: Colors.white,
+          color: AppColors.primaryColor,
+          onRefresh: () async {
+            controller.boards.clear();
+            controller.page.value = 0;
+            await controller.getList(isRefresh: true);
           },
+          child: ListView.separated(
+            controller: controller.scrollController.value,
+            itemCount: controller.boards.length,
+            separatorBuilder: (_, index) => const SizedBox(
+              height: 20,
+            ),
+            itemBuilder: (_, index) {
+              return ListItemWidget(
+                controller: controller,
+                index: index,
+                isMyGame: false,
+                isParticipated: false,
+              );
+            },
+          ),
         ),
       ),
     );

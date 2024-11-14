@@ -29,7 +29,7 @@ abstract class BaseListController extends GetxController {
   final Rx<ScrollController> scrollController = ScrollController().obs;
 
   /// 게임 리스트 가져오기
-  Future<void> getList();
+  Future<void> getList({bool isRefresh = false});
 
   /// 정렬 조건 업데이트
   void updateSortCondition(SORTCONDITION condition);

@@ -7,7 +7,6 @@ import '../../data/model/board/list_board_response_model.dart';
 import '../../data/provider/list.repository.dart';
 import '../auth_controller.dart';
 
-
 /// 검색한 게임 결과 리스트 컨트롤러
 class SearchedListController extends BaseListController {
   static SearchedListController get to => Get.find();
@@ -19,7 +18,6 @@ class SearchedListController extends BaseListController {
   void updateSearchText(String text) {
     searchText.value = text;
   }
-
 
   @override
   void onInit() {
@@ -33,7 +31,8 @@ class SearchedListController extends BaseListController {
 
     // 검색 스크롤 이벤트
     scrollController.value.addListener(() {
-      if (scrollController.value.position.pixels == scrollController.value.position.maxScrollExtent) {
+      if (scrollController.value.position.pixels ==
+          scrollController.value.position.maxScrollExtent) {
         getList();
       }
     });
@@ -53,11 +52,17 @@ class SearchedListController extends BaseListController {
 
   /// 검색 리스트 호출 메서드
   @override
-  Future<void> getList() async {
+  Future<void> getList({bool isRefresh = false}) async {
     if (isLoading.value || page.value >= totalPage.value) return;
 
     // 로딩 시작 상태로 설정
     isLoading.value = true;
+
+    if (isRefresh) {
+      boards.clear();
+      page.value = 0;
+      await Future.delayed(const Duration(milliseconds: 500));
+    }
 
     final ListBoardRequestModel requestModel;
 
@@ -70,7 +75,6 @@ class SearchedListController extends BaseListController {
     );
 
     try {
-      await Future.delayed(const Duration(milliseconds: 100));
       ListBoardResponseModel response = await ListRepository().getList(
         requestModel,
         AuthController.to.accessToken.value,
@@ -92,7 +96,7 @@ class SearchedListController extends BaseListController {
     if (searchText.isEmpty) {
       boards.clear();
     } else {
-      if(isLoading.value) return;
+      if (isLoading.value) return;
       boards.clear(); // 이전 검색 결과 초기화
       page.value = 0; // 페이지 초기화
       totalPage.value = 1; // 총 페이지 수 초기화
