@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:yangjataekil/controller/auth_controller.dart';
+import 'package:yangjataekil/controller/bottom_navigator_controller.dart';
+import 'package:yangjataekil/controller/list_controller/all_list_controller.dart';
+import 'package:yangjataekil/controller/list_controller/list_type_controller.dart';
+import 'package:yangjataekil/controller/list_controller/theme_list_controller.dart';
 import 'package:yangjataekil/data/model/board/board.dart';
 import 'package:yangjataekil/data/model/board/list_board_request_model.dart';
 import 'package:yangjataekil/data/provider/list.repository.dart';
 import 'package:yangjataekil/widget/snackbar_widget.dart';
-
 
 abstract class BaseListController extends GetxController {
   /// 페이지 당 게시글 수
@@ -18,7 +21,8 @@ abstract class BaseListController extends GetxController {
   final Rx<int> totalPage = 1.obs;
 
   /// 정렬 조건
-  final Rx<SORTCONDITION?> sortCondition = Rx<SORTCONDITION?>(SORTCONDITION.LIKE);
+  final Rx<SORTCONDITION?> sortCondition =
+      Rx<SORTCONDITION?>(SORTCONDITION.LIKE);
 
   /// 로딩 상태
   final RxBool isLoading = false.obs;
@@ -34,55 +38,66 @@ abstract class BaseListController extends GetxController {
   /// 게임 리스트 가져오기
   Future<void> getList({bool isRefresh = false});
 
-  /// 내가 쓴 게임 리스트 호출 메서드
-  Future<void> getMyGames() async {
-    try {
-      final response = await ListRepository()
-          .getMyGames(AuthController.to.accessToken.value);
-      print('내가 쓴 게임 리스트: ${response.boards}');
-
-      // 내가 쓴 게임 리스트 초기화 후 새로운 값으로 업데이트
-      myBoards.clear();
-      myBoards.addAll(response.boards);
-    } catch (e) {
-      CustomSnackBar.showErrorSnackBar(message: '내 게임 리스트를 가져오는 중 오류가 발생했습니다.');
-    }
-  }
-
   /// 정렬 조건 업데이트
   void updateSortCondition(SORTCONDITION condition);
 
   /// 내가 쓴 게임 삭제
   Future<void> deleteMyGame(int boardId) async {
     try {
-      final response = await ListRepository().deleteMyGame(AuthController.to.accessToken.value, boardId);
+      final response = await ListRepository()
+          .deleteMyGame(AuthController.to.accessToken.value, boardId);
       print('게임 삭제 boardId: $boardId');
 
       // 팝업 닫기
       Get.back();
 
-      if(response) {
-        print('게임 삭제 성공');
-
-        final currentRoute = Get.currentRoute;
-        if(currentRoute == '/my_games') {
-          await getMyGames(); // 내가 쓴 게임 리스트 다시 불러오기
+      if (response) {
+        if (Get.currentRoute == '/game_detail') {
+          print('리스트 타입: ${ListTypeController.to.gameListType.value}');
+          switch (ListTypeController.to.gameListType.value) {
+            case GameListType.all:
+              await refreshAllGameList();
+              break;
+            case GameListType.theme:
+              await refreshThemeGameList();
+              await refreshAllGameList();
+              break;
+            case GameListType.myGames:
+              await refreshMyGameList();
+              await refreshAllGameList();
+          }
+          Get.back();
         } else {
-          // 리스트 초기화 후 다시 불러오기
+          if (Get.currentRoute == '/my_games') {
+            await refreshMyGameList();
+          }
           boards.clear();
           page.value = 0;
           await getList();
         }
-        update(); // 화면 갱신
-
-        CustomSnackBar.showSuccessSnackBar(title: "게임 삭제 성공", message: "게임 삭제가 완료되었습니다.");
-      } else {
-        print('게임 삭제 실패');
-        CustomSnackBar.showErrorSnackBar(message: "게임을 삭제할 수 없습니다.\n 다시 시도해주세요.");
       }
-    } catch(e) {
+    } catch (e) {
       print('게임 삭제 실패 (catch)');
       CustomSnackBar.showErrorSnackBar(message: "게임을 삭제할 수 없습니다.\n 다시 시도해주세요.");
     }
+  }
+
+  /// 전체 게임 리스트 새로고침
+  Future<void> refreshAllGameList() async {
+    AllListController.to.boards.clear();
+    AllListController.to.page.value = 0;
+    await AllListController.to.getList();
+  }
+
+  /// 테마별 게임 리스트 새로고침
+  Future<void> refreshThemeGameList() async {
+    ThemeListController.to.boards.clear();
+    ThemeListController.to.page.value = 0;
+    await ThemeListController.to.getList();
+  }
+
+  /// 내가 쓴 게임 리스트 새로고침
+  Future<void> refreshMyGameList() async {
+    ThemeListController.to.getMyGames();
   }
 }

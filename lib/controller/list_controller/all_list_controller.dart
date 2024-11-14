@@ -30,6 +30,7 @@ class AllListController extends BaseListController {
   /// 리스트 호출 메서드
   @override
   Future<void> getList({bool isRefresh = false}) async {
+    print('alllistcontroller getList');
     if (isLoading.value || page.value >= totalPage.value) return;
 
     isLoading.value = true; // 로딩 시작
@@ -73,5 +74,11 @@ class AllListController extends BaseListController {
       totalPage.value = 1;
       getList();
     }
+  }
+
+  @override
+  Future<void> deleteMyGame(int boardId) {
+  //   TODO: implement deleteMyGame
+    return super.deleteMyGame(boardId);
   }
 }

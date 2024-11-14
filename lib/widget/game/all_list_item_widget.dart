@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:yangjataekil/controller/auth_controller.dart';
 import 'package:yangjataekil/controller/list_controller/all_list_controller.dart';
+import 'package:yangjataekil/controller/list_controller/list_type_controller.dart';
 import 'package:yangjataekil/controller/list_controller/theme_list_controller.dart';
 import 'package:yangjataekil/widget/dialog/custom_dialog_widget.dart';
 
@@ -18,6 +19,7 @@ class AllListItemWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
+        ListTypeController.to.gameListType.value = GameListType.all;
         /// 게임 상세 이동
         Get.toNamed('/game_detail', arguments: {
           'boardId': controller.boards[index].boardId.toString(),

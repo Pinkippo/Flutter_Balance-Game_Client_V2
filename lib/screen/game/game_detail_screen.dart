@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 import 'package:yangjataekil/controller/auth_controller.dart';
 import 'package:yangjataekil/controller/game_detail_controller.dart';
 import 'package:yangjataekil/controller/game_play_controller.dart';
+import 'package:yangjataekil/controller/list_controller/all_list_controller.dart';
 import 'package:yangjataekil/controller/list_controller/theme_list_controller.dart';
 import 'package:yangjataekil/theme/app_color.dart';
 import 'package:yangjataekil/widget/dialog/custom_dialog_widget.dart';
@@ -87,8 +88,8 @@ class GameDetailScreen extends GetView<GameDetailController> {
                         title: "게임 삭제",
                         content: "게임을 삭제하시겠습니까?",
                         onConfirm: () async {
-                          await ThemeListController()
-                              .deleteMyGame(controller.gameDetail.value.boardId);
+                          await AllListController.to.deleteMyGame(
+                              controller.gameDetail.value.boardId);
                         },
                         confirmText: "삭제하기",
                       );

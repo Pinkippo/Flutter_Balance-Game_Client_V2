@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:yangjataekil/controller/auth_controller.dart';
 import 'package:yangjataekil/controller/list_controller/base_list_controller.dart';
+import 'package:yangjataekil/controller/list_controller/list_type_controller.dart';
 import 'package:yangjataekil/controller/list_controller/searched_list_controller.dart';
 import 'package:yangjataekil/controller/list_controller/theme_list_controller.dart';
 
@@ -29,6 +30,9 @@ class ListItemWidget extends StatelessWidget {
 
     return GestureDetector(
       onTap: () {
+        isMyGame
+            ? ListTypeController.to.gameListType.value = GameListType.myGames
+            : ListTypeController.to.gameListType.value = GameListType.theme;
         Get.toNamed('/game_detail', arguments: {
           'boardId': boardData.boardId.toString(),
         });
@@ -141,7 +145,6 @@ class ListItemWidget extends StatelessWidget {
     }
   }
 
-
   // 각 키워드의 너비를 대략적으로 계산하는 함수 (단순 문자열 길이 기준)
   double _calculateTotalKeywordWidth(List<String> keywords) {
     const paddingPerKeyword = 16.0; // 키워드 간 여백
@@ -245,5 +248,4 @@ class ListItemWidget extends StatelessWidget {
       },
     );
   }
-
 }

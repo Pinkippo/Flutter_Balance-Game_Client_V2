@@ -54,6 +54,7 @@ class ThemeListController extends BaseListController {
   /// 리스트 호출 메서드
   @override
   Future<void> getList({bool isRefresh = false}) async {
+    print('themelistcontroller getList');
     if (isLoading.value || page.value >= totalPage.value) return;
 
     isLoading.value = true; // 로딩 시작
@@ -87,7 +88,6 @@ class ThemeListController extends BaseListController {
   }
 
   /// 내가 쓴 게임 리스트 호출 메서드
-  @override
   Future<void> getMyGames() async {
     try {
       final response = await ListRepository()
@@ -117,5 +117,11 @@ class ThemeListController extends BaseListController {
       CustomSnackBar.showErrorSnackBar(
           message: '참여한 게임 리스트를 가져오는 중 오류가 발생했습니다.');
     }
+  }
+
+  @override
+  Future<void> deleteMyGame(int boardId) {
+    // TODO: implement deleteMyGame
+    return super.deleteMyGame(boardId);
   }
 }
