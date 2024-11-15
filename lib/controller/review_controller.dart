@@ -105,7 +105,7 @@ class ReviewController extends GetxController {
   Future<bool> reportReview(int boardId, int reviewId, String reviewContent) async {
     boardReviewId.value = reviewId;
     reportReason.value = reviewContent.isEmpty
-        ? selectedCategory.value!.displayName
+        ? (selectedCategory.value?.displayName ?? '기타')
         : reviewContent;
 
     try {
