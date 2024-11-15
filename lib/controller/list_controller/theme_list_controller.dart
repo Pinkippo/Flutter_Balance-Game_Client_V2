@@ -5,10 +5,11 @@ import 'package:yangjataekil/controller/tab/theme_controller.dart';
 import 'package:yangjataekil/data/model/board/list_board_request_model.dart';
 import 'package:yangjataekil/data/model/board/list_board_response_model.dart';
 import 'package:yangjataekil/data/provider/list.repository.dart';
+import 'package:yangjataekil/mixin/ReportMixin.dart';
 import 'package:yangjataekil/widget/snackbar_widget.dart';
 
 /// 테마별 게임 리스트 컨트롤러
-class ThemeListController extends BaseListController {
+class ThemeListController extends BaseListController with ReportMixin {
   /// .to로 생성된 인스턴스에 접근하기 위한 static 변수
   static ThemeListController get to => Get.find();
 

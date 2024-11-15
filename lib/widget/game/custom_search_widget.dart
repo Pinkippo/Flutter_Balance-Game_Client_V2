@@ -20,7 +20,6 @@ class CustomSearchWidget extends SearchDelegate {
       IconButton(
         icon: const Icon(Icons.search),
         onPressed: () {
-          // controller.updateSearchText(query);
           controller.searchQuery();
           showResults(context);
         },

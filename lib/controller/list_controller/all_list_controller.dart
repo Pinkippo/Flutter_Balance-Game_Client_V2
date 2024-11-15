@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:yangjataekil/controller/list_controller/base_list_controller.dart';
+import 'package:yangjataekil/mixin/ReportMixin.dart';
 import 'package:yangjataekil/widget/snackbar_widget.dart';
 
-import '../../data/model/board/board.dart';
 import '../../data/model/board/list_board_request_model.dart';
 import '../../data/model/board/list_board_response_model.dart';
 import '../../data/provider/list.repository.dart';
 import '../auth_controller.dart';
 
 /// 전체 게임 리스트 컨트롤러
-class AllListController extends BaseListController {
+class AllListController extends BaseListController with ReportMixin {
   static AllListController get to => Get.find();
 
   @override
@@ -80,5 +80,12 @@ class AllListController extends BaseListController {
   Future<void> deleteMyGame(int boardId) {
   //   TODO: implement deleteMyGame
     return super.deleteMyGame(boardId);
+  }
+
+  @override
+  Future<bool> reportGame(int boardId, String reason) async {
+    // AllListController에서의 커스텀 로직
+    print('AllListController에서 게임 신고 로직 실행');
+    return super.reportGame(boardId, reason);
   }
 }

@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:yangjataekil/controller/auth_controller.dart';
 import 'package:yangjataekil/controller/list_controller/all_list_controller.dart';
-import 'package:yangjataekil/controller/list_controller/list_type_controller.dart';
-import 'package:yangjataekil/controller/list_controller/theme_list_controller.dart';
 import 'package:yangjataekil/widget/dialog/custom_dialog_widget.dart';
+import 'package:yangjataekil/widget/report/game_report_dialog_widget.dart';
 
 import '../list/keyword_widget.dart';
 
@@ -19,7 +18,6 @@ class AllListItemWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        ListTypeController.to.gameListType.value = GameListType.all;
         /// 게임 상세 이동
         Get.toNamed('/game_detail', arguments: {
           'boardId': controller.boards[index].boardId.toString(),
@@ -110,7 +108,7 @@ class AllListItemWidget extends StatelessWidget {
                 child: IconButton(
                   icon: const Icon(Icons.more_vert, color: Colors.grey),
                   onPressed: () {
-                    _showOptionsBottomSheet(context);
+                    _showOptionsBottomSheet();
                   },
                 ),
               ),
@@ -136,94 +134,110 @@ class AllListItemWidget extends StatelessWidget {
   // 신고하기 기능
 
   // 하단 팝업 표시
-  void _showOptionsBottomSheet(BuildContext context) {
-    showModalBottomSheet(
-      context: context,
-      backgroundColor: Colors.white,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(
-          top: Radius.circular(20),
+  void _showOptionsBottomSheet() {
+    if (AuthController.to.uid.value == controller.boards[index].userId) {
+      Get.bottomSheet(
+        backgroundColor: Colors.white,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(
+            top: Radius.circular(20),
+          ),
         ),
-      ),
-      builder: (BuildContext context) {
-        // 내가 쓴 게임이면 바텀시트에 삭제하기, 취소 리스트 표시
-        // 내가 쓴 게임이 아니면 바텀시트에 신고하기, 차단하기, 취소 리스트 표시
-        if (AuthController.to.uid.value == controller.boards[index].userId) {
-          return Padding(
-            padding: const EdgeInsets.only(bottom: 20),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                ListTile(
-                  leading: const Icon(Icons.cancel_rounded, color: Colors.red),
-                  title: const Text('삭제하기'),
-                  onTap: () {
-                    Get.back();
-                    MyCustomDialog customDialog = MyCustomDialog();
-                    customDialog.showConfirmDialog(
-                      title: "게임 삭제",
-                      content: "게임을 삭제하시겠습니까?",
-                      onConfirm: () async {
-                        await controller.deleteMyGame(controller.boards[index].boardId);
-                      },
-                      confirmText: "삭제하기",
+        Padding(
+          padding: const EdgeInsets.only(bottom: 20),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ListTile(
+                leading: const Icon(Icons.cancel_rounded, color: Colors.red),
+                title: const Text('삭제하기'),
+                onTap: () {
+                  Get.back();
+                  MyCustomDialog customDialog = MyCustomDialog();
+                  customDialog.showConfirmDialog(
+                    title: "게임 삭제",
+                    content: "게임을 삭제하시겠습니까?",
+                    onConfirm: () async {
+                      await controller
+                          .deleteMyGame(controller.boards[index].boardId);
+                    },
+                    confirmText: "삭제하기",
+                  );
+                },
+              ),
+              ListTile(
+                leading: const Icon(Icons.close, color: Colors.grey),
+                title: const Text('취소'),
+                onTap: () {
+                  Get.back(); // 팝업 닫기
+                },
+              ),
+            ],
+          ),
+        ),
+      );
+    } else {
+      Get.bottomSheet(
+        backgroundColor: Colors.white,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(
+            top: Radius.circular(20),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(bottom: 20),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ListTile(
+                leading: const Icon(Icons.report, color: Colors.red),
+                title: const Text('신고하기'),
+                onTap: () {
+                  Get.back();
+                  if (AuthController.to.accessToken.isEmpty) {
+                    Get.toNamed('/login');
+                  } else {
+                    Get.dialog(
+                      PopScope(
+                          onPopInvokedWithResult:
+                              (bool didPop, dynamic result) {
+                            controller.selectedCategory.value = null;
+                            controller.reportReason.value = '';
+                          },
+                          child: reportGameDialog(
+                              controller.boards[index].boardId, controller)),
                     );
-                  },
-                ),
-                ListTile(
-                  leading: const Icon(Icons.close, color: Colors.grey),
-                  title: const Text('취소'),
-                  onTap: () {
-                    Get.back(); // 팝업 닫기
-                  },
-                ),
-              ],
-            ),
-          );
-        } else {
-          return Padding(
-            padding: const EdgeInsets.only(bottom: 20),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                ListTile(
-                  leading: const Icon(Icons.report, color: Colors.red),
-                  title: const Text('신고하기'),
-                  onTap: () {
-                    // 신고하기 기능
-                    Get.back();
-                  },
-                ),
-                ListTile(
-                  leading: const Icon(Icons.block, color: Colors.orange),
-                  title: const Text('차단하기'),
-                  onTap: () {
-                    // 차단하기 기능
-                    Get.back();
-                    _blockGame();
-                  },
-                ),
-                ListTile(
-                  leading: const Icon(Icons.close, color: Colors.grey),
-                  title: const Text('취소'),
-                  onTap: () {
-                    Get.back(); // 팝업 닫기
-                  },
-                ),
-              ],
-            ),
-          );
-        }
-      },
-    );
-  }
-
-  void _reportGame() {
-    Get.snackbar('신고 완료', '게임이 신고되었습니다.');
-  }
-
-  // 차단하기 기능
-  void _blockGame() {
-    Get.snackbar('차단 완료', '게임이 차단되었습니다.');
+                  }
+                },
+              ),
+              ListTile(
+                leading: const Icon(Icons.block, color: Colors.orange),
+                title: const Text('차단하기'),
+                onTap: () {
+                  // 차단하기 기능
+                  Get.back();
+                  if (AuthController.to.accessToken.isEmpty) {
+                    Get.toNamed('/login');
+                  }
+                  MyCustomDialog().showConfirmDialog(
+                      title: '차단',
+                      content: '이 사용자의 게시글을 차단하시겠습니까?',
+                      onConfirm: () async => controller
+                          .blockGame(controller.boards[index].boardId),
+                      confirmText: '차단하기');
+                },
+              ),
+              ListTile(
+                leading: const Icon(Icons.close, color: Colors.grey),
+                title: const Text('취소'),
+                onTap: () {
+                  Get.back(); // 팝업 닫기
+                },
+              ),
+            ],
+          ),
+        ),
+      );
+    }
   }
 }

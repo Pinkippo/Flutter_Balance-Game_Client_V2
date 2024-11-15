@@ -33,7 +33,7 @@ class GameDetailScreen extends GetView<GameDetailController> {
               controller.gameDetail.value.writer.userId ==
                       AuthController.to.uid.value
                   ? <String>['삭제하기']
-                  : <String>['리뷰작성', '신고하기'];
+                  : <String>['리뷰작성', '신고하기', '차단하기'];
           return AppBar(
             backgroundColor: AppColors.secondaryColor,
             surfaceTintColor: AppColors.secondaryColor,
@@ -79,9 +79,19 @@ class GameDetailScreen extends GetView<GameDetailController> {
                             onPopInvokedWithResult:
                                 (bool didPop, dynamic result) {
                               controller.selectedCategory.value = null;
-                              controller.content.value = '';
+                              controller.reportReason.value = '';
                             },
-                            child: reportGameDialog(context, controller)),
+                            child: reportGameDialog(controller.gameDetail.value.boardId, controller)),
+                      );
+                    } else if (value == '차단하기') {
+                      await MyCustomDialog().showConfirmDialog(
+                        title: "게임 차단",
+                        content: "게임을 차단하시겠습니까?",
+                        onConfirm: () async {
+                          await AllListController.to
+                              .blockGame(controller.gameDetail.value.boardId);
+                        },
+                        confirmText: "차단하기",
                       );
                     } else {
                       await MyCustomDialog().showConfirmDialog(

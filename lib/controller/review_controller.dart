@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:yangjataekil/controller/auth_controller.dart';
+import 'package:yangjataekil/controller/list_controller/all_list_controller.dart';
 import 'package:yangjataekil/data/model/review.dart';
 import 'package:yangjataekil/widget/snackbar_widget.dart';
 import '../data/provider/review_repository.dart';
@@ -52,6 +53,7 @@ class ReviewController extends GetxController {
         AuthController.to.accessToken.value,
         boardId,
       );
+      reviews.clear();
       reviews.value = reviewList.reviews;
       print('리뷰 리스트 조회 성공 : ${reviews.toString()}');
     } catch (e) {
@@ -80,7 +82,7 @@ class ReviewController extends GetxController {
   final boardReviewId = 0.obs;
 
   /// 신고 내용
-  final content = ''.obs;
+  final reportReason = ''.obs;
 
   /// 카테고리
   final categories = REPORTCATEGORY.values;
@@ -95,14 +97,14 @@ class ReviewController extends GetxController {
 
   /// 신고 내용 업데이트
   void updateContent(String value) {
-    content.value = value;
-    print('신고 내용: ${content.value}');
+    reportReason.value = value;
+    print('신고 내용: ${reportReason.value}');
   }
 
   /// 리뷰 신고 메서드
   Future<bool> reportReview(int boardId, int reviewId, String reviewContent) async {
     boardReviewId.value = reviewId;
-    content.value = reviewContent.isEmpty
+    reportReason.value = reviewContent.isEmpty
         ? selectedCategory.value!.displayName
         : reviewContent;
 
@@ -111,7 +113,7 @@ class ReviewController extends GetxController {
           AuthController.to.accessToken.value,
           boardId,
           boardReviewId.value,
-          content.value);
+          reportReason.value);
       if (response) {
         print('(controller)리뷰 신고 성공');
         return true;
@@ -127,6 +129,35 @@ class ReviewController extends GetxController {
       print('(controller)리뷰 신고 api 받아오기 실패: $e');
       rethrow;
     }
+  }
+
+  /// 리뷰 차단
+  Future<void> blockReview(int boardReviewId, int boardId) async {
+    print('리뷰 차단 boardReviewId: $boardReviewId');
+    print('리뷰 차단 boardId: $boardId');
+
+    try {
+      final response = await ReviewRepository().blockReview(
+        AuthController.to.accessToken.value,
+        boardReviewId,
+        boardId,
+      );
+      AllListController().refreshList();
+
+      // 팝업 닫기
+      Get.back();
+      if(response) {
+        CustomSnackBar.showSuccessSnackBar(message: '리뷰가 차단되었습니다.');
+        getReviewList(boardId);
+      } else {
+        print('리뷰 차단 실패');
+        CustomSnackBar.showErrorSnackBar(message: '리뷰를 차단할 수 없습니다.\n 다시 시도해주세요.');
+      }
+    } catch (e) {
+      print('리뷰 차단 실패 (catch)');
+      CustomSnackBar.showErrorSnackBar(message: "리뷰를 차단할 수 없습니다.\n 다시 시도해주세요.");
+    }
+
   }
 
   /// ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ

@@ -2,8 +2,6 @@ import 'package:get/get.dart';
 import 'package:yangjataekil/controller/list_controller/all_list_controller.dart';
 import 'package:yangjataekil/controller/auth_controller.dart';
 import 'package:yangjataekil/controller/bottom_navigator_controller.dart';
-import 'package:yangjataekil/controller/list_controller/list_type_controller.dart';
-import 'package:yangjataekil/controller/list_controller/searched_list_controller.dart';
 import 'package:yangjataekil/controller/find_id_pw_controller.dart';
 import 'package:yangjataekil/controller/game_detail_controller.dart';
 import 'package:yangjataekil/controller/game_play_controller.dart';
@@ -71,9 +69,6 @@ class AppPages {
             return BottomNavigatorController();
           });
           Get.put(AllListController());
-          Get.lazyPut<ListTypeController>(() {
-            return ListTypeController();
-          });
           Get.lazyPut<ThemeController>(() {
             return ThemeController();
           });

@@ -134,6 +134,7 @@ class ListRepository {
     }
   }
 
+  /// 내 게임 삭제
   Future<bool> deleteMyGame(String token, int boardId) async {
     final url = Uri.parse("$baseUrl/board/v2/boards/$boardId");
 
@@ -155,6 +156,33 @@ class ListRepository {
     } catch (e) {
       print('게임 삭제 실패 에러: $e');
       throw Exception("delete failed");
+    }
+  }
+
+  /// 게임 차단
+  Future<bool> blockGame(String token, int boardId) async {
+    final url = Uri.parse('$baseUrl/board/v2/boards/$boardId/block');
+
+    try {
+      final response = await http.post(
+        url,
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+          'charset': 'utf-8',
+          'Authorization': 'Bearer $token',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        print('게임 차단 성공');
+        return true;
+      } else {
+        print('게임 차단 실패: ${response.statusCode}');
+        return false;
+      }
+    } catch(e) {
+      print('게임 차단 실패: $e');
+      throw Exception('게임 차단 실패');
     }
   }
 }

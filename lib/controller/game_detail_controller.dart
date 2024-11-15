@@ -9,10 +9,11 @@ import 'package:yangjataekil/data/model/game/game_detail_response_model.dart';
 import 'package:yangjataekil/data/model/game/game_detail_writer.dart';
 import 'package:yangjataekil/data/model/game/related_game_model.dart';
 import 'package:yangjataekil/data/provider/game_repository.dart';
+import 'package:yangjataekil/mixin/ReportMixin.dart';
 import 'package:yangjataekil/theme/app_color.dart';
 import 'package:yangjataekil/widget/snackbar_widget.dart';
 
-class GameDetailController extends GetxController {
+class GameDetailController extends GetxController with ReportMixin {
   /// 스크롤 컨트롤러
   final gameDetailScrollController = ScrollController();
   final carouselScrollController = CarouselSliderController();
@@ -44,6 +45,9 @@ class GameDetailController extends GetxController {
 
     /// 게임 상세 조회
     await getGameDetail();
+
+    /// 신고 카테고리 초기화
+    initializeCategories(REPORTCATEGORY.values);
 
   }
 
@@ -77,28 +81,32 @@ class GameDetailController extends GetxController {
   /// ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 리뷰 신고 파트 변수 및 메서드 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 
   /// 신고 내용
-  final content = ''.obs;
+  // final content = ''.obs;
 
   /// 카테고리
-  final categories = REPORTCATEGORY.values;
+  // final categories = REPORTCATEGORY.values;
 
   /// 선택된 신고 카테고리
-  final selectedCategory = Rx<REPORTCATEGORY?>(null);
+  // final selectedCategory = Rx<REPORTCATEGORY?>(null);
 
   /// 카테고리 선택 메서드
-  void toggleCategory(REPORTCATEGORY category) {
-    selectedCategory.value = category;
-  }
+  // void toggleCategory(REPORTCATEGORY category) {
+  //   selectedCategory.value = category;
+  // }
 
   /// 신고 내용 업데이트
-  void updateContent(String value) {
-    content.value = value;
-    print('게임 신고 내용: ${content.value}');
-  }
+  // void updateContent(String value) {
+  //   reportReason.value = value;
+  //   print('게임 신고 내용: ${reportReason.value}');
+  // }
 
   /// 게임 신고 메서드
-  Future<bool> gameReport(String reportContent) async {
-    content.value = reportContent.isEmpty
+  @override
+  Future<bool> reportGame(
+      int boardId, String reportContent
+      ) async {
+    boardId = gameDetail.value.boardId;
+    reportReason.value = reportContent.isEmpty
         ? selectedCategory.value!.displayName
         : reportContent;
 
@@ -106,7 +114,7 @@ class GameDetailController extends GetxController {
       final response = await GameRepository().reportGame(
           AuthController.to.accessToken.value,
           gameDetail.value.boardId,
-          content.value);
+          reportReason.value);
       if (response) {
         print('(controller)게임 신고 성공');
         return true;

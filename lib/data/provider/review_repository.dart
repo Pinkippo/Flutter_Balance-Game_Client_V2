@@ -69,7 +69,8 @@ class ReviewRepository {
         'charset': 'utf-8',
       },
     );
-    print('추천 리뷰 조회 API response : \n${jsonDecode(utf8.decode(response.bodyBytes))}');
+    print(
+        '추천 리뷰 조회 API response : \n${jsonDecode(utf8.decode(response.bodyBytes))}');
     if (response.statusCode == 200) {
       print('추천 리뷰 조회 성공');
       final responseData = jsonDecode(utf8.decode(response.bodyBytes));
@@ -138,6 +139,34 @@ class ReviewRepository {
       // 여기서 추가적인 예외 처리를 할 수 있습니다.
       print('Exception occurred: $error');
       rethrow; // 예외를 다시 던져서 컨트롤러에서 처리할 수 있게 합니다.
+    }
+  }
+
+  /// 리뷰 삭제
+  Future<bool> blockReview(String token, int boardReviewId, int boardId) async {
+    final url = Uri.parse(
+        '$baseUrl/board/v2/boards/$boardId/reviews/$boardReviewId/block');
+
+    try {
+      final response = await http.post(
+        url,
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+          'charset': 'utf-8',
+          'Authorization': 'Bearer $token',
+        },
+      );
+
+      if(response.statusCode == 200) {
+        print('리뷰 차단 성공');
+        return true;
+      } else {
+        print('리뷰 차단 실패: ${response.statusCode}');
+        return false;
+      }
+    } catch (e) {
+      print('리뷰 차단 실패: $e');
+      rethrow;
     }
   }
 }

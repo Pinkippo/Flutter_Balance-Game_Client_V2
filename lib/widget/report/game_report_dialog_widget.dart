@@ -1,13 +1,13 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:yangjataekil/controller/game_detail_controller.dart';
+import 'package:yangjataekil/controller/list_controller/all_list_controller.dart';
 import 'package:yangjataekil/controller/review_controller.dart';
+import 'package:yangjataekil/mixin/ReportMixin.dart';
 import 'package:yangjataekil/theme/app_color.dart';
 import 'package:yangjataekil/widget/snackbar_widget.dart';
 
-Widget reportGameDialog(
-    BuildContext context, GameDetailController gameController) {
+Widget reportGameDialog(boardId, ReportMixin controller) {
   return Dialog(
     backgroundColor: Colors.white,
     shape: RoundedRectangleBorder(
@@ -41,7 +41,7 @@ Widget reportGameDialog(
                 '신고 사유를 선택해주세요.',
                 style: TextStyle(fontSize: 14),
               ),
-              items: gameController.categories
+              items: controller.categories
                   .map((category) => DropdownMenuItem<REPORTCATEGORY>(
                         value: category,
                         child: Text(category.displayName),
@@ -54,9 +54,9 @@ Widget reportGameDialog(
                 return null;
               },
               onChanged: (value) {
-                gameController.toggleCategory(value!);
+                controller.toggleCategory(value!);
               },
-              value: gameController.selectedCategory.value,
+              value: controller.selectedCategory.value,
               decoration: const InputDecoration(
                 // 드롭다운메뉴 클릭 전 테두리 색상
                 border: OutlineInputBorder(
@@ -77,13 +77,12 @@ Widget reportGameDialog(
 
           /// 기타 선택 시 신고 내용 입력 필드 보여주기
           Obx(() {
-            if (gameController.selectedCategory.value ==
-                REPORTCATEGORY.others) {
+            if (controller.selectedCategory.value == REPORTCATEGORY.others) {
               return TextField(
                 maxLines: 5,
                 maxLength: 100,
                 onChanged: (value) {
-                  gameController.updateContent(value);
+                  controller.updateContent(value);
                 },
                 decoration: InputDecoration(
                   filled: true,
@@ -119,7 +118,7 @@ Widget reportGameDialog(
                   ),
                   onTap: () {
                     // 신고 사유 선택하지 않았을 때
-                    if (gameController.selectedCategory.value == null) {
+                    if (controller.selectedCategory.value == null) {
                       CustomSnackBar.showErrorSnackBar(
                         title: '미입력 항목',
                         message: '신고 사유를 선택해주세요.',
@@ -127,9 +126,9 @@ Widget reportGameDialog(
                       return;
                     }
                     // 신고 사유는 '기타'로 선택,, 신고 내용은 비어 있을 때
-                    else if (gameController.selectedCategory.value ==
+                    else if (controller.selectedCategory.value ==
                         REPORTCATEGORY.others) {
-                      if (gameController.content.value == '') {
+                      if (controller.reportReason.value == '') {
                         CustomSnackBar.showErrorSnackBar(
                           title: '미입력 항목',
                           message: '신고 내용을 입력해주세요.',
@@ -137,51 +136,56 @@ Widget reportGameDialog(
                         return;
                       }
                     }
-                    // 신고 사유 선택 후 신고 버튼 클릭 시 한번 더 물어보기
-                    showDialog(
-                      context: context,
-                      builder: (context) {
-                        return AlertDialog(
-                          backgroundColor: Colors.white,
-                          title: const Text('신고 확인',
-                              style: TextStyle(fontWeight: FontWeight.bold)),
-                          content: const Text('정말 신고하시겠습니까?'),
-                          actions: [
-                            TextButton(
-                              onPressed: () {
+                    Get.dialog(
+                      AlertDialog(
+                        backgroundColor: Colors.white,
+                        title: const Text('신고 확인',
+                            style: TextStyle(fontWeight: FontWeight.bold)),
+                        content: const Text('정말 신고하시겠습니까?'),
+                        actions: [
+                          TextButton(
+                            onPressed: () {
+                              Get.back();
+                            },
+                            child: const Text('취소',
+                                style: TextStyle(color: Colors.grey)),
+                          ),
+                          TextButton(
+                            // 신고하기
+                            onPressed: () {
+                              controller
+                                  .reportGame(
+                                boardId,
+                                controller.reportReason.value,
+                              )
+                                  .then((value) {
+                                // 새로고침 (allListController가 생성되어있으므로 사용)
+                                AllListController.to.refreshList();
                                 Get.back();
-                              },
-                              child: const Text('취소',
-                                  style: TextStyle(color: Colors.grey)),
-                            ),
-                            TextButton(
-                              // 신고하기
-                              onPressed: () {
-                                gameController
-                                    .gameReport(gameController.content.value)
-                                    .then((value) {
-                                  Get.back();
-                                  Get.back();
-                                  if (value) {
-                                    CustomSnackBar.showSuccessSnackBar(
-                                      title: '신고 성공',
-                                      message: '신고가 접수되었습니다.',
-                                    );
-                                  } else {
-                                    CustomSnackBar.showErrorSnackBar(
-                                      title: '신고 실패',
-                                      message: '신고 접수에 실패했습니다.',
-                                    );
+                                Get.back();
+                                if (value) {
+                                  if (Get.currentRoute == '/game_detail') {
+                                    Get.back();
                                   }
-                                });
-                              },
-                              child: const Text('확인',
-                                  style: TextStyle(color: Colors.red)),
-                            ),
-                          ],
-                        );
-                      },
+                                  CustomSnackBar.showSuccessSnackBar(
+                                    title: '신고 성공',
+                                    message: '신고가 접수되었습니다.',
+                                  );
+                                } else {
+                                  CustomSnackBar.showErrorSnackBar(
+                                    title: '신고 실패',
+                                    message: '신고 접수에 실패했습니다.',
+                                  );
+                                }
+                              });
+                            },
+                            child: const Text('확인',
+                                style: TextStyle(color: Colors.red)),
+                          ),
+                        ],
+                      ),
                     );
+                    // 신고 사유 선택 후 신고 버튼 클릭 시 한번 더 물어보기
                   },
                 ),
                 const VerticalDivider(
