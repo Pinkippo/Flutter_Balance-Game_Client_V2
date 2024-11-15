@@ -197,7 +197,7 @@ class AuthController extends GetxController {
       realName.value = response.realName;
       birth.value = response.birth;
       accountName.value = response.accountName;
-      invitationCode.value = response.invitationCode;
+      // invitationCode.value = response.invitationCode;
       profileUrl.value = response.profileUrl;
 
       print('유저 정보 조회, profileUrl>> ${profileUrl.value}');
