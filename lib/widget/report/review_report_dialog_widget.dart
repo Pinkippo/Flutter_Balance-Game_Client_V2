@@ -5,7 +5,7 @@ import 'package:yangjataekil/controller/review_controller.dart';
 import 'package:yangjataekil/theme/app_color.dart';
 import 'package:yangjataekil/widget/snackbar_widget.dart';
 
-Widget reportDialog(ReviewController reviewController, int boardId) {
+Widget reportDialog(ReviewController reviewController, int boardReviewId, int boardId) {
   return Dialog(
     backgroundColor: Colors.white,
     shape: RoundedRectangleBorder(
@@ -151,10 +151,12 @@ Widget reportDialog(ReviewController reviewController, int boardId) {
                             onPressed: () async {
                               Get.back();
                               Get.back();
+                              print('boardId : $boardId');
+                              print('boardReviewId: $boardReviewId');
                               await reviewController
                                   .reportReview(
                                       boardId,
-                                      reviewController.boardReviewId.value,
+                                      boardReviewId,
                                       reviewController.reportReason.value)
                                   .then((value) {
                                 if (value) {

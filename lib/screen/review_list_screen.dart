@@ -211,7 +211,7 @@ class ReviewListScreen extends GetView<ReviewController> {
                           controller.selectedCategory.value = null;
                           controller.reportReason.value = '';
                         },
-                        child: reportDialog(controller, boardReviewId)),
+                        child: reportDialog(controller, boardReviewId, boardId)),
                   );
                 }
               },
