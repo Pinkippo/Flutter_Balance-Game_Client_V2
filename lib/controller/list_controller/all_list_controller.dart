@@ -1,19 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:yangjataekil/controller/list_controller/base_list_controller.dart';
+import 'package:yangjataekil/mixin/ReportMixin.dart';
 import 'package:yangjataekil/widget/snackbar_widget.dart';
 
-import '../../data/model/board/board.dart';
 import '../../data/model/board/list_board_request_model.dart';
 import '../../data/model/board/list_board_response_model.dart';
 import '../../data/provider/list.repository.dart';
 import '../auth_controller.dart';
 
-
 /// 전체 게임 리스트 컨트롤러
-class AllListController extends BaseListController {
+class AllListController extends BaseListController with ReportMixin {
   static AllListController get to => Get.find();
-
 
   @override
   void onInit() {
@@ -31,10 +29,17 @@ class AllListController extends BaseListController {
 
   /// 리스트 호출 메서드
   @override
-  Future<void> getList() async {
+  Future<void> getList({bool isRefresh = false}) async {
+    print('alllistcontroller getList');
     if (isLoading.value || page.value >= totalPage.value) return;
 
     isLoading.value = true; // 로딩 시작
+
+    if (isRefresh) {
+      boards.clear();
+      page.value = 0;
+      await Future.delayed(const Duration(milliseconds: 500));
+    }
 
     try {
       ListBoardResponseModel response = await ListRepository().getList(
@@ -47,12 +52,7 @@ class AllListController extends BaseListController {
         ),
         AuthController.to.accessToken.value,
       );
-      /// TODO: 게임 리스트 가져올 때 중복으로 가져오는 문제 해결해야함
-      // print('page: ${page.value} totalPage: ${response.totalPage}');
-      //
-      // boards.addAll(response.boards.where((newBoard) =>
-      // !boards.any((existingBoard) => existingBoard.boardId == newBoard.boardId)
-      // ));
+
       boards.addAll(response.boards);
       totalPage.value = response.totalPage!; // totalPage 값 업데이트
       page.value += 1; // 페이지 값 증가
@@ -76,4 +76,16 @@ class AllListController extends BaseListController {
     }
   }
 
+  @override
+  Future<void> deleteMyGame(int boardId) {
+  //   TODO: implement deleteMyGame
+    return super.deleteMyGame(boardId);
+  }
+
+  @override
+  Future<bool> reportGame(int boardId, String reason) async {
+    // AllListController에서의 커스텀 로직
+    print('AllListController에서 게임 신고 로직 실행');
+    return super.reportGame(boardId, reason);
+  }
 }

@@ -13,8 +13,8 @@ import 'package:http/http.dart' as http;
 final baseUrl = dotenv.env['BASE_URL'];
 
 class ListRepository {
-  Future<ListBoardResponseModel> getList(ListBoardRequestModel request,
-      String token) async {
+  Future<ListBoardResponseModel> getList(
+      ListBoardRequestModel request, String token) async {
     final url = Uri.parse('$baseUrl/board/v2/boards');
 
     print('query=${request.query}&'
@@ -25,27 +25,27 @@ class ListRepository {
     final response = await http.get(
       request.searching
           ? (request.themeId == null
-          ? Uri.parse('$url?'
-          'query=${request.query}&'
-          'page=${request.page}&'
-          'size=${request.size}&'
-          'sortCondition=${request.sortCondition?.name ?? ''}&')
-          : Uri.parse('$url?'
-          'query=${request.query}&'
-          'page=${request.page}&'
-          'size=${request.size}&'
-          'sortCondition=${request.sortCondition?.name ?? ''}&'
-          'themeId=${request.themeId}&'))
+              ? Uri.parse('$url?'
+                  'query=${request.query}&'
+                  'page=${request.page}&'
+                  'size=${request.size}&'
+                  'sortCondition=${request.sortCondition?.name ?? ''}&')
+              : Uri.parse('$url?'
+                  'query=${request.query}&'
+                  'page=${request.page}&'
+                  'size=${request.size}&'
+                  'sortCondition=${request.sortCondition?.name ?? ''}&'
+                  'themeId=${request.themeId}&'))
           : request.themeId == null
-          ? Uri.parse('$url?'
-          'page=${request.page}&'
-          'size=${request.size}&'
-          'sortCondition=${request.sortCondition?.name ?? ''}&')
-          : Uri.parse('$url?'
-          'page=${request.page}&'
-          'size=${request.size}&'
-          'sortCondition=${request.sortCondition?.name ?? ''}&'
-          'themeId=${request.themeId}&'),
+              ? Uri.parse('$url?'
+                  'page=${request.page}&'
+                  'size=${request.size}&'
+                  'sortCondition=${request.sortCondition?.name ?? ''}&')
+              : Uri.parse('$url?'
+                  'page=${request.page}&'
+                  'size=${request.size}&'
+                  'sortCondition=${request.sortCondition?.name ?? ''}&'
+                  'themeId=${request.themeId}&'),
       headers: <String, String>{
         'Content-Type': 'application/json',
         if (token.isNotEmpty) 'Authorization': 'Bearer $token'
@@ -75,10 +75,10 @@ class ListRepository {
     final response = await http.get(
       url,
       headers: <String, String>{
-    if (token.isNotEmpty) 'Authorization': 'Bearer $token',
-    'Content-Type': 'application/json',
-    'charset': 'utf-8',
-    },
+        if (token.isNotEmpty) 'Authorization': 'Bearer $token',
+        'Content-Type': 'application/json',
+        'charset': 'utf-8',
+      },
     );
 
     if (response.statusCode == 200) {
@@ -131,6 +131,58 @@ class ListRepository {
     } else {
       print('참가한 게임 리스트 조회 실패');
       throw Exception('참가한 게임 리스트 조회 실패');
+    }
+  }
+
+  /// 내 게임 삭제
+  Future<bool> deleteMyGame(String token, int boardId) async {
+    final url = Uri.parse("$baseUrl/board/v2/boards/$boardId");
+
+    try {
+      final response = await http.delete(
+        url,
+        headers: {
+          'Authorization': 'Bearer $token',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        print('내 게임 삭제 성공');
+        return true;
+      } else {
+        print('status code: ${response.statusCode}');
+        return false;
+      }
+    } catch (e) {
+      print('게임 삭제 실패 에러: $e');
+      throw Exception("delete failed");
+    }
+  }
+
+  /// 게임 차단
+  Future<bool> blockGame(String token, int boardId) async {
+    final url = Uri.parse('$baseUrl/board/v2/boards/$boardId/block');
+
+    try {
+      final response = await http.post(
+        url,
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+          'charset': 'utf-8',
+          'Authorization': 'Bearer $token',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        print('게임 차단 성공');
+        return true;
+      } else {
+        print('게임 차단 실패: ${response.statusCode}');
+        return false;
+      }
+    } catch(e) {
+      print('게임 차단 실패: $e');
+      throw Exception('게임 차단 실패');
     }
   }
 }

@@ -96,21 +96,31 @@ class MainAllListTap extends GetView<AllListController> {
         () => Container(
           color: Colors.white,
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-          child: ListView.separated(
-            controller: controller.scrollController.value,
-            separatorBuilder: (_, index) => const SizedBox(
-              height: 20,
-            ),
-            itemCount: controller.boards.length,
-            itemBuilder: (_, index) {
-              if (index < controller.boards.length + 1) {
-                return AllListItemWidget(
-                  controller: controller,
-                  index: index,
-                );
-              }
-              return null;
+          child: RefreshIndicator(
+            onRefresh: () async {
+              controller.boards.clear();
+              controller.page.value = 0;
+              await controller.getList(isRefresh: true);
             },
+            backgroundColor: Colors.white,
+            color: AppColors.primaryColor,
+
+            child: ListView.separated(
+              controller: controller.scrollController.value,
+              separatorBuilder: (_, index) => const SizedBox(
+                height: 20,
+              ),
+              itemCount: controller.boards.length,
+              itemBuilder: (_, index) {
+                if (index < controller.boards.length + 1) {
+                  return AllListItemWidget(
+                    controller: controller,
+                    index: index,
+                  );
+                }
+                return null;
+              },
+            ),
           ),
         ),
       ),

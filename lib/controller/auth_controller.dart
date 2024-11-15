@@ -197,7 +197,7 @@ class AuthController extends GetxController {
       realName.value = response.realName;
       birth.value = response.birth;
       accountName.value = response.accountName;
-      invitationCode.value = response.invitationCode;
+      // invitationCode.value = response.invitationCode;
       profileUrl.value = response.profileUrl;
 
       print('유저 정보 조회, profileUrl>> ${profileUrl.value}');
@@ -229,6 +229,7 @@ class AuthController extends GetxController {
   Future<void> logout() async {
     await storage.delete(key: 'accessToken');
     await storage.delete(key: 'refreshToken');
+    uid.value = 0; // 로그아웃 시 uid 초기화
     accessToken.value = '';
     refreshToken.value = '';
     isRejectUser.value = false;

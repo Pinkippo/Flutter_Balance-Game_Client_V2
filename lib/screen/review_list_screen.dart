@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:yangjataekil/controller/auth_controller.dart';
 import 'package:yangjataekil/theme/app_color.dart';
+import 'package:yangjataekil/widget/dialog/custom_dialog_widget.dart';
 
 import '../controller/review_controller.dart';
 import '../widget/report/review_report_dialog_widget.dart';
@@ -22,6 +23,7 @@ class ReviewListScreen extends GetView<ReviewController> {
         child: FutureBuilder(
           future: controller.getReviewList(Get.arguments),
           builder: (context, snapshot) {
+            final boardId = Get.arguments;
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(child: CircularProgressIndicator());
             } else if (snapshot.hasError) {
@@ -33,7 +35,7 @@ class ReviewListScreen extends GetView<ReviewController> {
               );
             } else {
               return Obx(
-                    () {
+                () {
                   if (controller.reviews.isEmpty) {
                     return const Center(
                       child: Text(
@@ -50,19 +52,20 @@ class ReviewListScreen extends GetView<ReviewController> {
                     itemCount: controller.reviews.length,
                     itemBuilder: (context, index) {
                       final review = controller.reviews[index];
+                      controller.boardReviewId.value = review.boardReviewId;
                       return Stack(
                         children: [
                           Column(
                             children: [
                               Padding(
                                 padding:
-                                const EdgeInsets.fromLTRB(10, 13, 0, 13),
+                                    const EdgeInsets.fromLTRB(10, 13, 0, 13),
                                 child: Row(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Column(
                                       mainAxisAlignment:
-                                      MainAxisAlignment.start,
+                                          MainAxisAlignment.start,
                                       children: [
                                         Padding(
                                           padding: const EdgeInsets.fromLTRB(
@@ -71,11 +74,11 @@ class ReviewListScreen extends GetView<ReviewController> {
                                             radius: 25,
                                             backgroundColor: Colors.grey[300],
                                             backgroundImage: review
-                                                .profile.isNotEmpty
+                                                    .profile.isNotEmpty
                                                 ? NetworkImage(review.profile)
-                                            as ImageProvider
+                                                    as ImageProvider
                                                 : const AssetImage(
-                                                'assets/images/game/profile_img.png'),
+                                                    'assets/images/game/profile_img.png'),
                                           ),
                                         ),
                                       ],
@@ -95,7 +98,7 @@ class ReviewListScreen extends GetView<ReviewController> {
                                         /// 키워드, 리뷰 제목, 내용
                                         subtitle: Column(
                                           crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                              CrossAxisAlignment.start,
                                           children: [
                                             Text(
                                               '#${review.keywords.join('  #')}',
@@ -126,7 +129,7 @@ class ReviewListScreen extends GetView<ReviewController> {
                                         /// 좋아요 or 싫어요 아이콘
                                         trailing: Column(
                                           mainAxisAlignment:
-                                          MainAxisAlignment.center,
+                                              MainAxisAlignment.center,
                                           children: [
                                             if (review.isLike)
                                               const FaIcon(
@@ -151,34 +154,23 @@ class ReviewListScreen extends GetView<ReviewController> {
                               ),
                             ],
                           ),
-                          AuthController.to.accessToken.value.isEmpty || AuthController.to.uid == review.userId
+                          AuthController.to.accessToken.value.isEmpty ||
+                                  AuthController.to.uid == review.userId
                               ? const SizedBox.shrink()
                               : Positioned(
-                            right: 0,
-                            top: 0,
-                            child: IconButton(
-                              onPressed: () {
-                                controller.boardReviewId.value =
-                                    review.boardReviewId;
-                                print(
-                                    'boardReviewId: ${controller.boardReviewId.value}');
-                                Get.dialog(
-                                  PopScope(
-                                    onPopInvokedWithResult:
-                                        (bool didPop, dynamic result) {
-                                      controller.selectedCategory.value =
-                                      null;
-                                      controller.content.value = '';
+                                  top: 0,
+                                  right: 0,
+                                  child: IconButton(
+                                    icon: const Icon(Icons.more_vert,
+                                        color: Colors.grey),
+                                    onPressed: () {
+                                      _showReviewOptionsBottomSheet(
+                                        controller.boardReviewId.value,
+                                        boardId,
+                                      );
                                     },
-                                    child: reportDialog(context,
-                                        controller, review.boardId),
                                   ),
-                                );
-                              },
-                              icon: const Icon(Icons.error_outline,
-                                  color: Colors.redAccent),
-                            ),
-                          ),
+                                ),
                         ],
                       );
                     },
@@ -187,6 +179,70 @@ class ReviewListScreen extends GetView<ReviewController> {
               );
             }
           },
+        ),
+      ),
+    );
+  }
+
+  void _showReviewOptionsBottomSheet(int boardReviewId, int boardId) {
+    Get.bottomSheet(
+      backgroundColor: Colors.white,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(20),
+        ),
+      ),
+      Padding(
+        padding: const EdgeInsets.only(bottom: 20),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ListTile(
+              leading: const Icon(Icons.report, color: Colors.red),
+              title: const Text('신고하기'),
+              onTap: () {
+                Get.back();
+                if (AuthController.to.accessToken.isEmpty) {
+                  Get.toNamed('/login');
+                } else {
+                  Get.dialog(
+                    PopScope(
+                        onPopInvokedWithResult: (bool didPop, dynamic result) {
+                          controller.selectedCategory.value = null;
+                          controller.reportReason.value = '';
+                        },
+                        child: reportDialog(controller, boardReviewId)),
+                  );
+                }
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.block, color: Colors.orange),
+              title: const Text('차단하기'),
+              onTap: () {
+                // 차단하기 기능
+                Get.back();
+                if (AuthController.to.accessToken.isEmpty) {
+                  Get.toNamed('/login');
+                }
+                MyCustomDialog().showConfirmDialog(
+                    title: '차단',
+                    content: '이 사용자의 게시글을 차단하시겠습니까?',
+                    onConfirm: () async => controller.blockReview(
+                          boardReviewId,
+                          boardId,
+                        ),
+                    confirmText: '차단하기');
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.close, color: Colors.grey),
+              title: const Text('취소'),
+              onTap: () {
+                Get.back(); // 팝업 닫기
+              },
+            ),
+          ],
         ),
       ),
     );

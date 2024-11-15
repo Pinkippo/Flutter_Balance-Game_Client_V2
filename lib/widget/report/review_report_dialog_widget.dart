@@ -5,8 +5,7 @@ import 'package:yangjataekil/controller/review_controller.dart';
 import 'package:yangjataekil/theme/app_color.dart';
 import 'package:yangjataekil/widget/snackbar_widget.dart';
 
-Widget reportDialog(
-    BuildContext context, ReviewController reviewController, int boardId) {
+Widget reportDialog(ReviewController reviewController, int boardId) {
   return Dialog(
     backgroundColor: Colors.white,
     shape: RoundedRectangleBorder(
@@ -126,58 +125,54 @@ Widget reportDialog(
                     // 신고 사유는 '기타'로 선택,, 신고 내용은 비어 있을 때
                     else if (reviewController.selectedCategory.value ==
                         REPORTCATEGORY.others) {
-                      if (reviewController.content.value == '') {
+                      if (reviewController.reportReason.value == '') {
                         CustomSnackBar.showErrorSnackBar(
                             title: '미입력 항목', message: '신고 내용을 입력해주세요.');
                         return;
                       }
                     }
                     // 신고 사유 선택 후 신고 버튼 클릭 시 한번 더 물어보기
-                    showDialog(
-                      context: context,
-                      builder: (context) {
-                        return AlertDialog(
-                          backgroundColor: Colors.white,
-                          title: const Text('신고 확인',
-                              style: TextStyle(fontWeight: FontWeight.bold)),
-                          content: const Text('정말 신고하시겠습니까?'),
-                          actions: [
-                            TextButton(
-                              onPressed: () {
-                                Get.back();
-                              },
-                              child: const Text('취소',
-                                  style: TextStyle(color: Colors.grey)),
-                            ),
-                            TextButton(
-                              // 신고하기
-                              onPressed: () {
-                                reviewController
-                                    .reportReview(
-                                        boardId,
-                                        reviewController.boardReviewId.value,
-                                        reviewController.content.value)
-                                    .then((value) {
-                                  Get.back();
-                                  Get.back();
-                                  if (value) {
-                                    CustomSnackBar.showSuccessSnackBar(
-                                        title: '신고 완료',
-                                        message: '신고가 접수되었습니다.');
-                                    reviewController.getReviewList(boardId);
-                                  } else {
-                                    CustomSnackBar.showErrorSnackBar(
-                                        title: '신고 실패',
-                                        message: '신고 접수에 실패했습니다.');
-                                  }
-                                });
-                              },
-                              child: const Text('확인',
-                                  style: TextStyle(color: Colors.red)),
-                            ),
-                          ],
-                        );
-                      },
+                    Get.dialog(
+                      AlertDialog(
+                        backgroundColor: Colors.white,
+                        title: const Text('신고 확인',
+                            style: TextStyle(fontWeight: FontWeight.bold)),
+                        content: const Text('정말 신고하시겠습니까?'),
+                        actions: [
+                          TextButton(
+                            onPressed: () {
+                              Get.back();
+                            },
+                            child: const Text('취소',
+                                style: TextStyle(color: Colors.grey)),
+                          ),
+                          TextButton(
+                            // 신고하기
+                            onPressed: () async {
+                              Get.back();
+                              Get.back();
+                              await reviewController
+                                  .reportReview(
+                                      boardId,
+                                      reviewController.boardReviewId.value,
+                                      reviewController.reportReason.value)
+                                  .then((value) {
+                                if (value) {
+                                  CustomSnackBar.showSuccessSnackBar(
+                                      title: '신고 완료', message: '신고가 접수되었습니다.');
+                                  reviewController.getReviewList(boardId);
+                                } else {
+                                  CustomSnackBar.showErrorSnackBar(
+                                      title: '신고 실패',
+                                      message: '신고 접수에 실패했습니다.');
+                                }
+                              });
+                            },
+                            child: const Text('확인',
+                                style: TextStyle(color: Colors.red)),
+                          ),
+                        ],
+                      ),
                     );
                   },
                 ),

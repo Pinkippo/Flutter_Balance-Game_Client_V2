@@ -105,23 +105,36 @@ class ListScreen extends GetView<ThemeListController> {
         () => Container(
           color: Colors.white,
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-          child: ListView.separated(
-            controller: controller.scrollController.value,
-            separatorBuilder: (_, index) => const SizedBox(
-              height: 20,
-            ),
-            itemCount: controller.boards.length,
-            itemBuilder: (_, index) {
-              if (index < controller.boards.length + 1) {
-                return ListItemWidget(
-                  controller: controller,
-                  index: index,
-                  isMyGame: false,
-                  isParticipated: false,
-                );
-              }
-              return null;
+          child: RefreshIndicator(
+            backgroundColor: Colors.white,
+            color: AppColors.primaryColor,
+            onRefresh: () async {
+              controller.boards.clear();
+              controller.page.value = 0;
+              await controller.getList(isRefresh: true);
             },
+            child: controller.isLoading.value == true
+                ? Container(
+              color: Colors.white,
+            )
+                : ListView.separated(
+                    controller: controller.scrollController.value,
+                    separatorBuilder: (_, index) => const SizedBox(
+                      height: 20,
+                    ),
+                    itemCount: controller.boards.length,
+                    itemBuilder: (_, index) {
+                      if (index < controller.boards.length + 1) {
+                        return ListItemWidget(
+                          controller: controller,
+                          index: index,
+                          isMyGame: false,
+                          isParticipated: false,
+                        );
+                      }
+                      return null;
+                    },
+                  ),
           ),
         ),
       ),

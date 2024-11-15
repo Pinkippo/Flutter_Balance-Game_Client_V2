@@ -7,7 +7,7 @@ class UserResponseModel {
     required this.realName,
     required this.birth,
     required this.accountName,
-    required this.invitationCode,
+    // required this.invitationCode,
     required this.profileUrl,
   });
 
@@ -17,7 +17,7 @@ class UserResponseModel {
   final String realName;
   final String birth;
   final String accountName;
-  final String invitationCode;
+  // final String invitationCode;
   final String pushToken;
   final String profileUrl;
 
@@ -29,7 +29,7 @@ class UserResponseModel {
     realName: json["user"]["realName"] ?? '',
     birth: json["user"]["birth"] ?? '',
     email: json["user"]["email"] ?? '',
-    invitationCode: json["user"]["invitationCode"] ?? '',
+    // invitationCode: json["user"]["invitationCode"] ?? '',
     profileUrl: json["user"]["profileUrl"] ?? '',
   );
 
@@ -41,7 +41,7 @@ class UserResponseModel {
     "realName": realName,
     "birth": birth,
     "accountName": accountName,
-    "invitationCode": invitationCode,
+    // "invitationCode": invitationCode,
     "profileUrl": profileUrl,
   };
 }

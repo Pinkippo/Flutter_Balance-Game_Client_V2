@@ -5,10 +5,11 @@ import 'package:yangjataekil/controller/tab/theme_controller.dart';
 import 'package:yangjataekil/data/model/board/list_board_request_model.dart';
 import 'package:yangjataekil/data/model/board/list_board_response_model.dart';
 import 'package:yangjataekil/data/provider/list.repository.dart';
+import 'package:yangjataekil/mixin/ReportMixin.dart';
 import 'package:yangjataekil/widget/snackbar_widget.dart';
 
 /// 테마별 게임 리스트 컨트롤러
-class ThemeListController extends BaseListController {
+class ThemeListController extends BaseListController with ReportMixin {
   /// .to로 생성된 인스턴스에 접근하기 위한 static 변수
   static ThemeListController get to => Get.find();
 
@@ -18,6 +19,7 @@ class ThemeListController extends BaseListController {
     _addScrollListener();
     super.onInit();
   }
+
 
   void _fetchDataByRoute() {
     if (Get.currentRoute == '/list') {
@@ -52,10 +54,18 @@ class ThemeListController extends BaseListController {
 
   /// 리스트 호출 메서드
   @override
-  Future<void> getList() async {
+  Future<void> getList({bool isRefresh = false}) async {
+    print('themelistcontroller getList');
     if (isLoading.value || page.value >= totalPage.value) return;
 
     isLoading.value = true; // 로딩 시작
+
+    // 새로고침일 경우 리스트 초기화
+    if (isRefresh) {
+      boards.clear();
+      page.value = 0;
+      await Future.delayed(const Duration(milliseconds: 500));
+    }
 
     try {
       ListBoardResponseModel response = await ListRepository().getList(
@@ -108,5 +118,11 @@ class ThemeListController extends BaseListController {
       CustomSnackBar.showErrorSnackBar(
           message: '참여한 게임 리스트를 가져오는 중 오류가 발생했습니다.');
     }
+  }
+
+  @override
+  Future<void> deleteMyGame(int boardId) {
+    // TODO: implement deleteMyGame
+    return super.deleteMyGame(boardId);
   }
 }
