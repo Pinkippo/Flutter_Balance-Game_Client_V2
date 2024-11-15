@@ -83,10 +83,13 @@ class NoticeAllTab extends GetView<NoticeController> {
                                   style: const TextStyle(color: Colors.red),
                                 ),
                                 const SizedBox(width: 5),
-                                Text(
-                                  notice.title,
-                                  style: const TextStyle(
-                                    fontSize: 16,
+                                Expanded(
+                                  child: Text(
+                                    notice.title,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: const TextStyle(
+                                      fontSize: 16,
+                                    ),
                                   ),
                                 ),
                               ],
