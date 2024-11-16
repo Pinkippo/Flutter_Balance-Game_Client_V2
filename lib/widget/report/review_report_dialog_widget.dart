@@ -5,7 +5,8 @@ import 'package:yangjataekil/controller/review_controller.dart';
 import 'package:yangjataekil/theme/app_color.dart';
 import 'package:yangjataekil/widget/snackbar_widget.dart';
 
-Widget reportDialog(ReviewController reviewController, int boardReviewId, int boardId) {
+Widget reportDialog(
+    ReviewController reviewController, int boardReviewId, int boardId) {
   return Dialog(
     backgroundColor: Colors.white,
     shape: RoundedRectangleBorder(
@@ -148,18 +149,18 @@ Widget reportDialog(ReviewController reviewController, int boardReviewId, int bo
                           ),
                           TextButton(
                             // 신고하기
-                            onPressed: () async {
-                              Get.back();
-                              Get.back();
-                              print('boardId : $boardId');
-                              print('boardReviewId: $boardReviewId');
-                              await reviewController
-                                  .reportReview(
-                                      boardId,
-                                      boardReviewId,
+                            onPressed: () {
+                              // 스낵바 떠있을 때 기다리기
+                              if (Get.isSnackbarOpen == true) {
+                                return;
+                              }
+                              reviewController
+                                  .reportReview(boardId, boardReviewId,
                                       reviewController.reportReason.value)
                                   .then((value) {
                                 if (value) {
+                                  Get.back();
+                                  Get.back();
                                   CustomSnackBar.showSuccessSnackBar(
                                       title: '신고 완료', message: '신고가 접수되었습니다.');
                                   reviewController.getReviewList(boardId);

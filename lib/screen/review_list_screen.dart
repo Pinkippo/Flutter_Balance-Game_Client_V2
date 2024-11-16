@@ -24,6 +24,7 @@ class ReviewListScreen extends GetView<ReviewController> {
           future: controller.getReviewList(Get.arguments),
           builder: (context, snapshot) {
             final boardId = Get.arguments;
+            print('리뷰리스트화면 boardId : $boardId');
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(child: CircularProgressIndicator());
             } else if (snapshot.hasError) {
@@ -52,7 +53,6 @@ class ReviewListScreen extends GetView<ReviewController> {
                     itemCount: controller.reviews.length,
                     itemBuilder: (context, index) {
                       final review = controller.reviews[index];
-                      controller.boardReviewId.value = review.boardReviewId;
                       return Stack(
                         children: [
                           Column(
@@ -165,7 +165,7 @@ class ReviewListScreen extends GetView<ReviewController> {
                                         color: Colors.grey),
                                     onPressed: () {
                                       _showReviewOptionsBottomSheet(
-                                        controller.boardReviewId.value,
+                                        review.boardReviewId,
                                         boardId,
                                       );
                                     },
@@ -211,7 +211,8 @@ class ReviewListScreen extends GetView<ReviewController> {
                           controller.selectedCategory.value = null;
                           controller.reportReason.value = '';
                         },
-                        child: reportDialog(controller, boardReviewId, boardId)),
+                        child:
+                            reportDialog(controller, boardReviewId, boardId)),
                   );
                 }
               },

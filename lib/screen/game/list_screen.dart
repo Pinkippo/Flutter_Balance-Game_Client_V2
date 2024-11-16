@@ -102,41 +102,57 @@ class ListScreen extends GetView<ThemeListController> {
         child: const Icon(Icons.add, color: Colors.white),
       ),
       body: Obx(
-        () => Container(
-          color: Colors.white,
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-          child: RefreshIndicator(
-            backgroundColor: Colors.white,
-            color: AppColors.primaryColor,
-            onRefresh: () async {
-              controller.boards.clear();
-              controller.page.value = 0;
-              await controller.getList(isRefresh: true);
-            },
-            child: controller.isLoading.value == true
-                ? Container(
-              color: Colors.white,
-            )
-                : ListView.separated(
-                    controller: controller.scrollController.value,
-                    separatorBuilder: (_, index) => const SizedBox(
-                      height: 20,
+        () => controller.boards.isEmpty
+            ? Container(
+                padding: const EdgeInsets.only(bottom: 40),
+                color: Colors.white,
+                child: const Center(
+                  child: Text(
+                    textAlign: TextAlign.center,
+                    '게임이 없습니다.\n게임을 직접 만들어보세요!',
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Colors.black54,
                     ),
-                    itemCount: controller.boards.length,
-                    itemBuilder: (_, index) {
-                      if (index < controller.boards.length + 1) {
-                        return ListItemWidget(
-                          controller: controller,
-                          index: index,
-                          isMyGame: false,
-                          isParticipated: false,
-                        );
-                      }
-                      return null;
-                    },
                   ),
-          ),
-        ),
+                ),
+              )
+            : Container(
+                color: Colors.white,
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                child: RefreshIndicator(
+                  backgroundColor: Colors.white,
+                  color: AppColors.primaryColor,
+                  onRefresh: () async {
+                    controller.boards.clear();
+                    controller.page.value = 0;
+                    await controller.getList(isRefresh: true);
+                  },
+                  child: controller.isLoading.value == true
+                      ? Container(
+                          color: Colors.white,
+                        )
+                      : ListView.separated(
+                          controller: controller.scrollController.value,
+                          separatorBuilder: (_, index) => const SizedBox(
+                            height: 20,
+                          ),
+                          itemCount: controller.boards.length,
+                          itemBuilder: (_, index) {
+                            if (index < controller.boards.length + 1) {
+                              return ListItemWidget(
+                                controller: controller,
+                                index: index,
+                                isMyGame: false,
+                                isParticipated: false,
+                              );
+                            }
+                            return null;
+                          },
+                        ),
+                ),
+              ),
       ),
     );
   }

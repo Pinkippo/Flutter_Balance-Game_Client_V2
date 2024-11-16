@@ -52,7 +52,7 @@ class MyReviewsScreen extends GetView<ReviewController> {
                       '작성한 리뷰가 없습니다.',
                       style: TextStyle(
                         fontSize: 18,
-                        color: Colors.grey,
+                        color: Colors.black54,
                       ),
                     ),
                   );

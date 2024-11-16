@@ -48,7 +48,6 @@ class GameDetailController extends GetxController with ReportMixin {
 
     /// 신고 카테고리 초기화
     initializeCategories(REPORTCATEGORY.values);
-
   }
 
   /// 게임 상세 조회
@@ -64,7 +63,8 @@ class GameDetailController extends GetxController with ReportMixin {
     }
 
     gameDetail.value = await GameRepository().getGameDetail(parameterBoardId);
-    relatedGameList.value = await GameRepository().getRelatedGame(parameterBoardId);
+    relatedGameList.value =
+        await GameRepository().getRelatedGame(parameterBoardId);
   }
 
   /// 게임 조회 변경
@@ -78,33 +78,9 @@ class GameDetailController extends GetxController with ReportMixin {
     });
   }
 
-  /// ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 리뷰 신고 파트 변수 및 메서드 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
-
-  /// 신고 내용
-  // final content = ''.obs;
-
-  /// 카테고리
-  // final categories = REPORTCATEGORY.values;
-
-  /// 선택된 신고 카테고리
-  // final selectedCategory = Rx<REPORTCATEGORY?>(null);
-
-  /// 카테고리 선택 메서드
-  // void toggleCategory(REPORTCATEGORY category) {
-  //   selectedCategory.value = category;
-  // }
-
-  /// 신고 내용 업데이트
-  // void updateContent(String value) {
-  //   reportReason.value = value;
-  //   print('게임 신고 내용: ${reportReason.value}');
-  // }
-
   /// 게임 신고 메서드
   @override
-  Future<bool> reportGame(
-      int boardId, String reportContent
-      ) async {
+  Future<bool> reportGame(int boardId, String reportContent) async {
     boardId = gameDetail.value.boardId;
     reportReason.value = reportContent.isEmpty
         ? selectedCategory.value!.displayName
@@ -131,6 +107,5 @@ class GameDetailController extends GetxController with ReportMixin {
     }
   }
 
-/// ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
-
+  /// ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 }

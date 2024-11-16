@@ -45,7 +45,6 @@ class ReviewController extends GetxController {
   /// 게시글 ID
   final boardId = 0.obs;
 
-
   /// 리뷰 리스트 조회 메서드
   Future<void> getReviewList(int boardId) async {
     try {
@@ -98,14 +97,14 @@ class ReviewController extends GetxController {
   /// 신고 내용 업데이트
   void updateContent(String value) {
     reportReason.value = value;
-    print('신고 내용: ${reportReason.value}');
   }
 
   /// 리뷰 신고 메서드
-  Future<bool> reportReview(int boardId, int reviewId, String reviewContent) async {
+  Future<bool> reportReview(
+      int boardId, int reviewId, String reviewContent) async {
     boardReviewId.value = reviewId;
     reportReason.value = reviewContent.isEmpty
-        ? (selectedCategory.value?.displayName ?? '기타')
+        ? selectedCategory.value!.displayName
         : reviewContent;
 
     try {
@@ -146,18 +145,18 @@ class ReviewController extends GetxController {
 
       // 팝업 닫기
       Get.back();
-      if(response) {
+      if (response) {
         CustomSnackBar.showSuccessSnackBar(message: '리뷰가 차단되었습니다.');
         getReviewList(boardId);
       } else {
         print('리뷰 차단 실패');
-        CustomSnackBar.showErrorSnackBar(message: '리뷰를 차단할 수 없습니다.\n 다시 시도해주세요.');
+        CustomSnackBar.showErrorSnackBar(
+            message: '리뷰를 차단할 수 없습니다.\n 다시 시도해주세요.');
       }
     } catch (e) {
       print('리뷰 차단 실패 (catch)');
       CustomSnackBar.showErrorSnackBar(message: "리뷰를 차단할 수 없습니다.\n 다시 시도해주세요.");
     }
-
   }
 
   /// ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
