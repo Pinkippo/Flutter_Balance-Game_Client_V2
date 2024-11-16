@@ -56,22 +56,6 @@ class MyGamesScreen extends GetView<ThemeListController> {
                       isMyGame: true,
                       isParticipated: false,
                     ),
-                    // Positioned(
-                    //     right: 5,
-                    //     top: 5,
-                    //     child: IconButton(
-                    //       onPressed: () async => await CustomDialog().showConfirmDialog(
-                    //         title: "게임 삭제",
-                    //         content: "게임을 삭제하시겠습니까?",
-                    //         onConfirm: () async => controller.deleteMyGame(controller.myBoards[index].boardId),
-                    //         confirmText: "삭제하기",
-                    //       ),
-                    //       icon: Icon(
-                    //         Icons.cancel_rounded,
-                    //         color: Colors.red.withOpacity(0.7),
-                    //         size: 22,
-                    //       ),
-                    //     )),
                   ],
                 );
               },

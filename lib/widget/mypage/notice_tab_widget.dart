@@ -33,7 +33,10 @@ class NoticeAllTab extends GetView<NoticeController> {
         return Container(
           color: Colors.white,
           child: const Center(
-            child: Text('공지사항이 없습니다.'),
+            child: Text(
+              '공지사항이 없습니다.',
+              style: TextStyle(fontSize: 16, color: Colors.black54),
+            ),
           ),
         );
       }

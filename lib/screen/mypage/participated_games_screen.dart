@@ -22,15 +22,20 @@ class ParticipatedGamesScreen extends GetView<ThemeListController> {
         ),
       ),
       body: Obx(
-            () {
+        () {
           // 게임 목록이 비어있는 경우
           if (controller.participatedBoards.isEmpty) {
             return Container(
               padding: const EdgeInsets.only(bottom: 30),
               color: Colors.white,
               child: const Center(
-                child: Text('참가한 게임이 없습니다.',
-                    style: TextStyle(fontSize: 18, color: Colors.grey)),
+                child: Text(
+                  '참가한 게임이 없습니다.',
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: Colors.black54,
+                  ),
+                ),
               ),
             );
           }
