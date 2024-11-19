@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:yangjataekil/controller/auth_controller.dart';
 import 'package:yangjataekil/controller/bottom_navigator_controller.dart';
+import 'package:yangjataekil/widget/dialog/check_dialog_widget.dart';
+import 'package:yangjataekil/widget/dialog/custom_dialog_widget.dart';
 
 /// 로그인 화면
 class MyPageTap extends GetView<AuthController> {
@@ -12,6 +14,7 @@ class MyPageTap extends GetView<AuthController> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
+
       /// 상단
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -82,7 +85,7 @@ class MyPageTap extends GetView<AuthController> {
               Container(
                 padding:
                     const EdgeInsets.symmetric(vertical: 10, horizontal: 13),
-                height: 240,
+                // height: 240,
                 // height: 285,
                 decoration: BoxDecoration(
                     border: Border.all(color: Colors.black.withOpacity(0.13)),
@@ -91,10 +94,9 @@ class MyPageTap extends GetView<AuthController> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     GestureDetector(
-                      onTap: () => {
-                        Get.toNamed('/notice')
-                      },
+                      onTap: () => {Get.toNamed('/notice')},
                       child: Container(
+                        height: 35,
                         color: Colors.transparent,
                         width: double.infinity,
                         child: Row(
@@ -112,10 +114,8 @@ class MyPageTap extends GetView<AuthController> {
                                     '공지사항',
                                     style: TextStyle(fontSize: 17),
                                   ),
-                                  Text(
-                                    '>',
-                                    style: TextStyle(fontSize: 17),
-                                  ),
+                                  Icon(Icons.arrow_forward_ios,
+                                      size: 15, color: Colors.grey),
                                 ],
                               ),
                             ),
@@ -164,29 +164,33 @@ class MyPageTap extends GetView<AuthController> {
                         print('내 활동'),
                       },
                       child: Container(
+                        height: 35,
                         color: Colors.transparent,
                         child: Row(
                           children: [
                             const SizedBox(
                               width: 4,
                             ),
-                            Image.asset('assets/images/myPage/history.png', fit: BoxFit.cover, width: 23, height: 23,),
+                            Image.asset(
+                              'assets/images/myPage/history.png',
+                              fit: BoxFit.cover,
+                              width: 23,
+                              height: 23,
+                            ),
                             const SizedBox(
                               width: 10,
                             ),
                             const Expanded(
                               child: Row(
                                 mainAxisAlignment:
-                                MainAxisAlignment.spaceBetween,
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
                                     '내 활동',
                                     style: TextStyle(fontSize: 17),
                                   ),
-                                  Text(
-                                    '>',
-                                    style: TextStyle(fontSize: 17),
-                                  ),
+                                  Icon(Icons.arrow_forward_ios,
+                                      size: 15, color: Colors.grey),
                                 ],
                               ),
                             ),
@@ -200,18 +204,66 @@ class MyPageTap extends GetView<AuthController> {
                         Get.toNamed('/change_pw'),
                       },
                       child: Container(
+                        height: 35,
                         color: Colors.transparent,
                         child: const Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(
-                              '비밀번호 재설정',
-                              style: TextStyle(fontSize: 17),
+                            Row(
+                              children: [
+                                SizedBox(
+                                  width: 1,
+                                ),
+                                Icon(Icons.lock_outline, size: 28),
+                                SizedBox(
+                                  width: 7,
+                                ),
+                                Text(
+                                  '비밀번호 재설정',
+                                  style: TextStyle(fontSize: 17),
+                                ),
+                              ],
                             ),
-                            Text(
-                              '>',
-                              style: TextStyle(fontSize: 17),
+                            Icon(Icons.arrow_forward_ios,
+                                size: 15, color: Colors.grey),
+                          ],
+                        ),
+                      ),
+                    ),
+                    const Divider(),
+                    GestureDetector(
+                      onTap: () => {
+                        Get.dialog(
+                          checkDialogWidget(
+                            title: '문의',
+                            content: '아래 이메일로 문의해주세요.\nwngns082@gmail.com',
+                            confirmText: '확인',
+                          ),
+                        ),
+                      },
+                      child: Container(
+                        height: 35,
+                        color: Colors.transparent,
+                        child: const Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(
+                              children: [
+                                SizedBox(
+                                  width: 1,
+                                ),
+                                Icon(Icons.question_answer_outlined, size: 28),
+                                SizedBox(
+                                  width: 7,
+                                ),
+                                Text(
+                                  '문의하기',
+                                  style: TextStyle(fontSize: 17),
+                                ),
+                              ],
                             ),
+                            Icon(Icons.arrow_forward_ios,
+                                size: 15, color: Colors.grey),
                           ],
                         ),
                       ),
@@ -222,6 +274,7 @@ class MyPageTap extends GetView<AuthController> {
                         Get.toNamed('/delete_user'),
                       },
                       child: Container(
+                        height: 35,
                         color: Colors.transparent,
                         child: const Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -230,10 +283,8 @@ class MyPageTap extends GetView<AuthController> {
                               '회원탈퇴',
                               style: TextStyle(fontSize: 17),
                             ),
-                            Text(
-                              '>',
-                              style: TextStyle(fontSize: 17),
-                            ),
+                            Icon(Icons.arrow_forward_ios,
+                                size: 15, color: Colors.grey),
                           ],
                         ),
                       ),
@@ -242,18 +293,25 @@ class MyPageTap extends GetView<AuthController> {
                 ),
               ),
               const SizedBox(
-                height: 40,
+                height: 35,
               ),
               GestureDetector(
                 onTap: () async {
-                  await AuthController.to.logout().then((value) {
-                    BottomNavigatorController.to.selectedIndex(1);
-                    Get.toNamed('/login');
-                  });
+                  MyCustomDialog().showConfirmDialog(
+                      title: '로그아웃',
+                      content: '정말 로그아웃 하시겠습니까?',
+                      onConfirm: () async {
+                        Get.back();
+                        await AuthController.to.logout().then((value) {
+                          BottomNavigatorController.to.selectedIndex(1);
+                          Get.toNamed('/login');
+                        });
+                      },
+                      confirmText: '로그아웃');
                 },
                 child: Container(
                   // color: Colors.transparent,
-                  height: 65,
+                  height: 50,
                   padding:
                       const EdgeInsets.symmetric(vertical: 10, horizontal: 13),
                   decoration: BoxDecoration(
@@ -276,10 +334,8 @@ class MyPageTap extends GetView<AuthController> {
                                 fontSize: 17,
                               ),
                             ),
-                            Text(
-                              '>',
-                              style: TextStyle(fontSize: 17),
-                            ),
+                            Icon(Icons.arrow_forward_ios,
+                                size: 15, color: Colors.grey),
                           ],
                         ),
                       ),

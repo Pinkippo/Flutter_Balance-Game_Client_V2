@@ -5,6 +5,7 @@ import 'package:yangjataekil/controller/list_controller/all_list_controller.dart
 import 'package:yangjataekil/controller/review_controller.dart';
 import 'package:yangjataekil/mixin/ReportMixin.dart';
 import 'package:yangjataekil/theme/app_color.dart';
+import 'package:yangjataekil/widget/dialog/check_dialog_widget.dart';
 import 'package:yangjataekil/widget/snackbar_widget.dart';
 
 Widget reportGameDialog(boardId, ReportMixin controller) {
@@ -167,9 +168,16 @@ Widget reportGameDialog(boardId, ReportMixin controller) {
                                   if (Get.currentRoute == '/game_detail') {
                                     Get.back();
                                   }
-                                  CustomSnackBar.showSuccessSnackBar(
-                                    title: '신고 성공',
-                                    message: '신고가 접수되었습니다.',
+                                  // CustomSnackBar.showSuccessSnackBar(
+                                  //   title: '신고 성공',
+                                  //   message: '신고가 접수되었습니다.',
+                                  // );
+                                  Get.dialog(
+                                    checkDialogWidget(
+                                      title: '신고완료',
+                                      content: '검토까지 최대 24시간이 소요될 수 있습니다.',
+                                      confirmText: '확인',
+                                    ),
                                   );
                                 } else {
                                   CustomSnackBar.showErrorSnackBar(

@@ -102,7 +102,7 @@ class ListScreen extends GetView<ThemeListController> {
         child: const Icon(Icons.add, color: Colors.white),
       ),
       body: Obx(
-        () => controller.boards.isEmpty
+        () => controller.boards.isEmpty && controller.isLoading.value == false
             ? Container(
                 padding: const EdgeInsets.only(bottom: 40),
                 color: Colors.white,
