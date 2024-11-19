@@ -1,8 +1,10 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:yangjataekil/controller/recommend_controller.dart';
 import 'package:yangjataekil/controller/review_controller.dart';
 import 'package:yangjataekil/theme/app_color.dart';
+import 'package:yangjataekil/widget/dialog/check_dialog_widget.dart';
 import 'package:yangjataekil/widget/snackbar_widget.dart';
 
 Widget reportDialog(
@@ -161,9 +163,17 @@ Widget reportDialog(
                                 if (value) {
                                   Get.back();
                                   Get.back();
-                                  CustomSnackBar.showSuccessSnackBar(
-                                      title: '신고 완료', message: '신고가 접수되었습니다.');
-                                  reviewController.getReviewList(boardId);
+                                  // CustomSnackBar.showSuccessSnackBar(
+                                  //     title: '신고 완료', message: '신고가 접수되었습니다.');
+                                  Get.dialog(
+                                    checkDialogWidget(
+                                      title: '신고완료',
+                                      content: '검토까지 최대 24시간이 소요될 수 있습니다.',
+                                      confirmText: '확인',
+                                    ),
+                                  );
+                                  reviewController.getReviewList(boardId); // 리뷰 목록 다시 불러오기
+                                  RecommendController.to.getRecommendedReviews(); // 추천 리뷰 목록 다시 불러오기
                                 } else {
                                   CustomSnackBar.showErrorSnackBar(
                                       title: '신고 실패',
