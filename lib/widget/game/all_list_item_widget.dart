@@ -5,6 +5,7 @@ import 'package:yangjataekil/controller/list_controller/all_list_controller.dart
 import 'package:yangjataekil/widget/dialog/custom_dialog_widget.dart';
 import 'package:yangjataekil/widget/report/game_report_dialog_widget.dart';
 
+
 import '../list/keyword_widget.dart';
 
 class AllListItemWidget extends StatelessWidget {
