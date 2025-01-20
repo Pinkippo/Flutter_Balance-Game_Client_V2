@@ -25,7 +25,7 @@ class HomeHeader extends StatelessWidget {
                 height: 55,
                 margin: const EdgeInsets.only(left: 20, top: 20),
                 child: const Text(
-                  '하나만 골라봐! 쉽지만 고민되는 질문들, 너라면?',
+                  '하나만 골라봐! 쉽지만 고민되는 질문들, 너라면?!',
                   style: TextStyle(
                     fontSize: 17,
                     fontWeight: FontWeight.bold,
