@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
-import 'package:package_info/package_info.dart';
+// import 'package:package_info/package_info.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:yangjataekil/data/model/reject_reason_response_model.dart';
 import 'package:yangjataekil/data/model/version_model.dart';
 import 'package:yangjataekil/data/provider/auth_repository.dart';
