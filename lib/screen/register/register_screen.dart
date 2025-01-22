@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:yangjataekil/controller/register_controller.dart';
 import 'package:yangjataekil/data/provider/auth_repository.dart';
 import 'package:yangjataekil/theme/app_color.dart';
+import 'package:yangjataekil/utils/text_util.dart';
 import 'package:yangjataekil/widget/register/basic_input_field.dart';
 import 'package:yangjataekil/widget/register/birth_input_field.dart';
 import 'package:yangjataekil/widget/register/check_email_btn.dart';
@@ -258,7 +259,7 @@ class RegisterScreen extends GetView<RegisterController> {
         color: Colors.white,
         child: BasicBtn(
           onPressed: () async {
-            bool checkProfanity = await controller.textFiltering(controller.realName.value);
+            bool checkProfanity = await TextUtil().textFiltering(controller.realName.value);
             if(checkProfanity) {
               CustomSnackBar.showErrorSnackBar(title: '이름 생성 제한', message: '비속어가 포함되어 있습니다!');
               return;

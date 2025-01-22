@@ -6,6 +6,7 @@ import 'package:yangjataekil/controller/auth_controller.dart';
 import 'package:yangjataekil/controller/tab/theme_controller.dart';
 import 'package:yangjataekil/data/provider/game_repository.dart';
 import 'package:yangjataekil/data/provider/theme_repository.dart';
+import 'package:yangjataekil/utils/text_util.dart';
 import 'package:yangjataekil/widget/snackbar_widget.dart';
 
 import '../data/model/upload_game_request_model.dart';
@@ -155,41 +156,22 @@ class GameUploadController extends GetxController {
   }
 
   Future<bool> checkProfanity() async {
-    if (await textFiltering(gameTitle.value)) return false; // 개임 제목 체크
-    if (await textFiltering(introduce.value)) return false; // 게임 소개 체크
+    TextUtil textUtil = TextUtil();
+    if (await textUtil.textFiltering(gameTitle.value)) return false; // 개임 제목 체크
+    if (await textUtil.textFiltering(introduce.value)) return false; // 게임 소개 체크
     // 게임 키워드 체크
     for (var keyword in keywordList) {
-      if (await textFiltering(keyword)) return false;
+      if (await textUtil.textFiltering(keyword)) return false;
     }
     // 게임 내용 체크
     for (var question in boardContent) {
       if (question.questionTitle != null &&
-          await textFiltering(question.questionTitle!)) return false;
+          await textUtil.textFiltering(question.questionTitle!)) return false;
       for (var answer in question.questionItems) {
-        if (await textFiltering(answer)) return false;
+        if (await textUtil.textFiltering(answer)) return false;
       }
     }
 
     return true;
-  }
-
-
-  /// 비속어 필터링 메서드
-  Future<bool> textFiltering(String text) async {
-    String path = 'assets/word_list.txt';
-    try {
-      String content = await rootBundle.loadString(path);
-      List<String> wordList = content.split('\n');
-
-      for (String word in wordList) {
-        if (text.toLowerCase().contains(word.toLowerCase())) {
-          return true; // 비속어가 포함된 경우
-        }
-      }
-      return false; // 비속어가 없는 경우
-    } catch (e) {
-      print('비속어 필터링 에러 발생: $e');
-      return false;
-    }
   }
 }

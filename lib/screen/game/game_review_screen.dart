@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:yangjataekil/controller/game_review_controller.dart';
+import 'package:yangjataekil/widget/snackbar_widget.dart';
 
 import '../../widget/game/game_review_hashtag_widget.dart';
 
@@ -96,7 +97,14 @@ class GameReviewScreen extends GetView<GameReviewController> {
       bottomNavigationBar: BottomAppBar(
         color: Colors.white,
         child: ElevatedButton(
-          onPressed: () {
+          onPressed: () async {
+            bool result = await controller.checkProfanity();
+            if (!result) {
+              CustomSnackBar.showErrorSnackBar(
+                  title: '리뷰 생성 제한', message: '비속어가 포함되어 있습니다.');
+              return;
+            }
+
             // Get.arguments['boardId']가 이미 int 타입인지 확인하고 처리
             final boardId = Get.arguments['boardId'];
             if (boardId is int) {
@@ -122,7 +130,7 @@ class GameReviewScreen extends GetView<GameReviewController> {
   /// 커스텀 라디오 버튼
   Widget CustomRadio(String text, bool like, double width) {
     return Obx(
-          () => SizedBox(
+      () => SizedBox(
         width: width,
         child: OutlinedButton(
           onPressed: () {
@@ -146,7 +154,8 @@ class GameReviewScreen extends GetView<GameReviewController> {
           child: Text(
             text,
             style: TextStyle(
-              color: controller.isLike.value == like ? Colors.black : Colors.grey,
+              color:
+                  controller.isLike.value == like ? Colors.black : Colors.grey,
             ),
           ),
         ),
