@@ -97,7 +97,7 @@ class GamePlayScreen extends GetView<GamePlayController> {
                                       children: [
                                         AnimatedContainer(
                                           duration:
-                                              const Duration(milliseconds: 1000),
+                                              const Duration(milliseconds: 500),
                                           width:
                                               (controller.firstPercentage.value /
                                                       100) *
@@ -143,7 +143,7 @@ class GamePlayScreen extends GetView<GamePlayController> {
                                       children: [
                                         AnimatedContainer(
                                           duration:
-                                              const Duration(milliseconds: 1000),
+                                              const Duration(milliseconds: 500),
                                           width: (controller.secondPercentage /
                                                   100) *
                                               (Get.width - 44),

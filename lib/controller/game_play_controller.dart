@@ -74,7 +74,7 @@ class GamePlayController extends GetxController {
                   total) *
               100;
 
-      await Future.delayed(const Duration(seconds: 2));
+      await Future.delayed(const Duration(seconds: 1));
 
       if (boardContent.length == index + 1) {
         // 게임 결과 제출
@@ -95,7 +95,7 @@ class GamePlayController extends GetxController {
         secondPercentage.value = 0.0;
         await pageController.animateToPage(
           currentPage.value,
-          duration: const Duration(milliseconds: 1000),
+          duration: const Duration(milliseconds: 300),
           curve: Curves.easeInOut,
         );
       }
