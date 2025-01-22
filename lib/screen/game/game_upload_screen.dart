@@ -5,6 +5,7 @@ import 'package:yangjataekil/controller/game_upload_controller.dart';
 import 'package:yangjataekil/theme/app_color.dart';
 import 'package:yangjataekil/widget/game/game_upload_hashtag_widget.dart';
 import 'package:yangjataekil/widget/game/question_list_widget.dart';
+import 'package:yangjataekil/widget/snackbar_widget.dart';
 
 class UploadGameScreen extends GetView<GameUploadController> {
   const UploadGameScreen({super.key});
@@ -17,7 +18,6 @@ class UploadGameScreen extends GetView<GameUploadController> {
         scrolledUnderElevation: 0,
         backgroundColor: Colors.white,
         title: const Text(
-
           '게임 등록',
           style: TextStyle(
             fontSize: 18,
@@ -61,7 +61,8 @@ class UploadGameScreen extends GetView<GameUploadController> {
                           ))
                       .toList(),
                   onChanged: (value) {
-                    controller.selectedGameThemeIndex.value = controller.themeNameIndexMap[value]!;
+                    controller.selectedGameThemeIndex.value =
+                        controller.themeNameIndexMap[value]!;
                   },
                   decoration: const InputDecoration(
                     enabledBorder: OutlineInputBorder(
@@ -154,8 +155,13 @@ class UploadGameScreen extends GetView<GameUploadController> {
       bottomNavigationBar: Container(
         padding: const EdgeInsets.fromLTRB(20, 15, 20, 30),
         child: ElevatedButton(
-          onPressed: () {
-            controller.uploadGame();
+          onPressed: () async {
+            bool result = await controller.checkProfanity();
+            if (result) {
+              controller.uploadGame();
+            } else {
+              CustomSnackBar.showErrorSnackBar(title: '등록실패', message: '비속어가 포함되어 있습니다.');
+            }
           },
           style: ElevatedButton.styleFrom(
             elevation: 0,

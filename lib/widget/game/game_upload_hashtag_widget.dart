@@ -15,16 +15,16 @@ class GameUploadHashtag extends GetView<GameUploadController> {
     return Obx(
       () => SizedBox(
         height: 50,
-        child: controller.keyword.isEmpty
+        child: controller.keywordList.isEmpty
             ? const Padding(
                 padding: EdgeInsets.symmetric(vertical: 5),
                 child: EmptyGameUploadHashWidget(),
               )
             : ListView.builder(
                 scrollDirection: Axis.horizontal,
-                itemCount: controller.keyword.length + 1,
+                itemCount: controller.keywordList.length + 1,
                 itemBuilder: (context, index) {
-                  return index == controller.keyword.length
+                  return index == controller.keywordList.length
                       ? const Padding(
                           padding: EdgeInsets.symmetric(vertical: 5),
                           child: EmptyGameUploadHashWidget(),
@@ -44,7 +44,7 @@ class GameUploadHashtag extends GetView<GameUploadController> {
                                 ),
                                 child: Center(
                                   child: Text(
-                                    '#${controller.keyword[index]}',
+                                    '#${controller.keywordList[index]}',
                                     style: const TextStyle(
                                       color: Colors.white,
                                       fontSize: 12,
@@ -58,7 +58,7 @@ class GameUploadHashtag extends GetView<GameUploadController> {
                               top: 0,
                               child: GestureDetector(
                                 onTap: () {
-                                  controller.keyword.removeAt(index);
+                                  controller.keywordList.removeAt(index);
                                 },
                                 child: Icon(Icons.cancel,
                                     color: Colors.black.withOpacity(0.2)),

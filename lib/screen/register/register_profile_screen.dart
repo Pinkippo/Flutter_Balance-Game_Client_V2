@@ -3,9 +3,11 @@ import 'package:get/get.dart';
 import 'package:yangjataekil/controller/register_controller.dart';
 import 'package:yangjataekil/data/provider/auth_repository.dart';
 import 'package:yangjataekil/theme/app_color.dart';
+import 'package:yangjataekil/utils/text_util.dart';
 import 'package:yangjataekil/widget/register/nickname_input_field.dart';
 import 'package:yangjataekil/widget/register/basic_btn.dart';
 import 'package:yangjataekil/widget/register/register_profile.dart';
+import 'package:yangjataekil/widget/snackbar_widget.dart';
 
 class RegisterProfileScreen extends GetView<RegisterController> {
   const RegisterProfileScreen({super.key});
@@ -27,7 +29,7 @@ class RegisterProfileScreen extends GetView<RegisterController> {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
-            Navigator.pop(context);
+            Get.back();
           },
         ),
       ),
@@ -91,7 +93,12 @@ class RegisterProfileScreen extends GetView<RegisterController> {
               ),
             ),
             BasicBtn(
-              onPressed: () {
+              onPressed: () async {
+                bool checkProfanity = await TextUtil().textFiltering(controller.nickname.value);
+                if(checkProfanity) {
+                  CustomSnackBar.showErrorSnackBar(title: '닉네임 생성 제한', message: '비속어가 포함되어 있습니다.');
+                  return;
+                }
                 controller.register();
               },
               buttonText: '회원가입',

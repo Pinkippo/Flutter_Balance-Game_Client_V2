@@ -12,16 +12,16 @@ class GameReviewHashtag extends GetView<GameReviewController> {
     return Obx(
       () => SizedBox(
         height: 50,
-        child: controller.keyword.isEmpty
+        child: controller.keywordList.isEmpty
             ? const Padding(
                 padding: EdgeInsets.symmetric(vertical: 5),
                 child: EmptyGameReviewHashWidget(),
               )
             : ListView.builder(
                 scrollDirection: Axis.horizontal,
-                itemCount: controller.keyword.length + 1,
+                itemCount: controller.keywordList.length + 1,
                 itemBuilder: (context, index) {
-                  return index == controller.keyword.length
+                  return index == controller.keywordList.length
                       ? const Padding(
                           padding: EdgeInsets.symmetric(vertical: 5),
                           child: EmptyGameReviewHashWidget(),
@@ -40,7 +40,7 @@ class GameReviewHashtag extends GetView<GameReviewController> {
                                 ),
                                 child: Center(
                                   child: Text(
-                                    '#${controller.keyword[index]}',
+                                    '#${controller.keywordList[index]}',
                                     style: const TextStyle(
                                       color: Colors.white,
                                       fontSize: 12,
@@ -54,7 +54,7 @@ class GameReviewHashtag extends GetView<GameReviewController> {
                               top: 0,
                               child: GestureDetector(
                                 onTap: () {
-                                  controller.keyword.removeAt(index);
+                                  controller.keywordList.removeAt(index);
                                 },
                                 child: Icon(Icons.cancel,
                                     color: Colors.black.withOpacity(0.2)),

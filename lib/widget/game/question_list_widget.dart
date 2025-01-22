@@ -36,7 +36,7 @@ class QuestionListWidget extends GetView<GameUploadController> {
                     )),
               ],
             );
-          }).toList(),
+          }),
 
           /// 질문 추가 위젯
           const EmptyQuestionWidget(),

@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:sembast/sembast.dart';
 import 'package:yangjataekil/controller/auth_controller.dart';
 import 'package:yangjataekil/controller/tab/theme_controller.dart';
 import 'package:yangjataekil/data/provider/game_repository.dart';
 import 'package:yangjataekil/data/provider/theme_repository.dart';
+import 'package:yangjataekil/utils/text_util.dart';
 import 'package:yangjataekil/widget/snackbar_widget.dart';
 
 import '../data/model/upload_game_request_model.dart';
@@ -28,7 +31,7 @@ class GameUploadController extends GetxController {
   final introduce = ''.obs;
 
   /// 키워드
-  final keyword = List<String>.empty(growable: true).obs;
+  final keywordList = List<String>.empty(growable: true).obs;
 
   /// 게임 내용
   final boardContent = List<Question>.empty(growable: true).obs;
@@ -85,7 +88,7 @@ class GameUploadController extends GetxController {
 
   /// 키워드 추가
   void addKeyword(String value) {
-    keyword.add(value);
+    keywordList.add(value);
     print('키워드 추가 >>> $value');
   }
 
@@ -136,7 +139,7 @@ class GameUploadController extends GetxController {
             themeId: selectedGameThemeIndex.value,
             gameTitle: gameTitle.value,
             introduce: introduce.value,
-            keyword: keyword,
+            keyword: keywordList,
             boardContent: boardContent),
         AuthController.to.accessToken.value,
       );
@@ -150,5 +153,25 @@ class GameUploadController extends GetxController {
         return;
       }
     }
+  }
+
+  Future<bool> checkProfanity() async {
+    TextUtil textUtil = TextUtil();
+    if (await textUtil.textFiltering(gameTitle.value)) return false; // 개임 제목 체크
+    if (await textUtil.textFiltering(introduce.value)) return false; // 게임 소개 체크
+    // 게임 키워드 체크
+    for (var keyword in keywordList) {
+      if (await textUtil.textFiltering(keyword)) return false;
+    }
+    // 게임 내용 체크
+    for (var question in boardContent) {
+      if (question.questionTitle != null &&
+          await textUtil.textFiltering(question.questionTitle!)) return false;
+      for (var answer in question.questionItems) {
+        if (await textUtil.textFiltering(answer)) return false;
+      }
+    }
+
+    return true;
   }
 }

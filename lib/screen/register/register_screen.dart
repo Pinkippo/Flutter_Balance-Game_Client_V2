@@ -3,11 +3,13 @@ import 'package:get/get.dart';
 import 'package:yangjataekil/controller/register_controller.dart';
 import 'package:yangjataekil/data/provider/auth_repository.dart';
 import 'package:yangjataekil/theme/app_color.dart';
+import 'package:yangjataekil/utils/text_util.dart';
 import 'package:yangjataekil/widget/register/basic_input_field.dart';
 import 'package:yangjataekil/widget/register/birth_input_field.dart';
 import 'package:yangjataekil/widget/register/check_email_btn.dart';
 import 'package:yangjataekil/widget/register/email_input_field.dart';
 import 'package:yangjataekil/widget/register/basic_btn.dart';
+import 'package:yangjataekil/widget/snackbar_widget.dart';
 
 class RegisterScreen extends GetView<RegisterController> {
   const RegisterScreen({super.key});
@@ -29,7 +31,7 @@ class RegisterScreen extends GetView<RegisterController> {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
-            Navigator.pop(context);
+            Get.back();
           },
         ),
       ),
@@ -155,30 +157,6 @@ class RegisterScreen extends GetView<RegisterController> {
                 const SizedBox(
                   height: 20,
                 ),
-                // const Padding(
-                //   padding: EdgeInsets.only(left: 10, bottom: 10),
-                //   child: Text('생년월일'),
-                // ),
-                // Row(
-                //   children: [
-                //     Expanded(
-                //       child: BirthInputField(
-                //         registerController: controller,
-                //       ),
-                //     ),
-                //   ],
-                // ),
-                // const SizedBox(height: 10),
-                // const Padding(
-                //   padding: EdgeInsets.only(left: 10),
-                //   child: Text(
-                //     '생년월일 8자리를 입력해주세요',
-                //     style: TextStyle(
-                //       color: Colors.grey,
-                //     ),
-                //   ),
-                // ),
-                // const SizedBox(height: 20),
                 const Padding(
                   padding: EdgeInsets.only(left: 10, bottom: 10),
                   child: Text('이메일'),
@@ -280,7 +258,12 @@ class RegisterScreen extends GetView<RegisterController> {
       bottomNavigationBar: BottomAppBar(
         color: Colors.white,
         child: BasicBtn(
-          onPressed: () {
+          onPressed: () async {
+            bool checkProfanity = await TextUtil().textFiltering(controller.realName.value);
+            if(checkProfanity) {
+              CustomSnackBar.showErrorSnackBar(title: '이름 생성 제한', message: '비속어가 포함되어 있습니다!');
+              return;
+            }
             controller.nextStep();
           },
           buttonText: '다음',
