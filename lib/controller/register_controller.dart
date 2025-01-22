@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:yangjataekil/controller/auth_controller.dart';
@@ -266,6 +267,26 @@ class RegisterController extends GetxController {
     } else {
       CustomSnackBar.showErrorSnackBar(
           title: '회원가입 실패', message: '회원가입에 실패했습니다.');
+      return false;
+    }
+  }
+
+
+  /// 비속어 필터링 메서드
+  Future<bool> textFiltering(String text) async {
+    String path = 'assets/word_list.txt';
+    try {
+      String content = await rootBundle.loadString(path);
+      List<String> wordList = content.split('\n');
+
+      for (String word in wordList) {
+        if (text.toLowerCase().contains(word.toLowerCase())) {
+          return true; // 비속어가 포함된 경우
+        }
+      }
+      return false; // 비속어가 없는 경우
+    } catch (e) {
+      print('비속어 필터링 에러 발생: $e');
       return false;
     }
   }
