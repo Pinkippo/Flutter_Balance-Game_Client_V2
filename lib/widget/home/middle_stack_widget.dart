@@ -11,7 +11,8 @@ class MiddleStackContent extends GetView<AuthController> {
   Widget build(BuildContext context) {
     return Obx(
       () => Positioned(
-        top: Get.height * 0.2, // 높이를 화면 높이의 20%로 설정
+        //top: Get.height * 0.2, // 높이를 화면 높이의 20%로 설정
+        top: 180, // 화면 표시 높이 위치를 설정
         left: 20, // 조정이 필요할 경우 이 값을 수정
         right: 20, // 조정이 필요할 경우 이 값을 수정
         child: GestureDetector(
