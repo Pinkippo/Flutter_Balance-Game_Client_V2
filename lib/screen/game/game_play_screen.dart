@@ -34,15 +34,16 @@ class GamePlayScreen extends GetView<GamePlayController> {
 
                 /// 왼쪽 상단 뒤로가기 아이콘
                 Positioned(
-                  top: 50,
+                  top: 60,
                   left: 16,
                   child: GestureDetector(
                     onTap: () async {
                       controller.resetResult().then((value) => Get.back());
                     },
                     child: const Icon(
-                      Icons.arrow_back,
+                      Icons.exit_to_app_outlined,
                       color: Colors.black,
+                      size: 30,
                     ),
                   ),
                 ),
@@ -108,14 +109,17 @@ class GamePlayScreen extends GetView<GamePlayController> {
                                                 BorderRadius.circular(16),
                                           ),
                                         ),
-                                        Center(
-                                          child: Text(
-                                            controller.boardContent[index]
-                                                .boardContentItems[0].item,
-                                            style: const TextStyle(
-                                              color: Colors.black,
-                                              fontSize: 20,
-                                              fontWeight: FontWeight.bold,
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                                          child: Center(
+                                            child: Text(
+                                              controller.boardContent[index]
+                                                  .boardContentItems[0].item,
+                                              style: const TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 20,
+                                                fontWeight: FontWeight.bold,
+                                              ),
                                             ),
                                           ),
                                         ),
@@ -153,14 +157,17 @@ class GamePlayScreen extends GetView<GamePlayController> {
                                                 BorderRadius.circular(16),
                                           ),
                                         ),
-                                        Center(
-                                          child: Text(
-                                            controller.boardContent[index]
-                                                .boardContentItems[1].item,
-                                            style: const TextStyle(
-                                              color: Colors.black,
-                                              fontSize: 20,
-                                              fontWeight: FontWeight.bold,
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                                          child: Center(
+                                            child: Text(
+                                              controller.boardContent[index]
+                                                  .boardContentItems[1].item,
+                                              style: const TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 20,
+                                                fontWeight: FontWeight.bold,
+                                              ),
                                             ),
                                           ),
                                         ),
@@ -193,7 +200,7 @@ class GamePlayScreen extends GetView<GamePlayController> {
 
                 /// 게임 정보
                 Positioned(
-                  top: Get.height * 0.1,
+                  top: Get.height * 0.11,
                   left: 0,
                   right: 0,
                   child: Column(
@@ -216,6 +223,7 @@ class GamePlayScreen extends GetView<GamePlayController> {
                             child: Text(
                               controller.gameTitle.value,
                               textAlign: TextAlign.center,
+                              maxLines: 2,
                               style: const TextStyle(
                                 color: Colors.black,
                                 fontSize: 16,
@@ -248,13 +256,41 @@ class GamePlayScreen extends GetView<GamePlayController> {
         ),
 
         /// 되돌리기
-        floatingActionButton: FloatingActionButton(
-          onPressed: () async {
-            await controller.resetResult();
-          },
-          backgroundColor: AppColors.gamePlayPinkColor,
-          child: const Icon(Icons.refresh, color: Colors.white),
+        floatingActionButton: SizedBox(
+          width: Get.width,
+          child: Stack(
+            children: [
+              // 이전 질문 버튼
+              Positioned(
+                left: 20,
+                bottom: 10,
+                child: FloatingActionButton(
+                  heroTag: 'move_previous',
+                  onPressed: () async {
+                    controller.moveToPrevious(controller.currentPage.value);
+                  },
+                  backgroundColor: AppColors.gamePlayPinkColor,
+                  child: const Icon(Icons.arrow_back_ios_outlined, color: Colors.white),
+                ),
+              ),
+
+              // 리셋 버튼
+              Positioned(
+                right: 20,
+                bottom: 10,
+                child: FloatingActionButton(
+                  heroTag: 'reset',
+                  onPressed: () async {
+                    await controller.resetResult();
+                  },
+                  backgroundColor: AppColors.gamePlayPinkColor,
+                  child: const Icon(Icons.refresh, color: Colors.white),
+                ),
+              ),
+            ],
+          ),
         ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       ),
     );
   }

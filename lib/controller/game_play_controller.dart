@@ -43,7 +43,7 @@ class GamePlayController extends GetxController {
   RxList<GamePlayRequestModel> selectedResult = <GamePlayRequestModel>[].obs;
 
   /// 결과 선택
-  void selectResult(int index, int resultIndex) async {
+  Future<void> selectResult(int index, int resultIndex) async {
     // 로딩간 클릭 처리
     if (isLoading.value) return;
     isLoading.value = true;
@@ -99,6 +99,7 @@ class GamePlayController extends GetxController {
           curve: Curves.easeInOut,
         );
       }
+      print('현재 페이지: $currentPage');
     } catch (e) {
       print('게임 제출 에러 발생 game_play_controller: $e');
     } finally {
@@ -120,6 +121,47 @@ class GamePlayController extends GetxController {
       curve: Curves.easeInOut,
     );
   }
+
+  /// 이전 질문으로 이동
+  Future<void> moveToPrevious(int index) async {
+    // 로딩 중일 경우 동작 방지
+    if (isLoading.value) return;
+
+    isLoading.value = true;
+    try {
+      // 선택된 결과를 롤백 (현재 페이지의 선택 초기화)
+      selectedResult[index] = GamePlayRequestModel(
+        boardContentId: -1,
+        boardContentItemId: -1,
+      );
+
+      // 현재 페이지 감소
+      currentPage.value = currentPage.value - 1;
+
+      // 퍼센트 초기화
+      firstPercentage.value = 0.0;
+      secondPercentage.value = 0.0;
+
+      // 이전 페이지로 애니메이션 이동
+      await pageController.animateToPage(
+        currentPage.value,
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeInOut,
+      );
+
+      print('현재 페이지: $currentPage');
+
+    } catch (e) {
+      print('이전 질문 이동 에러 발생: $e');
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+
+
+
+
 
   /// 컨텐츠 조회
   Future<bool> getGameContent(String boardId, String title) async {
