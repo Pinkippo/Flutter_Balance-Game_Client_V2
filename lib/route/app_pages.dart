@@ -40,6 +40,7 @@ import '../controller/review_controller.dart';
 import '../screen/game/game_review_screen.dart';
 import '../screen/mypage/my_games_screen.dart';
 import '../screen/mypage/notice_detail_screen.dart';
+import '../screen/mypage/user_agreement_screen.dart';
 import '../screen/review_list_screen.dart';
 import '../screen/game/game_upload_screen.dart';
 
@@ -333,5 +334,13 @@ class AppPages {
         });
       }),
     ),
+
+    /// 이용약관 페이지
+    GetPage(
+      name: Routes.userAgreement,
+      page: () => const UserAgreenment(),
+      transition: Transition.fade,
+    ),
+
   ];
 }
