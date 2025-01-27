@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:yangjataekil/controller/agreeterms_controller.dart';
-import 'package:yangjataekil/screen/web_view_screen.dart';
+import 'package:yangjataekil/controller/auth/agreeterms_controller.dart';
+import 'package:yangjataekil/screen/auth/agreeterms_item_screen.dart';
 import 'package:yangjataekil/theme/app_color.dart';
 
 class AgreeTermsScreen extends GetView<AgreeTermsController> {
@@ -117,7 +117,7 @@ class AgreeTermsScreen extends GetView<AgreeTermsController> {
                 ),
                 onTap: () {
                   Get.to(
-                    () => const WebViewScreen(
+                    () => const AgreeTermsItemScreen(
                       url:
                           'https://www.notion.so/6427195b9c764fedbf5533462be5aabd?pvs=4',
                     ),
@@ -161,7 +161,7 @@ class AgreeTermsScreen extends GetView<AgreeTermsController> {
                 ),
                 onTap: () {
                   Get.to(
-                    () => const WebViewScreen(
+                    () => const AgreeTermsItemScreen(
                         url:
                             'https://www.notion.so/b93ac0029cec4144ad3a09774e8f2929?pvs=4'),
                   );

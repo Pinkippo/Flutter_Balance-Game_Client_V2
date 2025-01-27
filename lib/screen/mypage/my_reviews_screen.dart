@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-import 'package:yangjataekil/controller/review_controller.dart';
+import 'package:yangjataekil/controller/review/review_controller.dart';
 
 class MyReviewsScreen extends GetView<ReviewController> {
   const MyReviewsScreen({super.key});

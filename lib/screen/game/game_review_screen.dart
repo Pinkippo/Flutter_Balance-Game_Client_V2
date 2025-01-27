@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:yangjataekil/controller/game_review_controller.dart';
+import 'package:yangjataekil/controller/game/game_review_controller.dart';
 import 'package:yangjataekil/widget/snackbar_widget.dart';
 
 import '../../widget/game/game_review_hashtag_widget.dart';

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:yangjataekil/controller/auth_controller.dart';
+import 'package:yangjataekil/controller/auth/auth_controller.dart';
 import 'package:yangjataekil/controller/bottom_navigator_controller.dart';
 
 /// 중간에 띄울 내용 (스택)

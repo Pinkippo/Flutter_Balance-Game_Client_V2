@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:yangjataekil/controller/recommend_controller.dart';
+import 'package:yangjataekil/controller/game/recommend_controller.dart';
 import 'package:yangjataekil/theme/app_color.dart';
 import 'package:yangjataekil/widget/home/theme_list_widget.dart';
 import 'package:yangjataekil/widget/home/home_header_widget.dart';

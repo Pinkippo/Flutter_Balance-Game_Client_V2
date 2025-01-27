@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:yangjataekil/controller/review_controller.dart';
+import 'package:yangjataekil/controller/review/review_controller.dart';
 
 mixin ReportMixin on GetxController {
   RxList<REPORTCATEGORY> categories = <REPORTCATEGORY>[].obs;

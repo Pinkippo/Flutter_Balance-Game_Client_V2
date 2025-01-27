@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:yangjataekil/controller/list_controller/theme_list_controller.dart';
+import 'package:yangjataekil/controller/list/theme_list_controller.dart';
 import 'package:yangjataekil/widget/game/list_item_widget.dart';
 
 class ParticipatedGamesScreen extends GetView<ThemeListController> {

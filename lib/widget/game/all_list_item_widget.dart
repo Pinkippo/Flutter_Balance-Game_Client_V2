@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:yangjataekil/controller/auth_controller.dart';
-import 'package:yangjataekil/controller/list_controller/all_list_controller.dart';
+import 'package:yangjataekil/controller/auth/auth_controller.dart';
+import 'package:yangjataekil/controller/list/all_list_controller.dart';
 import 'package:yangjataekil/widget/dialog/custom_dialog_widget.dart';
 import 'package:yangjataekil/widget/report/game_report_dialog_widget.dart';
 

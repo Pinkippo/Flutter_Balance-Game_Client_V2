@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:yangjataekil/widget/dialog/custom_dialog_widget.dart';
 
-import '../../../controller/list_controller/theme_list_controller.dart';
+import '../../../controller/list/theme_list_controller.dart';
 import '../../../widget/game/list_item_widget.dart';
 
 class MyGamesScreen extends GetView<ThemeListController> {

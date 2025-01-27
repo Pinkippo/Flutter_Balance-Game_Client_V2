@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:yangjataekil/theme/app_color.dart';
 import 'package:yangjataekil/widget/snackbar_widget.dart';
 
-import '../../controller/game_review_controller.dart';
+import '../../controller/game/game_review_controller.dart';
 
 class EmptyGameReviewHashWidget extends GetView<GameReviewController> {
   const EmptyGameReviewHashWidget({super.key});

@@ -1,8 +1,8 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:yangjataekil/controller/list_controller/all_list_controller.dart';
-import 'package:yangjataekil/controller/review_controller.dart';
+import 'package:yangjataekil/controller/list/all_list_controller.dart';
+import 'package:yangjataekil/controller/review/review_controller.dart';
 import 'package:yangjataekil/mixin/ReportMixin.dart';
 import 'package:yangjataekil/theme/app_color.dart';
 import 'package:yangjataekil/widget/dialog/check_dialog_widget.dart';

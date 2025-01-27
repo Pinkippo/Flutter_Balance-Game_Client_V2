@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:yangjataekil/controller/game_play_controller.dart';
+import 'package:yangjataekil/controller/game/game_play_controller.dart';
 import 'package:yangjataekil/theme/app_color.dart';
 
 class GamePlayScreen extends GetView<GamePlayController> {

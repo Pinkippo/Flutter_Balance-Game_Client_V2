@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:yangjataekil/controller/auth_controller.dart';
-import 'package:yangjataekil/controller/list_controller/theme_list_controller.dart';
+import 'package:yangjataekil/controller/auth/auth_controller.dart';
+import 'package:yangjataekil/controller/list/theme_list_controller.dart';
 import 'package:yangjataekil/theme/app_color.dart';
 import 'package:yangjataekil/widget/game/custom_search_widget.dart';
 import 'package:yangjataekil/widget/game/list_item_widget.dart';
 
-import '../../controller/tab/theme_controller.dart';
+import '../../controller/game/theme_controller.dart';
 import '../../data/model/board/list_board_request_model.dart';
 
 class ListScreen extends GetView<ThemeListController> {

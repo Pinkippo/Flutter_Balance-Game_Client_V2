@@ -5,11 +5,11 @@ import 'package:expandable_text/expandable_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
-import 'package:yangjataekil/controller/auth_controller.dart';
-import 'package:yangjataekil/controller/game_detail_controller.dart';
-import 'package:yangjataekil/controller/game_play_controller.dart';
-import 'package:yangjataekil/controller/list_controller/all_list_controller.dart';
-import 'package:yangjataekil/controller/list_controller/theme_list_controller.dart';
+import 'package:yangjataekil/controller/auth/auth_controller.dart';
+import 'package:yangjataekil/controller/game/game_detail_controller.dart';
+import 'package:yangjataekil/controller/game/game_play_controller.dart';
+import 'package:yangjataekil/controller/list/all_list_controller.dart';
+import 'package:yangjataekil/controller/list/theme_list_controller.dart';
 import 'package:yangjataekil/theme/app_color.dart';
 import 'package:yangjataekil/widget/dialog/custom_dialog_widget.dart';
 import 'package:yangjataekil/widget/game_detail/game_vertical_info_widget.dart';
@@ -512,7 +512,7 @@ class GameDetailScreen extends GetView<GameDetailController> {
                                       SizedBox(
                                         width: 33,
                                         child: Image.asset(
-                                            'assets/images/game/game_controller.png'),
+                                            'assets/images/game/game.png'),
                                       ),
                                       const SizedBox(width: 5),
                                       Expanded(

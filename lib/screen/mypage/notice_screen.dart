@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:yangjataekil/controller/notice_controller.dart';
+import 'package:yangjataekil/controller/notice/notice_controller.dart';
 import 'package:yangjataekil/theme/app_color.dart';
 import 'package:yangjataekil/widget/mypage/notice_tab_widget.dart';
 

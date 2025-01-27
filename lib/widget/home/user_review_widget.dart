@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-import 'package:yangjataekil/controller/recommend_controller.dart';
+import 'package:yangjataekil/controller/game/recommend_controller.dart';
 
 /// 사용자 리뷰 위젯
 

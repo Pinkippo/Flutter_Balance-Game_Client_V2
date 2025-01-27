@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:yangjataekil/widget/game/empty_review_hashtag_widget.dart';
 
-import '../../controller/game_review_controller.dart';
+import '../../controller/game/game_review_controller.dart';
 
 class GameReviewHashtag extends GetView<GameReviewController> {
   const GameReviewHashtag({super.key});
