@@ -17,6 +17,7 @@ class MyPageTap extends GetView<AuthController> {
 
       /// 상단
       appBar: AppBar(
+        scrolledUnderElevation: 0,
         backgroundColor: Colors.white,
         shape: const Border(
           bottom: BorderSide(color: Colors.grey, width: 0.3),
@@ -101,9 +102,17 @@ class MyPageTap extends GetView<AuthController> {
                         width: double.infinity,
                         child: Row(
                           children: [
-                            Image.asset('assets/images/myPage/note.png'),
                             const SizedBox(
-                              width: 7,
+                              width: 4,
+                            ),
+                            Image.asset(
+                              'assets/images/myPage/notice.png',
+                              fit: BoxFit.cover,
+                              width: 23,
+                              height: 23,
+                            ),
+                            const SizedBox(
+                              width: 10,
                             ),
                             const Expanded(
                               child: Row(
@@ -172,7 +181,7 @@ class MyPageTap extends GetView<AuthController> {
                               width: 4,
                             ),
                             Image.asset(
-                              'assets/images/myPage/history.png',
+                              'assets/images/myPage/footprint.png',
                               fit: BoxFit.cover,
                               width: 23,
                               height: 23,
@@ -206,26 +215,41 @@ class MyPageTap extends GetView<AuthController> {
                       child: Container(
                         height: 35,
                         color: Colors.transparent,
-                        child: const Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        child: Row(
                           children: [
-                            Row(
-                              children: [
-                                SizedBox(
-                                  width: 1,
-                                ),
-                                Icon(Icons.lock_outline, size: 28),
-                                SizedBox(
-                                  width: 7,
-                                ),
-                                Text(
-                                  '비밀번호 재설정',
-                                  style: TextStyle(fontSize: 17),
-                                ),
-                              ],
+                            // SizedBox(
+                                //   width: 1,
+                                // ),
+                                // Icon(Icons.lock_outline, size: 28),
+                                // SizedBox(
+                                //   width: 7,
+                                // ),
+                            const SizedBox(
+                              width: 4,
                             ),
-                            Icon(Icons.arrow_forward_ios,
-                                size: 15, color: Colors.grey),
+                            Image.asset(
+                              'assets/images/myPage/content.png',
+                              fit: BoxFit.cover,
+                              width: 23,
+                              height: 23,
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            const Expanded(
+                              child: Row(
+                                mainAxisAlignment:
+                                MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    '비밀번호 재설정',
+                                    style: TextStyle(fontSize: 17),
+                                  ),
+                                  Icon(Icons.arrow_forward_ios,
+                                      size: 15, color: Colors.grey),
+                                ],
+                              ),
+                            ),
                           ],
                         ),
                       ),
@@ -244,26 +268,75 @@ class MyPageTap extends GetView<AuthController> {
                       child: Container(
                         height: 35,
                         color: Colors.transparent,
-                        child: const Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        child: Row(
                           children: [
-                            Row(
-                              children: [
-                                SizedBox(
-                                  width: 1,
-                                ),
-                                Icon(Icons.question_answer_outlined, size: 28),
-                                SizedBox(
-                                  width: 7,
-                                ),
-                                Text(
-                                  '문의하기',
-                                  style: TextStyle(fontSize: 17),
-                                ),
-                              ],
+                            const SizedBox(
+                              width: 4,
                             ),
-                            Icon(Icons.arrow_forward_ios,
-                                size: 15, color: Colors.grey),
+                            Image.asset(
+                              'assets/images/myPage/email.png',
+                              fit: BoxFit.cover,
+                              width: 23,
+                              height: 23,
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            const Expanded(
+                              child: Row(
+                                mainAxisAlignment:
+                                MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    '문의하기',
+                                    style: TextStyle(fontSize: 17),
+                                  ),
+                                  Icon(Icons.arrow_forward_ios,
+                                      size: 15, color: Colors.grey),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    const Divider(),
+                    GestureDetector(
+                      onTap: () => {
+                        Get.toNamed('/user_agreement'),
+                        print('이용약관'),
+                      },
+                      child: Container(
+                        height: 35,
+                        color: Colors.transparent,
+                        child: Row(
+                          children: [
+                            const SizedBox(
+                              width: 4,
+                            ),
+                            Image.asset(
+                              'assets/images/myPage/content.png',
+                              fit: BoxFit.cover,
+                              width: 23,
+                              height: 23,
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            const Expanded(
+                              child: Row(
+                                mainAxisAlignment:
+                                MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    '이용약관',
+                                    style: TextStyle(fontSize: 17),
+                                  ),
+                                  Icon(Icons.arrow_forward_ios,
+                                      size: 15, color: Colors.grey),
+                                ],
+                              ),
+                            ),
                           ],
                         ),
                       ),
@@ -276,15 +349,33 @@ class MyPageTap extends GetView<AuthController> {
                       child: Container(
                         height: 35,
                         color: Colors.transparent,
-                        child: const Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        child: Row(
                           children: [
-                            Text(
-                              '회원탈퇴',
-                              style: TextStyle(fontSize: 17),
+                            const SizedBox(
+                              width: 4,
                             ),
-                            Icon(Icons.arrow_forward_ios,
-                                size: 15, color: Colors.grey),
+                            Image.asset(
+                              'assets/images/myPage/trashCan.png',
+                              fit: BoxFit.cover,
+                              width: 23,
+                              height: 23,
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            const Expanded(
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    '회원탈퇴',
+                                    style: TextStyle(fontSize: 17),
+                                  ),
+                                  Icon(Icons.arrow_forward_ios,
+                                      size: 15, color: Colors.grey),
+                                ],
+                              ),
+                            ),
                           ],
                         ),
                       ),
