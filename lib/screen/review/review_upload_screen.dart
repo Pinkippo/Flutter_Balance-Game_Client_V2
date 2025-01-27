@@ -5,8 +5,8 @@ import 'package:yangjataekil/widget/snackbar_widget.dart';
 
 import '../../widget/game/game_review_hashtag_widget.dart';
 
-class GameReviewScreen extends GetView<GameReviewController> {
-  const GameReviewScreen({super.key});
+class ReviewUploadScreen extends GetView<GameReviewController> {
+  const ReviewUploadScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

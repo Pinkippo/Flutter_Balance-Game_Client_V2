@@ -99,7 +99,7 @@ class GamePlayController extends GetxController {
           curve: Curves.easeInOut,
         );
       }
-      print('현재 페이지: $currentPage');
+      print('현재 페이지: ${currentPage.value + 1}');
     } catch (e) {
       print('게임 제출 에러 발생 game_play_controller: $e');
     } finally {

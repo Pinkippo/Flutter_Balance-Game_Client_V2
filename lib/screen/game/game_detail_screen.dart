@@ -512,7 +512,7 @@ class GameDetailScreen extends GetView<GameDetailController> {
                                       SizedBox(
                                         width: 33,
                                         child: Image.asset(
-                                            'assets/images/game/game.png'),
+                                            'assets/images/game/game_controller.png'),
                                       ),
                                       const SizedBox(width: 5),
                                       Expanded(
