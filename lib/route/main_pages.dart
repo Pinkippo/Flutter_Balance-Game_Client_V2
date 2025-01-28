@@ -25,6 +25,13 @@ class MainPages {
           Get.lazyPut<AllListController>(() => AllListController());
           Get.lazyPut<ThemeController>(() => ThemeController());
           Get.lazyPut<RecommendController>(() => RecommendController());
+          Get.putAsync<AuthController>(() async {
+            final controller = AuthController();
+            await controller.getToken();
+            await controller.getUserInfoFromHomeScreen();
+            await controller.getRejectReason();
+            return controller;
+          }, permanent: true);
         })),
 
     /// 알림 페이지
