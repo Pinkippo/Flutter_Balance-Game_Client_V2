@@ -1,7 +1,7 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:yangjataekil/controller/game_upload_controller.dart';
+import 'package:yangjataekil/controller/game/game_upload_controller.dart';
 import 'package:yangjataekil/theme/app_color.dart';
 import 'package:yangjataekil/widget/game/game_upload_hashtag_widget.dart';
 import 'package:yangjataekil/widget/game/question_list_widget.dart';

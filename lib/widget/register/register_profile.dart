@@ -3,8 +3,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:yangjataekil/controller/register_controller.dart';
-import 'package:yangjataekil/data/provider/auth_repository.dart';
+import 'package:yangjataekil/controller/auth/register_controller.dart';
+import 'package:yangjataekil/data/repository/auth_repository.dart';
 import 'package:yangjataekil/theme/app_color.dart';
 
 class RegisterProfile extends GetView<RegisterController> {

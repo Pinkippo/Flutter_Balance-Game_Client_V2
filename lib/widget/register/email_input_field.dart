@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:yangjataekil/controller/register_controller.dart';
+import 'package:yangjataekil/controller/auth/register_controller.dart';
 import 'package:yangjataekil/theme/app_color.dart';
 
 class EmailInputField extends GetView<RegisterController> {

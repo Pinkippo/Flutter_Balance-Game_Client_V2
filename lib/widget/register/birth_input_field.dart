@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:yangjataekil/controller/register_controller.dart';
+import 'package:yangjataekil/controller/auth/register_controller.dart';
 import 'package:yangjataekil/theme/app_color.dart';
 
 class BirthInputField extends StatelessWidget {

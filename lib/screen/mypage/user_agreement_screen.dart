@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
-import 'package:yangjataekil/screen/web_view_screen.dart';
+import 'package:yangjataekil/screen/auth/agreeterms_item_screen.dart';
 
 class UserAgreenment extends StatelessWidget{
   const UserAgreenment({super.key});
@@ -41,7 +41,7 @@ class UserAgreenment extends StatelessWidget{
                   contentPadding: EdgeInsets.zero,
                   onTap: () {
                     Get.to(
-                          () => const WebViewScreen(
+                          () => const AgreeTermsItemScreen(
                         url:
                         'https://www.notion.so/6427195b9c764fedbf5533462be5aabd?pvs=4',
                       ),
@@ -58,7 +58,7 @@ class UserAgreenment extends StatelessWidget{
                   contentPadding: EdgeInsets.zero,
                   onTap: () {
                     Get.to(
-                          () => const WebViewScreen(
+                          () => const AgreeTermsItemScreen(
                           url:
                           'https://www.notion.so/b93ac0029cec4144ad3a09774e8f2929?pvs=4'),
                     );

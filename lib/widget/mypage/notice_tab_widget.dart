@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:yangjataekil/controller/notice_controller.dart';
+import 'package:yangjataekil/controller/notice/notice_controller.dart';
 import 'package:yangjataekil/theme/app_color.dart';
 
-import '../../data/model/notice.dart';
+import '../../data/model/notice/notice.dart';
 
 class NoticeAllTab extends GetView<NoticeController> {
   const NoticeAllTab({super.key, required this.noticeType});

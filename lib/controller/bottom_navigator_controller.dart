@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:yangjataekil/controller/auth_controller.dart';
+import 'package:yangjataekil/controller/auth/auth_controller.dart';
 
 /// 하단 네비게이터 컨트롤러
 class BottomNavigatorController extends GetxController {

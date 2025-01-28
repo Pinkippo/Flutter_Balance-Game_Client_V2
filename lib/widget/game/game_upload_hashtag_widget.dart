@@ -1,11 +1,11 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:yangjataekil/controller/game_upload_controller.dart';
+import 'package:yangjataekil/controller/game/game_upload_controller.dart';
 import 'package:yangjataekil/theme/app_color.dart';
 import 'package:yangjataekil/widget/game/empty_game_upload_hash_widget.dart';
 
-import '../../controller/game_review_controller.dart';
+import '../../controller/game/game_review_controller.dart';
 
 class GameUploadHashtag extends GetView<GameUploadController> {
   const GameUploadHashtag({super.key});

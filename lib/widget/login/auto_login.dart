@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:yangjataekil/controller/login_controller.dart';
+import 'package:yangjataekil/controller/auth/login_controller.dart';
 
 
 class AutoLogin extends GetView<LoginController> {

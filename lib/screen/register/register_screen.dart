@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:yangjataekil/controller/register_controller.dart';
-import 'package:yangjataekil/data/provider/auth_repository.dart';
+import 'package:yangjataekil/controller/auth/register_controller.dart';
 import 'package:yangjataekil/theme/app_color.dart';
 import 'package:yangjataekil/utils/text_util.dart';
 import 'package:yangjataekil/widget/register/basic_input_field.dart';
-import 'package:yangjataekil/widget/register/birth_input_field.dart';
 import 'package:yangjataekil/widget/register/check_email_btn.dart';
 import 'package:yangjataekil/widget/register/email_input_field.dart';
 import 'package:yangjataekil/widget/register/basic_btn.dart';

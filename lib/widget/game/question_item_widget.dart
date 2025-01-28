@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:yangjataekil/controller/game_upload_controller.dart';
+import 'package:yangjataekil/controller/game/game_upload_controller.dart';
 
-import '../../data/model/upload_game_request_model.dart';
+import '../../data/model/game/game_upload_request_model.dart';
 
 class QuestionItemWidget extends GetView<GameUploadController> {
   final Question question;

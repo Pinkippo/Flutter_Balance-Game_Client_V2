@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:yangjataekil/controller/notice_controller.dart';
+import 'package:yangjataekil/controller/notice/notice_controller.dart';
 
 class NoticeDetailScreen extends GetView<NoticeController> {
   const NoticeDetailScreen({super.key});

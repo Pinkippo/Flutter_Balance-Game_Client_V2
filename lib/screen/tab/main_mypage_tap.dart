@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:yangjataekil/controller/auth_controller.dart';
+import 'package:yangjataekil/controller/auth/auth_controller.dart';
 import 'package:yangjataekil/controller/bottom_navigator_controller.dart';
 import 'package:yangjataekil/widget/dialog/check_dialog_widget.dart';
 import 'package:yangjataekil/widget/dialog/custom_dialog_widget.dart';

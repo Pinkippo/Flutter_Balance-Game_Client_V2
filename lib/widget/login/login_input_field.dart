@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../controller/login_controller.dart';
+import '../../controller/auth/login_controller.dart';
 
 /// 로그인 화면의 텍스트 폼 필드 위젯
 

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:yangjataekil/controller/game_upload_controller.dart';
+import 'package:yangjataekil/controller/game/game_upload_controller.dart';
 import 'package:yangjataekil/theme/app_color.dart';
 import 'package:yangjataekil/widget/game/empty_question_widget.dart';
 import 'package:yangjataekil/widget/game/question_item_widget.dart';
 
-import '../../data/model/upload_game_request_model.dart';
+import '../../data/model/game/game_upload_request_model.dart';
 
 class QuestionListWidget extends GetView<GameUploadController> {
   const QuestionListWidget({super.key});

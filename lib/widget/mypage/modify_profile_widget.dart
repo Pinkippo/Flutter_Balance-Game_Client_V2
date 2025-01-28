@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:yangjataekil/controller/user_modify_controller.dart';
+import 'package:yangjataekil/controller/auth/user_modify_controller.dart';
 import 'package:yangjataekil/theme/app_color.dart';
 
 class ModifyProfile extends GetView<UserModifyController> {

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:yangjataekil/controller/user_modify_controller.dart';
+import 'package:yangjataekil/controller/auth/user_modify_controller.dart';
 
 class ModifyNicknameInputField extends GetView<UserModifyController> {
   const ModifyNicknameInputField({

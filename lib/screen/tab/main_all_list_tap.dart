@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:yangjataekil/controller/list_controller/all_list_controller.dart';
+import 'package:yangjataekil/controller/list/all_list_controller.dart';
 
-import '../../controller/auth_controller.dart';
+import '../../controller/auth/auth_controller.dart';
 import '../../data/model/board/list_board_request_model.dart';
 import '../../theme/app_color.dart';
 import '../../widget/game/all_list_item_widget.dart';
