@@ -134,6 +134,7 @@ class ListScreen extends GetView<ThemeListController> {
                           color: Colors.white,
                         )
                       : ListView.separated(
+                          physics: AlwaysScrollableScrollPhysics(),
                           controller: controller.scrollController.value,
                           separatorBuilder: (_, index) => const SizedBox(
                             height: 20,
