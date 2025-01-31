@@ -20,24 +20,18 @@ class MainPages {
         page: () => const MainScreen(),
         transition: Transition.fade,
         binding: BindingsBuilder(() async {
-          Get.lazyPut<BottomNavigatorController>(() {
-            return BottomNavigatorController();
-          });
-          Get.put(AllListController());
-          Get.lazyPut<ThemeController>(() {
-            return ThemeController();
-          });
-          Get.lazyPut<RecommendController>(() {
-            return RecommendController();
-          });
-          await Get.putAsync<AuthController>(() async {
-            return AuthController();
-          }, permanent: true)
-              .then((value) async {
-            await value.getToken();
-            await value.getUserInfoFromHomeScreen();
-            await value.checkRejectUser();
-          });
+          Get.lazyPut<BottomNavigatorController>(
+              () => BottomNavigatorController());
+          Get.lazyPut<AllListController>(() => AllListController());
+          Get.lazyPut<ThemeController>(() => ThemeController());
+          Get.lazyPut<RecommendController>(() => RecommendController());
+          Get.putAsync<AuthController>(() async {
+            final controller = AuthController();
+            await controller.getToken();
+            await controller.getUserInfoFromHomeScreen();
+            await controller.getRejectReason();
+            return controller;
+          }, permanent: true);
         })),
 
     /// 알림 페이지

@@ -126,6 +126,7 @@ class GamePlayController extends GetxController {
   Future<void> moveToPrevious(int index) async {
     // 로딩 중일 경우 동작 방지
     if (isLoading.value) return;
+    if (currentPage.value == 0) return;
 
     isLoading.value = true;
     try {

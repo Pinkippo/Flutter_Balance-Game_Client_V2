@@ -60,15 +60,14 @@ void main() async {
 
 /// 앱 내에서 사용할 로그인 컨트롤러 등록
 Future<void> initService() async {
+  print("앱 초기화");
   /// 로그인 컨트롤러 영속성 설정
   await Get.putAsync<AuthController>(() async {
-    return AuthController();
-  }, permanent: true)
-      .then((value) async {
-    /// 저장된 토큰 조회 후 업데이트
-    await value.getToken();
-    await value.getUserInfoFromHomeScreen();
-    await value.getVersion();
-    await value.checkRejectUser();
-  });
+    final controller = AuthController();
+    await controller.getToken();
+    await controller.getUserInfoFromHomeScreen();
+    await controller.getRejectReason();
+    await controller.getVersion();
+    return controller;
+  }, permanent: true);
 }

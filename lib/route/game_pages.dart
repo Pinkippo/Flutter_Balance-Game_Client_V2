@@ -42,16 +42,6 @@ class GamePages {
       name: Routes.gamePlay,
       page: () => const GamePlayScreen(),
       transition: Transition.fade,
-      binding: BindingsBuilder(() {
-        Get.lazyPut<GamePlayController>(() => GamePlayController());
-      }),
-    ),
-
-    /// 게임 결과 페이지
-    GetPage(
-      name: Routes.gameResult,
-      page: () => const GameResultScreen(),
-      transition: Transition.fade,
     ),
 
     /// 게임 상세 페이지
@@ -63,6 +53,13 @@ class GamePages {
         Get.lazyPut<GameDetailController>(() => GameDetailController());
         Get.lazyPut<GamePlayController>(() => GamePlayController());
       }),
+    ),
+
+    /// 게임 결과 페이지
+    GetPage(
+      name: Routes.gameResult,
+      page: () => const GameResultScreen(),
+      transition: Transition.fade,
     ),
 
     /// 빈 게임 상세 페이지
