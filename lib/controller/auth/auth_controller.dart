@@ -1,8 +1,13 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
+
 // import 'package:package_info/package_info.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:yangjataekil/data/model/auth/reject_reason_response_model.dart';
 import 'package:yangjataekil/data/model/version_model.dart';
 import 'package:yangjataekil/data/repository/auth_repository.dart';
@@ -88,7 +93,7 @@ class AuthController extends GetxController {
   final Rx<String> rejectAdminName = Rx<String>('익명의 어드민1');
 
   /// 차단 당한 이유
-  final Rx<String> rejectReason =  Rx<String>('규정 위반으로 차단되었습니다.');
+  final Rx<String> rejectReason = Rx<String>('규정 위반으로 차단되었습니다.');
 
   /// 유저 정보
   final RxInt uid = RxInt(0);
@@ -106,8 +111,8 @@ class AuthController extends GetxController {
 
   @override
   void onInit() {
+    // getVersion();
     super.onInit();
-    getVersion();
   }
 
   /// 비밀번호 변경
@@ -136,8 +141,7 @@ class AuthController extends GetxController {
   /// 비밀번호 변경
   Future<void> changePw() async {
     // 비밀번호 조건 확인 (영문 대문자/소문자, 숫자, 특수문자 중 2가지 이상 포함, 6~20자)
-    const passwordPattern =
-        r'^(?=.*[A-Za-z])(?=.*\d|(?=.*[!@#\$&*~])).{6,20}$';
+    const passwordPattern = r'^(?=.*[A-Za-z])(?=.*\d|(?=.*[!@#\$&*~])).{6,20}$';
     final regex = RegExp(passwordPattern);
 
     if (!regex.hasMatch(newPw.value)) {
@@ -150,8 +154,7 @@ class AuthController extends GetxController {
     // 비밀번호 확인
     if (newPw.value != newPwCheck.value || newPw.value.isEmpty) {
       CustomSnackBar.showErrorSnackBar(
-          title: '비밀번호 불일치',
-          message: '새 비밀번호가 일치하지 않습니다');
+          title: '비밀번호 불일치', message: '새 비밀번호가 일치하지 않습니다');
       return;
     }
 
@@ -170,8 +173,7 @@ class AuthController extends GetxController {
       // 현재 비밀번호 불일치 처리
       else if (response == 'PASSWORD_MISMATCH_ERROR') {
         CustomSnackBar.showErrorSnackBar(
-            title: '비밀번호 변경 실패',
-            message: '현재 비밀번호가 일치하지 않습니다.');
+            title: '비밀번호 변경 실패', message: '현재 비밀번호가 일치하지 않습니다.');
       }
       // 기타 실패 처리
       else {
@@ -258,9 +260,10 @@ class AuthController extends GetxController {
 
   /// 회원탈퇴
   Future<void> deleteUser() async {
-    final String deleteReason = selectedDeleteReason.value == DELETEREASONS.directInput
-        ? directInputText.value
-        : selectedDeleteReason.value.name;
+    final String deleteReason =
+        selectedDeleteReason.value == DELETEREASONS.directInput
+            ? directInputText.value
+            : selectedDeleteReason.value.name;
 
     try {
       await authRepository.deleteUser(accessToken.value, deleteReason);
@@ -268,13 +271,12 @@ class AuthController extends GetxController {
       Get.offAllNamed('/main');
     } catch (e) {
       print('회원탈퇴 중 에러 발생: $e');
-      CustomSnackBar.showErrorSnackBar(
-          title: '회원탈퇴 실패', message: '다시 시도해주세요.');
+      CustomSnackBar.showErrorSnackBar(title: '회원탈퇴 실패', message: '다시 시도해주세요.');
     }
   }
 
   /// 버전조회
-  Future<void> getVersion() async {
+  Future<bool> getVersion() async {
     try {
       final PackageInfo packageInfo = await PackageInfo.fromPlatform();
       final String appVersion = packageInfo.version;
@@ -282,17 +284,23 @@ class AuthController extends GetxController {
       final VersionModel response = await authRepository.getVersion();
       print('버전 정보 조회, profileUrl>> ${response.toString()}');
 
-      final checkVersion = _checkVersion(appVersion, response.minimumVersion);
+      final checkVersion = _checkVersion("1.0.0", response.minimumVersion);
       if (checkVersion == -1) {
         // TODO: 업데이트 유도 링크 추가
         print('업데이트 해야합니다');
+        // await _launchAppStore();
+        return false;
+        exit(0);
       } else if (checkVersion == 0) {
         isCurrent.value = true;
+        return true;
       }
       version.value = appVersion;
+      return true;
     } catch (e) {
       print('버전 조회 실패: $e');
       CustomSnackBar.showErrorSnackBar(message: '버전 조회 실패');
+      return false;
     }
   }
 
@@ -305,11 +313,10 @@ class AuthController extends GetxController {
     }
     try {
       bool isReject = await authRepository.checkRejectUser(accessToken.value);
-      if(isReject){
+      if (isReject) {
         isRejectUser.value = isReject;
         getRejectReason();
       }
-
     } catch (e) {
       print('회원 차단 확인 중 에러 발생: $e');
     }
@@ -332,12 +339,29 @@ class AuthController extends GetxController {
     }
   }
 
+  /// 플레이스토어, 앱스토어 이동 (앱 업데이트)
+  Future<void> launchAppStore() async {
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
+
+    Uri storeUrl = Platform.isAndroid
+        ? Uri.parse(
+            "market://details/?id=${packageInfo.packageName}")
+        : Uri.parse("https://apps.apple.com/us/app/id6557054135");
+
+    if (await canLaunchUrl(storeUrl)) {
+      await launchUrl(storeUrl);
+    } else {
+      print("스토어 이동 실패");
+    }
+  }
 }
 
 int _checkVersion(String appVersion, String minimumVersion) {
   List<int> appVersionList = appVersion.split('.').map(int.parse).toList();
   List<int> minimumVersionList =
       minimumVersion.split('.').map(int.parse).toList();
+
+  print("appVersion: appversion: $appVersion, appVersionList: $appVersionList");
 
   for (int i = 0; i < appVersionList.length; i++) {
     if (appVersionList[i] > minimumVersionList[i]) return 1;
