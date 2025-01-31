@@ -8,6 +8,7 @@ import 'package:yangjataekil/pref/app_preferences.dart';
 import 'package:yangjataekil/route/app_pages.dart';
 import 'package:yangjataekil/theme/app_thene.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:yangjataekil/widget/dialog/custom_dialog_widget.dart';
 
 import 'data/repository/auth_repository.dart';
 
@@ -58,16 +59,35 @@ void main() async {
   ));
 }
 
-/// 앱 내에서 사용할 로그인 컨트롤러 등록
 Future<void> initService() async {
-  print("앱 초기화");
-  /// 로그인 컨트롤러 영속성 설정
   await Get.putAsync<AuthController>(() async {
-    final controller = AuthController();
-    await controller.getToken();
-    await controller.getUserInfoFromHomeScreen();
-    await controller.getRejectReason();
-    await controller.getVersion();
-    return controller;
-  }, permanent: true);
+    return AuthController();
+  }, permanent: true)
+      .then((value) async {
+    await value.getToken();
+    await value.getUserInfoFromHomeScreen();
+
+    if (!await value.getVersion()) {
+      // UI가 렌더링된 후 실행
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        showUpdateDialog(value);
+      });
+    }
+
+    await value.checkRejectUser();
+  });
+}
+
+void showUpdateDialog(AuthController value) {
+  MyCustomDialog().showConfirmDialog(
+    title: '업데이트 필요',
+    content: '최신 버전으로 업데이트해주세요!',
+    onConfirm: () async => value.launchAppStore(),
+    confirmText: '업데이트',
+    isBarrierDismissible: false,
+    onCancel: () {
+      Get.back();
+      showUpdateDialog(value);
+    },
+  );
 }

@@ -53,7 +53,6 @@ dependencies:
   animations: ^2.0.7
 
   # 배너 슬라이더
-#  carousel_slider: ^4.2.1
   carousel_slider_plus: ^7.0.1
 
   # dropdown 위젯
@@ -78,6 +77,8 @@ dependencies:
 
   # 딥링크
 #  uni_links: ^0.5.1
+#  app_links: ^6.3.3
+  url_launcher: ^6.3.1
 
   # 웹뷰
   webview_flutter: ^4.0.2

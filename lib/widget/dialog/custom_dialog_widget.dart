@@ -7,8 +7,11 @@ class MyCustomDialog {
     required String content,
     required Future<void> Function() onConfirm,
     required String confirmText,
+    bool? isBarrierDismissible,
+    void Function()? onCancel,
   }) {
     Get.dialog(
+      barrierDismissible: isBarrierDismissible ?? true,
       AlertDialog(
         backgroundColor: Colors.white,
         shape: RoundedRectangleBorder(
@@ -56,7 +59,8 @@ class MyCustomDialog {
                   overlayColor: Colors.white,
                 ),
                 onPressed: () {
-                  Get.back();
+                  // onCancel 기본값 Get.back() 처리
+                  (onCancel ?? Get.back)();
                 },
                 child: const Text(
                   '취소',
