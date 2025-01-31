@@ -343,12 +343,10 @@ class AuthController extends GetxController {
   Future<void> launchAppStore() async {
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
 
-    final storeId = dotenv.env['STORE_ID'];
-
     Uri storeUrl = Platform.isAndroid
         ? Uri.parse(
             "market://details/?id=${packageInfo.packageName}")
-        : Uri.parse("https://apps.apple.com/us/app/id$storeId");
+        : Uri.parse("https://apps.apple.com/us/app/id6557054135");
 
     if (await canLaunchUrl(storeUrl)) {
       await launchUrl(storeUrl);
