@@ -39,6 +39,9 @@ dependencies:
 #  package_info: ^2.0.2
   package_info_plus: ^4.0.0
 
+  # 소셜로그인
+  sign_in_with_apple: ^6.1.4
+
 
   # 상태관리
   get: ^4.6.5
@@ -114,6 +117,7 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/images/
+    - assets/images/login/
     - assets/images/game/
     - assets/images/banner/
     - assets/images/myPage/

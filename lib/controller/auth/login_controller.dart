@@ -10,7 +10,6 @@ import '../../theme/app_color.dart';
 
 /// 로그인 컨트롤러 - main.dart에서 영속성 생성하여 사용
 class LoginController extends GetxController {
-
   /// 로그인 폼 키
   final formKey = GlobalKey<FormState>();
 
@@ -44,7 +43,8 @@ class LoginController extends GetxController {
   /// 로그인 - 메서드
   Future<LoginState> login(String id, String pw) async {
     if (loginUserId.value == '' || loginUserPw.value == '') {
-      CustomSnackBar.showErrorSnackBar(title: '로그인 실패', message: '아이디와 비밀번호를 확인해주세요.');
+      CustomSnackBar.showErrorSnackBar(
+          title: '로그인 실패', message: '아이디와 비밀번호를 확인해주세요.');
       return LoginState.fail;
     }
 
@@ -66,23 +66,17 @@ class LoginController extends GetxController {
       } else {
         return LoginState.fail;
       }
-    } catch(e) {
+    } catch (e) {
       /// 레포지토리에서 던진 에러 처리
       if (e.toString() == 'Exception: NOT_SIGN_UP_USER_ERROR') {
         CustomSnackBar.showErrorSnackBar(
-            title: '로그인 실패',
-            message: '가입되지 않은 사용자입니다.'
-        );
+            title: '로그인 실패', message: '가입되지 않은 사용자입니다.');
       } else if (e.toString() == 'Exception: PASSWORD_MISMATCH_ERROR') {
         CustomSnackBar.showErrorSnackBar(
-            title: '로그인 실패',
-            message: '비밀번호가 일치하지 않습니다.'
-        );
+            title: '로그인 실패', message: '비밀번호가 일치하지 않습니다.');
       } else {
         CustomSnackBar.showErrorSnackBar(
-            title: '로그인 실패',
-            message: '로그인 중 오류가 발생했습니다.'
-        );
+            title: '로그인 실패', message: '로그인 중 오류가 발생했습니다.');
       }
       return LoginState.fail;
     }
@@ -90,4 +84,6 @@ class LoginController extends GetxController {
 }
 
 /// 로그인 완료 상태
-enum LoginState { success, fail, reject}
+enum LoginState { success, fail, reject }
+
+enum LoginPlatform { google, kakao, apple }

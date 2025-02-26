@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:yangjataekil/controller/auth/auth_controller.dart';
 import 'package:yangjataekil/route/app_pages.dart';
 import 'package:yangjataekil/theme/app_color.dart';
@@ -8,6 +9,7 @@ import 'package:yangjataekil/widget/login/auto_login.dart';
 import 'package:yangjataekil/widget/login/login_input_field.dart';
 import 'package:yangjataekil/widget/login/login_btn.dart';
 import 'package:yangjataekil/widget/login/signup_btn.dart';
+import 'package:yangjataekil/widget/login/social_login_btn.dart';
 
 import '../../controller/auth/login_controller.dart';
 
@@ -20,6 +22,7 @@ class LoginScreen extends GetView<LoginController> {
     return PopScope(
       canPop: Get.previousRoute == '' ? false : true,
       child: Scaffold(
+
         /// 상단
         appBar: AppBar(
           foregroundColor: Colors.black,
@@ -54,116 +57,156 @@ class LoginScreen extends GetView<LoginController> {
                 Form(
                   // key: controller.formKey,
                   child: Column(
-                    children: [
+                      children: [
                       LoginTextFormField(
-                          hintText: '아이디',
-                          obscureText: false,
-                          loginController: controller),
-
-                      const SizedBox(height: 17),
-
-                      LoginTextFormField(
-                          hintText: '비밀번호',
-                          obscureText: true,
-                          loginController: controller),
-
-                      const SizedBox(height: 10),
-
-                      const AutoLogin(),
-
-                      const SizedBox(height: 20),
-
-                      LoginBtn(
-                        onPressed: () {
-                          Get.showOverlay(
-                            asyncFunction: () async {
-                              return await controller.login(
-                                  controller.loginUserId.value,
-                                  controller.loginUserPw.value);
-                            },
-                            loadingWidget: const Center(
-                              child: SpinKitThreeBounce(
-                                color: AppColors.primaryColor,
-                                size: 30.0,
-                              ),
-                            )).then((value) {
-                          if (value == LoginState.success) {
-                            Get.offAllNamed(Routes.main);
-                          } else if(value == LoginState.reject) {
-                            AuthController.to.getRejectReason();
-                            Get.offAllNamed(Routes.rejectUser);
-                          }
-                        });
-                      }),
-
-                      const SizedBox(height: 15),
-
-                      IntrinsicHeight(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            GestureDetector(
-                              onTap: () {
-                                Get.toNamed('/find_id');
-                              },
-                              child: const Text(
-                                '아이디 찾기 ',
-                                style: TextStyle(fontSize: 13),
-                              ),
-                            ),
-                            const VerticalDivider(
-                              color: Colors.grey,
-                              thickness: 1,
-                            ),
-                            GestureDetector(
-                              onTap: () {
-                                Get.toNamed('/find_pw');
-                              },
-                              child: const Text(
-                                ' 비밀번호 찾기',
-                                style: TextStyle(fontSize: 13),
-                              ),
-                            ),
-                          ],
+                      hintText: '아이디',
+                      obscureText: false,
+                      loginController: controller),
+                  const SizedBox(height: 17),
+                  LoginTextFormField(
+                      hintText: '비밀번호',
+                      obscureText: true,
+                      loginController: controller),
+                  const SizedBox(height: 10),
+                  const AutoLogin(),
+                  const SizedBox(height: 20),
+                  LoginBtn(onPressed: () {
+                    Get.showOverlay(
+                        asyncFunction: () async {
+                          return await controller.login(
+                              controller.loginUserId.value,
+                              controller.loginUserPw.value);
+                        },
+                        loadingWidget: const Center(
+                          child: SpinKitThreeBounce(
+                            color: AppColors.primaryColor,
+                            size: 30.0,
+                          ),
+                        )).then((value) {
+                      if (value == LoginState.success) {
+                        Get.offAllNamed(Routes.main);
+                      } else if (value == LoginState.reject) {
+                        AuthController.to.getRejectReason();
+                        Get.offAllNamed(Routes.rejectUser);
+                      }
+                    });
+                  }),
+                  const SizedBox(height: 15),
+                  IntrinsicHeight(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            Get.toNamed('/find_id');
+                          },
+                          child: const Text(
+                            '아이디 찾기 ',
+                            style: TextStyle(fontSize: 13),
+                          ),
                         ),
-                      ),
+                        const VerticalDivider(
+                          color: Colors.grey,
+                          thickness: 1,
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            Get.toNamed('/find_pw');
+                          },
+                          child: const Text(
+                            ' 비밀번호 찾기',
+                            style: TextStyle(fontSize: 13),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 23),
+                  // const Divider(
+                  //   color: Colors.grey,
+                  //   thickness: 0.4,
+                  // ),
 
-                      const SizedBox(height: 23),
+                  Text(
+                    'SNS 간편로그인',
+                    style: TextStyle(fontSize: 14, color: Colors.black),
+                  ),
 
-                      const Divider(
+                  const SizedBox(height: 23),
+
+                  SignInWithAppleButton(
+                    text: ,
+                    height: 55,
+                    borderRadius: BorderRadius.circular(50),
+                    onPressed: () async {
+                      final credential = await SignInWithApple
+                          .getAppleIDCredential(
+                        scopes: [
+                          AppleIDAuthorizationScopes.email,
+                          AppleIDAuthorizationScopes.fullName,
+                        ],
+                      );
+
+                      print(credential);
+
+                      // Now send the credential (especially `credential.authorizationCode`) to your server to create a session
+                      // after they have been validated with Apple (see `Integration` section for more information on how to do this)
+                    },
+                  ),
+
+                  Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    SocialLoginBtn(
+                      loginPlatform: LoginPlatform.google,
+                    ),
+                    SocialLoginBtn(
+                      loginPlatform: LoginPlatform.kakao,
+                    ),
+                    SocialLoginBtn(
+                      loginPlatform: LoginPlatform.apple,
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 23),
+                const Row(
+                  children: [
+                    Expanded(
+                      child: Divider(
+                        endIndent: 10,
                         color: Colors.grey,
                         thickness: 0.4,
                       ),
-
-                      const SizedBox(height: 23),
-
-                      const Row(
-                        children: [
-                          Text(
-                            '아직 회원이 아니신가요?',
-                            style: TextStyle(fontSize: 14, color: Colors.black),
-                          ),
-                        ],
+                    ),
+                    Text(
+                      '또는',
+                      style: TextStyle(fontSize: 14, color: Colors.black),
+                    ),
+                    Expanded(
+                      child: Divider(
+                        indent: 10,
+                        color: Colors.grey,
+                        thickness: 0.4,
                       ),
-
-                      const SizedBox(height: 15),
-
-                      SignUpBtn(
-                        onPressed: () => {
-                          Get.toNamed('/agree_terms'),
-                          // Get.toNamed('/register'),
-                        },
-                      ),
-
-                      /// TODO: 소셜 로그인 기능 추가
-                    ],
-                  ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 23),
+                SignUpBtn(
+                  onPressed: () =>
+                  {
+                    Get.toNamed('/agree_terms'),
+                    // Get.toNamed('/register'),
+                  },
                 ),
               ],
             ),
           ),
+          ],
         ),
       ),
+    ),)
+    ,
     );
   }
 }
