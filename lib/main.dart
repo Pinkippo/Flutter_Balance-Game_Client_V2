@@ -9,10 +9,18 @@ import 'package:yangjataekil/route/app_pages.dart';
 import 'package:yangjataekil/theme/app_thene.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
+
 import 'data/repository/auth_repository.dart';
 
 void main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
 
   /// .env 파일 로드
   await dotenv.load(fileName: 'assets/config/.env');
@@ -61,6 +69,7 @@ void main() async {
 /// 앱 내에서 사용할 로그인 컨트롤러 등록
 Future<void> initService() async {
   print("앱 초기화");
+
   /// 로그인 컨트롤러 영속성 설정
   await Get.putAsync<AuthController>(() async {
     final controller = AuthController();

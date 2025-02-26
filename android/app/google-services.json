@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "226731599692",
+    "project_id": "yangjataekil-3ab22",
+    "storage_bucket": "yangjataekil-3ab22.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:226731599692:android:da52c3663c8b8e050291e9",
+        "android_client_info": {
+          "package_name": "com.game.yangjataekil"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA_CkU0DFDiLStevGr0dMhaOXzw_4vQ4k4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -8,6 +8,7 @@ import 'package:yangjataekil/widget/snackbar_widget.dart';
 import '../../data/model/auth/login_response_model.dart';
 import '../../theme/app_color.dart';
 
+
 /// 로그인 컨트롤러 - main.dart에서 영속성 생성하여 사용
 class LoginController extends GetxController {
   /// 로그인 폼 키
@@ -81,7 +82,14 @@ class LoginController extends GetxController {
       return LoginState.fail;
     }
   }
+
+
+
 }
+
+
+
+
 
 /// 로그인 완료 상태
 enum LoginState { success, fail, reject }
